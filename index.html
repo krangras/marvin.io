@@ -41,10 +41,29 @@
         <div class="glass-panel timer-card" id="timer">Загрузка...</div>
         <div class="glass-panel pace-card" id="pace-info">Анализируем твою скорость...</div>
         <div class="glass-panel stats">
-            <span>📅 <span id="today-date"></span></span>
-            <span>🔥 К повторению: <span id="count-ready">0</span></span>
+            <div>📅 <span id="today-date"></span></div>
+            <div>🔥 К повторению: <span id="count-ready">0</span></div>
+            <div>📊 Освоено: <span id="mastery-percent">0</span>%</div>
         </div>
 
+        <div class="glass-panel stats-grid" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+            <div style="text-align: center; flex: 1;">
+                <div style="font-size: 1.8rem; font-weight: bold; color: #0ff;" id="stat-mastered">0</div>
+                <div style="font-size: 0.7rem; color: #8ba0c5;">✅ Освоено (шаг 5)</div>
+            </div>
+            <div style="text-align: center; flex: 1;">
+                <div style="font-size: 1.8rem; font-weight: bold; color: #ffb86b;" id="stat-learning">0</div>
+                <div style="font-size: 0.7rem; color: #8ba0c5;">🔄 В процессе</div>
+            </div>
+            <div style="text-align: center; flex: 1;">
+                <div style="font-size: 1.8rem; font-weight: bold; color: #ff6b6b;" id="stat-notstarted">0</div>
+                <div style="font-size: 0.7rem; color: #8ba0c5;">⏳ Не начато</div>
+            </div>
+            <div style="text-align: center; flex: 1;">
+                <div style="font-size: 1.8rem; font-weight: bold; color: #c0e0ff;" id="stat-totalrepeats">0</div>
+                <div style="font-size: 0.7rem; color: #8ba0c5;">📚 Всего повторений</div>
+            </div>
+        </div>
         <div id="list" class="ticket-list"></div>
         <div class="ornament">◈ ◈ ◈</div>
         <div class="button-group">

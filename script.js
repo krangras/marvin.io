@@ -1,4 +1,4 @@
-// ========== ДАННЫЕ БИЛЕТОВ (17 ШТУК) ==========
+// ========== ДАННЫЕ БИЛЕТОВ (19 ШТУК) ==========
 const intervals = [1, 3, 7, 14, 30];
 const RANKS = [
     { minScore: 0, title: "Минимал", subtitle: "Сделал минимум", icon: "🪖" },
@@ -69,12 +69,18 @@ function getCurrentRank(score) {
 function updateRankUI() {
     const score = calculateTotalScore();
     const cur = getCurrentRank(score);
-    document.getElementById('rank-icon').innerHTML = cur.icon;
-    document.getElementById('rank-title').innerHTML = cur.title;
-    document.getElementById('rank-sub').innerHTML = cur.subtitle;
+    const rankIcon = document.getElementById('rank-icon');
+    const rankTitle = document.getElementById('rank-title');
+    const rankSub = document.getElementById('rank-sub');
+    const rankProgressFill = document.getElementById('rank-progress-fill');
+    const rankStats = document.getElementById('rank-stats');
     const maxScore = ticketsData.length * 5;
-    document.getElementById('rank-progress-fill').style.width = `${(score / maxScore) * 100}%`;
-    document.getElementById('rank-stats').innerHTML = `${score}/${maxScore} очков`;
+    
+    if (rankIcon) rankIcon.innerHTML = cur.icon;
+    if (rankTitle) rankTitle.innerHTML = cur.title;
+    if (rankSub) rankSub.innerHTML = cur.subtitle;
+    if (rankProgressFill) rankProgressFill.style.width = `${(score / maxScore) * 100}%`;
+    if (rankStats) rankStats.innerHTML = `${score}/${maxScore} очков`;
 }
 
 function advanceTicket(id) {
@@ -180,7 +186,7 @@ function render() {
                 </div>
             </div>
             <div class="ticket-meta">шаг: ${item.step}/${intervals.length} | ${item.nextReview ? `повтор: ${new Date(item.nextReview).toLocaleDateString('ru-RU')}` : "📖 не изучен"} | повторов: ${item.history?.length || 0}</div>
-            <div class="cheatsheet">${CONSPECTS[idx] || "📖 Конспект временно отсутствует"}</div>
+            <div class="cheatsheet">${typeof CONSPECTS !== 'undefined' && CONSPECTS[idx] ? CONSPECTS[idx] : "📖 Конспект временно отсутствует"}</div>
         `;
         
         div.onclick = (e) => {
@@ -210,8 +216,26 @@ function render() {
         }
     });
     
-    document.getElementById('count-ready') && (document.getElementById('count-ready').innerText = readyCount);
-    document.getElementById('today-date') && (document.getElementById('today-date').innerText = now.toLocaleDateString('ru-RU'));
+    // Обновляем статистику
+    const masteredCount = state.filter(s => s.step >= intervals.length).length;
+    const learningCount = state.filter(s => s.step > 0 && s.step < intervals.length).length;
+    const notStartedCount = state.filter(s => s.step === 0).length;
+    const totalRepeats = state.reduce((sum, s) => sum + (s.history?.length || 0), 0);
+    
+    const statMastered = document.getElementById('stat-mastered');
+    const statLearning = document.getElementById('stat-learning');
+    const statNotstarted = document.getElementById('stat-notstarted');
+    const statTotalrepeats = document.getElementById('stat-totalrepeats');
+    const countReady = document.getElementById('count-ready');
+    const todayDate = document.getElementById('today-date');
+    
+    if (statMastered) statMastered.innerText = masteredCount;
+    if (statLearning) statLearning.innerText = learningCount;
+    if (statNotstarted) statNotstarted.innerText = notStartedCount;
+    if (statTotalrepeats) statTotalrepeats.innerText = totalRepeats;
+    if (countReady) countReady.innerText = readyCount;
+    if (todayDate) todayDate.innerText = now.toLocaleDateString('ru-RU');
+    
     updatePace();
     updateRankUI();
     
@@ -233,12 +257,28 @@ function updatePace() {
     const notStarted = state.filter(s => s.step === 0).length;
     const learning = state.filter(s => s.step > 0 && s.step < intervals.length).length;
     const mastered = state.filter(s => s.step >= intervals.length).length;
-
-    let paceText = `✅${mastered} 🔄${learning} ⏳${notStarted}`;
+    const total = state.length;
+    
+    // Процент освоения (шаг 5 считается полностью освоенным)
+    const masteryPercent = ((mastered / total) * 100).toFixed(1);
+    const masteryPercentEl = document.getElementById('mastery-percent');
+    if (masteryPercentEl) masteryPercentEl.innerText = masteryPercent;
+    
+    // Суммарные очки
+    const totalScore = calculateTotalScore();
+    const maxScore = total * 5;
+    const scorePercent = ((totalScore / maxScore) * 100).toFixed(1);
+    
+    let paceText = `✅${mastered} 🔄${learning} ⏳${notStarted} | 🎯${scorePercent}% очков`;
     
     if (notStarted > 0 && daysLeft > 0) {
         const daysPerTicket = daysLeft / notStarted;
         paceText += ` | 📌 ${daysPerTicket.toFixed(3)} дня на 1 билет`;
+    } else if (notStarted === 0 && learning === 0) {
+        paceText += ` | 🏆 ВСЁ ГОТОВО! Только повторяй.`;
+    } else if (notStarted === 0) {
+        const daysToExam = daysLeft;
+        paceText += ` | ⏰ До экзамена ${daysToExam.toFixed(1)} дн., только повторение`;
     }
     
     const paceEl = document.getElementById('pace-info');
@@ -280,6 +320,7 @@ function loadProgressFromFile() {
 
 function renderControlTasks() {
     const pane = document.getElementById('control-pane');
+    if (!pane) return;
     pane.innerHTML = `
         <div class="info-banner">🧠 <strong>Метод неопределённых коэффициентов</strong> — для правой части спецвида. Метод вариации — универсальный.</div>
         <div class="task-card" onclick="toggleSolution(this)">
@@ -314,13 +355,13 @@ function initTabs() {
             const examPane = document.getElementById('exam-pane');
             const controlPane = document.getElementById('control-pane');
             if (btn.dataset.tab === 'exam') {
-                examPane.classList.add('active-pane');
-                controlPane.classList.remove('active-pane');
+                if (examPane) examPane.classList.add('active-pane');
+                if (controlPane) controlPane.classList.remove('active-pane');
                 render();
             } else {
-                controlPane.classList.add('active-pane');
-                examPane.classList.remove('active-pane');
-                MathJax.typesetPromise?.();
+                if (controlPane) controlPane.classList.add('active-pane');
+                if (examPane) examPane.classList.remove('active-pane');
+                if (typeof MathJax !== 'undefined') MathJax.typesetPromise?.();
             }
         });
     });

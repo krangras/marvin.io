@@ -71,15 +71,14 @@ const CONSPECTS = {
     <h3 style="color:#0ff;">Билет 3. Свойства ОНБ. Теорема об определителе Грама.</h3>
     
     <h4 style="color:#0ff;">1. Ортонормированные базисы</h4>
-    <p><b>Дословно:</b></p>
     <p>Если ортонормированная система векторов образует <b>базис</b>, то этот базис называется <b>ортонормированным (ОНБ)</b>.</p>
     
     <p><b>Теорема (св-ва ОНБ):</b></p>
     <ol>
         <li>В любом конечном евклидовом пространстве \\(\\exists\\) <b>ОНБ</b>.</li>
-        <li>Если \\(\\mathcal{B} = (\\bar{e}_1, \\bar{e}_2, \\dots, \\bar{e}_n)\\) — <b>ОНБ</b>, то \\(\\forall \\bar{x} \\in V\\):
-            \\[[\\bar{x}]_{\\mathcal{B}} = \\begin{pmatrix} (\\bar{x}; \\bar{e}_1) \\\\ (\\bar{x}; \\bar{e}_2) \\\\ \\vdots \\\\ (\\bar{x}; \\bar{e}_n) \\end{pmatrix}.\\]</li>
-        <li>Если \\(\\mathcal{B} = (\\bar{e}_1, \\bar{e}_2, \\dots, \\bar{e}_n)\\) — <b>ОНБ</b>, \\([\\bar{x}]_{\\mathcal{B}} = \\begin{pmatrix} x_1 \\\\ x_2 \\\\ \\vdots \\\\ x_n \\end{pmatrix}\\), \\([\\bar{y}]_{\\mathcal{B}} = \\begin{pmatrix} y_1 \\\\ y_2 \\\\ \\vdots \\\\ y_n \\end{pmatrix}\\), то \\((\\bar{x}; \\bar{y}) = x_1 y_1 + x_2 y_2 + \\dots + x_n y_n\\).</li>
+        <li>Если \\(\\mathrm{Б} = (\\bar{e}_1, \\bar{e}_2, \\dots, \\bar{e}_n)\\) — <b>ОНБ</b>, то \\(\\forall \\bar{x} \\in V\\):
+            \\[[\\bar{x}]_{\\mathrm{Б}} = \\begin{pmatrix} (\\bar{x}; \\bar{e}_1) \\\\ (\\bar{x}; \\bar{e}_2) \\\\ \\vdots \\\\ (\\bar{x}; \\bar{e}_n) \\end{pmatrix}.\\]</li>
+        <li>Если \\(\\mathrm{Б} = (\\bar{e}_1, \\bar{e}_2, \\dots, \\bar{e}_n)\\) — <b>ОНБ</b>, \\([\\bar{x}]_{\\mathrm{Б}} = \\begin{pmatrix} x_1 \\\\ x_2 \\\\ \\vdots \\\\ x_n \\end{pmatrix}\\), \\([\\bar{y}]_{\\mathrm{Б}} = \\begin{pmatrix} y_1 \\\\ y_2 \\\\ \\vdots \\\\ y_n \\end{pmatrix}\\), то \\((\\bar{x}; \\bar{y}) = x_1 y_1 + x_2 y_2 + \\dots + x_n y_n\\).</li>
         <li><b>Матрица перехода</b> из ОНБ в тоже ОНБ — <b>ортогональная</b>. \\(T^t = T^{-1}\\).</li>
     </ol>
     
@@ -92,21 +91,20 @@ const CONSPECTS = {
     <p><b>2)</b> \\(\\bar{x} = x_1 \\bar{e}_1 + x_2 \\bar{e}_2 + \\dots + x_n \\bar{e}_n\\).<br>
     \\(\\bar{x} = x_1 \\bar{e}_1 + \\dots + x_{i-1} \\bar{e}_{i-1} + x_i \\bar{e}_i + x_{i+1} \\bar{e}_{i+1} + \\dots + x_n \\bar{e}_n \\mid \\cdot \\bar{e}_i\\).<br>
     \\((\\bar{x}; \\bar{e}_i) = x_1 \\underbrace{(\\bar{e}_1; \\bar{e}_i)}_{0} + \\dots + x_{i-1} \\underbrace{(\\bar{e}_{i-1}; \\bar{e}_i)}_{0} + x_i \\underbrace{(\\bar{e}_i; \\bar{e}_i)}_{1} + x_{i+1} \\underbrace{(\\bar{e}_{i+1}; \\bar{e}_i)}_{0} + \\dots + x_n \\underbrace{(\\bar{e}_n; \\bar{e}_i)}_{0}\\).<br>
-    \\((\\bar{x}; \\bar{e}_i) = x_i \\Rightarrow [\\bar{x}]_{\\mathcal{B}} = \\begin{pmatrix} x_1 \\\\ x_2 \\\\ \\vdots \\\\ x_n \\end{pmatrix} = \\begin{pmatrix} (x; \\bar{e}_1) \\\\ (x; \\bar{e}_2) \\\\ \\vdots \\\\ (x; \\bar{e}_n) \\end{pmatrix}\\).</p>
+    \\((\\bar{x}; \\bar{e}_i) = x_i \\Rightarrow [\\bar{x}]_{\\mathrm{Б}} = \\begin{pmatrix} x_1 \\\\ x_2 \\\\ \\vdots \\\\ x_n \\end{pmatrix} = \\begin{pmatrix} (x; \\bar{e}_1) \\\\ (x; \\bar{e}_2) \\\\ \\vdots \\\\ (x; \\bar{e}_n) \\end{pmatrix}\\).</p>
     
     <p><b>3)</b> \\(\\bar{x} = x_1 \\bar{e}_1 + x_2 \\bar{e}_2 + \\dots + x_n \\bar{e}_n\\), \\(y = y_1 \\bar{e}_1 + y_2 \\bar{e}_2 + \\dots + y_n \\bar{e}_n\\).<br>
     \\((\\bar{x}; \\bar{y}) = (x_1 \\bar{e}_1 + x_2 \\bar{e}_2 + \\dots + x_n \\bar{e}_n ; y_1 \\bar{e}_1 + y_2 \\bar{e}_2 + \\dots + y_n \\bar{e}_n) =\\)<br>
     \\(= x_1 y_1 \\underbrace{(\\bar{e}_1; \\bar{e}_1)}_{1} + x_1 y_2 \\underbrace{(\\bar{e}_1; \\bar{e}_2)}_{0} + \\dots + x_1 y_n \\underbrace{(\\bar{e}_1; \\bar{e}_n)}_{0} + x_2 y_1 \\underbrace{(\\bar{e}_2; \\bar{e}_1)}_{0} + x_2 y_2 \\underbrace{(\\bar{e}_2; \\bar{e}_2)}_{1} + \\dots + x_2 y_n \\underbrace{(\\bar{e}_2; \\bar{e}_n)}_{0} + \\dots + x_n y_1 \\underbrace{(\\bar{e}_n; \\bar{e}_1)}_{0} + x_n y_2 \\underbrace{(\\bar{e}_n; \\bar{e}_2)}_{0} + \\dots + x_n y_n \\underbrace{(\\bar{e}_n; \\bar{e}_n)}_{1} = x_1 y_1 + x_2 y_2 + \\dots + x_n y_n\\).</p>
     
-    <p><b>4)</b> Пусть \\(\\mathcal{B} = (\\bar{e}_1, \\bar{e}_2, \\dots, \\bar{e}_n)\\) и \\(\\mathcal{B}' = (\\bar{e}'_1, \\bar{e}'_2, \\dots, \\bar{e}'_n)\\) — <b>ОНБ</b>.<br>
+    <p><b>4)</b> Пусть \\(\\mathrm{Б} = (\\bar{e}_1, \\bar{e}_2, \\dots, \\bar{e}_n)\\) и \\(\\mathrm{Б}' = (\\bar{e}'_1, \\bar{e}'_2, \\dots, \\bar{e}'_n)\\) — <b>ОНБ</b>.<br>
     \\(\\begin{cases} \\bar{e}'_1 = t_{11} \\bar{e}_1 + t_{21} \\bar{e}_2 + \\dots + t_{n1} \\bar{e}_n \\\\ \\bar{e}'_2 = t_{12} \\bar{e}_1 + t_{22} \\bar{e}_2 + \\dots + t_{n2} \\bar{e}_n \\\\ \\dots \\\\ \\bar{e}'_n = t_{1n} \\bar{e}_1 + t_{2n} \\bar{e}_2 + \\dots + t_{nn} \\bar{e}_n \\end{cases}\\).<br>
-    \\(T_{\\mathcal{B} \\to \\mathcal{B}'} = \\begin{pmatrix} t_{11} & t_{12} & \\dots & t_{1n} \\\\ t_{21} & t_{22} & \\dots & t_{2n} \\\\ \\dots & \\dots & \\dots & \\dots \\\\ t_{n1} & t_{n2} & \\dots & t_{nn} \\end{pmatrix}\\).<br>
-    \\(T_{\\mathcal{B} \\to \\mathcal{B}'}^t \\cdot T_{\\mathcal{B} \\to \\mathcal{B}'} = \\begin{pmatrix} t_{11} & t_{21} & \\dots & t_{n1} \\\\ t_{12} & t_{22} & \\dots & t_{n2} \\\\ \\dots & \\dots & \\dots & \\dots \\\\ t_{1n} & t_{2n} & \\dots & t_{nn} \\end{pmatrix} \\cdot \\begin{pmatrix} t_{11} & t_{12} & \\dots & t_{1n} \\\\ t_{21} & t_{22} & \\dots & t_{2n} \\\\ \\dots & \\dots & \\dots & \\dots \\\\ t_{n1} & t_{n2} & \\dots & t_{nn} \\end{pmatrix} =\\)<br>
+    \\(T_{\\mathrm{Б} \\to \\mathrm{Б}'} = \\begin{pmatrix} t_{11} & t_{12} & \\dots & t_{1n} \\\\ t_{21} & t_{22} & \\dots & t_{2n} \\\\ \\dots & \\dots & \\dots & \\dots \\\\ t_{n1} & t_{n2} & \\dots & t_{nn} \\end{pmatrix}\\).<br>
+    \\(T_{\\mathrm{Б} \\to \\mathrm{Б}'}^t \\cdot T_{\\mathrm{Б} \\to \\mathrm{Б}'} = \\begin{pmatrix} t_{11} & t_{21} & \\dots & t_{n1} \\\\ t_{12} & t_{22} & \\dots & t_{n2} \\\\ \\dots & \\dots & \\dots & \\dots \\\\ t_{1n} & t_{2n} & \\dots & t_{nn} \\end{pmatrix} \\cdot \\begin{pmatrix} t_{11} & t_{12} & \\dots & t_{1n} \\\\ t_{21} & t_{22} & \\dots & t_{2n} \\\\ \\dots & \\dots & \\dots & \\dots \\\\ t_{n1} & t_{n2} & \\dots & t_{nn} \\end{pmatrix} =\\)<br>
     \\(= \\begin{pmatrix} (\\bar{e}'_1; \\bar{e}'_1) & (\\bar{e}'_1; \\bar{e}'_2) & \\dots & (\\bar{e}'_1; \\bar{e}'_n) \\\\ (\\bar{e}'_2; \\bar{e}'_1) & (\\bar{e}'_2; \\bar{e}'_2) & \\dots & (\\bar{e}'_2; \\bar{e}'_n) \\\\ \\dots & \\dots & \\dots & \\dots \\\\ (\\bar{e}'_n; \\bar{e}'_1) & (\\bar{e}'_n; \\bar{e}'_2) & \\dots & (\\bar{e}'_n; \\bar{e}'_n) \\end{pmatrix} = \\begin{pmatrix} 1 & 0 & \\dots & 0 \\\\ 0 & 1 & \\dots & 0 \\\\ \\dots & \\dots & \\dots & \\dots \\\\ 0 & 0 & \\dots & 1 \\end{pmatrix} = E_{n \\times n} \\Rightarrow\\)<br>
-    \\(\\Rightarrow T_{\\mathcal{B} \\to \\mathcal{B}'}^t = T_{\\mathcal{B} \\to \\mathcal{B}'}^{-1} \\blacksquare\\).</p>
+    \\(\\Rightarrow T_{\\mathrm{Б} \\to \\mathrm{Б}'}^t = T_{\\mathrm{Б} \\to \\mathrm{Б}'}^{-1} \\blacksquare\\).</p>
     
     <h4 style="color:#0ff;">2. Определитель Грама</h4>
-    <p><b>Дословно:</b></p>
     <p><b>Опр. 1.</b> <b>Матрицей Грама</b> системы векторов \\(S = (\\bar{f}_1, \\bar{f}_2, \\dots, \\bar{f}_m)\\) называется матрица<br>
     \\(\\Gamma_S = \\begin{pmatrix} (\\bar{f}_1; \\bar{f}_1) & (\\bar{f}_1; \\bar{f}_2) & \\dots & (\\bar{f}_1; \\bar{f}_m) \\\\ (\\bar{f}_2; \\bar{f}_1) & (\\bar{f}_2; \\bar{f}_2) & \\dots & (\\bar{f}_2; \\bar{f}_m) \\\\ \\dots & \\dots & \\dots & \\dots \\\\ (\\bar{f}_m; \\bar{f}_1) & (\\bar{f}_m; \\bar{f}_2) & \\dots & (\\bar{f}_m; \\bar{f}_m) \\end{pmatrix}\\).<br>
     Её определитель \\(|\\Gamma_S|\\) называется <b>определителем Грама</b> данной системы векторов.</p>
@@ -117,7 +115,7 @@ const CONSPECTS = {
     2) если \\(S\\) — <b>ЛЗС</b>, то \\(|\\Gamma_S| = 0\\).</p>
     
     <p><b>Д-во:</b><br>
-    Возьмём в \\(V\\) ОНБ \\(\\mathcal{B} = (\\bar{e}_1, \\bar{e}_2, \\dots, \\bar{e}_n)\\).<br>
+    Возьмём в \\(V\\) ОНБ \\(\\mathrm{Б} = (\\bar{e}_1, \\bar{e}_2, \\dots, \\bar{e}_n)\\).<br>
     \\(f_1 = a_{11} \\bar{e}_1 + a_{21} \\bar{e}_2 + \\dots + a_{n1} \\bar{e}_n\\)<br>
     \\(f_2 = a_{12} \\bar{e}_1 + a_{22} \\bar{e}_2 + \\dots + a_{n2} \\bar{e}_n\\)<br>
     \\(\\dots\\)<br>
