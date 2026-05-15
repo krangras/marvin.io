@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Marvin.io — АГиТДУ | Экзамен + Контрольная работа</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+</head>
+<body>
+<div class="container">
+    <div class="hero">
+        <div class="hero-icon">🎓📐</div>
+        <h1>marvin.io</h1>
+        <div class="hero-subtitle">АГиТДУ — интервальные повторения + контрольная работа ЛДУ-II</div>
+    </div>
+
+    <div class="tabs">
+        <div class="tab-btn active" data-tab="exam">📚 Экзамен (билеты)</div>
+        <div class="tab-btn" data-tab="control">✍️ Контрольная работа №3 | ЛДУ-II</div>
+    </div>
+
+    <div id="exam-pane" class="tab-pane active-pane">
+        <div class="toolbar">
+            <button class="btn-save" onclick="saveProgressToFile()">💾 Сохранить</button>
+            <button class="btn-load" onclick="loadProgressFromFile()">📂 Загрузить</button>
+        </div>
+
+        <div id="rank-card" class="rank-card">
+            <div class="rank-icon" id="rank-icon">🎖️</div>
+            <div class="rank-info">
+                <div class="rank-title" id="rank-title">Минимал</div>
+                <div class="rank-sub" id="rank-sub">Сделал минимум — открыл билеты</div>
+                <div class="rank-progress">
+                    <div class="progress-bar"><div class="progress-fill" id="rank-progress-fill"></div></div>
+                    <div class="rank-stats" id="rank-stats">0 / 85 очков</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-panel timer-card" id="timer">Загрузка...</div>
+        <div class="glass-panel pace-card" id="pace-info">Анализируем твою скорость...</div>
+        <div class="glass-panel stats">
+            <span>📅 <span id="today-date"></span></span>
+            <span>🔥 К повторению: <span id="count-ready">0</span></span>
+        </div>
+
+        <div id="list" class="ticket-list"></div>
+        <div class="ornament">◈ ◈ ◈</div>
+        <div class="button-group">
+            <button class="global-undo-btn" onclick="undoLastAction()">↩️ Отменить последнее</button>
+            <button class="reset-btn" onclick="resetAll()">🗑️ Сбросить прогресс</button>
+        </div>
+    </div>
+
+    <div id="control-pane" class="tab-pane"></div>
+</div>
+
+<script src="conspects.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
