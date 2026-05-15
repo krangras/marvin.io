@@ -1,3 +1,4 @@
+// ========== ДАННЫЕ БИЛЕТОВ (17 ШТУК) ==========
 const intervals = [1, 3, 7, 14, 30];
 const RANKS = [
     { minScore: 0, title: "Минимал", subtitle: "Сделал минимум", icon: "🪖" },
@@ -139,22 +140,37 @@ function showHistory(id) {
 }
 
 function render() {
-    const now = new Date(); now.setHours(0, 0, 0, 0);
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
     const container = document.getElementById('list');
     if (!container) return;
+    
+    // Сохраняем позицию скролла и открытые билеты
+    const scrollPosition = window.scrollY;
+    const openTickets = new Set();
+    
+    const oldSheets = document.querySelectorAll('.cheatsheet');
+    oldSheets.forEach((sheet, idx) => {
+        if (sheet.style.display === 'block') {
+            openTickets.add(idx);
+        }
+    });
+    
     container.innerHTML = '';
     let readyCount = 0;
-
+    const newSheets = [];
+    
     state.forEach((item, idx) => {
         const nextDate = item.nextReview ? new Date(item.nextReview) : null;
         const isReady = !nextDate || nextDate <= now;
         if (isReady) readyCount++;
-
+        
         const div = document.createElement('div');
         div.className = `ticket ${isReady ? 'ready' : 'waiting'}`;
+        div.setAttribute('data-idx', idx);
         div.innerHTML = `
             <div class="ticket-header">
-                <div class="ticket-title">${idx+1}. ${item.name}</div>
+                <div class="ticket-title">${idx + 1}. ${item.name}</div>
                 <div class="action-buttons">
                     <button class="undo-btn" ${item.step <= 0 ? 'disabled' : ''} onclick="event.stopPropagation(); undoForTicket(${idx})">↩️</button>
                     <button class="action-btn" ${!isReady ? 'disabled' : ''} onclick="event.stopPropagation(); advanceTicket(${idx})">${item.step === 0 ? '✅ Изучить' : '🔄 Повторил'}</button>
@@ -164,26 +180,50 @@ function render() {
             <div class="ticket-meta">шаг: ${item.step}/${intervals.length} | ${item.nextReview ? `повтор: ${new Date(item.nextReview).toLocaleDateString('ru-RU')}` : "📖 не изучен"} | повторов: ${item.history?.length || 0}</div>
             <div class="cheatsheet">${CONSPECTS[idx] || "📖 Конспект временно отсутствует"}</div>
         `;
+        
         div.onclick = (e) => {
             if (e.target.tagName !== 'BUTTON') {
                 const sheet = div.querySelector('.cheatsheet');
-                sheet.style.display = sheet.style.display === 'block' ? 'none' : 'block';
+                if (sheet) {
+                    if (sheet.style.display === 'block') {
+                        sheet.style.display = 'none';
+                    } else {
+                        sheet.style.display = 'block';
+                        if (typeof MathJax !== 'undefined') {
+                            MathJax.typesetPromise && MathJax.typesetPromise([sheet]);
+                        }
+                    }
+                }
             }
         };
+        
         container.appendChild(div);
+        newSheets.push(div.querySelector('.cheatsheet'));
     });
-
+    
+    // Восстанавливаем открытые билеты
+    newSheets.forEach((sheet, idx) => {
+        if (sheet && openTickets.has(idx)) {
+            sheet.style.display = 'block';
+        }
+    });
+    
     document.getElementById('count-ready') && (document.getElementById('count-ready').innerText = readyCount);
     document.getElementById('today-date') && (document.getElementById('today-date').innerText = now.toLocaleDateString('ru-RU'));
     updatePace();
     updateRankUI();
+    
+    // Восстанавливаем позицию скролла
+    setTimeout(() => {
+        window.scrollTo(0, scrollPosition);
+    }, 10);
 }
 
 function updatePace() {
-    const examDate = new Date(2026, 5, 11); // 11 июня 2026
+    const examDate = new Date(2026, 5, 11);
     const now = new Date();
     const diff = examDate - now;
-    const daysLeft = diff / 86400000; // без округления
+    const daysLeft = diff / 86400000;
     
     const timerEl = document.getElementById('timer');
     if (timerEl) timerEl.innerHTML = daysLeft > 0 ? `⏳ До экзамена: ${daysLeft.toFixed(3)} дн.` : "🔥 Экзамен!";
@@ -195,7 +235,7 @@ function updatePace() {
     let paceText = `✅${mastered} 🔄${learning} ⏳${notStarted}`;
     
     if (notStarted > 0 && daysLeft > 0) {
-        const daysPerTicket = daysLeft / notStarted; // дней на 1 билет (НЕ округляем!)
+        const daysPerTicket = daysLeft / notStarted;
         paceText += ` | 📌 ${daysPerTicket.toFixed(3)} дня на 1 билет`;
     }
     
