@@ -22,7 +22,6 @@ const ticketsData = [
     { t: "Теорема об инвариантности характеристического многочлена." },
     { t: "Теорема об определителе полураспавшейся матрицы. ЛНС собственных векторов." },
     { t: "Теорема о свойствах самосопряжённых линейных операторов." },
-    { t: "Теорема о существовании и единственности задачи Коши для ДУ-I." },
     { t: "Теорема Коши для ЛДУ. Принцип суперпозиции. Структура решения НЛДУ." },
     { t: "Теорема о вронскиане линейно зависимых функций." },
     { t: "Принцип суперпозиции для ОЛДУ. Критерий ЛНС n решений." },
@@ -35,11 +34,16 @@ const ticketsData = [
 
 let state = null;
 let lastAction = null;
+let renderScheduled = false;
+let scrollPositionToRestore = 0;
+let openTicketsToRestore = new Set();
 
+// ========== СОХРАНЕНИЕ ==========
 function saveToLocalStorage() {
     localStorage.setItem('exam_manager_v9', JSON.stringify(state));
 }
 
+// ========== ИНИЦИАЛИЗАЦИЯ ==========
 function initState() {
     const saved = localStorage.getItem('exam_manager_v9');
     if (saved) {
@@ -69,18 +73,41 @@ function getCurrentRank(score) {
 function updateRankUI() {
     const score = calculateTotalScore();
     const cur = getCurrentRank(score);
+    const maxScore = ticketsData.length * 5;
+    
     const rankIcon = document.getElementById('rank-icon');
     const rankTitle = document.getElementById('rank-title');
     const rankSub = document.getElementById('rank-sub');
     const rankProgressFill = document.getElementById('rank-progress-fill');
     const rankStats = document.getElementById('rank-stats');
-    const maxScore = ticketsData.length * 5;
     
     if (rankIcon) rankIcon.innerHTML = cur.icon;
     if (rankTitle) rankTitle.innerHTML = cur.title;
     if (rankSub) rankSub.innerHTML = cur.subtitle;
     if (rankProgressFill) rankProgressFill.style.width = `${(score / maxScore) * 100}%`;
     if (rankStats) rankStats.innerHTML = `${score}/${maxScore} очков`;
+}
+
+// ========== ОСНОВНЫЕ ДЕЙСТВИЯ (с debounce) ==========
+function saveCurrentState() {
+    scrollPositionToRestore = window.scrollY;
+    
+    const sheets = document.querySelectorAll('.cheatsheet');
+    openTicketsToRestore.clear();
+    sheets.forEach((sheet, idx) => {
+        if (sheet && sheet.style.display === 'block') {
+            openTicketsToRestore.add(idx);
+        }
+    });
+}
+
+function scheduleRender() {
+    if (renderScheduled) return;
+    renderScheduled = true;
+    setTimeout(() => {
+        render();
+        renderScheduled = false;
+    }, 30);
 }
 
 function advanceTicket(id) {
@@ -99,7 +126,7 @@ function advanceTicket(id) {
         next.setDate(now.getDate() + intervals[intervals.length - 1]);
         item.nextReview = next.getTime();
         saveToLocalStorage();
-        render();
+        scheduleRender();
         return;
     }
 
@@ -109,7 +136,7 @@ function advanceTicket(id) {
     item.step++;
     item.nextReview = next.getTime();
     saveToLocalStorage();
-    render();
+    scheduleRender();
 }
 
 function undoForTicket(id) {
@@ -119,7 +146,7 @@ function undoForTicket(id) {
     item.step--;
     item.nextReview = item.step === 0 ? null : Date.now() - 86400000;
     saveToLocalStorage();
-    render();
+    scheduleRender();
 }
 
 function undoLastAction() {
@@ -147,26 +174,16 @@ function showHistory(id) {
     alert(text);
 }
 
+// ========== РЕНДЕР (оптимизированный) ==========
 function render() {
     const now = new Date();
     now.setHours(0, 0, 0, 0);
     const container = document.getElementById('list');
     if (!container) return;
     
-    // Сохраняем позицию скролла и открытые билеты
-    const scrollPosition = window.scrollY;
-    const openTickets = new Set();
-    
-    const oldSheets = document.querySelectorAll('.cheatsheet');
-    oldSheets.forEach((sheet, idx) => {
-        if (sheet.style.display === 'block') {
-            openTickets.add(idx);
-        }
-    });
-    
+    saveCurrentState();
     container.innerHTML = '';
     let readyCount = 0;
-    const newSheets = [];
     
     state.forEach((item, idx) => {
         const nextDate = item.nextReview ? new Date(item.nextReview) : null;
@@ -186,37 +203,50 @@ function render() {
                 </div>
             </div>
             <div class="ticket-meta">шаг: ${item.step}/${intervals.length} | ${item.nextReview ? `повтор: ${new Date(item.nextReview).toLocaleDateString('ru-RU')}` : "📖 не изучен"} | повторов: ${item.history?.length || 0}</div>
-            <div class="cheatsheet">${typeof CONSPECTS !== 'undefined' && CONSPECTS[idx] ? CONSPECTS[idx] : "📖 Конспект временно отсутствует"}</div>
+            <div class="cheatsheet"></div>
         `;
+        
+        // Ленивая загрузка конспекта — только при клике
+        const cheatsheetDiv = div.querySelector('.cheatsheet');
+        let loaded = false;
         
         div.onclick = (e) => {
             if (e.target.tagName !== 'BUTTON') {
-                const sheet = div.querySelector('.cheatsheet');
-                if (sheet) {
-                    if (sheet.style.display === 'block') {
-                        sheet.style.display = 'none';
-                    } else {
-                        sheet.style.display = 'block';
-                        if (typeof MathJax !== 'undefined') {
-                            MathJax.typesetPromise && MathJax.typesetPromise([sheet]);
-                        }
+                if (!loaded && CONSPECTS && CONSPECTS[idx]) {
+                    cheatsheetDiv.innerHTML = CONSPECTS[idx];
+                    loaded = true;
+                    if (typeof MathJax !== 'undefined') {
+                        MathJax.typesetPromise && MathJax.typesetPromise([cheatsheetDiv]);
+                    }
+                }
+                if (cheatsheetDiv.style.display === 'block') {
+                    cheatsheetDiv.style.display = 'none';
+                } else {
+                    cheatsheetDiv.style.display = 'block';
+                    if (loaded && typeof MathJax !== 'undefined') {
+                        MathJax.typesetPromise && MathJax.typesetPromise([cheatsheetDiv]);
                     }
                 }
             }
         };
         
         container.appendChild(div);
-        newSheets.push(div.querySelector('.cheatsheet'));
     });
     
-    // Восстанавливаем открытые билеты
-    newSheets.forEach((sheet, idx) => {
-        if (sheet && openTickets.has(idx)) {
-            sheet.style.display = 'block';
-        }
-    });
+    // Восстанавливаем открытые билеты (только подставляем заглушки, контент загрузится при клике)
+    if (openTicketsToRestore.size > 0) {
+        const allSheets = document.querySelectorAll('.cheatsheet');
+        allSheets.forEach((sheet, idx) => {
+            if (openTicketsToRestore.has(idx)) {
+                sheet.style.display = 'block';
+                if (CONSPECTS && CONSPECTS[idx]) {
+                    sheet.innerHTML = CONSPECTS[idx];
+                }
+            }
+        });
+    }
     
-    // Обновляем статистику
+    // Статистика
     const masteredCount = state.filter(s => s.step >= intervals.length).length;
     const learningCount = state.filter(s => s.step > 0 && s.step < intervals.length).length;
     const notStartedCount = state.filter(s => s.step === 0).length;
@@ -239,9 +269,8 @@ function render() {
     updatePace();
     updateRankUI();
     
-    // Восстанавливаем позицию скролла
     setTimeout(() => {
-        window.scrollTo(0, scrollPosition);
+        window.scrollTo(0, scrollPositionToRestore);
     }, 10);
 }
 
@@ -259,12 +288,10 @@ function updatePace() {
     const mastered = state.filter(s => s.step >= intervals.length).length;
     const total = state.length;
     
-    // Процент освоения (шаг 5 считается полностью освоенным)
     const masteryPercent = ((mastered / total) * 100).toFixed(1);
     const masteryPercentEl = document.getElementById('mastery-percent');
     if (masteryPercentEl) masteryPercentEl.innerText = masteryPercent;
     
-    // Суммарные очки
     const totalScore = calculateTotalScore();
     const maxScore = total * 5;
     const scorePercent = ((totalScore / maxScore) * 100).toFixed(1);
@@ -277,14 +304,14 @@ function updatePace() {
     } else if (notStarted === 0 && learning === 0) {
         paceText += ` | 🏆 ВСЁ ГОТОВО! Только повторяй.`;
     } else if (notStarted === 0) {
-        const daysToExam = daysLeft;
-        paceText += ` | ⏰ До экзамена ${daysToExam.toFixed(1)} дн., только повторение`;
+        paceText += ` | ⏰ До экзамена ${daysLeft.toFixed(1)} дн., только повторение`;
     }
     
     const paceEl = document.getElementById('pace-info');
     if (paceEl) paceEl.innerHTML = paceText;
 }
 
+// ========== СОХРАНЕНИЕ/ЗАГРУЗКА ФАЙЛА ==========
 function saveProgressToFile() {
     const dataStr = JSON.stringify(state, null, 2);
     const blob = new Blob([dataStr], { type: "application/json" });
@@ -318,6 +345,7 @@ function loadProgressFromFile() {
     input.click();
 }
 
+// ========== КОНТРОЛЬНАЯ РАБОТА ==========
 function renderControlTasks() {
     const pane = document.getElementById('control-pane');
     if (!pane) return;
@@ -367,6 +395,7 @@ function initTabs() {
     });
 }
 
+// ========== ЗАПУСК ==========
 document.addEventListener('DOMContentLoaded', () => {
     initState();
     renderControlTasks();
@@ -375,6 +404,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(updatePace, 60000);
 });
 
+// Глобальные функции
 window.advanceTicket = advanceTicket;
 window.undoForTicket = undoForTicket;
 window.undoLastAction = undoLastAction;
