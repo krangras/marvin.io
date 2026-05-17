@@ -344,29 +344,159 @@ function loadProgressFromFile() {
     };
     input.click();
 }
-
 // ========== КОНТРОЛЬНАЯ РАБОТА ==========
+
 function renderControlTasks() {
     const pane = document.getElementById('control-pane');
     if (!pane) return;
-    pane.innerHTML = `
-        <div class="info-banner">🧠 <strong>Метод неопределённых коэффициентов</strong> — для правой части спецвида. Метод вариации — универсальный.</div>
+    pane.innerHTML = `<div class="info-banner">🧠 <strong>Метод неопределённых коэффициентов</strong> — для правой части спецвида. Метод вариации — универсальный. На контрольной работе, если к НЛДУ можно применить метод неопределенных коэффициентов, то его НУЖНО решать именно им!</div>
+        
         <div class="task-card" onclick="toggleSolution(this)">
-            <div class="task-header"><span class="task-title">📌 Задача 1. Метод вариации</span><span class="task-points">30 баллов</span></div>
-            <div class="task-content"><div class="task-equation">$$ y'' + 4y = \\frac{8}{\\cos 2x} $$</div>
-            <div class="solution"><h4>Решение</h4><div class="math">$$ y = (C_1+2\\ln|\\cos 2x|)\\cos 2x + (C_2+4x)\\sin 2x $$</div></div></div></div>
+            <div class="task-header">
+                <span class="task-title">📌 Задача 1</span>
+                <span class="task-points">30 баллов</span>
+            </div>
+            <div class="task-content">
+                <div class="task-demand"><strong>Условие задачи:</strong><br>Решить уравнение: $$ y'' + 4y = \\frac{8}{\\cos^2 x} $$</div>
+                <div class="solution" style="display:none; font-size: 1.05em; line-height: 1.6; padding: 15px;">
+                    <strong>Решение:</strong><br><br>
+                    Соответствующее ОЛДУ:
+                    $$ y'' + 4y = 0 $$
+                    $$ \\lambda^2 + 4 = 0 \\implies \\lambda^2 = -4 \\implies \\lambda_{1,2} = \\pm 2i $$
+                    ФСР: $$ \\cos 2x \\text{, } \\sin 2x $$
+                    $$ y_{о.о.} = C_1 \\cos 2x + C_2 \\sin 2x $$
+                    <br>Возвращаемся к НЛДУ (Метод вариации произвольных постоянных):<br>
+                    $$ y_{о.н.} = C_1(x) \\cos 2x + C_2(x) \\sin 2x $$
+                    $$ \\begin{cases} \\cos 2x \\cdot C_1' + \\sin 2x \\cdot C_2' = 0 \\\\ -2 \\sin 2x \\cdot C_1' + 2 \\cos 2x \\cdot C_2' = \\frac{8}{\\cos^2 x} \\end{cases} $$
+                    <br>Считаем определители:
+                    $$ \\begin{aligned} \\Delta &= \\begin{vmatrix} \\cos 2x & \\sin 2x \\\\ -2 \\sin 2x & 2 \\cos 2x \\end{vmatrix} = 2 \\cos^2 2x + 2 \\sin^2 2x = 2 \\\\ \\Delta_1 &= \\begin{vmatrix} 0 & \\sin 2x \\\\ \\frac{8}{\\cos^2 x} & 2 \\cos 2x \\end{vmatrix} = - \\frac{8 \\sin 2x}{\\cos^2 x} = - \\frac{16 \\sin x \\cos x}{\\cos^2 x} = -16 \\frac{\\sin x}{\\cos x} \\\\ \\Delta_2 &= \\begin{vmatrix} \\cos 2x & 0 \\\\ -2 \\sin 2x & \\frac{8}{\\cos^2 x} \\end{vmatrix} = \\frac{8 \\cos 2x}{\\cos^2 x} = \\frac{8(2\\cos^2 x - 1)}{\\cos^2 x} = \\frac{16 \\cos^2 x - 8}{\\cos^2 x} = 16 - \\frac{8}{\\cos^2 x} \\end{aligned} $$
+                    <br>Находим производные:
+                    $$ C_1' = \\frac{\\Delta_1}{\\Delta} = - 8 \\frac{\\sin x}{\\cos x} \\qquad C_2' = \\frac{\\Delta_2}{\\Delta} = 8 - \\frac{4}{\\cos^2 x} $$
+                    <br>Интегрируем:
+                    $$ C_1 = -8 \\int \\frac{\\sin x}{\\cos x} dx = \\left[ \\begin{smallmatrix} \\cos x = t \\\\ dt = -\\sin x dx \\\\ -dt = \\sin x dx \\end{smallmatrix} \\right] = 8 \\int \\frac{dt}{t} = 8 \\ln|t| + D_1 = 8 \\ln|\\cos x| + D_1 $$
+                    $$ C_2 = \\int \\left( 8 - \\frac{4}{\\cos^2 x} \\right) dx = 8x - 4 \\operatorname{tg} x + D_2 $$
+                    <br><strong>Ответ:</strong>
+                    $$ y_{о.н.} = (8 \\ln|\\cos x| + D_1) \\cos 2x + (8x - 4 \\operatorname{tg} x + D_2) \\sin 2x $$
+                </div>
+            </div>
+        </div>
         <div class="task-card" onclick="toggleSolution(this)">
-            <div class="task-header"><span class="task-title">📌 Задача 2. Метод неопределённых коэффициентов</span><span class="task-points">30 баллов</span></div>
-            <div class="task-content"><div class="task-equation">$$ y'' - 3y' + 2y = 52\\cos 3x $$</div>
-            <div class="solution"><h4>Решение</h4><div class="math">$$ y = C_1e^x + C_2e^{2x} - \\frac{14}{5}\\cos 3x - \\frac{18}{5}\\sin 3x $$</div></div></div></div>
+            <div class="task-header">
+                <span class="task-title">📌 Задача 2</span>
+                <span class="task-points">30 баллов</span>
+            </div>
+            <div class="task-content">
+                <div class="task-demand"><strong>Условие задачи:</strong><br>Решить уравнение: $$ y'' - 3y' + 2y = 52 \\cos 3x $$</div>
+                <div class="solution" style="display:none; font-size: 1.05em; line-height: 1.6; padding: 15px;">
+                    <strong>Решение:</strong><br><br>
+                    Соответствующее ОЛДУ:
+                    $$ \\lambda^2 - 3 \\lambda + 2 = 0 $$
+                    $$ \\mathcal{D} = 9 - 8 = 1 \\implies \\lambda_{1,2} = \\frac{3 \\pm 1}{2} \\implies \\lambda_1 = 1, \\ \\lambda_2 = 2 $$
+                    ФСР: $$ e^x \\text{, } e^{2x} $$
+                    $$ y_{о.о.} = C_1 e^x + C_2 e^{2x} $$
+                    <br>Возвращаемся к НЛДУ (Метод неопределенных коэффициентов):
+                    $$ F(x) = 52 \\cos 3x = e^{0 \\cdot x} \\cdot (52 \\cos 3x + 0 \\cdot \\sin 3x) $$
+                    $$ \\alpha = 0, \\ \\beta = 3, \\ P(x) = 52, \\ Q(x) = 0 \\implies \\alpha + \\beta i = 3i \\implies S = 0 $$
+                   $$ \\operatorname{deg}(R) = \\operatorname{deg}(T) = \\max (\\operatorname{deg}(\\overset{=0}{P}), \\operatorname{deg}(\\overset{=-\\infty}{Q})) = 0 \\implies R(x) = A, \\ T(x) = B $$
+                    $$ y_{ч.н.} = x^0 \\cdot e^{0 \\cdot x} \\cdot (A \\cos 3x + B \\sin 3x) = A \\cos 3x + B \\sin 3x $$
+                    <br>Находим производные для подстановки:
+                    $$ y'_{ч.н.} = -3A \\sin 3x + 3B \\cos 3x $$
+                    $$ y''_{ч.н.} = -9A \\cos 3x - 9B \\sin 3x $$
+                    <br>Подставляем в исходное уравнение:
+                    $$ -9A \\cos 3x - 9B \\sin 3x - 3(-3A \\sin 3x + 3B \\cos 3x) + 2(A \\cos 3x + B \\sin 3x) = 52 \\cos 3x + 0 \\cdot \\sin 3x $$
+                    $$ -9A \\cos 3x - 9B \\sin 3x + 9A \\sin 3x - 9B \\cos 3x + 2A \\cos 3x + 2B \\sin 3x = 52 \\cos 3x + 0 \\cdot \\sin 3x $$
+                    
+                    <br>Группируем слагаемые:
+                    $$ (-9A - 9B + 2A) \\cos 3x + (-9B + 9A + 2B) \\sin 3x = 52 \\cos 3x + 0 \\cdot \\sin 3x $$
+                    $$ (-7A - 9B) \\cos 3x + (9A - 7B) \\sin 3x = 52 \\cos 3x + 0 \\cdot \\sin 3x $$
+                    <br>Составляем систему уравнений:
+                    $$ \\begin{cases} -7A - 9B = 52 \\\\ 9A - 7B = 0 \\end{cases} \\Leftrightarrow \\begin{cases} -63A - 81B = 468 \\\\ 63A - 49B = 0 \\end{cases} \\text{ } \\Bigg| + $$
+                    <br>Сложив уравнения, получаем:
+                    $$ -130B = 468 \\implies B = -\\frac{18}{5} \\implies A = \\frac{468 + 81 \\cdot \\left( -\\frac{18}{5} \\right)}{-63} = -\\frac{14}{5} $$
+                    $$ y_{ч.н.} = -\\frac{14}{5} \\cos 3x - \\frac{18}{5} \\sin 3x $$
+                    <br><strong>Ответ:</strong>
+                    $$ y_{о.н.} = C_1 e^x + C_2 e^{2x} - \\frac{1}{5}(14\\cos 3x + 18\\sin 3x) $$
+                </div>
+            </div>
+        </div>
+
         <div class="task-card" onclick="toggleSolution(this)">
-            <div class="task-header"><span class="task-title">🎯 Задача Коши №1</span><span class="task-points">40 баллов</span></div>
-            <div class="task-content"><div class="task-equation">$$ y'' + 2y' + y = 3e^{-x}\\sqrt{x+1},\\quad y(0)=\\frac{4}{5},\\; y'(0)=2 $$</div>
-            <div class="solution"><h4>Решение</h4><div class="math">$$ y = \\frac{4}{5}e^{-x}(x + (x+1)^{5/2}) $$</div></div></div></div>
+    <div class="task-header">
+        <span class="task-title">🎯 Задача 3</span>
+        <span class="task-points">40 баллов</span>
+    </div>
+    <div class="task-content">
+        <div class="task-demand"><strong>Условие задачи:</strong><br>Решить задачу Коши: $$ y'' + 2y' + y = 3e^{-x}\\sqrt{x+1}; \\quad y(0) = \\frac{4}{5}; \\quad y'(0) = 2 $$</div>
+            <div class="solution" style="display:none; font-size: 1.05em; line-height: 1.6; padding: 15px;">
+                <strong>Решение:</strong><br><br>
+                Соответствующее ОЛДУ:
+                $$ y'' + 2y' + y = 0 \\implies \\lambda^2 + 2\\lambda + 1 = 0 \\implies (\\lambda + 1)^2 = 0 \\implies \\lambda_{1,2} = -1 $$
+                ФСР: $$ e^{-x} \\text{, } x e^{-x} $$
+                $$ y_{о.о.} = C_1 e^{-x} + C_2 x e^{-x} $$
+                <br>Возвращаемся к НЛДУ (Метод вариации):
+                $$ y_{о.н.} = C_1(x) e^{-x} + C_2(x) x e^{-x} $$
+                $$ \\begin{cases} e^{-x} \\cdot C_1' + x e^{-x} \\cdot C_2' = 0 \\\\ -e^{-x} \\cdot C_1' + e^{-x} \\cdot C_2' - x e^{-x} \\cdot C_2' = 3e^{-x}\\sqrt{x+1} \\end{cases} \\quad \\Bigg| + $$
+                <br>Складываем уравнения:
+                $$ e^{-x} \\cdot C_2' = 3e^{-x}\\sqrt{x+1} \\implies C_2' = 3\\sqrt{x+1} $$
+                $$ C_2 = 3\\int \\sqrt{x+1}\\,dx = 2(x+1)^{\\frac{3}{2}} + D_2 $$
+                <br>Из первого уравнения находим $C_1'$: $$ e^{-x} \\cdot C_1' + x e^{-x} \\cdot 3\\sqrt{x+1} = 0 \\implies C_1' = -3x\\sqrt{x+1} $$
+                $$ C_1 = -3\\int x\\sqrt{x+1}\\,dx = -\\frac{6}{5}(x+1)^{\\frac{5}{2}} + 2(x+1)^{\\frac{3}{2}} + D_1 $$
+                <br>Общее решение:
+                $$ y_{о.н.} = \\left(-\\frac{6}{5}(x+1)^{\\frac{5}{2}} + 2(x+1)^{\\frac{3}{2}} + D_1\\right) e^{-x} + \\left(2(x+1)^{\\frac{3}{2}} + D_2\\right)x e^{-x} $$
+                <br>Подставляем начальные условия задачи Коши:
+                $$ y(0) = \\frac{4}{5} \\implies \\left(-\\frac{6}{5} + 2 + D_1\\right) = \\frac{4}{5} \\implies D_1 = 0 $$
+                <br>Находим $y'_{о.н.}$:
+                $$ y'_{о.н.} = \\left(-3(x+1)^{\\frac{3}{2}} + 3(x+1)^{\\frac{1}{2}}\\right)e^{-x} - \\left(-\\frac{6}{5}(x+1)^{\\frac{5}{2}} + 2(x+1)^{\\frac{3}{2}}\\right)e^{-x} + \\left(3x(x+1)^{\\frac{1}{2}} + 2(x+1)^{\\frac{3}{2}} + D_2\\right)e^{-x} - \\left(2(x+1)^{\\frac{3}{2}} + D_2\\right)xe^{-x} $$
+                $$ y'(0) = 2 \\implies ( -3 + 3 ) - \\left( -\\frac{6}{5} + 2 \\right) + (0 + 2 + D_2) = 2 \\implies -\\frac{4}{5} + 2 + D_2 = 2 \\implies D_2 = \\frac{4}{5} $$
+                <br>Собираем функцию и упрощаем:
+                $$ y = \\left(-\\frac{6}{5}(x+1)^{\\frac{5}{2}} + 2(x+1)^{\\frac{3}{2}}\\right) e^{-x} + \\left(2(x+1)^{\\frac{3}{2}} + \\frac{4}{5}\\right)x e^{-x} = \\frac{4}{5}e^{-x}\\left(x + (x+1)^{\\frac{5}{2}}\\right) $$
+                <br><strong>Ответ:</strong>
+                $$ y = \\frac{4}{5}e^{-x}\\left(x + (x+1)^{\\frac{5}{2}}\\right) $$
+            </div>
+        </div>
+    </div>
+
         <div class="task-card" onclick="toggleSolution(this)">
-            <div class="task-header"><span class="task-title">🎯 Задача Коши №2</span><span class="task-points">40 баллов</span></div>
-            <div class="task-content"><div class="task-equation">$$ y'' - 2y' + 2y = 4e^{x}\\cos x,\\quad y(\\pi)=\\pi e^{\\pi},\\; y'(\\pi)=e^{\\pi} $$</div>
-            <div class="solution"><h4>Решение</h4><div class="math">$$ y = e^{x}((2x - \\pi - 1)\\sin x - \\pi\\cos x) $$</div></div></div></div>
+    <div class="task-header">
+        <span class="task-title">🎯 Задача 4</span>
+        <span class="task-points">40 баллов</span>
+    </div>
+    <div class="task-content">
+        <div class="task-demand"><strong>Условие задачи:</strong><br>Решить задачу Коши: $$ y'' - 2y' + 2y = 4e^x\\cos x; \\quad y(\\pi) = \\pi e^\\pi; \\quad y'(\\pi) = e^\\pi $$</div>
+        <div class="solution" style="display:none; font-size: 1.05em; line-height: 1.6; padding: 15px;">
+            <strong>Решение:</strong><br><br>
+            Соответствующее ОЛДУ:
+            $$ \\lambda^2 - 2\\lambda + 2 = 0 \\implies \\mathcal{D} = 4 - 8 = -4 \\implies \\lambda_{1,2} = \\frac{2 \\pm 2i}{2} = 1 \\pm i $$
+            ФСР: $$ e^x\\cos x \\text{, } e^x\\sin x $$
+            $$ y_{о.о.} = C_1 e^x\\cos x + C_2 e^x\\sin x $$
+            <br>Возвращаемся к НЛДУ (Метод неопределенных коэффициентов):
+            $$ F(x) = 4e^x\\cos x = e^{1 \\cdot x}(4\\cos x + 0\\sin x) $$
+            $$ \\alpha = 1, \\ \\beta = 1, \\ P(x) = 4, \\ Q(x) = 0 \\implies \\alpha + \\beta i = 1 + i \\implies S = 1 \\text{ (резонанс)} $$
+            $$ \\deg(R) = \\deg(T) = \\max(\\deg(P), \\deg(Q)) = 0 \\implies R(x) = A, \\ T(x) = B $$
+            $$ y_{ч.н.} = x^1 \\cdot e^x(A\\cos x + B\\sin x) = xe^x(A\\cos x + B\\sin x) $$
+            <br>Считаем производные:
+            $$ y'_{ч.н.} = e^x(A\\cos x + B\\sin x) + xe^x(A\\cos x + B\\sin x) + xe^x(-A\\sin x + B\\cos x) $$
+            $$ \\begin{aligned} y''_{ч.н.} &= e^x(A\\cos x + B\\sin x) + e^x(-A\\sin x + B\\cos x) + e^x(A\\cos x + B\\sin x) + xe^x(A\\cos x + B\\sin x) \\\\ &\\quad + xe^x(-A\\sin x + B\\cos x) + e^x(-A\\sin x + B\\cos x) + xe^x(-A\\sin x + B\\cos x) + xe^x(-A\\cos x - B\\sin x) \\\\ &= 2e^x(A\\cos x + B\\sin x) + 2e^x(-A\\sin x + B\\cos x) + 2xe^x(-A\\sin x + B\\cos x) \\end{aligned} $$
+            <br>Подставляем всё в уравнение $y'' - 2y' + 2y = 4e^x\\cos x$:
+            $$ \\require{cancel} \\begin{aligned} &\\cancel{2e^x(A\\cos x + B\\sin x)} + 2e^x(-A\\sin x + B\\cos x) + \\cancel{2xe^x(-A\\sin x + B\\cos x)} \\\\ &- \\cancel{2e^x(A\\cos x + B\\sin x)} - \\cancel{2xe^x(A\\cos x + B\\sin x)} - \\cancel{2xe^x(-A\\sin x + B\\cos x)} \\\\ &+ \\cancel{2xe^x(A\\cos x + B\\sin x)} = 4e^x\\cos x \\end{aligned} $$
+            $$ 2e^x(-A\\sin x + B\\cos x) = 4e^x\\cos x \\implies -A\\sin x + B\\cos x = 0 \\cdot \\sin x + 2\\cos x $$
+            $$ \\begin{cases} -A = 0 \\\\ B = 2 \\end{cases} \\Leftrightarrow \\begin{cases} A = 0 \\\\ B = 2 \\end{cases} $$
+            $$ y_{ч.н.} = xe^x(0 \\cdot \\cos x + 2\\sin x) = 2xe^x\\sin x $$
+            <br>Общее решение:
+            $$ y_{о.н.} = C_1 e^x\\cos x + C_2 e^x\\sin x + 2xe^x\\sin x $$
+            <br>Подставляем начальные условия задачи Коши:
+            $$ y(\\pi) = \\pi e^\\pi \\implies y_{о.н.}(\\pi) = C_1 e^\\pi \\cos \\pi + C_2 e^\\pi \\sin \\pi + 2\\pi e^\\pi \\sin \\pi = C_1 e^\\pi \\cdot (-1) = -C_1 e^\\pi = \\pi e^\\pi \\implies C_1 = -\\pi $$
+            <br>Находим $y'_{о.н.}$:
+            $$ y'_{о.н.} = C_1 e^x\\cos x - C_1 e^x\\sin x + C_2 e^x\\sin x + C_2 e^x\\cos x + 2e^x\\sin x + 2xe^x\\sin x + 2xe^x\\cos x $$
+            $$ y'(\\pi) = e^\\pi \\implies y'_{о.н.}(\\pi) = -C_1 e^\\pi - C_2 e^\\pi - 2\\pi e^\\pi = e^\\pi $$
+            $$ \\pi - C_2 - 2\\pi = 1 \\implies -\\pi - C_2 = 1 \\implies C_2 = -\\pi - 1 $$
+            <br>Собираем итоговое решение:
+            $$ \\begin{aligned} y &= -\\pi \\cdot e^x\\cos x - (\\pi + 1)e^x\\sin x + 2xe^x\\sin x \\\\ &= e^x(-\\pi\\cos x - (\\pi + 1)\\sin x + 2x\\sin x) \\\\ &= e^x((2x - \\pi - 1)\\sin x - \\pi\\cos x) \\end{aligned} $$
+            <br><strong>Ответ:</strong>
+            $$ y = e^x((2x - \\pi - 1)\\sin x - \\pi\\cos x) $$
+        </div>
+    </div>
+</div>
     `;
 }
 
