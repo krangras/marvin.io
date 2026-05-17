@@ -692,7 +692,7 @@ const integralsData = [
     { theme: "📌 18. Замена переменной", integral: "∫ f(g(x))·g'(x) dx", answer: "∫ f(u) du, u = g(x)", example: "∫ 2x·e^{x²} dx = e^{x²} + C", practice: "∫ 3x²·sin(x³) dx" }
 ];
 
-// ========== ТАБЛИЦА ИНТЕГРАЛОВ С ЧЕКБОКСАМИ, СВОРАЧИВАНИЕМ И ПРОГРЕССОМ ==========
+// ========== ТАБЛИЦА ИНТЕГРАЛОВ С ЧЕКБОКСАМИ, СВОРАЧИВАНИЕМ И ПРОГРЕССОМ ==========// ========== ПРОГРЕСС ИНТЕГРАЛОВ ==========
 let integralsProgress = JSON.parse(localStorage.getItem('integrals_progress')) || {};
 
 function saveIntegralsProgress() {
@@ -700,31 +700,63 @@ function saveIntegralsProgress() {
     updateIntegralsStats();
 }
 
-function toggleIntegralsSection(sectionNum) {
-    const content = document.getElementById(`section-${sectionNum}-content`);
-    const btn = document.getElementById(`toggle-section-${sectionNum}`);
-    if (content && btn) {
-        if (content.style.display === 'none') {
-            content.style.display = 'block';
-            btn.innerHTML = '▼';
-        } else {
-            content.style.display = 'none';
-            btn.innerHTML = '▶';
-        }
-    }
+function getSolvedCount() {
+    return Object.keys(integralsProgress).length;
 }
 
-function toggleIntegralsAllSections() {
-    const allContents = document.querySelectorAll('.section-content');
-    const allBtns = document.querySelectorAll('.section-toggle');
-    const anyVisible = Array.from(allContents).some(c => c.style.display !== 'none');
+function getTotalTasksCount() {
+    let total = 0;
+    for (let i = 1; i <= 9; i++) {
+        if (INTEGRALS_DATA[`section${i}`]) {
+            total += INTEGRALS_DATA[`section${i}`].length;
+        }
+    }
+    return total;
+}
+
+function updateIntegralsStats() {
+    const solved = getSolvedCount();
+    const total = getTotalTasksCount();
     
-    allContents.forEach(content => {
-        content.style.display = anyVisible ? 'none' : 'block';
-    });
-    allBtns.forEach(btn => {
-        btn.innerHTML = anyVisible ? '▶' : '▼';
-    });
+    const progressFill = document.getElementById('integrals-progress-fill');
+    const solvedSpan = document.getElementById('integrals-solved');
+    const totalSpan = document.getElementById('integrals-total');
+    const percentSpan = document.getElementById('integrals-percent');
+    const paceSpan = document.getElementById('integrals-pace');
+    
+    if (progressFill) progressFill.style.width = `${(solved / total) * 100}%`;
+    if (solvedSpan) solvedSpan.innerText = solved;
+    if (totalSpan) totalSpan.innerText = total;
+    if (percentSpan) percentSpan.innerText = total > 0 ? ((solved / total) * 100).toFixed(1) : 0;
+    
+    // Темп до 22 мая 2026
+    const examDate = new Date(2026, 4, 22);
+    const now = new Date();
+    const daysLeft = (examDate - now) / 86400000;
+    const remaining = total - solved;
+    const perDay = remaining / daysLeft;
+    
+    if (paceSpan) {
+        if (remaining <= 0) {
+            paceSpan.innerHTML = '🏆 ВСЕ ЗАДАЧИ РЕШЕНЫ!';
+        } else if (daysLeft <= 0) {
+            paceSpan.innerHTML = '⏰ Срок вышел! Решай оставшиеся задачи.';
+        } else {
+            paceSpan.innerHTML = `📅 До 22 мая: ${daysLeft.toFixed(3)} дн. | Осталось: ${remaining} задач | Нужно: ${perDay.toFixed(3)} задачи в день`;
+        }
+    }
+    
+    // Обновляем счётчики в заголовках разделов
+    for (let i = 1; i <= 9; i++) {
+        const sectionData = INTEGRALS_DATA[`section${i}`];
+        if (sectionData) {
+            const solvedInSection = sectionData.filter((_, idx) => integralsProgress[`s${i}_t${idx}`]).length;
+            const sectionCounter = document.getElementById(`section-${i}-counter`);
+            if (sectionCounter) {
+                sectionCounter.innerText = `${solvedInSection}/${sectionData.length}`;
+            }
+        }
+    }
 }
 
 function toggleIntegralTask(sectionNum, taskIdx) {
@@ -736,71 +768,19 @@ function toggleIntegralTask(sectionNum, taskIdx) {
     }
     saveIntegralsProgress();
     
-    // Обновляем стиль чекбокса
-    const checkbox = document.getElementById(`chk_${key}`);
-    if (checkbox) checkbox.checked = integralsProgress[key] === true;
-}
-
-function getSolvedCount() {
-    return Object.keys(integralsProgress).length;
-}
-
-function getTotalTasksCount() {
-    let total = 0;
-    for (let i = 1; i <= 9; i++) {
-        total += INTEGRALS_DATA[`section${i}`]?.length || 0;
-    }
-    return total;
-}
-
-function updateIntegralsStats() {
-    const solved = getSolvedCount();
-    const total = getTotalTasksCount();
-    const percent = total > 0 ? (solved / total * 100).toFixed(1) : 0;
-    
-    // Прогресс-бар
-    const progressFill = document.getElementById('integrals-progress-fill');
-    const solvedSpan = document.getElementById('integrals-solved');
-    const totalSpan = document.getElementById('integrals-total');
-    const percentSpan = document.getElementById('integrals-percent');
-    
-    if (progressFill) progressFill.style.width = `${(solved / total) * 100}%`;
-    if (solvedSpan) solvedSpan.innerText = solved;
-    if (totalSpan) totalSpan.innerText = total;
-    if (percentSpan) percentSpan.innerText = percent;
-    
-    // Темп до 22 мая 2026
-    const examDate = new Date(2026, 4, 22); // 22 мая 2026 (месяц 4 = май!)
-    const now = new Date();
-    const daysLeft = (examDate - now) / 86400000;
-    
-    const remaining = total - solved;
-    const perDay = remaining / daysLeft;
-    
-    const paceSpan = document.getElementById('integrals-pace');
-    if (paceSpan) {
-        if (remaining <= 0) {
-            paceSpan.innerHTML = '🏆 ВСЕ ЗАДАЧИ РЕШЕНЫ!';
-        } else if (daysLeft <= 0) {
-            paceSpan.innerHTML = '⏰ Срок вышел! Решай оставшиеся задачи.';
+    // Обновляем цвет заголовка задачи
+    const themeDiv = document.getElementById(`task-theme-${key}`);
+    if (themeDiv) {
+        if (integralsProgress[key]) {
+            themeDiv.style.color = '#0f0';
+            themeDiv.style.textDecoration = 'line-through';
         } else {
-            paceSpan.innerHTML = `📅 До 22 мая: ${daysLeft.toFixed(3)} дн. | Осталось: ${remaining} задач | Нужно: ${perDay.toFixed(3)} задачи в день`;
+            themeDiv.style.color = '#0ff';
+            themeDiv.style.textDecoration = 'none';
         }
     }
 }
-function showIntegralAnswer(btn, answer) {
-    const answerSpan = btn.nextElementSibling;
-    if (answerSpan) {
-        answerSpan.style.display = 'inline';
-        // Обновляем формулы в ответе
-        if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
-            MathJax.typesetPromise([answerSpan]).catch(err => console.log('MathJax error:', err));
-        } else if (typeof MathJax !== 'undefined' && MathJax.typeset) {
-            MathJax.typeset([answerSpan]);
-        }
-        setTimeout(() => { answerSpan.style.display = 'none'; }, 4000);
-    }
-}
+
 function renderIntegrals() {
     const container = document.getElementById('integrals-list');
     if (!container) return;
@@ -817,11 +797,7 @@ function renderIntegrals() {
         { num: 9, title: "Тригонометрическая замена", data: INTEGRALS_DATA.section9 }
     ];
     
-    let totalTasks = 0;
-    for (const section of sections) {
-        totalTasks += section.data?.length || 0;
-    }
-    
+    let totalTasks = getTotalTasksCount();
     let solved = getSolvedCount();
     
     let html = `
@@ -830,17 +806,18 @@ function renderIntegrals() {
         </div>
         
         <div class="integrals-stats-panel" style="background: rgba(0,20,40,0.5); border-radius: 1rem; padding: 1rem; margin-bottom: 1.5rem;">
-            <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+            <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; align-items: center;">
                 <div>
                     <span style="color:#0ff;">📊 Прогресс:</span>
                     <span id="integrals-solved">${solved}</span> / <span id="integrals-total">${totalTasks}</span>
-                    (<span id="integrals-percent">0</span>%)
+                    (<span id="integrals-percent">${totalTasks > 0 ? ((solved / totalTasks) * 100).toFixed(1) : 0}</span>%)
                 </div>
                 <div>
                     <span style="color:#0ff;">🎯 Темп до 22 мая:</span>
                     <span id="integrals-pace">загрузка...</span>
                 </div>
                 <button class="btn-toggle-all" onclick="toggleIntegralsAllSections()" style="background:#0ff2; border:1px solid #0ff; color:#0ff; padding:4px 12px; border-radius:20px; cursor:pointer;">📂 Свернуть/развернуть всё</button>
+                <button onclick="resetAllIntegralsProgress()" style="background:rgba(255,100,0,0.2); border:1px solid #ff6600; color:#ff6600; padding:4px 12px; border-radius:20px; cursor:pointer;">🗑️ Сбросить интегралы</button>
             </div>
             <div class="progress-bar" style="margin-top: 12px;">
                 <div class="progress-fill" id="integrals-progress-fill" style="width: ${(solved / totalTasks) * 100}%;"></div>
@@ -851,6 +828,8 @@ function renderIntegrals() {
     for (const section of sections) {
         if (!section.data || section.data.length === 0) continue;
         
+        const solvedInSection = section.data.filter((_, idx) => integralsProgress[`s${section.num}_t${idx}`]).length;
+        
         html += `<div class="integrals-section" style="margin-bottom: 2rem; border: 1px solid rgba(0,255,255,0.15); border-radius: 1rem; overflow: hidden;">
             <div class="integrals-section-header" style="background: rgba(0,20,40,0.5); padding: 0.8rem 1.2rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="toggleIntegralsSection(${section.num})">
                 <div style="display: flex; align-items: center; gap: 12px;">
@@ -859,7 +838,7 @@ function renderIntegrals() {
                     <span style="color:#8ba0c5; font-size:0.8rem;">(${section.data.length} задач)</span>
                 </div>
                 <div style="font-size:0.8rem; color:#8ba0c5;">
-                    ✅ ${section.data.filter((_, idx) => integralsProgress[`s${section.num}_t${idx}`]).length} / ${section.data.length}
+                    ✅ <span id="section-${section.num}-counter">${solvedInSection}/${section.data.length}</span>
                 </div>
             </div>
             <div class="section-content" id="section-${section.num}-content" style="display: block;">`;
@@ -873,7 +852,7 @@ function renderIntegrals() {
                 <div class="integral-header" style="display: flex; align-items: flex-start; gap: 12px; padding: 0.8rem 1rem;">
                     <input type="checkbox" class="integral-checkbox" id="chk_${key}" ${isChecked ? 'checked' : ''} onclick="event.stopPropagation(); toggleIntegralTask(${section.num}, ${i})" style="margin-top: 4px; width: 18px; height: 18px; cursor: pointer;">
                     <div style="flex: 1;" onclick="toggleIntegralSolution(this.parentElement.parentElement)">
-                        <div class="integral-theme" style="color: ${isChecked ? '#0f0' : '#0ff'};">📌 ${item.name}</div>
+                        <div class="integral-theme" id="task-theme-${key}" style="color: ${isChecked ? '#0f0' : '#0ff'}; ${isChecked ? 'text-decoration: line-through;' : ''}">📌 ${item.name}</div>
                         <div class="integral-formula">$$ \\int ${item.integral} = ${item.answer} $$</div>
                     </div>
                 </div>
@@ -894,39 +873,49 @@ function renderIntegrals() {
     container.innerHTML = html;
     updateIntegralsStats();
     
-    // Исправленный вызов MathJax — с проверкой на загрузку
     if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
         MathJax.typesetPromise().catch(err => console.log('MathJax error:', err));
     } else if (typeof MathJax !== 'undefined' && MathJax.typeset) {
         MathJax.typeset();
-    } else {
-        console.log('MathJax не загружен, формулы могут не отображаться');
-        // Повторная попытка через 500 мс
-        setTimeout(() => {
-            if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
-                MathJax.typesetPromise().catch(err => console.log('MathJax error:', err));
-            }
-        }, 500);
     }
 }
 
-function toggleIntegralSolution(card) {
-    const solution = card.querySelector('.integral-solution');
-    if (solution) {
-        if (solution.style.display === 'none' || solution.style.display === '') {
-            solution.style.display = 'block';
-            // При открытии решения обновляем формулы внутри него
-            if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
-                MathJax.typesetPromise([solution]).catch(err => console.log('MathJax error:', err));
-            } else if (typeof MathJax !== 'undefined' && MathJax.typeset) {
-                MathJax.typeset([solution]);
-            }
+function resetAllIntegralsProgress() {
+    if (confirm("Сбросить весь прогресс интегралов?")) {
+        integralsProgress = {};
+        saveIntegralsProgress();
+        renderIntegrals();
+        alert("✅ Прогресс интегралов сброшен!");
+    }
+}
+
+// ========== СВОРАЧИВАНИЕ РАЗДЕЛОВ ИНТЕГРАЛОВ ==========
+function toggleIntegralsSection(sectionNum) {
+    const content = document.getElementById(`section-${sectionNum}-content`);
+    const toggleBtn = document.getElementById(`toggle-section-${sectionNum}`);
+    if (content && toggleBtn) {
+        if (content.style.display === 'none') {
+            content.style.display = 'block';
+            toggleBtn.innerHTML = '▼';
         } else {
-            solution.style.display = 'none';
+            content.style.display = 'none';
+            toggleBtn.innerHTML = '▶';
         }
     }
 }
 
+function toggleIntegralsAllSections() {
+    const allContents = document.querySelectorAll('.section-content');
+    const allBtns = document.querySelectorAll('.section-toggle');
+    const anyVisible = Array.from(allContents).some(c => c.style.display !== 'none');
+    
+    allContents.forEach(content => {
+        content.style.display = anyVisible ? 'none' : 'block';
+    });
+    allBtns.forEach(btn => {
+        btn.innerHTML = anyVisible ? '▶' : '▼';
+    });
+}
 
 
 // Глобальные функции для onclick
