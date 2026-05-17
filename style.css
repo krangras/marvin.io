@@ -387,3 +387,45 @@ mjx-container[jax="CHTML"][display="false"] {
     margin-left: 10px;
     color: #0f0;
 }
+
+/* ========== ЧЕКБОКСЫ И ПРОГРЕСС ИНТЕГРАЛОВ ========== */
+.integral-checkbox {
+    accent-color: #0ff;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.integral-checkbox:checked + div .integral-theme {
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+
+.integrals-stats-panel {
+    background: rgba(0, 20, 40, 0.5);
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.btn-toggle-all {
+    background: rgba(0, 255, 255, 0.15);
+    border: 1px solid #0ff;
+    color: #0ff;
+    padding: 4px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-toggle-all:hover {
+    background: #0ff;
+    color: #010b1a;
+}
+
+.integrals-section-header:hover {
+    background: rgba(0, 40, 60, 0.6) !important;
+}
+
+.section-content {
+    transition: all 0.2s ease;
+}
