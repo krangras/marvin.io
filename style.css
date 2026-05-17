@@ -271,3 +271,119 @@ mjx-container[jax="CHTML"][display="false"] {
     overflow-x: auto;
     text-align: center;
 }
+
+/* ========== ТАБЛИЦА ИНТЕГРАЛОВ ========== */
+.integral-card {
+    background: rgba(12, 18, 30, 0.75);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    border-radius: 1.5rem;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.integral-card:hover {
+    border-color: #0ff;
+    transform: translateY(-2px);
+}
+.integral-header {
+    padding: 1rem 1.5rem;
+    background: rgba(0, 20, 40, 0.3);
+}
+.integral-theme {
+    color: #0ff;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+.integral-formula {
+    font-family: 'Latin Modern Math', monospace;
+    font-size: 1rem;
+}
+.integral-solution {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid rgba(0, 255, 255, 0.2);
+    background: rgba(0, 10, 25, 0.5);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+.integral-solution-text {
+    margin-bottom: 12px;
+}
+.integral-practice {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed rgba(0, 255, 255, 0.3);
+}
+.check-btn {
+    background: rgba(0, 255, 255, 0.15);
+    border: 1px solid #0ff;
+    color: #0ff;
+    padding: 4px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    transition: all 0.2s;
+}
+.check-btn:hover {
+    background: #0ff;
+    color: #010b1a;
+    box-shadow: 0 0 10px #0ff;
+}
+.practice-answer {
+    font-size: 0.85rem;
+}
+
+.integral-card {
+    background: rgba(12, 18, 30, 0.75);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    border-radius: 1.5rem;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.integral-card:hover {
+    border-color: #0ff;
+    transform: translateY(-2px);
+}
+.integral-header {
+    padding: 1rem 1.5rem;
+    background: rgba(0, 20, 40, 0.3);
+}
+.integral-theme {
+    color: #0ff;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+.integral-formula {
+    font-family: 'Latin Modern Math', monospace;
+    font-size: 1rem;
+}
+.integral-solution {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid rgba(0, 255, 255, 0.2);
+    background: rgba(0, 10, 25, 0.5);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    display: none;
+}
+.check-btn {
+    background: rgba(0, 255, 255, 0.15);
+    border: 1px solid #0ff;
+    color: #0ff;
+    padding: 4px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    margin-left: 10px;
+}
+.check-btn:hover {
+    background: #0ff;
+    color: #010b1a;
+}
+.practice-answer {
+    margin-left: 10px;
+    color: #0f0;
+}

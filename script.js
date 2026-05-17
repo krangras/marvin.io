@@ -211,20 +211,26 @@ function render() {
         let loaded = false;
         
         div.onclick = (e) => {
+            // Проверяем, что кликнули не по кнопкам оценки (1-5)
             if (e.target.tagName !== 'BUTTON') {
-                if (!loaded && CONSPECTS && CONSPECTS[idx]) {
-                    cheatsheetDiv.innerHTML = CONSPECTS[idx];
-                    loaded = true;
-                    if (typeof MathJax !== 'undefined') {
-                        MathJax.typesetPromise && MathJax.typesetPromise([cheatsheetDiv]);
-                    }
-                }
+                
+                // Переключаем видимость блока с конспектом
                 if (cheatsheetDiv.style.display === 'block') {
                     cheatsheetDiv.style.display = 'none';
                 } else {
                     cheatsheetDiv.style.display = 'block';
-                    if (loaded && typeof MathJax !== 'undefined') {
-                        MathJax.typesetPromise && MathJax.typesetPromise([cheatsheetDiv]);
+                    
+                    // 1. НАПРЯМУЮ ЗАЛИВАЕМ HTML (как в интегралах)
+                    // Каждый раз берем свежие данные из conspects.js без лишних условий
+                    if (CONSPECTS && CONSPECTS[idx]) {
+                        cheatsheetDiv.innerHTML = CONSPECTS[idx];
+                    }
+                    
+                    // 2. СРАЗУ ЖЕ СКАРМЛИВАЕМ ЭТОТ БЛОК MATHJAX
+                    // Говорим MathJax обработать строго этот открытый контейнер
+                    if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+                        MathJax.typesetPromise([cheatsheetDiv])
+                            .catch(err => console.error("MathJax Tickets Error:", err));
                     }
                 }
             }
@@ -373,8 +379,8 @@ function renderControlTasks() {
                     <br>Находим производные:
                     $$ C_1' = \\frac{\\Delta_1}{\\Delta} = - 8 \\frac{\\sin x}{\\cos x} \\qquad C_2' = \\frac{\\Delta_2}{\\Delta} = 8 - \\frac{4}{\\cos^2 x} $$
                     <br>Интегрируем:
-                    $$ C_1 = -8 \\int \\frac{\\sin x}{\\cos x} dx = \\left[ \\begin{smallmatrix} \\cos x = t \\\\ dt = -\\sin x dx \\\\ -dt = \\sin x dx \\end{smallmatrix} \\right] = 8 \\int \\frac{dt}{t} = 8 \\ln|t| + D_1 = 8 \\ln|\\cos x| + D_1 $$
-                    $$ C_2 = \\int \\left( 8 - \\frac{4}{\\cos^2 x} \\right) dx = 8x - 4 \\operatorname{tg} x + D_2 $$
+                    $$ C_1 = -8 \\int \\frac{\\sin x}{\\cos x} dx = \\\left[ \\begin{smallmatrix} \\cos x = t \\\\ dt = -\\sin x dx \\\\ -dt = \\sin x dx \\end{smallmatrix} \\right] = 8 \\int \\frac{dt}{t} = 8 \\ln|t| + D_1 = 8 \\ln|\\cos x| + D_1 $$
+                    $$ C_2 = \\int \\\left( 8 - \\frac{4}{\\cos^2 x} \\right) dx = 8x - 4 \\operatorname{tg} x + D_2 $$
                     <br><strong>Ответ:</strong>
                     $$ y_{о.н.} = (8 \\ln|\\cos x| + D_1) \\cos 2x + (8x - 4 \\operatorname{tg} x + D_2) \\sin 2x $$
                 </div>
@@ -412,7 +418,7 @@ function renderControlTasks() {
                     <br>Составляем систему уравнений:
                     $$ \\begin{cases} -7A - 9B = 52 \\\\ 9A - 7B = 0 \\end{cases} \\Leftrightarrow \\begin{cases} -63A - 81B = 468 \\\\ 63A - 49B = 0 \\end{cases} \\text{ } \\Bigg| + $$
                     <br>Сложив уравнения, получаем:
-                    $$ -130B = 468 \\implies B = -\\frac{18}{5} \\implies A = \\frac{468 + 81 \\cdot \\left( -\\frac{18}{5} \\right)}{-63} = -\\frac{14}{5} $$
+                    $$ -130B = 468 \\implies B = -\\frac{18}{5} \\implies A = \\frac{468 + 81 \\cdot \\\left( -\\frac{18}{5} \\right)}{-63} = -\\frac{14}{5} $$
                     $$ y_{ч.н.} = -\\frac{14}{5} \\cos 3x - \\frac{18}{5} \\sin 3x $$
                     <br><strong>Ответ:</strong>
                     $$ y_{о.н.} = C_1 e^x + C_2 e^{2x} - \\frac{1}{5}(14\\cos 3x + 18\\sin 3x) $$
@@ -442,16 +448,16 @@ function renderControlTasks() {
                 <br>Из первого уравнения находим $C_1'$: $$ e^{-x} \\cdot C_1' + x e^{-x} \\cdot 3\\sqrt{x+1} = 0 \\implies C_1' = -3x\\sqrt{x+1} $$
                 $$ C_1 = -3\\int x\\sqrt{x+1}\\,dx = -\\frac{6}{5}(x+1)^{\\frac{5}{2}} + 2(x+1)^{\\frac{3}{2}} + D_1 $$
                 <br>Общее решение:
-                $$ y_{о.н.} = \\left(-\\frac{6}{5}(x+1)^{\\frac{5}{2}} + 2(x+1)^{\\frac{3}{2}} + D_1\\right) e^{-x} + \\left(2(x+1)^{\\frac{3}{2}} + D_2\\right)x e^{-x} $$
+                $$ y_{о.н.} = \\\left(-\\frac{6}{5}(x+1)^{\\frac{5}{2}} + 2(x+1)^{\\frac{3}{2}} + D_1\\right) e^{-x} + \\\left(2(x+1)^{\\frac{3}{2}} + D_2\\right)x e^{-x} $$
                 <br>Подставляем начальные условия задачи Коши:
-                $$ y(0) = \\frac{4}{5} \\implies \\left(-\\frac{6}{5} + 2 + D_1\\right) = \\frac{4}{5} \\implies D_1 = 0 $$
+                $$ y(0) = \\frac{4}{5} \\implies \\\left(-\\frac{6}{5} + 2 + D_1\\right) = \\frac{4}{5} \\implies D_1 = 0 $$
                 <br>Находим $y'_{о.н.}$:
-                $$ y'_{о.н.} = \\left(-3(x+1)^{\\frac{3}{2}} + 3(x+1)^{\\frac{1}{2}}\\right)e^{-x} - \\left(-\\frac{6}{5}(x+1)^{\\frac{5}{2}} + 2(x+1)^{\\frac{3}{2}}\\right)e^{-x} + \\left(3x(x+1)^{\\frac{1}{2}} + 2(x+1)^{\\frac{3}{2}} + D_2\\right)e^{-x} - \\left(2(x+1)^{\\frac{3}{2}} + D_2\\right)xe^{-x} $$
-                $$ y'(0) = 2 \\implies ( -3 + 3 ) - \\left( -\\frac{6}{5} + 2 \\right) + (0 + 2 + D_2) = 2 \\implies -\\frac{4}{5} + 2 + D_2 = 2 \\implies D_2 = \\frac{4}{5} $$
+                $$ y'_{о.н.} = \\\left(-3(x+1)^{\\frac{3}{2}} + 3(x+1)^{\\frac{1}{2}}\\right)e^{-x} - \\\left(-\\frac{6}{5}(x+1)^{\\frac{5}{2}} + 2(x+1)^{\\frac{3}{2}}\\right)e^{-x} + \\\left(3x(x+1)^{\\frac{1}{2}} + 2(x+1)^{\\frac{3}{2}} + D_2\\right)e^{-x} - \\\left(2(x+1)^{\\frac{3}{2}} + D_2\\right)xe^{-x} $$
+                $$ y'(0) = 2 \\implies ( -3 + 3 ) - \\\left( -\\frac{6}{5} + 2 \\right) + (0 + 2 + D_2) = 2 \\implies -\\frac{4}{5} + 2 + D_2 = 2 \\implies D_2 = \\frac{4}{5} $$
                 <br>Собираем функцию и упрощаем:
-                $$ y = \\left(-\\frac{6}{5}(x+1)^{\\frac{5}{2}} + 2(x+1)^{\\frac{3}{2}}\\right) e^{-x} + \\left(2(x+1)^{\\frac{3}{2}} + \\frac{4}{5}\\right)x e^{-x} = \\frac{4}{5}e^{-x}\\left(x + (x+1)^{\\frac{5}{2}}\\right) $$
+                $$ y = \\\left(-\\frac{6}{5}(x+1)^{\\frac{5}{2}} + 2(x+1)^{\\frac{3}{2}}\\right) e^{-x} + \\\left(2(x+1)^{\\frac{3}{2}} + \\frac{4}{5}\\right)x e^{-x} = \\frac{4}{5}e^{-x}\\\left(x + (x+1)^{\\frac{5}{2}}\\right) $$
                 <br><strong>Ответ:</strong>
-                $$ y = \\frac{4}{5}e^{-x}\\left(x + (x+1)^{\\frac{5}{2}}\\right) $$
+                $$ y = \\frac{4}{5}e^{-x}\\\left(x + (x+1)^{\\frac{5}{2}}\\right) $$
             </div>
         </div>
     </div>
@@ -507,19 +513,94 @@ function toggleSolution(card) {
 
 function initTabs() {
     document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+
+        btn.addEventListener('click', async () => {
+
+            // переключение активной кнопки
+            document.querySelectorAll('.tab-btn')
+                .forEach(b => b.classList.remove('active'));
+
             btn.classList.add('active');
+
+            // панели
             const examPane = document.getElementById('exam-pane');
             const controlPane = document.getElementById('control-pane');
+            const integralsPane = document.getElementById('integrals-pane');
+
+            // скрываем всё
+            examPane?.classList.remove('active-pane');
+            controlPane?.classList.remove('active-pane');
+            integralsPane?.classList.remove('active-pane');
+
+            // ========= ЭКЗАМЕН =========
             if (btn.dataset.tab === 'exam') {
-                if (examPane) examPane.classList.add('active-pane');
-                if (controlPane) controlPane.classList.remove('active-pane');
+
+                examPane?.classList.add('active-pane');
+
                 render();
-            } else {
-                if (controlPane) controlPane.classList.add('active-pane');
-                if (examPane) examPane.classList.remove('active-pane');
-                if (typeof MathJax !== 'undefined') MathJax.typesetPromise?.();
+
+                // ждём рендер DOM
+                await new Promise(resolve => setTimeout(resolve, 30));
+
+                // MathJax
+                if (window.MathJax) {
+                    MathJax.typesetClear([examPane]);
+
+                    MathJax.typesetPromise([examPane])
+                        .then(() => {
+                            console.log('MathJax exam rendered');
+                        })
+                        .catch(err => {
+                            console.error('MathJax exam error:', err);
+                        });
+                }
+            }
+
+            // ========= КОНТРОЛЬНАЯ =========
+            else if (btn.dataset.tab === 'control') {
+
+                controlPane?.classList.add('active-pane');
+
+                // ждём DOM
+                await new Promise(resolve => setTimeout(resolve, 30));
+
+                if (window.MathJax) {
+                    MathJax.typesetClear([controlPane]);
+
+                    MathJax.typesetPromise([controlPane])
+                        .then(() => {
+                            console.log('MathJax control rendered');
+                        })
+                        .catch(err => {
+                            console.error('MathJax control error:', err);
+                        });
+                }
+            }
+
+            // ========= ИНТЕГРАЛЫ =========
+            else if (btn.dataset.tab === 'integrals') {
+
+                integralsPane?.classList.add('active-pane');
+
+                renderIntegrals();
+
+                // ждём пока вставится HTML
+                await new Promise(resolve => setTimeout(resolve, 50));
+
+                if (window.MathJax) {
+
+                    // очищаем старый рендер
+                    MathJax.typesetClear([integralsPane]);
+
+                    // рендерим только вкладку интегралов
+                    MathJax.typesetPromise([integralsPane])
+                        .then(() => {
+                            console.log('MathJax integrals rendered');
+                        })
+                        .catch(err => {
+                            console.error('MathJax integrals error:', err);
+                        });
+                }
             }
         });
     });
@@ -529,11 +610,209 @@ function initTabs() {
 document.addEventListener('DOMContentLoaded', () => {
     initState();
     renderControlTasks();
+    renderIntegrals();  // ← добавить эту строку
     initTabs();
     render();
     setInterval(updatePace, 60000);
 });
 
+// ========== ТАБЛИЦА ИНТЕГРАЛОВ ==========
+const integralsData = [
+    { theme: "📌 1. Степенные функции", integral: "∫ x^n dx", answer: "x^{n+1}/(n+1) + C, n ≠ -1", example: "∫ x^3 dx = x^4/4 + C", practice: "∫ x^5 dx" },
+    { theme: "📌 2. Обратная степень (n = -1)", integral: "∫ dx/x", answer: "ln|x| + C", example: "∫ dx/x = ln|x| + C", practice: "∫ dx/(x+2)" },
+    { theme: "📌 3. Экспоненциальные функции", integral: "∫ e^x dx", answer: "e^x + C", example: "∫ e^{2x} dx = e^{2x}/2 + C", practice: "∫ e^{3x} dx" },
+    { theme: "📌 4. Общая показательная", integral: "∫ a^x dx", answer: "a^x / ln a + C", example: "∫ 2^x dx = 2^x/ln2 + C", practice: "∫ 5^x dx" },
+    { theme: "📌 5. Синус", integral: "∫ sin x dx", answer: "-cos x + C", example: "∫ sin 3x dx = -cos(3x)/3 + C", practice: "∫ sin 2x dx" },
+    { theme: "📌 6. Косинус", integral: "∫ cos x dx", answer: "sin x + C", example: "∫ cos 4x dx = sin(4x)/4 + C", practice: "∫ cos 5x dx" },
+    { theme: "📌 7. Тангенс", integral: "∫ tg x dx", answer: "-ln|cos x| + C", example: "∫ tg 2x dx = -½·ln|cos 2x| + C", practice: "∫ tg 3x dx" },
+    { theme: "📌 8. Котангенс", integral: "∫ ctg x dx", answer: "ln|sin x| + C", example: "∫ ctg 4x dx = ¼·ln|sin 4x| + C", practice: "∫ ctg 2x dx" },
+    { theme: "📌 9. 1/sin²x", integral: "∫ dx/sin²x", answer: "-ctg x + C", example: "∫ dx/sin²(2x) = -½·ctg(2x) + C", practice: "∫ dx/sin²(3x)" },
+    { theme: "📌 10. 1/cos²x", integral: "∫ dx/cos²x", answer: "tg x + C", example: "∫ dx/cos²(3x) = ⅓·tg(3x) + C", practice: "∫ dx/cos²(2x)" },
+    { theme: "📌 11. 1/(x² + a²)", integral: "∫ dx/(x² + a²)", answer: "(1/a)·arctg(x/a) + C", example: "∫ dx/(x² + 4) = ½·arctg(x/2) + C", practice: "∫ dx/(x² + 9)" },
+    { theme: "📌 12. 1/(x² - a²)", integral: "∫ dx/(x² - a²)", answer: "(1/(2a))·ln|(x-a)/(x+a)| + C", example: "∫ dx/(x² - 4) = ¼·ln|(x-2)/(x+2)| + C", practice: "∫ dx/(x² - 9)" },
+    { theme: "📌 13. 1/√(a² - x²)", integral: "∫ dx/√(a² - x²)", answer: "arcsin(x/a) + C", example: "∫ dx/√(4 - x²) = arcsin(x/2) + C", practice: "∫ dx/√(9 - x²)" },
+    { theme: "📌 14. 1/√(x² ± a²)", integral: "∫ dx/√(x² ± a²)", answer: "ln|x + √(x² ± a²)| + C", example: "∫ dx/√(x² + 4) = ln|x + √(x²+4)| + C", practice: "∫ dx/√(x² + 9)" },
+    { theme: "📌 15. √(a² - x²)", integral: "∫ √(a² - x²) dx", answer: "(x/2)·√(a² - x²) + (a²/2)·arcsin(x/a) + C", example: "∫ √(4 - x²) dx", practice: "∫ √(9 - x²) dx" },
+    { theme: "📌 16. √(x² ± a²)", integral: "∫ √(x² ± a²) dx", answer: "(x/2)·√(x² ± a²) ± (a²/2)·ln|x + √(x² ± a²)| + C", example: "∫ √(x² + 4) dx", practice: "∫ √(x² + 9) dx" },
+    { theme: "📌 17. Интегрирование по частям", integral: "∫ u dv = uv - ∫ v du", answer: "формула", example: "∫ x e^x dx = x e^x - e^x + C", practice: "∫ x cos x dx" },
+    { theme: "📌 18. Замена переменной", integral: "∫ f(g(x))·g'(x) dx", answer: "∫ f(u) du, u = g(x)", example: "∫ 2x·e^{x²} dx = e^{x²} + C", practice: "∫ 3x²·sin(x³) dx" }
+];
+
+// ========== ОПТИМИЗИРОВАННАЯ ТАБЛИЦА ИНТЕГРАЛОВ ==========
+let renderedCards = new Map(); // Кеш уже отрендеренных карточек
+
+function renderIntegrals() {
+    const container = document.getElementById('integrals-list');
+    if (!container) return;
+    
+    // Показываем заглушку
+    container.innerHTML = '<div class="info-banner">📖 Загрузка интегралов... (135 задач)</div>';
+    
+    // Асинхронно загружаем и рендерим
+    setTimeout(() => {
+        let html = `<div class="info-banner">📖 <strong>Полный сборник интегралов (135 задач)</strong> — нажми на карточку, чтобы увидеть решение.</div>`;
+        
+        // Рендерим только заголовки секций + карточки без решения (экономия памяти)
+        html += renderSectionsLight();
+        
+        container.innerHTML = html;
+        
+        if (typeof MathJax !== 'undefined') {
+            MathJax.typesetPromise().catch(err => console.log('MathJax error:', err));
+        }
+    }, 10);
+}
+
+function renderSectionsLight() {
+    // Рендерим все секции, но карточки — с пустыми решениями
+    let html = '';
+    const sections = [
+        { num: 1, title: "Интегрирование по таблице (27 задач)", data: INTEGRALS_DATA.section1 },
+        { num: 2, title: "Замена переменной (28 задач)", data: INTEGRALS_DATA.section2 },
+        { num: 3, title: "Интегрирование по частям (20 задач)", data: INTEGRALS_DATA.section3 },
+        { num: 4, title: "Квадратный трёхчлен (12 задач)", data: INTEGRALS_DATA.section4 },
+        { num: 5, title: "Линейный член + трёхчлен (8 задач)", data: INTEGRALS_DATA.section5 },
+        { num: 6, title: "Тип dx/(x√(...)) (8 задач)", data: INTEGRALS_DATA.section6 },
+        { num: 7, title: "Дробно-рациональные (20 задач)", data: INTEGRALS_DATA.section7 },
+        { num: 8, title: "Тригонометрические (25 задач)", data: INTEGRALS_DATA.section8 },
+        { num: 9, title: "Тригонометрическая замена (12 задач)", data: INTEGRALS_DATA.section9 }
+    ];
+    
+    for (const section of sections) {
+        html += `<div class="integrals-section" style="margin-bottom: 2rem;">
+            <div class="integrals-section-title" style="color:#0ff; font-size:1.2rem; font-weight:600; margin-bottom:1rem; border-left:4px solid #0ff; padding-left:0.5rem;">${section.num}. ${section.title}</div>`;
+        
+        for (let i = 0; i < section.data.length; i++) {
+            const item = section.data[i];
+            const globalId = `${section.num}_${i}`;
+            html += `<div class="integral-card" data-id="${globalId}" onclick="loadIntegralSolution(this, '${section.num}', ${i})">
+                <div class="integral-header">
+                    <div class="integral-theme">📌 ${item.name}</div>
+                    <div class="integral-formula">$$ \\int ${item.integral} = ${item.answer} $$</div>
+                </div>
+                <div class="integral-solution" style="display:none;"></div>
+            </div>`;
+        }
+        html += `</div>`;
+    }
+    return html;
+}
+
+// Ленивая загрузка решения — ТОЛЬКО ПРИ КЛИКЕ
+function loadIntegralSolution(card, sectionNum, idx) {
+    const solutionDiv = card.querySelector('.integral-solution');
+    if (!solutionDiv) return;
+    
+    // Уже загружено?
+    if (solutionDiv.innerHTML !== '') {
+        solutionDiv.style.display = solutionDiv.style.display === 'block' ? 'none' : 'block';
+        return;
+    }
+    
+    // Загружаем данные
+    const sectionsData = {
+        '1': INTEGRALS_DATA.section1,
+        '2': INTEGRALS_DATA.section2,
+        '3': INTEGRALS_DATA.section3,
+        '4': INTEGRALS_DATA.section4,
+        '5': INTEGRALS_DATA.section5,
+        '6': INTEGRALS_DATA.section6,
+        '7': INTEGRALS_DATA.section7,
+        '8': INTEGRALS_DATA.section8,
+        '9': INTEGRALS_DATA.section9
+    };
+    
+    const item = sectionsData[sectionNum][idx];
+    if (!item) return;
+    
+    // Строим HTML решения
+    solutionDiv.innerHTML = `
+        <div class="integral-solution-text">
+            <strong>📖 Решение:</strong><br>
+            <div class="step">${item.solution.replace(/\n/g, '<br>')}</div>
+        </div>
+        <div class="integral-practice">
+            <strong>✏️ Проверь себя:</strong> $$ \\int ${item.practice} = ? $$
+            <button class="check-btn" onclick="event.stopPropagation(); showAnswer(this, '${item.practiceAns}')">📋 Показать ответ</button>
+            <span class="practice-answer" style="display:none; margin-left:10px; color:#0f0;">✅ Ответ: $${item.practiceAns}$</span>
+        </div>
+    `;
+    
+    solutionDiv.style.display = 'block';
+    
+    // Обновляем MathJax только для этого решения
+    if (typeof MathJax !== 'undefined') {
+        MathJax.typesetPromise([solutionDiv]).catch(err => console.log('MathJax error:', err));
+    }
+}
+
+// Исправленный toggle для совместимости
+function toggleIntegralSolution(card) {
+    const solution = card.querySelector('.integral-solution');
+    if (solution && solution.innerHTML !== '') {
+        solution.style.display = solution.style.display === 'block' ? 'none' : 'block';
+    }
+}   
+
+function showAnswer(btn, answer) {
+    const answerSpan = btn.nextElementSibling;
+    if (answerSpan) {
+        answerSpan.style.display = 'inline';
+        setTimeout(() => { answerSpan.style.display = 'none'; }, 4000);
+    }
+}
+
+
+function integralCard(id, item) {
+    return `
+        <div class="integral-card" onclick="toggleIntegralSolution(this)">
+            <div class="integral-header">
+                <div class="integral-theme">📌 ${item.name}</div>
+                <div class="integral-formula">$$ \\int ${item.integral} = ${item.answer} $$</div>
+            </div>
+            <div class="integral-solution" style="display:none;">
+                <div class="integral-solution-text"><strong>📖 Решение:</strong><br>${item.solution}</div>
+                <div class="integral-practice">
+                    <strong>✏️ Проверь себя:</strong> $$ \\int ${item.practice} = ? $$
+                    <button class="check-btn" onclick="event.stopPropagation(); showIntegralAnswer(${id})">📋 Показать ответ</button>
+                    <span class="practice-answer" id="integral-answer-${id}" style="display:none; margin-left:10px; color:#0f0;">✅ Ответ: $${item.practiceAns}$</span>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function showIntegralAnswer(id) {
+    const span = document.getElementById(`integral-answer-${id}`);
+    if (span) {
+        span.style.display = 'inline';
+        setTimeout(() => span.style.display = 'none', 5000);
+    }
+}
+
+
+// Глобальные функции для onclick
+window.toggleIntegralSolution = toggleIntegralSolution;
+window.showIntegralAnswer = showIntegralAnswer;
+
+// Добавляем стили для интегралов в CSS
+const integralStyles = `
+.integral-card { background: rgba(12,18,30,0.75); border:1px solid rgba(0,255,255,0.2); border-radius:1.5rem; margin-bottom:1rem; overflow:hidden; cursor:pointer; transition:all 0.2s; }
+.integral-card:hover { border-color:#0ff; transform:translateY(-2px); }
+.integral-header { padding:1rem 1.5rem; background:rgba(0,20,40,0.3); }
+.integral-theme { color:#0ff; font-weight:600; margin-bottom:8px; }
+.integral-formula { font-family:'Latin Modern Math', monospace; font-size:1.1rem; }
+.integral-solution { padding:1rem 1.5rem; border-top:1px solid rgba(0,255,255,0.2); background:rgba(0,10,25,0.5); }
+.integral-example, .integral-practice { margin:8px 0; }
+.check-btn { background:#0ff2; border:1px solid #0ff; color:#0ff; padding:4px 12px; border-radius:20px; cursor:pointer; font-size:0.75rem; }
+.check-btn:hover { background:#0ff; color:#010b1a; }
+.practice-answer { font-size:0.9rem; }
+`;
+
+// Добавляем стили
+const styleSheet = document.createElement("style");
+styleSheet.textContent = integralStyles;
+document.head.appendChild(styleSheet);
 // Глобальные функции
 window.advanceTicket = advanceTicket;
 window.undoForTicket = undoForTicket;

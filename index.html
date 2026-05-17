@@ -5,7 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Marvin.io — АГиТДУ | Экзамен + Контрольная работа</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
 </head>
 <body>
 <div class="container">
@@ -18,6 +26,7 @@
     <div class="tabs">
         <div class="tab-btn active" data-tab="exam">📚 Экзамен (билеты)</div>
         <div class="tab-btn" data-tab="control">✍️ Контрольная работа №3 | ЛДУ-II</div>
+        <div class="tab-btn" data-tab="integrals">📚 Интегралы</div>
     </div>
 
     <div id="exam-pane" class="tab-pane active-pane">
@@ -73,9 +82,13 @@
     </div>
 
     <div id="control-pane" class="tab-pane"></div>
+    <div id="integrals-pane" class="tab-pane">
+    <div id="integrals-list"></div>
+</div>
 </div>
 
-<script src="conspects.js"></script>
-<script src="script.js"></script>
+<script src="conspects.js?v=2"></script>
+<script src="script.js?v=2"></script>
+<script src="integrals_data.js"></script>
 </body>
 </html>
