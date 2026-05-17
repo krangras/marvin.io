@@ -592,6 +592,8 @@ function initTabs() {
                 examPane?.classList.add('active-pane');
 
                 render();
+                // Сохраняем активную вкладку
+                saveActiveTab();
 
                 // ждём рендер DOM
                 await new Promise(resolve => setTimeout(resolve, 30));
@@ -614,6 +616,7 @@ function initTabs() {
             else if (btn.dataset.tab === 'control') {
 
                 controlPane?.classList.add('active-pane');
+                saveActiveTab();
 
                 // ждём DOM
                 await new Promise(resolve => setTimeout(resolve, 30));
@@ -635,6 +638,7 @@ function initTabs() {
             else if (btn.dataset.tab === 'integrals') {
 
                 integralsPane?.classList.add('active-pane');
+                saveActiveTab();
 
                 renderIntegrals();
 
@@ -666,6 +670,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderControlTasks();
     renderIntegrals();  // ← добавить эту строку
     initTabs();
+    loadActiveTab();
     render();
     setInterval(updatePace, 60000);
 });
@@ -712,6 +717,75 @@ function getTotalTasksCount() {
         }
     }
     return total;
+}
+
+function saveActiveTab() {
+    const activeTab = document.querySelector('.tab-btn.active');
+    if (activeTab) {
+        localStorage.setItem('active_tab', activeTab.getAttribute('data-tab'));
+    }
+}
+
+function loadActiveTab() {
+    const savedTab = localStorage.getItem('active_tab');
+    if (savedTab) {
+        const tabBtn = document.querySelector(`.tab-btn[data-tab="${savedTab}"]`);
+        if (tabBtn) {
+            // Снимаем активность со всех
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            tabBtn.classList.add('active');
+            
+            // Показываем нужную панель
+            const examPane = document.getElementById('exam-pane');
+            const controlPane = document.getElementById('control-pane');
+            const integralsPane = document.getElementById('integrals-pane');
+            
+            examPane?.classList.remove('active-pane');
+            controlPane?.classList.remove('active-pane');
+            integralsPane?.classList.remove('active-pane');
+            
+            if (savedTab === 'exam') {
+                examPane?.classList.add('active-pane');
+                render();
+            } else if (savedTab === 'control') {
+                controlPane?.classList.add('active-pane');
+            } else if (savedTab === 'integrals') {
+                integralsPane?.classList.add('active-pane');
+                renderIntegrals();
+            }
+        }
+    }
+}
+
+function saveIntegralsSectionState() {
+    const sectionsState = {};
+    for (let i = 1; i <= 9; i++) {
+        const content = document.getElementById(`section-${i}-content`);
+        if (content) {
+            sectionsState[i] = content.style.display !== 'none';
+        }
+    }
+    localStorage.setItem('integrals_sections_state', JSON.stringify(sectionsState));
+}
+
+function loadIntegralsSectionState() {
+    const saved = localStorage.getItem('integrals_sections_state');
+    if (saved) {
+        const sectionsState = JSON.parse(saved);
+        for (let i = 1; i <= 9; i++) {
+            const content = document.getElementById(`section-${i}-content`);
+            const toggleBtn = document.getElementById(`toggle-section-${i}`);
+            if (content && sectionsState[i] !== undefined) {
+                if (sectionsState[i]) {
+                    content.style.display = 'block';
+                    if (toggleBtn) toggleBtn.innerHTML = '▼';
+                } else {
+                    content.style.display = 'none';
+                    if (toggleBtn) toggleBtn.innerHTML = '▶';
+                }
+            }
+        }
+    }
 }
 
 function updateIntegralsStats() {
@@ -872,6 +946,10 @@ function renderIntegrals() {
     
     container.innerHTML = html;
     updateIntegralsStats();
+        // Загружаем сохранённое состояние свёрнутых разделов
+    setTimeout(() => {
+        loadIntegralsSectionState();
+    }, 100);
     
     if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
         MathJax.typesetPromise().catch(err => console.log('MathJax error:', err));
@@ -901,20 +979,28 @@ function toggleIntegralsSection(sectionNum) {
             content.style.display = 'none';
             toggleBtn.innerHTML = '▶';
         }
+        saveIntegralsSectionState();
     }
 }
 
 function toggleIntegralsAllSections() {
     const allContents = document.querySelectorAll('.section-content');
     const allBtns = document.querySelectorAll('.section-toggle');
-    const anyVisible = Array.from(allContents).some(c => c.style.display !== 'none');
+    const anyExpanded = Array.from(allContents).some(c => c.style.display === 'block');
     
     allContents.forEach(content => {
-        content.style.display = anyVisible ? 'none' : 'block';
+        content.style.display = anyExpanded ? 'none' : 'block';
     });
     allBtns.forEach(btn => {
-        btn.innerHTML = anyVisible ? '▶' : '▼';
+        btn.innerHTML = anyExpanded ? '▶' : '▼';
     });
+    
+    saveIntegralsSectionState();
+    
+    const btnText = document.querySelector('.btn-toggle-all');
+    if (btnText) {
+        btnText.innerHTML = anyExpanded ? '📂 Развернуть всё' : '📂 Свернуть всё';
+    }
 }
 
 
