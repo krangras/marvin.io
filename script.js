@@ -1104,26 +1104,22 @@ function renderIntegrals() {
     let html = `
         <div class="info-banner">
             📖 <strong>Таблица интегралов</strong> — ${totalTasks} задач
+        <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; align-items: center;">
+    <div>
+            <span style="color:#0ff;">📊 Прогресс:</span>
+            <span id="integrals-solved">${solved}</span> / <span id="integrals-total">${totalTasks}</span>
+            (<span id="integrals-percent">${totalTasks > 0 ? ((solved / totalTasks) * 100).toFixed(1) : 0}</span>%)
         </div>
-        
-        <div class="integrals-stats-panel" style="background: rgba(0,20,40,0.5); border-radius: 1rem; padding: 1rem; margin-bottom: 1.5rem;">
-            <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; align-items: center;">
-                <div>
-                    <span style="color:#0ff;">📊 Прогресс:</span>
-                    <span id="integrals-solved">${solved}</span> / <span id="integrals-total">${totalTasks}</span>
-                    (<span id="integrals-percent">${totalTasks > 0 ? ((solved / totalTasks) * 100).toFixed(1) : 0}</span>%)
-                </div>
-                <div>
-                    <span style="color:#0ff;">🎯 Темп до 22 мая:</span>
-                    <span id="integrals-pace">загрузка...</span>
-                </div>
-                <button class="btn-toggle-all" onclick="toggleIntegralsAllSections()" style="background:#0ff2; border:1px solid #0ff; color:#0ff; padding:4px 12px; border-radius:20px; cursor:pointer;">📂 Развернуть всё</button>
-            </div>
-            <div class="progress-bar" style="margin-top: 12px;">
-                <div class="progress-fill" id="integrals-progress-fill" style="width: ${(solved / totalTasks) * 100}%;"></div>
-            </div>
+        <div>
+            <span style="color:#0ff;">🎯 Темп до 22 мая:</span>
+            <span id="integrals-pace">загрузка...</span>
         </div>
-    `;
+        <div style="display: flex; gap: 8px;">
+            <button class="btn-toggle-all" onclick="toggleIntegralsAllSections()" style="background:#0ff2; border:1px solid #0ff; color:#0ff; padding:4px 12px; border-radius:20px; cursor:pointer;">📂 Развернуть всё</button>
+            <button onclick="resetAllIntegralsProgress()" style="background:#f442; border:1px solid #f44; color:#f44; padding:4px 12px; border-radius:20px; cursor:pointer;">🗑️ Сбросить интегралы</button>
+        </div>
+    </div>
+    `
     
     for (const section of sections) {
         if (!section.data || section.data.length === 0) continue;
