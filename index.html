@@ -31,8 +31,8 @@
 
     <div id="exam-pane" class="tab-pane active-pane">
         <div class="toolbar">
-            <button class="btn-save" onclick="saveProgressToFile()">💾 Сохранить</button>
-            <button class="btn-load" onclick="loadProgressFromFile()">📂 Загрузить</button>
+            <button class="btn-save" onclick="exportAllToFile()">💾 Сохранить прогресс</button>
+            <button class="btn-load" onclick="importAllFromFile()">📂 Загрузить прогресс</button>
         </div>
 
         <div id="rank-card" class="rank-card">
@@ -82,10 +82,18 @@
     </div>
 
     <div id="control-pane" class="tab-pane">
+        <div class="toolbar">
+            <button class="btn-save" onclick="exportAllToFile()">💾 Сохранить прогресс</button>
+            <button class="btn-load" onclick="importAllFromFile()">📂 Загрузить прогресс</button>
+        </div>
     <div id="control-stats" class="info-banner" style="margin-bottom: 1rem;">📊 Прогресс: загрузка...</div>
     <div id="control-tasks"></div>
 </div>
     <div id="integrals-pane" class="tab-pane">
+        <div class="toolbar">
+            <button class="btn-save" onclick="exportAllToFile()">💾 Сохранить прогресс</button>
+            <button class="btn-load" onclick="importAllFromFile()">📂 Загрузить прогресс</button>
+        </div>
     <div id="integrals-list"></div>
 </div>
 

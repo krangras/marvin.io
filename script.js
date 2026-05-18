@@ -48,14 +48,10 @@ function initState() {
     const saved = localStorage.getItem('exam_manager_v9');
     if (saved) {
         const parsed = JSON.parse(saved);
-        if (parsed && parsed.length === ticketsData.length) {
-            state = parsed;
-        } else {
-            state = ticketsData.map((item, idx) => {
-                const existing = parsed?.find(p => p.id === idx);
-                return existing ? { ...existing, name: item.t } : { id: idx, name: item.t, step: 0, nextReview: null, history: [] };
-            });
-        }
+        state = ticketsData.map((item, idx) => {
+            const existing = parsed?.find(p => p.id === idx);
+            return existing ? { ...existing, name: item.t } : { id: idx, name: item.t, step: 0, nextReview: null, history: [] };
+        });
     } else {
         state = ticketsData.map((item, idx) => ({ id: idx, name: item.t, step: 0, nextReview: null, history: [] }));
     }
@@ -317,17 +313,119 @@ function updatePace() {
     if (paceEl) paceEl.innerHTML = paceText;
 }
 
+// ========== ПОЛНОЕ СОХРАНЕНИЕ/ЗАГРУЗКА (ВСЁ В ОДНОМ ФАЙЛЕ) ==========
+function exportAllToFile() {
+    const fullData = {
+        version: '3.0',
+        date: new Date().toISOString(),
+        tickets: state.map(({ id, name, step, nextReview, history }) => ({
+            id, name, step, nextReview, history
+        })),
+        integrals: integralsProgress || {},
+        kr: krProgress || {},
+        integralsSectionsState: (() => {
+            const state = {};
+            for (let i = 1; i <= 9; i++) {
+                const content = document.getElementById(`section-${i}-content`);
+                if (content) state[i] = content.style.display !== 'none';
+            }
+            return state;
+        })(),
+        activeTab: document.querySelector('.tab-btn.active')?.getAttribute('data-tab') || 'exam'
+    };
+    
+    const dataStr = JSON.stringify(fullData, null, 2);
+    const blob = new Blob([dataStr], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `marvin_full_backup_${new Date().toISOString().slice(0,19)}.json`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    alert("✅ ВСЕ данные сохранены в файл!");
+}
+
+function importAllFromFile() {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "application/json";
+    input.onchange = (e) => {
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            try {
+                const data = JSON.parse(ev.target.result);
+                
+                if (data.version !== '3.0' && (!data.tickets || !data.integrals || !data.kr)) {
+                    alert("❌ Неверный формат файла");
+                    return;
+                }
+                
+                if (data.tickets && data.tickets.length === state.length) {
+                    state = data.tickets.map((t, idx) => ({
+                        ...t,
+                        name: t.name || ticketsData[idx].t
+                    }));
+                    saveToLocalStorage();
+                }
+                
+                if (data.integrals) {
+                    integralsProgress = data.integrals;
+                    saveIntegralsProgress();
+                }
+                
+                if (data.kr) {
+                    krProgress = data.kr;
+                    saveKrProgress();
+                }
+                
+                render();
+                if (typeof renderIntegrals === 'function') renderIntegrals();
+                if (typeof renderControlTasks === 'function') renderControlTasks();
+                
+                setTimeout(() => {
+                    if (data.integralsSectionsState) {
+                        for (let i = 1; i <= 9; i++) {
+                            const content = document.getElementById(`section-${i}-content`);
+                            const toggleBtn = document.getElementById(`toggle-section-${i}`);
+                            if (content && data.integralsSectionsState[i] !== undefined) {
+                                if (data.integralsSectionsState[i]) {
+                                    content.style.display = 'block';
+                                    if (toggleBtn) toggleBtn.innerHTML = '▼';
+                                } else {
+                                    content.style.display = 'none';
+                                    if (toggleBtn) toggleBtn.innerHTML = '▶';
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (data.activeTab) {
+                        const tabBtn = document.querySelector(`.tab-btn[data-tab="${data.activeTab}"]`);
+                        if (tabBtn) tabBtn.click();
+                    }
+                }, 200);
+                
+                alert(`✅ Данные загружены!\n📅 от ${data.date || 'неизвестная дата'}`);
+                
+            } catch(err) {
+                console.error(err);
+                alert("❌ Ошибка при чтении файла");
+            }
+        };
+        reader.readAsText(e.target.files[0]);
+    };
+    input.click();
+}
+
+window.exportAllToFile = exportAllToFile;
+window.importAllFromFile = importAllFromFile;
 // ========== СОХРАНЕНИЕ/ЗАГРУЗКА ФАЙЛА ==========
 function saveProgressToFile() {
-    // Сохраняем прогресс билетов
     const ticketsProgress = state.map(({ id, step, nextReview, history }) => ({
         id, step, nextReview, history
     }));
     
-    // Сохраняем прогресс интегралов
     const integralsProgressData = integralsProgress || {};
     
-    // Объединяем в один объект
     const fullProgress = {
         tickets: ticketsProgress,
         integrals: integralsProgressData,
@@ -990,7 +1088,7 @@ function showIntegralAnswer(btn, answer) {
 function renderIntegrals() {
     const container = document.getElementById('integrals-list');
     if (!container) return;
-    
+    let html = renderTheory();
     const sections = [
         { 
             num: 1, 
@@ -1163,11 +1261,11 @@ function renderIntegrals() {
 </div>`
         }
     ];
-    
+
     let totalTasks = getTotalTasksCount();
     let solved = getSolvedCount();
     
-    let html = `
+    html += `
         <div class="info-banner">
             📖 <strong>Таблица интегралов</strong> — ${totalTasks} задач
         </div>
@@ -1246,13 +1344,134 @@ function renderIntegrals() {
     
     container.innerHTML = html;
     updateIntegralsStats();
-    
     // Загружаем сохранённое состояние свёрнутых разделов
     setTimeout(() => {
         loadIntegralsSectionState();
     }, 100);
     
     typesetMathJax([container]);
+}
+
+// ========== ТЕОРИЯ И МЕТОДЫ ВЫЧИСЛЕНИЯ ==========
+function renderTheory() {
+    return `
+        <div class="theory-section" style="margin-bottom: 2rem; border: 1px solid rgba(0,255,255,0.2); border-radius: 1.5rem; overflow: hidden;">
+            <div class="theory-header" style="background: rgba(0,30,50,0.5); padding: 1rem 1.5rem; cursor: pointer;" onclick="toggleTheory()">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3 style="color:#0ff; margin:0;">📖 Теория и методы вычисления неопределённых интегралов</h3>
+                    <span id="theory-toggle-icon" style="color:#0ff;">▼</span>
+                </div>
+            </div>
+            <div id="theory-content" class="theory-content" style="padding: 0 1.5rem 1.5rem 1.5rem; display: block;">
+                <div style="background: rgba(0,20,40,0.3); border-radius: 1rem; padding: 1.5rem;">
+                    
+                    <h4 style="color:#0ff;">1. Введение в интегральное исчисление</h4>
+                    <p><strong>Определение первообразной:</strong> Функция \\(F(x)\\) называется первообразной для функции \\(f(x)\\) на интервале \\((a, b)\\), если в каждой точке этого интервала она дифференцируема и выполняется равенство: \\(F'(x) = f(x)\\).</p>
+                    <p><strong>Определение неопределённого интеграла:</strong> Совокупность всех первообразных функций \\(F(x) + C\\) для функции \\(f(x)\\) называется неопределённым интегралом и обозначается: \\(\\int f(x)dx = F(x) + C\\).</p>
+                    <p><strong>Основные свойства:</strong></p>
+                    <ul>
+                        <li><strong>Линейность:</strong> \\(\\int [k_1 f(x) \\pm k_2 g(x)]dx = k_1 \\int f(x)dx \\pm k_2 \\int g(x)dx\\).</li>
+                        <li><strong>Свойство инвариантности:</strong> Если \\(\\int f(x)dx = F(x) + C\\), то \\(\\int f(u)du = F(u) + C\\), где \\(u = \\phi(x)\\) — любая дифференцируемая функция.</li>
+                    </ul>
+                    
+                    <h4 style="color:#0ff; margin-top: 1.5rem;">2. Фундаментальная таблица интегралов</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 10px;">
+                        <div>1. \\(\\int x^n dx = \\frac{x^{n+1}}{n+1} + C, n \\neq -1\\)</div>
+                        <div>2. \\(\\int \\frac{dx}{x} = \\ln|x| + C\\)</div>
+                        <div>3. \\(\\int a^x dx = \\frac{a^x}{\\ln a} + C\\)</div>
+                        <div>4. \\(\\int e^x dx = e^x + C\\)</div>
+                        <div>5. \\(\\int \\sin x dx = -\\cos x + C\\)</div>
+                        <div>6. \\(\\int \\cos x dx = \\sin x + C\\)</div>
+                        <div>7. \\(\\int \\frac{dx}{\\cos^2 x} = \\tan x + C\\)</div>
+                        <div>8. \\(\\int \\frac{dx}{\\sin^2 x} = -\\cot x + C\\)</div>
+                        <div>9. \\(\\int \\tan x dx = -\\ln|\\cos x| + C\\)</div>
+                        <div>10. \\(\\int \\cot x dx = \\ln|\\sin x| + C\\)</div>
+                        <div>11. \\(\\int \\frac{dx}{x^2 + a^2} = \\frac{1}{a} \\arctan \\frac{x}{a} + C\\)</div>
+                        <div>12. \\(\\int \\frac{dx}{x^2 - a^2} = \\frac{1}{2a} \\ln \\left| \\frac{x-a}{x+a} \\right| + C\\) — «Высокий логарифм»</div>
+                        <div>13. \\(\\int \\frac{dx}{\\sqrt{a^2 - x^2}} = \\arcsin \\frac{x}{a} + C\\)</div>
+                        <div>14. \\(\\int \\frac{dx}{\\sqrt{x^2 \\pm a^2}} = \\ln|x + \\sqrt{x^2 \\pm a^2}| + C\\) — «Длинный логарифм»</div>
+                        <div>15. \\(\\int \\sqrt{a^2 - x^2} dx = \\frac{x}{2}\\sqrt{a^2-x^2} + \\frac{a^2}{2}\\arcsin\\frac{x}{a} + C\\)</div>
+                    </div>
+                    
+                    <h4 style="color:#0ff; margin-top: 1.5rem;">3. Класс 1: Подведение под знак дифференциала</h4>
+                    <p><strong>Техника:</strong> \\(dx = \\frac{1}{\\phi'(x)} d(\\phi(x))\\).</p>
+                    <p><strong>Пример:</strong> \\(\\int x^2 e^{-3x^3} dx = -\\frac{1}{9} \\int e^{-3x^3} d(-3x^3) = -\\frac{1}{9}e^{-3x^3} + C\\).</p>
+                    <p><strong>Типовые преобразования:</strong> \\(\\cos x dx = d(\\sin x)\\), \\(\\frac{1}{x} dx = d(\\ln x)\\), \\(\\frac{1}{1+x^2} dx = d(\\arctan x)\\).</p>
+                    
+                    <h4 style="color:#0ff; margin-top: 1.5rem;">4. Класс 2: Замена переменной</h4>
+                    <p><strong>Алгоритм:</strong> Определяем подстановку \\(x = \\phi(t)\\) или \\(t = g(x)\\) → вычисляем дифференциал → заменяем переменные → интегрируем → делаем обратную замену.</p>
+                    
+                    <h4 style="color:#0ff; margin-top: 1.5rem;">5. Класс 3: Интегрирование по частям</h4>
+                    <p><strong>Формула:</strong> \\(\\int u dv = uv - \\int v du\\).</p>
+                    <p><strong>Выбор u:</strong> 
+                        <ul>
+                            <li>Для \\(\\int P_n(x) e^{ax} dx\\), \\(\\int P_n(x) \\sin ax dx\\) → \\(u = P_n(x)\\)</li>
+                            <li>Для \\(\\int x^n \\ln x dx\\), \\(\\int P_n(x) \\arcsin x dx\\) → \\(u = \\ln x, \\arcsin x\\)</li>
+                        </ul>
+                    </p>
+                    <p><strong>Пример:</strong> \\(\\int x^2 \\ln x dx = \\frac{x^3}{3} \\ln x - \\frac{x^3}{9} + C\\).</p>
+                    <p><strong>Циклические интегралы:</strong> \\(\\int e^{ax} \\cos bx dx\\) — дважды по частям → уравнение.</p>
+                    
+                    <h4 style="color:#0ff; margin-top: 1.5rem;">6. Класс 4: Квадратный трёхчлен</h4>
+                    <p><strong>Алгоритм:</strong> Выделяем полный квадрат → делаем линейную замену → используем табличные формулы 11, 12 или 14.</p>
+                    <p><strong>Примечание:</strong> Если в знаменателе \\(D < 0\\) → арктангенс; если \\(D > 0\\) → высокий логарифм.</p>
+                    
+                    <h4 style="color:#0ff; margin-top: 1.5rem;">7. Класс 5: Линейная часть + трёхчлен</h4>
+                    <p><strong>Алгоритм:</strong> Находим производную знаменателя → создаём её в числителе → разбиваем на два интеграла: логарифм + арктангенс/логарифм.</p>
+                    
+                    <h4 style="color:#0ff; margin-top: 1.5rem;">8. Класс 6: Тип \\(\\int \\frac{dx}{x\\sqrt{ax^2+bx+c}}\\)</h4>
+                    <p><strong>Подстановка:</strong> \\(x = \\frac{1}{t}\\), \\(dx = -\\frac{1}{t^2} dt\\) → сводится к Классу 4.</p>
+                    
+                    <h4 style="color:#0ff; margin-top: 1.5rem;">9. Класс 7: Дробно-рациональные функции</h4>
+                    <p><strong>Первый шаг:</strong> Если степень числителя ≥ степени знаменателя → деление уголком.</p>
+                    <p><strong>Разложение на простейшие:</strong> Для знаменателя \\((x-a)^k(x^2+px+q)\\) → \\(\\frac{A_1}{x-a} + \\dots + \\frac{A_k}{(x-a)^k} + \\frac{Mx+N}{x^2+px+q}\\).</p>
+                    <p><strong>Метод частных значений:</strong> Подставляем корни знаменателя в тождество числителей для нахождения коэффициентов.</p>
+                    
+                    <h4 style="color:#0ff; margin-top: 1.5rem;">10. Класс 8: Тригонометрические функции</h4>
+                    <p><strong>Произведения \\(\\sin^m x \\cos^n x\\):</strong>
+                        <ul>
+                            <li>Нечётная степень → подводим под дифференциал другую функцию.</li>
+                            <li>Чётные степени → формулы понижения: \\(\\cos^2 x = \\frac{1+\\cos 2x}{2}\\), \\(\\sin^2 x = \\frac{1-\\cos 2x}{2}\\).</li>
+                        </ul>
+                    </p>
+                    <p><strong>Произведения разных аргументов:</strong> \\(\\int \\sin \\alpha \\cos \\beta dx = \\frac{1}{2} \\int [\\sin(\\alpha-\\beta) + \\sin(\\alpha+\\beta)] dx\\).</p>
+                    <p><strong>Универсальная подстановка:</strong> \\(t = \\tan \\frac{x}{2}\\), \\(\\sin x = \\frac{2t}{1+t^2}\\), \\(\\cos x = \\frac{1-t^2}{1+t^2}\\), \\(dx = \\frac{2dt}{1+t^2}\\).</p>
+                    
+                    <h4 style="color:#0ff; margin-top: 1.5rem;">11. Класс 9: Тригонометрические замены в иррациональностях</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <div><strong>\\(\\sqrt{a^2 - x^2}\\)</strong> → \\(x = a \\sin t\\)</div>
+                        <div><strong>\\(\\sqrt{a^2 + x^2}\\)</strong> → \\(x = a \\tan t\\)</div>
+                        <div><strong>\\(\\sqrt{x^2 - a^2}\\)</strong> → \\(x = \\frac{a}{\\cos t}\\)</div>
+                    </div>
+                    
+                    <h4 style="color:#0ff; margin-top: 1.5rem;">12. Рекомендации по самопроверке</h4>
+                    <p><strong>Алгоритм выбора метода:</strong></p>
+                    <ol>
+                        <li>Видим \\(kx+b\\) или \\(x^{n-1} dx\\) при \\(x^n\\) → подведение под знак дифференциала.</li>
+                        <li>Видим произведение разных классов → интегрирование по частям.</li>
+                        <li>Видим дробь → проверяем правильность, затем раскладываем.</li>
+                        <li>Видим корень из квадрата → выделяем полный квадрат.</li>
+                    </ol>
+                    <p><strong>Главное правило:</strong> Если сомневаетесь в ответе — найдите производную. Она обязана совпасть с подынтегральной функцией.</p>
+                    
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function toggleTheory() {
+    const content = document.getElementById('theory-content');
+    const icon = document.getElementById('theory-toggle-icon');
+    if (content && icon) {
+        if (content.style.display === 'none') {
+            content.style.display = 'block';
+            icon.innerHTML = '▼';
+        } else {
+            content.style.display = 'none';
+            icon.innerHTML = '▶';
+        }
+    }
 }
 
 // ========== СВОРАЧИВАНИЕ РАЗДЕЛОВ ИНТЕГРАЛОВ ==========

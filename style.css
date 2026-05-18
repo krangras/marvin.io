@@ -429,3 +429,31 @@ mjx-container[jax="CHTML"][display="false"] {
 .section-content {
     transition: all 0.2s ease;
 }
+
+.theory-section {
+    margin-bottom: 2rem;
+    border: 1px solid rgba(0,255,255,0.2);
+    border-radius: 1.5rem;
+    overflow: hidden;
+}
+
+.theory-header:hover {
+    background: rgba(0,40,60,0.6) !important;
+}
+
+.theory-content {
+    transition: all 0.2s ease;
+}
+
+.theory-content ul, .theory-content ol {
+    margin: 8px 0 8px 24px;
+}
+
+.theory-content li {
+    margin: 4px 0;
+}
+
+.theory-content h4 {
+    margin: 16px 0 8px 0;
+    color: #0ff;
+}
