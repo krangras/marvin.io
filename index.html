@@ -7,9 +7,18 @@
     <link rel="stylesheet" href="style.css">
     <script>
         window.MathJax = {
+            loader: {
+                load: ['[tex]/cancel']
+            },
             tex: {
                 inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                packages: {'[+]': ['cancel']},
+                macros: {
+                    tg: "\\operatorname{tg}",
+                    ctg: "\\operatorname{ctg}",
+                    arctg: "\\operatorname{arctg}"
+                }
             }
         };
     </script>
@@ -20,13 +29,13 @@
     <div class="hero">
         <div class="hero-icon">🎓📐</div>
         <h1>marvin.io</h1>
-        <div class="hero-subtitle">АГиТДУ — интервальные повторения + контрольная работа ЛДУ-II</div>
+        <div class="hero-subtitle">АГиТДУ — интервальные повторения + контрольная работа 2 семестр</div>
     </div>
 
     <div class="tabs">
         <div class="tab-btn active" data-tab="exam">📚 Экзамен (билеты)</div>
         <div class="tab-btn" data-tab="control">✍️ Контрольная работа №3 | ЛДУ-II</div>
-        <div class="tab-btn" data-tab="integrals">📚 Интегралы</div>
+        <div class="tab-btn" data-tab="integrals">∫ Интегралы</div>
     </div>
 
     <div id="exam-pane" class="tab-pane active-pane">
@@ -82,23 +91,14 @@
     </div>
 
     <div id="control-pane" class="tab-pane">
-        <div class="toolbar">
-            <button class="btn-save" onclick="exportAllToFile()">💾 Сохранить прогресс</button>
-            <button class="btn-load" onclick="importAllFromFile()">📂 Загрузить прогресс</button>
-        </div>
-    <div id="control-stats" class="info-banner" style="margin-bottom: 1rem;">📊 Прогресс: загрузка...</div>
-    <div id="control-tasks"></div>
-</div>
+        <div id="control-tasks"></div>
+    </div>
     <div id="integrals-pane" class="tab-pane">
-        <div class="toolbar">
-            <button class="btn-save" onclick="exportAllToFile()">💾 Сохранить прогресс</button>
-            <button class="btn-load" onclick="importAllFromFile()">📂 Загрузить прогресс</button>
-        </div>
-    <div id="integrals-list"></div>
-</div>
+        <div id="integrals-list"></div>
+    </div>
 
 <script src="conspects.js?v=2"></script>
-<script src="script.js?v=2"></script>
-<script src="integrals_data.js"></script>
+<script src="script.js?v=6"></script>
+<script src="integrals_data.js?v=2"></script>
 </body>
 </html>

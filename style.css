@@ -457,3 +457,53 @@ mjx-container[jax="CHTML"][display="false"] {
     margin: 16px 0 8px 0;
     color: #0ff;
 }
+
+.kr-stats-panel, .integrals-stats-panel {
+    background: rgba(18, 26, 45, 0.55);
+    backdrop-filter: blur(10px);
+    border-radius: 1.8rem;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    padding: 16px 22px;
+    margin-bottom: 20px;
+}
+.kr-stats-panel:hover, .integrals-stats-panel:hover {
+    border-color: #0ff;
+    box-shadow: 0 0 22px rgba(0, 255, 255, 0.2);
+}
+
+.stats-grid-inline {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+.stats-grid-item {
+    text-align: center;
+    flex: 1;
+    min-width: 80px;
+}
+.stats-grid-value {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #0ff;
+}
+.stats-grid-label {
+    font-size: 0.7rem;
+    color: #8ba0c5;
+}
+
+.kr-action-btn, .integral-action-btn {
+    background: rgba(0, 255, 255, 0.15);
+    border: 1px solid #0ff;
+    color: #0ff;
+    padding: 4px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    transition: all 0.2s;
+}
+.kr-action-btn:hover, .integral-action-btn:hover {
+    background: #0ff;
+    color: #010b1a;
+    box-shadow: 0 0 10px #0ff;
+}
