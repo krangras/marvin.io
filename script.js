@@ -2225,77 +2225,217 @@ function renderIntegrals() {
     `;
     
     const sections = [
-        { num: 1, title: "Интегрирование по таблице", data: INTEGRALS_DATA.section1,
-          formulas: "📌 ∫xⁿdx = xⁿ⁺¹/(n+1)+C (n≠-1), ∫dx/x = ln|x|+C, ∫eˣdx = eˣ+C, ∫aˣdx = aˣ/lna+C, ∫sin x dx = -cos x+C, ∫cos x dx = sin x+C, ∫dx/cos²x = tg x+C, ∫dx/sin²x = -ctg x+C, ∫dx/√(a²-x²) = arcsin(x/a)+C, ∫dx/(x²+a²) = (1/a)arctg(x/a)+C, ∫dx/(x²-a²) = (1/(2a))ln|(x-a)/(x+a)|+C",
-          theory: `<h4 style="color:#0ff; margin:0 0 8px 0;">🎓 Теория: Табличное интегрирование</h4>
-                   <p>Интегрирование по таблице — прямое применение формул из таблицы интегралов. Для этого нужно:</p>
-                   <ul><li>Вынести константу за знак интеграла: ∫k·f(x)dx = k·∫f(x)dx</li>
-                   <li>Разбить сумму на отдельные интегралы: ∫[f(x)+g(x)]dx = ∫f(x)dx + ∫g(x)dx</li>
-                   <li>Привести подынтегральное выражение к табличному виду (преобразовать степени, раскрыть скобки)</li></ul>` },
-        { num: 2, title: "Замена переменной", data: INTEGRALS_DATA.section2,
-          formulas: "📌 Метод: ∫f(g(x))·g'(x)dx = ∫f(u)du, u=g(x). Подстановки: t = ax+b (линейная), t = √(ax+b) (иррациональность), t = ln x, t = eˣ, t = tg(x/2) (универсальная).",
-          theory: `<h4 style="color:#0ff; margin:0 0 8px 0;">🎓 Теория: Замена переменной</h4>
-                   <p>Метод замены переменной (подстановки) — один из основных методов интегрирования. Алгоритм:</p>
-                   <ol><li>Выбрать новую переменную u = g(x) так, чтобы подынтегральное выражение упростилось</li>
-                   <li>Найти дифференциал du = g'(x)dx</li>
-                   <li>Выразить dx через du и подставить в интеграл</li>
-                   <li>Вычислить полученный интеграл по переменной u</li>
-                   <li>Вернуться к исходной переменной x, подставив u = g(x)</li></ol>` },
-        { num: 3, title: "Интегрирование по частям", data: INTEGRALS_DATA.section3,
-          formulas: "📌 Формула: ∫u dv = uv - ∫v du. Выбор u: логарифм → обратная тригонометрия → степень → экспонента → тригонометрия (ЛИАТЭ).",
-          theory: `<h4 style="color:#0ff; margin:0 0 8px 0;">🎓 Теория: Интегрирование по частям</h4>
-                   <p>Формула интегрирования по частям: ∫u·dv = u·v - ∫v·du</p>
-                   <p><strong>Правило выбора u (ЛИАТЭ):</strong></p>
-                   <ul><li><strong>Л</strong> — логарифмические (ln x, log x)</li>
-                   <li><strong>И</strong> — обратные тригонометрические (arcsin, arctg)</li>
-                   <li><strong>А</strong> — алгебраические (xⁿ, многочлены)</li>
-                   <li><strong>Т</strong> — тригонометрические (sin, cos)</li>
-                   <li><strong>Э</strong> — экспоненциальные (eˣ)</li></ul>` },
-        { num: 4, title: "Квадратный трёхчлен", data: INTEGRALS_DATA.section4,
-          formulas: "📌 Выделяем полный квадрат: ax²+bx+c = a[(x + b/(2a))² + (c/a - b²/(4a²))]",
-          theory: `<h4 style="color:#0ff; margin:0 0 8px 0;">🎓 Теория: Квадратный трёхчлен</h4>
-                   <p>Метод выделения полного квадрата: ax²+bx+c = a[(x + b/(2a))² + (4ac-b²)/(4a²)]</p>
-                   <p><strong>После выделения квадрата возможны 4 случая:</strong></p>
-                   <ul><li><strong>∫dx/(t² + k²)</strong> → (1/k)·arctg(t/k) + C</li>
-                   <li><strong>∫dx/(t² - k²)</strong> → (1/(2k))·ln|(t-k)/(t+k)| + C</li>
-                   <li><strong>∫dx/√(t² + k²)</strong> → ln|t + √(t²+k²)| + C</li>
-                   <li><strong>∫dx/√(k² - t²)</strong> → arcsin(t/k) + C</li></ul>` },
-        { num: 5, title: "Линейный член + трёхчлен", data: INTEGRALS_DATA.section5,
-          formulas: "📌 Метод: числитель представляем как A·(производная знаменателя) + B",
-          theory: `<h4 style="color:#0ff; margin:0 0 8px 0;">🎓 Теория: Линейный член + квадратный трёхчлен</h4>
-                   <p>Для интегралов вида ∫(Mx+N)/(ax²+bx+c) dx или ∫(Mx+N)/√(ax²+bx+c) dx:</p>
-                   <ol><li>Находим производную знаменателя: (ax²+bx+c)' = 2ax+b</li>
-                   <li>Представляем Mx+N = A·(2ax+b) + B</li>
-                   <li>Находим A и B, решая систему</li>
-                   <li>Интеграл распадается на два: A·∫(2ax+b)/(...)dx + B·∫dx/(...)</li></ol>` },
-        { num: 6, title: "Тип dx/(x√(...))", data: INTEGRALS_DATA.section6,
-          formulas: "📌 Замена t = 1/x сводит к ∫dt/√(at²+bt+c)",
-          theory: `<h4 style="color:#0ff; margin:0 0 8px 0;">🎓 Теория: Интегралы вида ∫dx/(x·√(ax²+bx+c))</h4>
-                   <ol><li>Выполняем замену t = 1/x → x = 1/t, dx = -dt/t²</li>
-                   <li>Подкоренное выражение преобразуется к виду √(a + bt + ct²)/|t|</li>
-                   <li>Интеграл сводится к ∫dt/√(c·t² + b·t + a)</li>
-                   <li>Далее выделяем полный квадрат и используем табличные формулы</li></ol>` },
-        { num: 7, title: "Дробно-рациональные", data: INTEGRALS_DATA.section7,
-          formulas: "📌 Разложение на простейшие дроби: A/(x-a) + B/(x-b) + ... + (Cx+D)/(x²+px+q)",
-          theory: `<h4 style="color:#0ff; margin:0 0 8px 0;">🎓 Теория: Интегрирование рациональных дробей</h4>
-                   <ol><li>Если степень числителя ≥ степени знаменателя → выделить целую часть (деление уголком)</li>
-                   <li>Разложить знаменатель на множители</li>
-                   <li>Представить дробь в виде суммы простейших дробей</li>
-                   <li>Найти коэффициенты методом неопределённых коэффициентов</li>
-                   <li>Проинтегрировать каждую простейшую дробь</li></ol>` },
-        { num: 8, title: "Тригонометрические", data: INTEGRALS_DATA.section8,
-          formulas: "📌 Основные приёмы: понижение степени, универсальная подстановка t = tg(x/2), замена t = tg x, использование формул произведения",
-          theory: `<h4 style="color:#0ff; margin:0 0 8px 0;">🎓 Теория: Тригонометрические интегралы</h4>
-                   <ul><li><strong>Понижение степени:</strong> sin²x = (1-cos2x)/2, cos²x = (1+cos2x)/2</li>
-                   <li><strong>Нечётная степень sin x:</strong> отщепляем один sin x, заменяем u=cos x</li>
-                   <li><strong>Нечётная степень cos x:</strong> отщепляем один cos x, заменяем u=sin x</li>
-                   <li><strong>Универсальная подстановка:</strong> t = tg(x/2), sin x = 2t/(1+t²), cos x = (1-t²)/(1+t²), dx = 2dt/(1+t²)</li></ul>` },
-        { num: 9, title: "Тригонометрическая замена", data: INTEGRALS_DATA.section9,
-          formulas: "📌 Замены: √(a²-x²) → x = a·sin t, √(a²+x²) → x = a·tg t, √(x²-a²) → x = a·sec t",
-          theory: `<h4 style="color:#0ff; margin:0 0 8px 0;">🎓 Теория: Тригонометрическая замена</h4>
-                   <ul><li><strong>√(a² - x²)</strong> → x = a·sin t, dx = a·cos t dt, √(a²-x²) = a·cos t</li>
-                   <li><strong>√(a² + x²)</strong> → x = a·tg t, dx = a·dt/cos²t, √(a²+x²) = a/cos t</li>
-                   <li><strong>√(x² - a²)</strong> → x = a·sec t, dx = a·sec t·tg t dt, √(x²-a²) = a·tg t</li></ul>` }
+        { 
+            num: 1, 
+            title: "Интегрирование по таблице", 
+            data: INTEGRALS_DATA.section1,
+            theory: `<div class="theory-block">
+                <div class="theory-header">
+                    <span class="theory-header-icon">📚</span>
+                    <span class="theory-header-title">Табличное интегрирование</span>
+                </div>
+                <div class="theory-content">
+                    <p><strong>Основные табличные интегралы:</strong></p>
+                    <div class="theory-formula">$$\\int x^n dx = \\frac{x^{n+1}}{n+1} + C \\quad (n \\neq -1)$$</div>
+                    <div class="theory-formula">$$\\int \\frac{dx}{x} = \\ln|x| + C$$</div>
+                    <div class="theory-formula">$$\\int e^x dx = e^x + C$$</div>
+                    <div class="theory-formula">$$\\int a^x dx = \\frac{a^x}{\\ln a} + C$$</div>
+                    <div class="theory-formula">$$\\int \\sin x dx = -\\cos x + C$$</div>
+                    <div class="theory-formula">$$\\int \\cos x dx = \\sin x + C$$</div>
+                    <div class="theory-formula">$$\\int \\frac{dx}{\\cos^2 x} = \\tan x + C$$</div>
+                    <div class="theory-formula">$$\\int \\frac{dx}{\\sin^2 x} = -\\cot x + C$$</div>
+                    <div class="theory-formula">$$\\int \\frac{dx}{x^2 + a^2} = \\frac{1}{a}\\arctan\\frac{x}{a} + C$$</div>
+                    <div class="theory-formula">$$\\int \\frac{dx}{\\sqrt{a^2 - x^2}} = \\arcsin\\frac{x}{a} + C$$</div>
+                    <div class="theory-divider"></div>
+                    <p><strong>Типовые преобразования (подведение под дифференциал):</strong> $$\\cos x dx = d(\\sin x),\\quad \\frac{dx}{x} = d(\\ln x),\\quad \\frac{dx}{1+x^2} = d(\\arctan x)$$</p>
+                    <div class="theory-example">
+                        <div class="theory-example-title">📌 Пример</div>
+                        <div class="theory-example-content">$$\\int x^2 e^{-3x^3} dx = -\\frac{1}{9}\\int e^{-3x^3} d(-3x^3) = -\\frac{1}{9}e^{-3x^3} + C$$</div>
+                    </div>
+                </div>
+            </div>`
+        },
+        { 
+            num: 2, 
+            title: "Замена переменной", 
+            data: INTEGRALS_DATA.section2,
+            theory: `<div class="theory-block">
+                <div class="theory-header">
+                    <span class="theory-header-icon">🔄</span>
+                    <span class="theory-header-title">Замена переменной (подстановка)</span>
+                </div>
+                <div class="theory-content">
+                    <p><strong>Основная формула:</strong> $$\\int f(g(x)) g'(x) dx = \\int f(u) du, \\quad u = g(x)$$</p>
+                    <div class="theory-divider"></div>
+                    <p><strong>Стандартные подстановки:</strong></p>
+                    <ul>
+                        <li>Линейная: $$t = ax + b$$</li>
+                        <li>Степенная: $$t = x^n$$</li>
+                        <li>Иррациональная: $$t = \\sqrt{ax + b}$$</li>
+                        <li>Логарифмическая: $$t = \\ln x$$</li>
+                        <li>Экспоненциальная: $$t = e^x$$</li>
+                    </ul>
+                    <div class="theory-example">
+                        <div class="theory-example-title">📌 Пример</div>
+                        <div class="theory-example-content">$$\\int \\frac{dx}{1+\\sqrt{x+2}},\\quad t = \\sqrt{x+2} \\Rightarrow x = t^2-2,\\ dx = 2t dt$$</div>
+                        <div class="theory-example-content">$$\\int \\frac{2t}{1+t} dt = 2\\int\\left(1 - \\frac{1}{1+t}\\right)dt = 2(t - \\ln|1+t|) + C = 2\\sqrt{x+2} - 2\\ln(\\sqrt{x+2}+1) + C$$</div>
+                    </div>
+                </div>
+            </div>`
+        },
+        { 
+            num: 3, 
+            title: "Интегрирование по частям", 
+            data: INTEGRALS_DATA.section3,
+            theory: `<div class="theory-block">
+                <div class="theory-header">
+                    <span class="theory-header-icon">✖️</span>
+                    <span class="theory-header-title">Интегрирование по частям</span>
+                </div>
+                <div class="theory-content">
+                    <div class="theory-formula">$$\\int u dv = uv - \\int v du$$</div>
+                    <div class="theory-divider"></div>
+                    <p><strong>Правило выбора u (ЛИАТЭ):</strong> Логарифмические → Обратные тригонометрические → Алгебраические → Тригонометрические → Экспоненциальные</p>
+                    <div class="theory-example">
+                        <div class="theory-example-title">📌 Пример</div>
+                        <div class="theory-example-content">$$\\int x^2 \\ln x dx,\\quad u = \\ln x,\\ dv = x^2 dx$$</div>
+                        <div class="theory-example-content">$$du = \\frac{dx}{x},\\ v = \\frac{x^3}{3} \\Rightarrow \\int x^2 \\ln x dx = \\frac{x^3}{3}\\ln x - \\frac{1}{3}\\int x^2 dx = \\frac{x^3}{3}\\ln x - \\frac{x^3}{9} + C$$</div>
+                    </div>
+                </div>
+            </div>`
+        },
+        { 
+            num: 4, 
+            title: "Квадратный трёхчлен", 
+            data: INTEGRALS_DATA.section4,
+            theory: `<div class="theory-block">
+                <div class="theory-header">
+                    <span class="theory-header-icon">📐</span>
+                    <span class="theory-header-title">Квадратный трёхчлен</span>
+                </div>
+                <div class="theory-content">
+                    <p><strong>Выделение полного квадрата:</strong></p>
+                    <div class="theory-formula">$$ax^2 + bx + c = a\\left[\\left(x + \\frac{b}{2a}\\right)^2 + \\left(\\frac{c}{a} - \\frac{b^2}{4a^2}\\right)\\right]$$</div>
+                    <div class="theory-divider"></div>
+                    <p><strong>Возможные случаи:</strong></p>
+                    <ul>
+                        <li>$$\\int \\frac{dx}{t^2 + k^2} = \\frac{1}{k}\\arctan\\frac{t}{k} + C$$</li>
+                        <li>$$\\int \\frac{dx}{t^2 - k^2} = \\frac{1}{2k}\\ln\\left|\\frac{t-k}{t+k}\\right| + C$$</li>
+                        <li>$$\\int \\frac{dx}{\\sqrt{t^2 + k^2}} = \\ln\\left|t + \\sqrt{t^2 + k^2}\\right| + C$$</li>
+                        <li>$$\\int \\frac{dx}{\\sqrt{k^2 - t^2}} = \\arcsin\\frac{t}{k} + C$$</li>
+                    </ul>
+                    <div class="theory-example">
+                        <div class="theory-example-title">📌 Пример</div>
+                        <div class="theory-example-content">$$\\int \\frac{dx}{x^2+2x+5} = \\int \\frac{dx}{(x+1)^2+4} = \\frac{1}{2}\\arctan\\frac{x+1}{2} + C$$</div>
+                    </div>
+                </div>
+            </div>`
+        },
+        { 
+            num: 5, 
+            title: "Линейный член + трёхчлен", 
+            data: INTEGRALS_DATA.section5,
+            theory: `<div class="theory-block">
+                <div class="theory-header">
+                    <span class="theory-header-icon">➕</span>
+                    <span class="theory-header-title">Линейная часть и квадратный трёхчлен</span>
+                </div>
+                <div class="theory-content">
+                    <p>Для интегралов вида $$\\int \\frac{Mx+N}{ax^2+bx+c} dx$$ представляем числитель как комбинацию производной знаменателя.</p>
+                    <div class="theory-formula">$$Mx+N = \\frac{M}{2a}(2ax+b) + \\left(N - \\frac{Mb}{2a}\\right)$$</div>
+                    <div class="theory-example">
+                        <div class="theory-example-title">📌 Пример</div>
+                        <div class="theory-example-content">$$\\int \\frac{x+2}{x^2+2x+2} dx = \\frac{1}{2}\\int \\frac{2x+2}{x^2+2x+2}dx + \\int \\frac{dx}{(x+1)^2+1}$$</div>
+                        <div class="theory-example-content">$$= \\frac{1}{2}\\ln(x^2+2x+2) + \\arctan(x+1) + C$$</div>
+                    </div>
+                </div>
+            </div>`
+        },
+        { 
+            num: 6, 
+            title: "Тип dx/(x√(...))", 
+            data: INTEGRALS_DATA.section6,
+            theory: `<div class="theory-block">
+                <div class="theory-header">
+                    <span class="theory-header-icon">🔀</span>
+                    <span class="theory-header-title">Интегралы вида ∫ dx/(x√(ax²+bx+c))</span>
+                </div>
+                <div class="theory-content">
+                    <p><strong>Подстановка:</strong> $$x = \\frac{1}{t},\\quad dx = -\\frac{dt}{t^2}$$</p>
+                    <div class="theory-formula">$$\\int \\frac{dx}{x\\sqrt{ax^2+bx+c}} = -\\int \\frac{dt}{\\sqrt{c t^2 + b t + a}}$$</div>
+                    <div class="theory-divider"></div>
+                    <p><strong>Частные табличные случаи:</strong></p>
+                    <ul>
+                        <li>$$\\int \\frac{dx}{x\\sqrt{x^2 + a^2}} = -\\frac{1}{a}\\ln\\left|\\frac{a+\\sqrt{x^2+a^2}}{x}\\right| + C$$</li>
+                        <li>$$\\int \\frac{dx}{x\\sqrt{x^2 - a^2}} = \\frac{1}{a}\\operatorname{arcsec}\\frac{x}{a} + C$$</li>
+                    </ul>
+                </div>
+            </div>`
+        },
+        { 
+            num: 7, 
+            title: "Дробно-рациональные", 
+            data: INTEGRALS_DATA.section7,
+            theory: `<div class="theory-block">
+                <div class="theory-header">
+                    <span class="theory-header-icon">🧮</span>
+                    <span class="theory-header-title">Дробно-рациональные функции</span>
+                </div>
+                <div class="theory-content">
+                    <p><strong>Разложение на простейшие дроби:</strong></p>
+                    <div class="theory-formula">$$\\frac{P(x)}{(x-a)^k(x^2+px+q)^m} = \\frac{A_1}{x-a} + ... + \\frac{A_k}{(x-a)^k} + \\frac{M_1x+N_1}{x^2+px+q} + ...$$</div>
+                    <div class="theory-example">
+                        <div class="theory-example-title">📌 Пример</div>
+                        <div class="theory-example-content">$$\\int \\frac{dx}{x(x+2)} = \\frac{1}{2}\\int\\left(\\frac{1}{x} - \\frac{1}{x+2}\\right)dx = \\frac{1}{2}\\ln\\left|\\frac{x}{x+2}\\right| + C$$</div>
+                    </div>
+                </div>
+            </div>`
+        },
+        { 
+            num: 8, 
+            title: "Тригонометрические", 
+            data: INTEGRALS_DATA.section8,
+            theory: `<div class="theory-block">
+                <div class="theory-header">
+                    <span class="theory-header-icon">📐</span>
+                    <span class="theory-header-title">Тригонометрические интегралы</span>
+                </div>
+                <div class="theory-content">
+                    <p><strong>Формулы понижения степени:</strong></p>
+                    <div class="theory-formula">$$\\sin^2 x = \\frac{1-\\cos 2x}{2},\\quad \\cos^2 x = \\frac{1+\\cos 2x}{2}$$</div>
+                    <p><strong>Универсальная подстановка:</strong> $$t = \\tan\\frac{x}{2}$$</p>
+                    <div class="theory-formula">$$\\sin x = \\frac{2t}{1+t^2},\\quad \\cos x = \\frac{1-t^2}{1+t^2},\\quad dx = \\frac{2dt}{1+t^2}$$</div>
+                    <div class="theory-example">
+                        <div class="theory-example-title">📌 Пример</div>
+                        <div class="theory-example-content">$$\\int \\sin^3 x dx = \\int (1-\\cos^2 x)\\sin x dx = -\\int (1-u^2)du = -\\cos x + \\frac{1}{3}\\cos^3 x + C$$</div>
+                    </div>
+                </div>
+            </div>`
+        },
+        { 
+            num: 9, 
+            title: "Тригонометрическая замена", 
+            data: INTEGRALS_DATA.section9,
+            theory: `<div class="theory-block">
+                <div class="theory-header">
+                    <span class="theory-header-icon">🔄</span>
+                    <span class="theory-header-title">Тригонометрическая замена</span>
+                </div>
+                <div class="theory-content">
+                    <p><strong>Таблица замен:</strong></p>
+                    <ul>
+                        <li>$$\\sqrt{a^2 - x^2} \\Rightarrow x = a\\sin t,\\quad dx = a\\cos t dt$$</li>
+                        <li>$$\\sqrt{a^2 + x^2} \\Rightarrow x = a\\tan t,\\quad dx = \\frac{a}{\\cos^2 t} dt$$</li>
+                        <li>$$\\sqrt{x^2 - a^2} \\Rightarrow x = \\frac{a}{\\cos t},\\quad dx = \\frac{a\\sin t}{\\cos^2 t} dt$$</li>
+                    </ul>
+                    <div class="theory-example">
+                        <div class="theory-example-title">📌 Пример</div>
+                        <div class="theory-example-content">$$\\int \\sqrt{a^2-x^2} dx = a^2\\int \\cos^2 t dt = \\frac{a^2}{2}(t + \\sin t\\cos t) + C$$</div>
+                        <div class="theory-example-content">$$= \\frac{x}{2}\\sqrt{a^2-x^2} + \\frac{a^2}{2}\\arcsin\\frac{x}{a} + C$$</div>
+                    </div>
+                </div>
+            </div>`
+        }
     ];
 
     for (const section of sections) {
@@ -2316,9 +2456,6 @@ function renderIntegrals() {
                 </div>
             </div>
             <div class="section-content" id="section-${section.num}-content" style="display: none;">
-                <div class="section-formulas" style="background: rgba(0,30,50,0.4); padding: 0.8rem 1.2rem; margin: 0.5rem 1rem; border-radius: 0.8rem; border-left: 3px solid #0ff;">
-                    <span style="color:#ffb86b; font-size:0.85rem;">${section.formulas}</span>
-                </div>
                 <div style="background: rgba(0,30,50,0.3); padding: 12px; border-radius: 12px; margin: 0.5rem 1rem;">
                     ${section.theory}
                 </div>

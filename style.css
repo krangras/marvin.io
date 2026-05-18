@@ -507,3 +507,140 @@ mjx-container[jax="CHTML"][display="false"] {
     color: #010b1a;
     box-shadow: 0 0 10px #0ff;
 }
+
+
+.theory-block {
+    background: linear-gradient(135deg, rgba(0, 20, 40, 0.7), rgba(0, 10, 25, 0.8));
+    border-radius: 1.2rem;
+    margin: 0.5rem 1rem;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    backdrop-filter: blur(4px);
+}
+
+.theory-header {
+    background: rgba(0, 255, 255, 0.08);
+    padding: 0.8rem 1.2rem;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.theory-header-icon {
+    font-size: 1.5rem;
+}
+
+.theory-header-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #0ff;
+    letter-spacing: 0.5px;
+}
+
+.theory-content {
+    padding: 1.2rem 1.5rem;
+}
+
+.theory-content p {
+    margin: 0 0 0.8rem 0;
+    line-height: 1.6;
+    color: #c8ddff;
+    font-size: 0.9rem;
+}
+
+.theory-content strong {
+    color: #0ff;
+    font-weight: 600;
+}
+
+.theory-content ul, .theory-content ol {
+    margin: 0.5rem 0 1rem 1.5rem;
+    padding-left: 0.5rem;
+}
+
+.theory-content li {
+    margin: 0.4rem 0;
+    line-height: 1.5;
+    color: #c8ddff;
+    font-size: 0.9rem;
+}
+
+.theory-content li strong {
+    color: #ffb86b;
+}
+
+.theory-content code {
+    background: rgba(0, 255, 255, 0.1);
+    padding: 0.2rem 0.4rem;
+    border-radius: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: #0ff;
+}
+
+.theory-example {
+    background: rgba(0, 255, 255, 0.05);
+    border-left: 3px solid #0ff;
+    padding: 0.8rem 1rem;
+    margin-top: 1rem;
+    border-radius: 0.8rem;
+}
+
+.theory-example-title {
+    color: #ffb86b;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+}
+
+.theory-example-content {
+    font-family: 'Latin Modern Math', monospace;
+    font-size: 0.9rem;
+    color: #e0e8ff;
+    overflow-x: auto;
+}
+
+.theory-formula {
+    background: rgba(0, 20, 40, 0.6);
+    padding: 0.8rem;
+    border-radius: 0.8rem;
+    margin: 0.8rem 0;
+    text-align: center;
+    font-family: 'Latin Modern Math', monospace;
+    overflow-x: auto;
+}
+
+.theory-table {
+    width: 100%;
+    margin: 1rem 0;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+}
+
+.theory-table th {
+    background: rgba(0, 255, 255, 0.1);
+    padding: 0.6rem;
+    text-align: left;
+    color: #0ff;
+    font-weight: 600;
+}
+
+.theory-table td {
+    background: rgba(0, 255, 255, 0.03);
+    padding: 0.5rem 0.6rem;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+    color: #c8ddff;
+}
+
+.theory-highlight {
+    color: #ffb86b;
+    font-weight: 600;
+}
+
+.theory-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #0ff, #f0f, #0ff, transparent);
+    margin: 1rem 0;
+}
