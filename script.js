@@ -457,9 +457,33 @@ function resetKrProgress() {
 function updateKrStats() {
     const total = 4;
     const solved = Object.keys(krProgress).length;
-    const statsDiv = document.getElementById('control-stats');
-    if (statsDiv) {
-        statsDiv.innerHTML = `📊 Прогресс КР: ✅ ${solved}/${total} задач решено | 🎯 ${((solved/total)*100).toFixed(1)}% &nbsp; <button onclick="resetKrProgress()" style="background:#f442; border:1px solid #f44; color:#f44; padding:2px 10px; border-radius:12px; cursor:pointer; font-size:0.75rem;">🗑 Сбросить</button>`;
+    const remaining = total - solved;
+    
+    const solvedSpan = document.getElementById('kr-solved');
+    const totalSpan = document.getElementById('kr-total');
+    const percentSpan = document.getElementById('kr-percent');
+    const progressFill = document.getElementById('kr-progress-fill');
+    const paceSpan = document.getElementById('kr-pace');
+    
+    if (solvedSpan) solvedSpan.innerText = solved;
+    if (totalSpan) totalSpan.innerText = total;
+    if (percentSpan) percentSpan.innerText = ((solved / total) * 100).toFixed(1);
+    if (progressFill) progressFill.style.width = `${(solved / total) * 100}%`;
+    
+    // Темп до 22 мая 2026
+    const examDate = new Date(2026, 4, 22);
+    const now = new Date();
+    const daysLeft = (examDate - now) / 86400000;
+    const perDay = remaining / daysLeft;
+    
+    if (paceSpan) {
+        if (remaining <= 0) {
+            paceSpan.innerHTML = '🏆 ВСЕ ЗАДАЧИ РЕШЕНЫ!';
+        } else if (daysLeft <= 0) {
+            paceSpan.innerHTML = '⏰ Срок вышел! Решай оставшиеся задачи.';
+        } else {
+            paceSpan.innerHTML = `📅 До 22 мая: ${daysLeft.toFixed(3)} дн. | Осталось: ${remaining} задач | Нужно: ${perDay.toFixed(3)} задачи в день`;
+        }
     }
 }
 
@@ -478,16 +502,51 @@ function renderControlTasks() {
     const pane = document.getElementById('control-pane');
     if (!pane) return;
     
+    const total = 4;
+    const solved = Object.keys(krProgress).length;
+    const remaining = total - solved;
+    
+    // Темп до 22 мая 2026
+    const examDate = new Date(2026, 4, 22);
+    const now = new Date();
+    const daysLeft = (examDate - now) / 86400000;
+    const perDay = remaining / daysLeft;
+    
+    let paceText = '';
+    if (remaining <= 0) {
+        paceText = '🏆 ВСЕ ЗАДАЧИ РЕШЕНЫ!';
+    } else if (daysLeft <= 0) {
+        paceText = '⏰ Срок вышел! Решай оставшиеся задачи.';
+    } else {
+        paceText = `📅 До 22 мая: ${daysLeft.toFixed(3)} дн. | Осталось: ${remaining} задач | Нужно: ${perDay.toFixed(3)} задачи в день`;
+    }
+    
     pane.innerHTML = `
-        <div id="control-stats" class="info-banner" style="margin-bottom: 1rem;">📊 Прогресс: загрузка...</div>
-        
-        <!-- Задача 1: МЕТОД ВАРИАЦИИ -->
-        <div class="control-class" style="margin-bottom: 2rem; border: 1px solid rgba(0,255,255,0.2); border-radius: 1.5rem; overflow: hidden;">
-            <div class="control-class-header" style="background: rgba(0,30,50,0.5); padding: 1rem 1.5rem;">
-                <h3 style="color:#0ff; margin:0;">🎯 Задача 1: Метод вариации произвольных постоянных</h3>
-                <p style="margin:8px 0 0 0; font-size:0.85rem; color:#8ba0c5;">📌 <strong>Когда применяется:</strong> для любых ЛДУ, особенно когда метод неопределённых коэффициентов неприменим (правая часть не спецвида). Алгоритм: решаем однородное → варьируем постоянные → решаем систему → интегрируем.</p>
+        <div class="kr-stats-panel" style="background: rgba(0,20,40,0.5); border-radius: 1rem; padding: 1rem; margin-bottom: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; align-items: center;">
+                <div>
+                    <span style="color:#0ff;">📊 Прогресс КР:</span>
+                    <span id="kr-solved">${solved}</span> / <span id="kr-total">${total}</span>
+                    (<span id="kr-percent">${((solved/total)*100).toFixed(1)}</span>%)
+                </div>
+                <div>
+                    <span style="color:#0ff;">🎯 Темп до 22 мая:</span>
+                    <span id="kr-pace">${paceText}</span>
+                </div>
+                <button onclick="resetKrProgress()" style="background:#f442; border:1px solid #f44; color:#f44; padding:4px 12px; border-radius:20px; cursor:pointer;">🗑️ Сбросить КР</button>
             </div>
-            <div class="control-class-content" style="padding: 0.5rem 1.5rem 1.5rem;">
+            <div class="progress-bar" style="margin-top: 12px;">
+                <div class="progress-fill" id="kr-progress-fill" style="width: ${(solved/total)*100}%; background: linear-gradient(90deg, #0ff, #f0f);"></div>
+            </div>
+        </div>
+        
+        <!-- ТИП 1: МЕТОД ВАРИАЦИИ -->
+        <div class="control-type" style="margin-bottom: 2rem; border: 1px solid rgba(0,255,255,0.2); border-radius: 1.5rem; overflow: hidden;">
+            <div class="control-type-header" style="background: rgba(0,30,50,0.5); padding: 1rem 1.5rem;">
+                <h3 style="color:#0ff; margin:0;">🎯 Тип 1: Метод вариации произвольных постоянных</h3>
+                <p style="margin:8px 0 0 0; font-size:0.85rem; color:#8ba0c5;">📌 <strong>Когда применяется:</strong> для любых ЛДУ, особенно когда метод неопределённых коэффициентов неприменим (правая часть не спецвида).</p>
+            </div>
+            <div class="control-type-content" style="padding: 0.5rem 1.5rem 1.5rem;">
                 <div class="task-card" data-task-id="1">
                     <div class="task-header" onclick="toggleSolution(this.parentElement)">
                         <div style="display: flex; align-items: center; gap: 12px;">
@@ -497,7 +556,7 @@ function renderControlTasks() {
                         <span class="task-points">30 баллов</span>
                     </div>
                     <div class="task-content">
-                        <div class="task-demand"><strong>Условие задачи:</strong><br>Решить уравнение: $$ y'' + 4y = \\frac{8}{\\cos^2 x} $$</div>
+                        <div class="task-demand"><strong>Условие:</strong><br>Решить уравнение: $$ y'' + 4y = \\frac{8}{\\cos^2 x} $$</div>
                         <div class="solution" style="display:none; font-size: 1.05em; line-height: 1.6; padding: 15px;">
                             <strong>Решение:</strong><br><br>
                             Соответствующее ОЛДУ:
@@ -523,13 +582,13 @@ function renderControlTasks() {
             </div>
         </div>
         
-        <!-- Задача 2: МЕТОД НЕОПРЕДЕЛЁННЫХ КОЭФФИЦИЕНТОВ -->
-        <div class="control-class" style="margin-bottom: 2rem; border: 1px solid rgba(0,255,255,0.2); border-radius: 1.5rem; overflow: hidden;">
-            <div class="control-class-header" style="background: rgba(0,30,50,0.5); padding: 1rem 1.5rem;">
-                <h3 style="color:#0ff; margin:0;">🎯 Задача 2: Метод неопределённых коэффициентов</h3>
-                <p style="margin:8px 0 0 0; font-size:0.85rem; color:#8ba0c5;">📌 <strong>Когда применяется:</strong> правая часть спецвида: e^{αx}(P_n(x)cosβx + Q_m(x)sinβx). Алгоритм: по правой части определяем вид частного решения, подставляем в уравнение, находим коэффициенты.</p>
+        <!-- ТИП 2: МЕТОД НЕОПРЕДЕЛЁННЫХ КОЭФФИЦИЕНТОВ -->
+        <div class="control-type" style="margin-bottom: 2rem; border: 1px solid rgba(0,255,255,0.2); border-radius: 1.5rem; overflow: hidden;">
+            <div class="control-type-header" style="background: rgba(0,30,50,0.5); padding: 1rem 1.5rem;">
+                <h3 style="color:#0ff; margin:0;">🎯 Тип 2: Метод неопределённых коэффициентов</h3>
+                <p style="margin:8px 0 0 0; font-size:0.85rem; color:#8ba0c5;">📌 <strong>Когда применяется:</strong> правая часть спецвида: e^{αx}(P_n(x)cosβx + Q_m(x)sinβx).</p>
             </div>
-            <div class="control-class-content" style="padding: 0.5rem 1.5rem 1.5rem;">
+            <div class="control-type-content" style="padding: 0.5rem 1.5rem 1.5rem;">
                 <div class="task-card" data-task-id="2">
                     <div class="task-header" onclick="toggleSolution(this.parentElement)">
                         <div style="display: flex; align-items: center; gap: 12px;">
@@ -539,7 +598,7 @@ function renderControlTasks() {
                         <span class="task-points">30 баллов</span>
                     </div>
                     <div class="task-content">
-                        <div class="task-demand"><strong>Условие задачи:</strong><br>Решить уравнение: $$ y'' - 3y' + 2y = 52 \\cos 3x $$</div>
+                        <div class="task-demand"><strong>Условие:</strong><br>Решить уравнение: $$ y'' - 3y' + 2y = 52 \\cos 3x $$</div>
                         <div class="solution" style="display:none; font-size: 1.05em; line-height: 1.6; padding: 15px;">
                             <strong>Решение:</strong><br><br>
                             Соответствующее ОЛДУ:
@@ -574,13 +633,13 @@ function renderControlTasks() {
             </div>
         </div>
         
-        <!-- Задача 3: ЗАДАЧИ КОШИ -->
-        <div class="control-class" style="margin-bottom: 2rem; border: 1px solid rgba(0,255,255,0.2); border-radius: 1.5rem; overflow: hidden;">
-            <div class="control-class-header" style="background: rgba(0,30,50,0.5); padding: 1rem 1.5rem;">
-                <h3 style="color:#0ff; margin:0;">🎯 Задача 3: Задачи Коши</h3>
-                <p style="margin:8px 0 0 0; font-size:0.85rem; color:#8ba0c5;">📌 <strong>Алгоритм:</strong> находим общее решение НЛДУ → подставляем начальные условия → находим константы → записываем частное решение.</p>
+        <!-- ТИП 3: ЗАДАЧА КОШИ (МЕТОД ВАРИАЦИИ) -->
+        <div class="control-type" style="margin-bottom: 2rem; border: 1px solid rgba(0,255,255,0.2); border-radius: 1.5rem; overflow: hidden;">
+            <div class="control-type-header" style="background: rgba(0,30,50,0.5); padding: 1rem 1.5rem;">
+                <h3 style="color:#0ff; margin:0;">🎯 Тип 3: Задача Коши (метод вариации)</h3>
+                <p style="margin:8px 0 0 0; font-size:0.85rem; color:#8ba0c5;">📌 <strong>Алгоритм:</strong> находим общее решение НЛДУ → подставляем начальные условия → находим константы.</p>
             </div>
-            <div class="control-class-content" style="padding: 0.5rem 1.5rem 1.5rem;">
+            <div class="control-type-content" style="padding: 0.5rem 1.5rem 1.5rem;">
                 <div class="task-card" data-task-id="3">
                     <div class="task-header" onclick="toggleSolution(this.parentElement)">
                         <div style="display: flex; align-items: center; gap: 12px;">
@@ -590,7 +649,7 @@ function renderControlTasks() {
                         <span class="task-points">40 баллов</span>
                     </div>
                     <div class="task-content">
-                        <div class="task-demand"><strong>Условие задачи:</strong><br>Решить задачу Коши: $$ y'' + 2y' + y = 3e^{-x}\\sqrt{x+1}; \\quad y(0) = \\frac{4}{5}; \\quad y'(0) = 2 $$</div>
+                        <div class="task-demand"><strong>Условие:</strong><br>Решить задачу Коши: $$ y'' + 2y' + y = 3e^{-x}\\sqrt{x+1}; \\quad y(0) = \\frac{4}{5}; \\quad y'(0) = 2 $$</div>
                         <div class="solution" style="display:none; font-size: 1.05em; line-height: 1.6; padding: 15px;">
                             <strong>Решение:</strong><br><br>
                             Соответствующее ОЛДУ:
@@ -619,7 +678,16 @@ function renderControlTasks() {
                         </div>
                     </div>
                 </div>
-                
+            </div>
+        </div>
+        
+        <!-- ТИП 4: ЗАДАЧА КОШИ (МЕТОД НК) -->
+        <div class="control-type" style="margin-bottom: 2rem; border: 1px solid rgba(0,255,255,0.2); border-radius: 1.5rem; overflow: hidden;">
+            <div class="control-type-header" style="background: rgba(0,30,50,0.5); padding: 1rem 1.5rem;">
+                <h3 style="color:#0ff; margin:0;">🎯 Тип 4: Задача Коши (метод неопределённых коэффициентов)</h3>
+                <p style="margin:8px 0 0 0; font-size:0.85rem; color:#8ba0c5;">📌 <strong>Алгоритм:</strong> находим общее решение НЛДУ → подставляем начальные условия → находим константы.</p>
+            </div>
+            <div class="control-type-content" style="padding: 0.5rem 1.5rem 1.5rem;">
                 <div class="task-card" data-task-id="4">
                     <div class="task-header" onclick="toggleSolution(this.parentElement)">
                         <div style="display: flex; align-items: center; gap: 12px;">
@@ -629,7 +697,7 @@ function renderControlTasks() {
                         <span class="task-points">40 баллов</span>
                     </div>
                     <div class="task-content">
-                        <div class="task-demand"><strong>Условие задачи:</strong><br>Решить задачу Коши: $$ y'' - 2y' + 2y = 4e^x\\cos x; \\quad y(\\pi) = \\pi e^\\pi; \\quad y'(\\pi) = e^\\pi $$</div>
+                        <div class="task-demand"><strong>Условие:</strong><br>Решить задачу Коши: $$ y'' - 2y' + 2y = 4e^x\\cos x; \\quad y(\\pi) = \\pi e^\\pi; \\quad y'(\\pi) = e^\\pi $$</div>
                         <div class="solution" style="display:none; font-size: 1.05em; line-height: 1.6; padding: 15px;">
                             <strong>Решение:</strong><br><br>
                             Соответствующее ОЛДУ:
@@ -669,10 +737,8 @@ function renderControlTasks() {
     `;
     
     updateKrStats();
-    
     typesetMathJax([pane]);
 }
-
 // ========== ТАБЫ ==========
 async function initTabs() {
     document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -1104,22 +1170,29 @@ function renderIntegrals() {
     let html = `
         <div class="info-banner">
             📖 <strong>Таблица интегралов</strong> — ${totalTasks} задач
-        <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; align-items: center;">
-    <div>
-            <span style="color:#0ff;">📊 Прогресс:</span>
-            <span id="integrals-solved">${solved}</span> / <span id="integrals-total">${totalTasks}</span>
-            (<span id="integrals-percent">${totalTasks > 0 ? ((solved / totalTasks) * 100).toFixed(1) : 0}</span>%)
         </div>
-        <div>
-            <span style="color:#0ff;">🎯 Темп до 22 мая:</span>
-            <span id="integrals-pace">загрузка...</span>
+        
+        <div class="integrals-stats-panel" style="background: rgba(0,20,40,0.5); border-radius: 1rem; padding: 1rem; margin-bottom: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; align-items: center;">
+                <div>
+                    <span style="color:#0ff;">📊 Прогресс:</span>
+                    <span id="integrals-solved">${solved}</span> / <span id="integrals-total">${totalTasks}</span>
+                    (<span id="integrals-percent">${totalTasks > 0 ? ((solved / totalTasks) * 100).toFixed(1) : 0}</span>%)
+                </div>
+                <div>
+                    <span style="color:#0ff;">🎯 Темп до 22 мая:</span>
+                    <span id="integrals-pace">загрузка...</span>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn-toggle-all" onclick="toggleIntegralsAllSections()" style="background:#0ff2; border:1px solid #0ff; color:#0ff; padding:4px 12px; border-radius:20px; cursor:pointer;">📂 Развернуть всё</button>
+                    <button onclick="resetAllIntegralsProgress()" style="background:#f442; border:1px solid #f44; color:#f44; padding:4px 12px; border-radius:20px; cursor:pointer;">🗑️ Сбросить интегралы</button>
+                </div>
+            </div>
+            <div class="progress-bar" style="margin-top: 12px;">
+                <div class="progress-fill" id="integrals-progress-fill" style="width: ${(solved / totalTasks) * 100}%;"></div>
+            </div>
         </div>
-        <div style="display: flex; gap: 8px;">
-            <button class="btn-toggle-all" onclick="toggleIntegralsAllSections()" style="background:#0ff2; border:1px solid #0ff; color:#0ff; padding:4px 12px; border-radius:20px; cursor:pointer;">📂 Развернуть всё</button>
-            <button onclick="resetAllIntegralsProgress()" style="background:#f442; border:1px solid #f44; color:#f44; padding:4px 12px; border-radius:20px; cursor:pointer;">🗑️ Сбросить интегралы</button>
-        </div>
-    </div>
-    `
+    `;
     
     for (const section of sections) {
         if (!section.data || section.data.length === 0) continue;
