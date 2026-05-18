@@ -644,3 +644,143 @@ mjx-container[jax="CHTML"][display="false"] {
     background: linear-gradient(90deg, transparent, #0ff, #f0f, #0ff, transparent);
     margin: 1rem 0;
 }
+
+/* ========= НЕОНОВЫЕ ВКЛАДКИ С УЛУЧШЕННЫМ ДИЗАЙНОМ ========= */
+.tabs {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 28px;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.tab-btn {
+    background: rgba(18, 25, 45, 0.65);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 255, 255, 0.25);
+    padding: 12px 32px;
+    border-radius: 60px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    color: #bdd4ff;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Эффект свечения при наведении */
+.tab-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.tab-btn:hover::before {
+    left: 100%;
+}
+
+.tab-btn.active {
+    background: linear-gradient(135deg, #0ff2, #0af2);
+    border-color: #0ff;
+    color: #010b1a;
+    text-shadow: 0 0 8px #0ff;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 3px;
+    background: #0ff;
+    border-radius: 3px;
+    box-shadow: 0 0 10px #0ff;
+}
+
+.tab-btn:hover:not(.active) {
+    border-color: #0ff;
+    background: rgba(0, 255, 255, 0.12);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 255, 255, 0.15);
+}
+
+/* ========= МОРГАЮЩАЯ ВКЛАДКА (УЛУЧШЕННАЯ) ========= */
+.tab-btn.has-notification {
+    position: relative;
+    animation: gentlePulse 1.2s ease-in-out infinite;
+}
+
+.tab-btn.has-notification::before {
+    content: '🔔';
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    font-size: 14px;
+    background: #ff4444;
+    color: white;
+    border-radius: 20px;
+    padding: 0 5px;
+    min-width: 20px;
+    text-align: center;
+    box-shadow: 0 0 10px #ff4444;
+    animation: bounce 0.5s ease infinite;
+}
+
+@keyframes gentlePulse {
+    0% {
+        background: rgba(18, 25, 45, 0.65);
+        border-color: rgba(0, 255, 255, 0.25);
+        box-shadow: 0 0 0 rgba(255, 200, 0, 0);
+    }
+    50% {
+        background: rgba(255, 200, 0, 0.15);
+        border-color: #ffc800;
+        box-shadow: 0 0 20px rgba(255, 200, 0, 0.4);
+    }
+    100% {
+        background: rgba(18, 25, 45, 0.65);
+        border-color: rgba(0, 255, 255, 0.25);
+        box-shadow: 0 0 0 rgba(255, 200, 0, 0);
+    }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+/* Счётчик на вкладке (если нужно) */
+.tab-btn .notification-count {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: linear-gradient(135deg, #ff4444, #ff8800);
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 5px;
+    box-shadow: 0 0 8px #ff4444;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.15); opacity: 0.9; }
+}
