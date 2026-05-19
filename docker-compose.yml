@@ -1,0 +1,7 @@
+services:
+  marvin:
+    build: .
+    container_name: marvin-io
+    ports:
+      - "10101:80"
+    restart: unless-stopped
