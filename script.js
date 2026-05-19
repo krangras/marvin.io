@@ -2514,11 +2514,11 @@ function renderIntegrals() {
                         <div class="integral-formula" style="font-size: 1.5rem;">$$ \\int ${item.integral} $$</div>
                     </div>
                 </div>
-                <div class="integral-solution" style="display:none; padding: 0.8rem 1rem 1rem 3rem;">
-                    <div class="integral-solution-text" style="margin-bottom:12px;">
-                        <strong>📖 Решение:</strong><br>
-                        $$ \\text{${item.solution.replace(/[\\$]/g, '').replace(/\\/g, '\\\\')}} $$
-                    </div>
+                    <div class="integral-solution" style="display:none; padding: 0.8rem 1rem 1rem 3rem;">
+                        <div class="integral-solution-text" style="margin-bottom:12px;">
+                            <strong>📖 Решение:</strong><br>
+                            ${item.solution}
+                        </div>
                     <div class="integral-answer" style="margin-bottom:12px;">
                         <strong>Ответ:</strong> $$ \\int ${item.integral} = ${item.answer} $$
                     </div>
