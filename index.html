@@ -23,13 +23,13 @@
         };
     </script>
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script"></script>
+    <script>if('serviceWorker'in navigator){navigator.serviceWorker.register('/sw.js')}</script>
 </head>
 <body>
 <div class="container">
     <div class="hero">
-        <div class="hero-icon">🎓📐</div>
-        <h1>marvin.io</h1>
-        <div class="hero-subtitle">АГиТДУ — интервальные повторения + контрольная работа 2 семестр</div>
+        <img src="logo.svg" alt="Marvin.io" class="hero-logo">
+        <div class="hero-subtitle">АГиТДУ — интервальные повторения + контрольная работа</div>
     </div>
 
     <div class="tabs">
@@ -40,10 +40,9 @@
 
     <div id="exam-pane" class="tab-pane active-pane">
         <div class="toolbar">
-            <button class="btn-save" onclick="exportAllToFile()">💾 Сохранить прогресс</button>
-            <button class="btn-load" onclick="importAllFromFile()">📂 Загрузить прогресс</button>
+            <button class="btn-save" onclick="exportAllToFile()">Сохранить прогресс</button>
+            <button class="btn-load" onclick="importAllFromFile()">Загрузить прогресс</button>
         </div>
-
         <div id="rank-card" class="rank-card">
             <div class="rank-icon" id="rank-icon">🎖️</div>
             <div class="rank-info">
@@ -66,20 +65,20 @@
 
         <div class="glass-panel stats-grid" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
             <div style="text-align: center; flex: 1;">
-                <div style="font-size: 1.8rem; font-weight: bold; color: #0ff;" id="stat-mastered">0</div>
-                <div style="font-size: 0.7rem; color: #8ba0c5;">✅ Освоено (шаг 5)</div>
+                <div style="font-size: 1.8rem; font-weight: bold; color: #1a6e3a;" id="stat-mastered">0</div>
+                <div style="font-size: 0.7rem; color: var(--pencil);">✅ Освоено (шаг 5)</div>
             </div>
             <div style="text-align: center; flex: 1;">
-                <div style="font-size: 1.8rem; font-weight: bold; color: #ffb86b;" id="stat-learning">0</div>
-                <div style="font-size: 0.7rem; color: #8ba0c5;">🔄 В процессе</div>
+                <div style="font-size: 1.8rem; font-weight: bold; color: var(--ink-blue);" id="stat-learning">0</div>
+                <div style="font-size: 0.7rem; color: var(--pencil);">🔄 В процессе</div>
             </div>
             <div style="text-align: center; flex: 1;">
-                <div style="font-size: 1.8rem; font-weight: bold; color: #ff6b6b;" id="stat-notstarted">0</div>
-                <div style="font-size: 0.7rem; color: #8ba0c5;">⏳ Не начато</div>
+                <div style="font-size: 1.8rem; font-weight: bold; color: var(--ink-red);" id="stat-notstarted">0</div>
+                <div style="font-size: 0.7rem; color: var(--pencil);">⏳ Не начато</div>
             </div>
             <div style="text-align: center; flex: 1;">
-                <div style="font-size: 1.8rem; font-weight: bold; color: #c0e0ff;" id="stat-totalrepeats">0</div>
-                <div style="font-size: 0.7rem; color: #8ba0c5;">📚 Всего повторений</div>
+                <div style="font-size: 1.8rem; font-weight: bold; color: var(--ink-blue);" id="stat-totalrepeats">0</div>
+                <div style="font-size: 0.7rem; color: var(--pencil);">📚 Всего повторений</div>
             </div>
         </div>
         <div id="list" class="ticket-list"></div>

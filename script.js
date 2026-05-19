@@ -196,14 +196,53 @@ function resetAll() {
 function showHistory(id) {
     const item = state[id];
     const history = item.history || [];
+    
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    
+    const box = document.createElement('div');
+    box.className = 'modal-box';
+    
+    const title = document.createElement('div');
+    title.className = 'modal-title';
+    title.innerHTML = `📜 История билета ${id+1}`;
+    box.appendChild(title);
+    
+    const nameEl = document.createElement('div');
+    nameEl.style.cssText = 'font-family: var(--font-print); font-size: 0.82rem; color: var(--pencil); margin-bottom: 12px;';
+    nameEl.textContent = item.name;
+    box.appendChild(nameEl);
+    
     if (history.length === 0) {
-        alert(`📭 Билет "${item.name.substring(0, 50)}..."\n\nИстория повторений пуста.`);
-        return;
+        const emptyEl = document.createElement('p');
+        emptyEl.style.cssText = 'font-family: var(--font-print); font-size: 0.9rem; color: var(--pencil); text-align: center; padding: 20px 0;';
+        emptyEl.textContent = '📭 История повторений пуста';
+        box.appendChild(emptyEl);
+    } else {
+        const list = document.createElement('ul');
+        list.className = 'modal-list';
+        history.forEach((entry) => {
+            const li = document.createElement('li');
+            li.textContent = new Date(entry).toLocaleDateString('ru-RU');
+            list.appendChild(li);
+        });
+        box.appendChild(list);
+        
+        const total = document.createElement('div');
+        total.className = 'modal-total';
+        total.textContent = `Всего: ${history.length} повторений`;
+        box.appendChild(total);
     }
-    let text = `📜 История для билета ${id+1}:\n\n`;
-    history.forEach((entry, i) => { text += `${i+1}. ${new Date(entry).toLocaleDateString('ru-RU')}\n`; });
-    text += `\nВсего: ${history.length} повторений`;
-    alert(text);
+    
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'modal-close-btn';
+    closeBtn.textContent = 'Закрыть';
+    closeBtn.onclick = () => overlay.remove();
+    box.appendChild(closeBtn);
+    
+    overlay.appendChild(box);
+    overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+    document.body.appendChild(overlay);
 }
 
 // ========== РЕНДЕР (оптимизированный) ==========
@@ -242,7 +281,7 @@ function render() {
                 <div class="action-buttons">
                     <button class="undo-btn" ${item.step <= 0 ? 'disabled' : ''} onclick="event.stopPropagation(); undoForTicket(${idx})">↩️</button>
                     <button class="action-btn" ${!isReady ? 'disabled' : ''} onclick="event.stopPropagation(); advanceTicket(${idx})">${item.step === 0 ? '✅ Изучить' : '🔄 Повторил'}</button>
-                    <button class="action-btn" style="border-color:#ff0;" onclick="event.stopPropagation(); showHistory(${idx})">📜</button>
+                    <button class="action-btn" onclick="event.stopPropagation(); showHistory(${idx})">📜</button>
                 </div>
             </div>
             <div class="ticket-meta">шаг: ${item.step}/${intervals.length} | ${item.nextReview ? `повтор: ${new Date(item.nextReview).toLocaleDateString('ru-RU')}` : "📖 не изучен"} | повторов: ${item.history?.length || 0}</div>
@@ -1811,13 +1850,13 @@ function renderControlTasks() {
     }
     
     let html = `
-    <div class="kr-stats-panel glass-panel" style="padding: 20px;">
+    <div class="kr-stats-panel">
         <!-- ТУЛБАР ПО ЦЕНТРУ -->
         <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;">
-            <button class="action-btn" style="background: rgba(0,255,0,0.15); border-color: #0f0; color: #0f0;" onclick="exportAllToFile()">💾 Сохранить прогресс</button>
-            <button class="action-btn" style="background: rgba(255,255,0,0.15); border-color: #ff0; color: #ff0;" onclick="importAllFromFile()">📂 Загрузить прогресс</button>
-            <button class="action-btn" id="toggle-all-control" onclick="toggleAllControlTasks()">📂 Развернуть всё</button>
-            <button class="action-btn" style="border-color: #f44; color: #f44;" onclick="resetKrProgress()">🗑️ Сбросить КР</button>
+            <button class="kr-action-btn" onclick="exportAllToFile()">💾 Сохранить прогресс</button>
+            <button class="kr-action-btn" onclick="importAllFromFile()">📂 Загрузить прогресс</button>
+            <button class="kr-action-btn" id="toggle-all-control" onclick="toggleAllControlTasks()">📂 Развернуть всё</button>
+            <button class="kr-action-btn kr-reset-btn" onclick="resetKrProgress()">🗑️ Сбросить</button>
         </div>
         
         <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; align-items: center;">
@@ -1827,7 +1866,7 @@ function renderControlTasks() {
                     <div class="stats-grid-label">✅ Решено</div>
                 </div>
                 <div class="stats-grid-item">
-                    <div class="stats-grid-value" id="kr-total" style="color:#ffb86b;">${total}</div>
+                    <div class="stats-grid-value" id="kr-total" style="color:var(--ink-blue);">${total}</div>
                     <div class="stats-grid-label">📋 Всего задач</div>
                 </div>
                 <div class="stats-grid-item">
@@ -1841,9 +1880,9 @@ function renderControlTasks() {
             </div>
         </div>
         <div class="progress-bar" style="margin-top: 12px;">
-            <div class="progress-fill" id="kr-progress-fill" style="width: ${(solved/total)*100}%; background: linear-gradient(90deg, #0ff, #f0f);"></div>
+            <div class="progress-fill" id="kr-progress-fill" style="width: ${(solved/total)*100}%;"></div>
         </div>
-        <div id="kr-pace" style="margin-top: 12px; font-size:0.85rem; color:#8ba0c5; text-align:center;">${paceText}</div>
+        <div id="kr-pace" style="margin-top: 12px; font-size:0.85rem; color:var(--pencil); text-align:center;">${paceText}</div>
     </div>
 `;
     
@@ -1860,19 +1899,19 @@ function renderControlTasks() {
         const isExpanded = krSectionsState[t] !== false;
         
         html += `
-        <div class="integrals-section" style="margin-bottom: 2rem; border: 1px solid rgba(0,255,255,0.15); border-radius: 1rem; overflow: hidden;">
-            <div class="integrals-section-header" style="background: rgba(0,20,40,0.5); padding: 0.8rem 1.2rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="toggleKrType(${t})">
+        <div class="theory-section" style="margin-bottom: 1.5rem;">
+            <div class="integrals-section-header" style="padding: 0.8rem 1.2rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="toggleKrType(${t})">
                 <div style="display: flex; align-items: center; gap: 12px;">
-                    <span class="section-toggle" id="kr-toggle-type-${t}" style="color:#0ff; font-size:1.2rem;">${isExpanded ? '▼' : '▶'}</span>
-                    <span style="color:#0ff; font-weight:600;">Тип ${t+1}: ${type.title}</span>
-                    <span style="color:#8ba0c5; font-size:0.8rem;">(${type.tasks.length} задач)</span>
+                    <span class="section-toggle" id="kr-toggle-type-${t}" style="color:var(--ink-blue); font-size:1.2rem;">${isExpanded ? '▼' : '▶'}</span>
+                    <span style="color:var(--ink-blue); font-weight:600;">Тип ${t+1}: ${type.title}</span>
+                    <span style="color:var(--pencil); font-size:0.8rem;">(${type.tasks.length} задач)</span>
                 </div>
-                <div style="font-size:0.8rem; color:#8ba0c5;">
+                <div style="font-size:0.8rem; color:var(--pencil);">
                     ✅ <span id="kr-type-${t}-counter">${solvedInType}/${type.tasks.length}</span>
                 </div>
             </div>
             <div class="section-content" id="kr-type-${t}-content" style="display: ${isExpanded ? 'block' : 'none'}; padding: 0.5rem 1.5rem 1.5rem;">
-                <p style="margin:8px 0; font-size:0.85rem; color:#8ba0c5;">📌 <strong>Когда применяется:</strong> ${type.desc}</p>`;
+                <p style="margin:8px 0; font-size:0.85rem; color:var(--pencil);">📌 <strong>Когда применяется:</strong> ${type.desc}</p>`;
         
         for (let i = 0; i < type.tasks.length; i++) {
             const task = type.tasks[i];
@@ -2189,12 +2228,12 @@ function renderIntegrals() {
     let solved = getSolvedCount();
     
     let html = `
-    <div class="integrals-stats-panel glass-panel" style="padding: 20px;">
+    <div class="integrals-stats-panel">
         <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;">
-            <button class="action-btn" style="background: rgba(0,255,0,0.15); border-color: #0f0; color: #0f0;" onclick="exportAllToFile()">💾 Сохранить прогресс</button>
-            <button class="action-btn" style="background: rgba(255,255,0,0.15); border-color: #ff0; color: #ff0;" onclick="importAllFromFile()">📂 Загрузить прогресс</button>
-            <button class="action-btn" id="integrals-toggle-all-btn" onclick="toggleIntegralsAllSections()">📂 Развернуть всё</button>
-            <button class="action-btn" style="border-color: #f44; color: #f44;" onclick="resetAllIntegralsProgress()">🗑️ Сбросить интегралы</button>
+            <button class="kr-action-btn" onclick="exportAllToFile()">💾 Сохранить прогресс</button>
+            <button class="kr-action-btn" onclick="importAllFromFile()">📂 Загрузить прогресс</button>
+            <button class="kr-action-btn" id="integrals-toggle-all-btn" onclick="toggleIntegralsAllSections()">📂 Развернуть всё</button>
+            <button class="kr-action-btn kr-reset-btn" onclick="resetAllIntegralsProgress()">🗑️ Сбросить</button>
         </div>
         
         <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; align-items: center;">
@@ -2204,7 +2243,7 @@ function renderIntegrals() {
                     <div class="stats-grid-label">✅ Решено</div>
                 </div>
                 <div class="stats-grid-item">
-                    <div class="stats-grid-value" id="integrals-total" style="color:#ffb86b;">${totalTasks}</div>
+                    <div class="stats-grid-value" id="integrals-total" style="color:var(--ink-blue);">${totalTasks}</div>
                     <div class="stats-grid-label">📋 Всего задач</div>
                 </div>
                 <div class="stats-grid-item">
@@ -2220,7 +2259,7 @@ function renderIntegrals() {
         <div class="progress-bar" style="margin-top: 12px;">
             <div class="progress-fill" id="integrals-progress-fill" style="width: ${(solved / totalTasks) * 100}%;"></div>
         </div>
-        <div id="integrals-pace" style="margin-top: 12px; font-size:0.85rem; color:#8ba0c5; text-align:center;">загрузка...</div>
+        <div id="integrals-pace" style="margin-top: 12px; font-size:0.85rem; color:var(--pencil); text-align:center;">загрузка...</div>
     </div>
     `;
     
@@ -2444,19 +2483,19 @@ function renderIntegrals() {
         const solvedInSection = section.data.filter((_, idx) => integralsProgress[`s${section.num}_t${idx}`]).length;
         
         // КАРТОЧКА РАЗДЕЛА (СВОРАЧИВАЕМАЯ)
-        html += `<div class="integrals-section" style="margin-bottom: 2rem; border: 1px solid rgba(0,255,255,0.2); border-radius: 1rem; overflow: hidden;">
-            <div class="integrals-section-header" style="background: rgba(0,20,40,0.6); padding: 0.8rem 1.2rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="toggleIntegralsSection(${section.num})">
+        html += `<div class="theory-section" style="margin-bottom: 1.5rem;">
+            <div class="integrals-section-header" style="padding: 0.8rem 1.2rem; display: flex; justify-content: space-between; align-items: center;" onclick="toggleIntegralsSection(${section.num})">
                 <div style="display: flex; align-items: center; gap: 12px;">
-                    <span class="section-toggle" id="toggle-section-${section.num}" style="color:#0ff; font-size:1.2rem;">▶</span>
-                    <span style="color:#0ff; font-weight:600;">${section.num}. ${section.title}</span>
-                    <span style="color:#8ba0c5; font-size:0.8rem;">(${section.data.length} задач)</span>
+                    <span class="section-toggle" id="toggle-section-${section.num}" style="color:var(--ink-blue); font-size:1.2rem;">▶</span>
+                    <span style="color:var(--ink-blue); font-weight:600;">${section.num}. ${section.title}</span>
+                    <span style="color:var(--pencil); font-size:0.8rem;">(${section.data.length} задач)</span>
                 </div>
-                <div style="font-size:0.8rem; color:#8ba0c5;">
+                <div style="font-size:0.8rem; color:var(--pencil);">
                     ✅ <span id="section-${section.num}-counter">${solvedInSection}/${section.data.length}</span>
                 </div>
             </div>
             <div class="section-content" id="section-${section.num}-content" style="display: none;">
-                <div style="background: rgba(0,30,50,0.3); padding: 12px; border-radius: 12px; margin: 0.5rem 1rem;">
+                <div style="margin: 0.5rem 1rem;">
                     ${section.theory}
                 </div>
                 <div class="section-tasks">`;
@@ -2469,7 +2508,7 @@ function renderIntegrals() {
             html += `<div class="integral-card" style="margin: 0.5rem 1rem 0.5rem 1rem;">
                 <div class="integral-header" style="display: flex; align-items: center; gap: 12px; padding: 0.8rem 1rem;">
                     <input type="checkbox" class="integral-checkbox" id="chk_${key}" ${isChecked ? 'checked' : ''} onclick="event.stopPropagation(); toggleIntegralTask(${section.num}, ${i})" style="width: 18px; height: 18px; cursor: pointer; flex-shrink: 0;">
-                    <span style="color: #8ba0c5; font-size: 0.85rem; font-weight: 600; flex-shrink: 0;">${item.name.split(' ')[0]}</span>
+                    <span style="color: var(--pencil); font-size: 0.85rem; font-weight: 600; flex-shrink: 0;">${item.name.split(' ')[0]}</span>
                     <div style="flex: 1; text-align: center;" onclick="toggleIntegralSolution(this.parentElement.parentElement)">
                         <div class="integral-formula" style="font-size: 1.5rem;">$$ \\int ${item.integral} $$</div>
                     </div>
@@ -2485,7 +2524,7 @@ function renderIntegrals() {
                     <div class="integral-practice">
                         <strong>✏️ Проверь себя:</strong> $$ \\int ${item.practice} = ? $$
                         <button class="check-btn" onclick="event.stopPropagation(); showIntegralAnswer(this, '${item.practiceAns}')">📋 Показать ответ</button>
-                        <span class="practice-answer" style="display:none; margin-left:10px; color:#0f0;">✅ Ответ: $${item.practiceAns}$</span>
+                        <span class="practice-answer" style="display:none; margin-left:10px; color:var(--ink-green);">✅ Ответ: $${item.practiceAns}$</span>
                     </div>
                 </div>
             </div>`;
@@ -2556,19 +2595,8 @@ function toggleIntegralsAllSections() {
 window.toggleIntegralSolution = toggleIntegralSolution;
 window.showIntegralAnswer = showIntegralAnswer;
 
-// Добавляем стили для интегралов в CSS
-const integralStyles = `
-.integral-card { background: rgba(12,18,30,0.75); border:1px solid rgba(0,255,255,0.2); border-radius:1.5rem; margin-bottom:1rem; overflow:hidden; cursor:pointer; transition:all 0.2s; }
-.integral-card:hover { border-color:#0ff; transform:translateY(-2px); }
-.integral-header { padding:1rem 1.5rem; background:rgba(0,20,40,0.3); }
-.integral-theme { color:#0ff; font-weight:600; margin-bottom:8px; }
-.integral-formula { font-family:'Latin Modern Math', monospace; font-size:1.1rem; }
-.integral-solution { padding:1rem 1.5rem; border-top:1px solid rgba(0,255,255,0.2); background:rgba(0,10,25,0.5); }
-.integral-example, .integral-practice { margin:8px 0; }
-.check-btn { background:#0ff2; border:1px solid #0ff; color:#0ff; padding:4px 12px; border-radius:20px; cursor:pointer; font-size:0.75rem; }
-.check-btn:hover { background:#0ff; color:#010b1a; }
-.practice-answer { font-size:0.9rem; }
-`;
+// Добавляем стили для интегралов в CSS (только специфические, остальное от notebook темы)
+const integralStyles = ``;
 // Функция для динамического обновления заголовка вкладки
 function updateTabTitle() {
     // ЗАЩИТА: Если массив прогресса ещё не загрузился, прерываем функцию, чтобы избежать краша (null.filter)
