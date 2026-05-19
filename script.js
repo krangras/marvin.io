@@ -97,6 +97,17 @@ function saveCurrentState() {
     });
 }
 
+function saveCheatsheetState() {
+    const sheets = document.querySelectorAll('.cheatsheet');
+    const openIndices = [];
+    sheets.forEach((sheet, idx) => {
+        if (sheet && sheet.style.display === 'block') {
+            openIndices.push(idx);
+        }
+    });
+    localStorage.setItem('tickets_open_state', JSON.stringify(openIndices));
+}
+
 function scheduleRender() {
     if (renderScheduled) return;
     renderScheduled = true;
@@ -260,6 +271,13 @@ function render() {
             openTicketsData.set(idx, sheet.innerHTML);
         }
     });
+    // Добавляем ранее сохранённые открытые билеты из localStorage
+    const savedOpen = JSON.parse(localStorage.getItem('tickets_open_state')) || [];
+    savedOpen.forEach(idx => {
+        if (!openTicketsData.has(idx)) {
+            openTicketsData.set(idx, '');
+        }
+    });
     
     // Также сохраняем позицию скролла
     scrollPositionToRestore = window.scrollY;
@@ -315,6 +333,7 @@ function render() {
                     }
                 }
             }
+            saveCheatsheetState();
         };
         updatePace();
         updateRankUI();
@@ -572,6 +591,7 @@ function loadProgressFromFile() {
 function resetAllIntegralsProgress() {
     if (confirm("Сбросить весь прогресс интегралов?")) {
         integralsProgress = {};
+        localStorage.removeItem('integrals_rendered_cache');
         saveIntegralsProgress();
         invalidateIntegralsCache();
         alert("✅ Прогресс интегралов сброшен!");
@@ -580,10 +600,10 @@ function resetAllIntegralsProgress() {
 // ========== MATHJAX (сериализованный typeset) ==========
 let mathJaxQueue = Promise.resolve();
 
-function typesetMathJax(elements) {
-    if (typeof MathJax === 'undefined' || !MathJax.typesetPromise) return;
+function typesetMathJax(elements, doneCallback) {
+    if (typeof MathJax === 'undefined' || !MathJax.typesetPromise) { if (doneCallback) doneCallback(); return; }
     mathJaxQueue = mathJaxQueue.then(() =>
-        MathJax.typesetPromise(elements).catch(err => console.log('MathJax error:', err))
+        MathJax.typesetPromise(elements).then(() => { if (doneCallback) doneCallback(); }).catch(err => console.log('MathJax error:', err))
     );
 }
 
@@ -645,7 +665,6 @@ function saveKrSectionsState() {
 function toggleAllControlTasks() {
     const pane = document.getElementById('control-pane');
     if (!pane) return;
-    // Check if any type section is expanded
     let anyExpanded = false;
     for (let t = 0; t < 4; t++) {
         const content = document.getElementById(`kr-type-${t}-content`);
@@ -668,6 +687,7 @@ function toggleAllControlTasks() {
 function resetKrProgress() {
     if (confirm("Сбросить весь прогресс контрольной работы?")) {
         krProgress = {};
+        localStorage.removeItem('kr_rendered_cache');
         saveKrProgress();
         renderControlTasks();
         alert("✅ Прогресс КР сброшен!");
@@ -722,13 +742,51 @@ function updateKrStats() {
     }
 }
 
+function saveSolutionState(type, key, isOpen) {
+    const storageKey = type === 'kr' ? 'ui_kr_solutions' : 'ui_integral_solutions';
+    const state = JSON.parse(localStorage.getItem(storageKey)) || {};
+    state[key] = isOpen;
+    localStorage.setItem(storageKey, JSON.stringify(state));
+}
+
+function restoreSolutionStates(type) {
+    const storageKey = type === 'kr' ? 'ui_kr_solutions' : 'ui_integral_solutions';
+    const state = JSON.parse(localStorage.getItem(storageKey)) || {};
+    const container = type === 'kr' ? document.getElementById('control-pane') : document.getElementById('integrals-pane');
+    if (!container) return;
+    Object.keys(state).forEach(key => {
+        if (!state[key]) return;
+        if (type === 'kr') {
+            const chk = container.querySelector(`#kr_chk_${key.replace('kr_', '')}`);
+            if (chk) {
+                const card = chk.closest('.task-card');
+                if (card) {
+                    const sol = card.querySelector('.solution');
+                    if (sol && sol.style.display !== 'block') sol.style.display = 'block';
+                }
+            }
+        } else if (type === 'integral') {
+            const chk = container.querySelector(`#chk_${key}`);
+            if (chk) {
+                const card = chk.closest('.integral-card');
+                if (card) {
+                    const sol = card.querySelector('.integral-solution');
+                    if (sol && sol.style.display !== 'block') sol.style.display = 'block';
+                }
+            }
+        }
+    });
+}
+
 function toggleSolution(card) {
     const sol = card.querySelector('.solution');
     if (sol) {
-        if (sol.style.display === 'none' || sol.style.display === '') {
-            sol.style.display = 'block';
-        } else {
-            sol.style.display = 'none';
+        const isOpen = sol.style.display === 'block';
+        sol.style.display = isOpen ? 'none' : 'block';
+        const chk = card.querySelector('input[type="checkbox"]');
+        if (chk) {
+            const key = chk.id.replace('kr_chk_', 'kr_');
+            saveSolutionState('kr', key, !isOpen);
         }
     }
 }
@@ -1008,27 +1066,34 @@ $$ C_2' = \\frac{\\Delta_2}{\\Delta} = -\\frac{e^{2x}}{e^x+1} \\implies C_2 = -\
 <br><strong>Ответ (общее решение НЛДУ):</strong>
 $$ y_{о.н.} = D_1 e^{-x} + D_2 e^{-2x} + (e^{-x} + e^{-2x}) \\ln(e^x+1) - e^{-x} $$`,
 
-    `<strong>Решение:</strong><br><br>
+    String.raw`<strong>Решение:</strong><br><br>
 Соответствующее ОЛДУ:
 $$ y'' + y = 0 $$
 Характеристическое уравнение:
-$$ \\lambda^2 + 1 = 0 \\implies \\lambda_{1,2} = \\pm i $$<br>
-ФСР: $$ \\cos x,\\; \\sin x $$
-$$ y_{о.о.} = C_1 \\cos x + C_2 \\sin x $$<br>
-Возвращаемся к НЛДУ (Метод вариации произвольных постоянных):
-$$ \\begin{cases} \\cos x \\cdot C_1' + \\sin x \\cdot C_2' = 0 \\\\ -\\sin x \\cdot C_1' + \\cos x \\cdot C_2' = \\frac{2}{\\cos^3 x} \\end{cases} $$<br>
-Считаем определители:
-$$ \\Delta = 1 $$
-$$ \\Delta_1 = -\\frac{2\\sin x}{\\cos^3 x} $$
-$$ \\Delta_2 = \\frac{2}{\\cos^2 x} $$<br>
-$$ C_1' = -\\frac{2\\sin x}{\\cos^3 x} \\implies C_1 = -\\frac{1}{\\cos^2 x} + D_1 $$
-$$ C_2' = \\frac{2}{\\cos^2 x} \\implies C_2 = 2\\tg x + D_2 $$<br>
-Сборка решения:
-$$ y_{о.н.} = \\left(D_1 - \\frac{1}{\\cos^2 x}\\right)\\cos x + \\left(D_2 + 2\\tg x\\right)\\sin x = D_1\\cos x - \\frac{1}{\\cos x} + D_2\\sin x + \\frac{2\\sin^2 x}{\\cos x} $$
-Учитывая $$ \\frac{2\\sin^2 x}{\\cos x} = \\frac{2(1-\\cos^2 x)}{\\cos x} = \\frac{2}{\\cos x} - 2\\cos x $$:<br>
-$$ y_{о.н.} = D_1\\cos x + D_2\\sin x + \\frac{1}{\\cos x} - 2\\cos x = (D_1 - 2)\\cos x + D_2\\sin x + \\frac{1}{\\cos x} $$
-<br><strong>Ответ (общее решение НЛДУ):</strong>
-$$ y_{о.н.} = D_1 \\cos x + D_2 \\sin x + \\frac{1}{\\cos x} $$`,
+$$ \lambda^2 + 1 = 0 \implies \lambda_{1,2} = \pm i $$<br>
+ФСР: $$ \cos x,\; \sin x $$
+$$ y_{о.о.} = C_1 \cos x + C_2 \sin x $$<br>
+Возвращаемся к НЛДУ (метод вариации произвольных постоянных):
+$$ y_{о.н.} = C_1(x) \cos x + C_2(x) \sin x $$
+$$ \begin{cases} \cos x \cdot C_1' + \sin x \cdot C_2' = 0 \\ -\sin x \cdot C_1' + \cos x \cdot C_2' = \dfrac{2}{\cos^3 x} \end{cases} $$<br>
+Определитель Вронского:
+$$ \Delta = \begin{vmatrix} \cos x & \sin x \\ -\sin x & \cos x \end{vmatrix} = \cos^2 x + \sin^2 x = 1 $$
+$$ \Delta_1 = \begin{vmatrix} 0 & \sin x \\ \dfrac{2}{\cos^3 x} & \cos x \end{vmatrix} = -\frac{2\sin x}{\cos^3 x} $$
+$$ \Delta_2 = \begin{vmatrix} \cos x & 0 \\ -\sin x & \dfrac{2}{\cos^3 x} \end{vmatrix} = \frac{2\cos x}{\cos^3 x} = \frac{2}{\cos^2 x} $$<br>
+Находим производные:
+$$ C_1' = \frac{\Delta_1}{\Delta} = -\frac{2\sin x}{\cos^3 x}, \qquad C_2' = \frac{\Delta_2}{\Delta} = \frac{2}{\cos^2 x} $$<br>
+Интегрируем:
+$$ C_1 = \int -\frac{2\sin x}{\cos^3 x}\,dx = \left[ \begin{smallmatrix} t = \cos x \\ dt = -\sin x\,dx \end{smallmatrix} \right] = \int 2t^{-3}\,dt = -t^{-2} + D_1 = -\frac{1}{\cos^2 x} + D_1 $$
+$$ C_2 = \int \frac{2}{\cos^2 x}\,dx = 2\tg x + D_2 $$<br>
+Сборка общего решения:
+$$ y_{о.н.} = \left(D_1 - \frac{1}{\cos^2 x}\right)\cos x + (2\tg x + D_2)\sin x $$
+$$ = D_1\cos x - \frac{1}{\cos x} + 2\frac{\sin^2 x}{\cos x} + D_2\sin x $$
+$$ = D_1\cos x + D_2\sin x - \frac{1}{\cos x} + \frac{2(1 - \cos^2 x)}{\cos x} $$
+$$ = D_1\cos x + D_2\sin x - \frac{1}{\cos x} + \frac{2}{\cos x} - 2\cos x $$
+$$ = (D_1 - 2)\cos x + D_2\sin x + \frac{1}{\cos x} $$<br>
+Переобозначаем константы $$ C_1 = D_1 - 2,\; C_2 = D_2 $$:<br>
+<strong>Ответ:</strong>
+$$ y = C_1 \cos x + C_2 \sin x + \frac{1}{\cos x} $$`,
 
     `<strong>Решение:</strong><br><br>
 Соответствующее ОЛДУ:
@@ -1830,7 +1895,27 @@ $$ y = \frac{3}{4} - \frac{3}{4}e^{4x} - 2x^2 - x $$`
 function renderControlTasks() {
     const pane = document.getElementById('control-pane');
     if (!pane) return;
-    
+
+    // ── СУПЕР-БЫСТРЫЙ ПУТЬ: MathJax уже отрендерил ──
+    const renderedCache = localStorage.getItem('kr_rendered_cache');
+    if (renderedCache) {
+        pane.innerHTML = renderedCache;
+        updateKrStats();
+        document.querySelectorAll('#control-pane input[type="checkbox"]').forEach(chk => {
+            const id = parseInt(chk.id.replace('kr_chk_', ''));
+            chk.checked = krProgress[id] === true;
+        });
+        restoreSolutionStates('kr');
+        // Обновляем текст кнопки после восстановления из кеша
+        const krSectionsState = JSON.parse(localStorage.getItem('kr_sections_state')) || {};
+        const anyExpanded = typeConfig.some((_, t) => krSectionsState[t] !== false);
+        const btn = document.getElementById('toggle-all-control');
+        if (btn) btn.textContent = anyExpanded ? '📁 Свернуть всё' : '📂 Развернуть всё';
+        // Кеш хранит сырой HTML с LaTeX — рендерим MathJax
+        typesetMathJax([pane], () => {});
+        return;
+    }
+
     const total = typeConfig.reduce((sum, t) => sum + t.tasks.length, 0);
     const solved = Object.keys(krProgress).length;
     const remaining = total - solved;
@@ -1849,13 +1934,17 @@ function renderControlTasks() {
         paceText = `📅 До 22 мая: ${daysLeft.toFixed(3)} дн. | Осталось: ${remaining} задач | Нужно: ${perDay.toFixed(3)} задачи в день`;
     }
     
+    // Состояние секций
+    const krSectionsState = JSON.parse(localStorage.getItem('kr_sections_state')) || {};
+    const anySectionExpanded = typeConfig.some((_, t) => krSectionsState[t] !== false);
+    
     let html = `
     <div class="kr-stats-panel">
         <!-- ТУЛБАР ПО ЦЕНТРУ -->
         <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;">
             <button class="kr-action-btn" onclick="exportAllToFile()">💾 Сохранить прогресс</button>
             <button class="kr-action-btn" onclick="importAllFromFile()">📂 Загрузить прогресс</button>
-            <button class="kr-action-btn" id="toggle-all-control" onclick="toggleAllControlTasks()">📂 Развернуть всё</button>
+            <button class="kr-action-btn" id="toggle-all-control" onclick="toggleAllControlTasks()">${anySectionExpanded ? '📁 Свернуть всё' : '📂 Развернуть всё'}</button>
             <button class="kr-action-btn kr-reset-btn" onclick="resetKrProgress()">🗑️ Сбросить</button>
         </div>
         
@@ -1885,9 +1974,6 @@ function renderControlTasks() {
         <div id="kr-pace" style="margin-top: 12px; font-size:0.85rem; color:var(--pencil); text-align:center;">${paceText}</div>
     </div>
 `;
-    
-    // Состояние секций
-    const krSectionsState = JSON.parse(localStorage.getItem('kr_sections_state')) || {};
     
     let taskId = 1;
     for (let t = 0; t < typeConfig.length; t++) {
@@ -1939,8 +2025,10 @@ function renderControlTasks() {
     }
     
     pane.innerHTML = html;
+    localStorage.setItem('kr_rendered_cache', html);
     updateKrStats();
-    typesetMathJax([pane]);
+    restoreSolutionStates('kr');
+    typesetMathJax([pane], () => {});
 }
 
 // ========== ТАБЫ ==========
@@ -1975,6 +2063,12 @@ async function initTabs() {
 }
 // ========== ЗАПУСК ==========
 document.addEventListener('DOMContentLoaded', () => {
+    // Инвалидируем старые кеши с отрендеренным MathJax (переход на сырой HTML)
+    if (localStorage.getItem('cache_version') !== '2') {
+        localStorage.removeItem('kr_rendered_cache');
+        localStorage.removeItem('integrals_rendered_cache');
+        localStorage.setItem('cache_version', '2');
+    }
     initState();
     renderControlTasks();
     renderIntegrals();
@@ -2012,6 +2106,7 @@ let integralsProgress = JSON.parse(localStorage.getItem('integrals_progress')) |
 // ========== КЕШИРОВАНИЕ ИНТЕГРАЛОВ ==========
 let integralsHTMLCache = null;
 let integralsRendered = false;
+let integralsMathJaxDone = false;
 
 function saveIntegralsProgress() {
     localStorage.setItem('integrals_progress', JSON.stringify(integralsProgress));
@@ -2098,6 +2193,13 @@ function loadIntegralsSectionState() {
             }
         }
     }
+    // Sync toggle-all button text with actual state
+    const integralsPane = document.getElementById('integrals-pane');
+    const anyExpanded = integralsPane ? Array.from(integralsPane.querySelectorAll('.section-content')).some(c => c.style.display === 'block') : false;
+    const btnText = document.getElementById('integrals-toggle-all-btn');
+    if (btnText) {
+        btnText.innerHTML = anyExpanded ? '📁 Свернуть всё' : '📂 Развернуть всё';
+    }
 }
 
 
@@ -2180,13 +2282,17 @@ function toggleIntegralTask(sectionNum, taskIdx) {
 function toggleIntegralSolution(card) {
     const solution = card.querySelector('.integral-solution');
     if (solution) {
-        if (solution.style.display === 'none' || solution.style.display === '') {
-            solution.style.display = 'block';
+        const isOpen = solution.style.display === 'block';
+        solution.style.display = isOpen ? 'none' : 'block';
+        if (!isOpen) {
             if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
                 MathJax.typesetPromise([solution]).catch(err => console.log('MathJax error:', err));
             }
-        } else {
-            solution.style.display = 'none';
+        }
+        const chk = card.querySelector('.integral-checkbox');
+        if (chk) {
+            const key = chk.id.replace('chk_', '');
+            saveSolutionState('integral', key, !isOpen);
         }
     }
 }
@@ -2208,6 +2314,24 @@ function renderIntegrals() {
     const container = document.getElementById('integrals-list');
     if (!container) return;
 
+    // ── СУПЕР-БЫСТРЫЙ ПУТЬ: MathJax уже отрендерил ──
+    const renderedCache = localStorage.getItem('integrals_rendered_cache');
+    if (renderedCache) {
+        container.innerHTML = renderedCache;
+        updateIntegralsStats();
+        document.querySelectorAll('.integral-checkbox').forEach(checkbox => {
+            const key = checkbox.id.replace('chk_', '');
+            checkbox.checked = integralsProgress[key] === true;
+        });
+        restoreSolutionStates('integral');
+        setTimeout(() => { loadIntegralsSectionState(); }, 50);
+        integralsHTMLCache = renderedCache;
+        integralsRendered = true;
+        // Кеш теперь хранит сырой HTML с LaTeX — всегда рендерим MathJax
+        typesetMathJax([container], () => { integralsMathJaxDone = true; });
+        return;
+    }
+
     // ── БЫСТРЫЙ ПУТЬ: кеш уже есть ──
     if (integralsHTMLCache && integralsRendered) {
         container.innerHTML = integralsHTMLCache;
@@ -2216,10 +2340,9 @@ function renderIntegrals() {
             const key = checkbox.id.replace('chk_', '');
             checkbox.checked = integralsProgress[key] === true;
         });
+        restoreSolutionStates('integral');
         setTimeout(() => { loadIntegralsSectionState(); }, 50);
-        if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
-            MathJax.typesetPromise([container]).catch(err => console.log('MathJax error:', err));
-        }
+        typesetMathJax([container], () => { integralsMathJaxDone = true; });
         return;
     }
 
@@ -2227,12 +2350,15 @@ function renderIntegrals() {
     let totalTasks = getTotalTasksCount();
     let solved = getSolvedCount();
     
+    const integralsSectionsState = JSON.parse(localStorage.getItem('integrals_sections_state')) || {};
+    const integralsAnyExpanded = Object.values(integralsSectionsState).some(v => v === true);
+    
     let html = `
     <div class="integrals-stats-panel">
         <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;">
             <button class="kr-action-btn" onclick="exportAllToFile()">💾 Сохранить прогресс</button>
             <button class="kr-action-btn" onclick="importAllFromFile()">📂 Загрузить прогресс</button>
-            <button class="kr-action-btn" id="integrals-toggle-all-btn" onclick="toggleIntegralsAllSections()">📂 Развернуть всё</button>
+            <button class="kr-action-btn" id="integrals-toggle-all-btn" onclick="toggleIntegralsAllSections()">${integralsAnyExpanded ? '📁 Свернуть всё' : '📂 Развернуть всё'}</button>
             <button class="kr-action-btn kr-reset-btn" onclick="resetAllIntegralsProgress()">🗑️ Сбросить</button>
         </div>
         
@@ -2481,12 +2607,13 @@ function renderIntegrals() {
         if (!section.data || section.data.length === 0) continue;
         
         const solvedInSection = section.data.filter((_, idx) => integralsProgress[`s${section.num}_t${idx}`]).length;
+        const sectionIsExpanded = integralsSectionsState[section.num] === true;
         
         // КАРТОЧКА РАЗДЕЛА (СВОРАЧИВАЕМАЯ)
         html += `<div class="theory-section" style="margin-bottom: 1.5rem;">
             <div class="integrals-section-header" style="padding: 0.8rem 1.2rem; display: flex; justify-content: space-between; align-items: center;" onclick="toggleIntegralsSection(${section.num})">
                 <div style="display: flex; align-items: center; gap: 12px;">
-                    <span class="section-toggle" id="toggle-section-${section.num}" style="color:var(--ink-blue); font-size:1.2rem;">▶</span>
+                    <span class="section-toggle" id="toggle-section-${section.num}" style="color:var(--ink-blue); font-size:1.2rem;">${sectionIsExpanded ? '▼' : '▶'}</span>
                     <span style="color:var(--ink-blue); font-weight:600;">${section.num}. ${section.title}</span>
                     <span style="color:var(--pencil); font-size:0.8rem;">(${section.data.length} задач)</span>
                 </div>
@@ -2494,7 +2621,7 @@ function renderIntegrals() {
                     ✅ <span id="section-${section.num}-counter">${solvedInSection}/${section.data.length}</span>
                 </div>
             </div>
-            <div class="section-content" id="section-${section.num}-content" style="display: none;">
+            <div class="section-content" id="section-${section.num}-content" style="display: ${sectionIsExpanded ? 'block' : 'none'};">
                 <div style="margin: 0.5rem 1rem;">
                     ${section.theory}
                 </div>
@@ -2533,14 +2660,18 @@ function renderIntegrals() {
         html += `</div></div></div>`;
     }
     
-    // Сохраняем в кеш перед вставкой
+    // Сохраняем в кеш ПЕРЕД MathJax (сырой HTML с LaTeX)
     integralsHTMLCache = html;
     integralsRendered = true;
+    localStorage.setItem('integrals_rendered_cache', html);
 
     container.innerHTML = html;
     updateIntegralsStats();
+    restoreSolutionStates('integral');
     setTimeout(() => { loadIntegralsSectionState(); }, 100);
-    typesetMathJax([container]);
+    typesetMathJax([container], () => {
+        integralsMathJaxDone = true;
+    });
 }
 
 // ── Сброс кеша (вызывать при загрузке/сбросе прогресса) ──
@@ -2571,8 +2702,10 @@ function toggleIntegralsSection(sectionNum) {
 }
 
 function toggleIntegralsAllSections() {
-    const allContents = document.querySelectorAll('.section-content');
-    const allBtns = document.querySelectorAll('.section-toggle');
+    const integralsPane = document.getElementById('integrals-pane');
+    if (!integralsPane) return;
+    const allContents = integralsPane.querySelectorAll('.section-content');
+    const allBtns = integralsPane.querySelectorAll('.section-toggle');
     const anyExpanded = Array.from(allContents).some(c => c.style.display === 'block');
     
     allContents.forEach(content => {
@@ -2586,7 +2719,7 @@ function toggleIntegralsAllSections() {
     
     const btnText = document.getElementById('integrals-toggle-all-btn');
     if (btnText) {
-        btnText.innerHTML = anyExpanded ? '📂 Развернуть всё' : '📂 Свернуть всё';
+        btnText.innerHTML = anyExpanded ? '📂 Развернуть всё' : '📁 Свернуть всё';
     }
 }
 

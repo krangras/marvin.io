@@ -167,22 +167,35 @@ body {
         4px 6px 0 rgba(0,0,0,0.06),
         6px 10px 24px rgba(80,60,20,0.15),
         inset 0 0 0 1px rgba(255,255,255,0.6);
-    /* Горизонтальные линии + клетка */
+    line-height: 1.9;
+}
+
+/* Клетчатая бумага через псевдо-элемент (не шакалит при разворачивании) */
+#exam-pane::before, #control-pane::before, #integrals-pane::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 0 12px 12px 12px;
+    pointer-events: none;
+    z-index: 0;
     background-image:
-        /* горизонтальные линии */
         repeating-linear-gradient(
             to bottom,
             transparent 0px, transparent 23px,
             var(--line) 23px, var(--line) 24px
         ),
-        /* вертикальные линии */
         repeating-linear-gradient(
             to right,
             transparent 0px, transparent 23px,
             rgba(200,216,240,0.4) 23px, rgba(200,216,240,0.4) 24px
         );
-    background-attachment: local;
-    line-height: 1.9;
+    background-attachment: fixed;
+}
+
+/* Контент поверх клеточки */
+#exam-pane > *, #control-pane > *, #integrals-pane > * {
+    position: relative;
+    z-index: 1;
 }
 
 
@@ -1077,7 +1090,7 @@ mjx-container[jax="CHTML"][display="false"] {
     .integral-header { flex-direction: column; align-items: stretch !important; text-align: center; }
     .integral-formula { font-size: 1rem !important; }
     .integral-card { margin-bottom: 0.6rem; }
-    .integral-solution { padding: 0.8rem; font-size: 0.85rem; }
+    .integral-solution { padding: 0.8rem !important; font-size: 0.85rem; }
 
     .theory-content { padding: 0.8rem; }
     .theory-block { margin: 0.3rem 0.5rem; }
@@ -1154,7 +1167,7 @@ mjx-container[jax="CHTML"][display="false"] {
     .integral-header { padding: 0.6rem 0.8rem; }
     .integral-theme { font-size: 0.8rem; }
     .integral-formula { font-size: 0.85rem !important; }
-    .integral-solution { padding: 0.6rem; font-size: 0.8rem; }
+    .integral-solution { padding: 0.6rem !important; font-size: 0.8rem; }
     .integral-checkbox { width: 14px; height: 14px; }
 
     .theory-block { margin: 0.2rem 0.3rem; }
