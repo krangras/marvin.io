@@ -694,8 +694,7 @@ function toggleSolution(card) {
     }
 }
 
-
-    const typeConfig = [
+const typeConfig = [
         {
             num: 1, title: 'Метод вариации произвольных постоянных',
             desc: 'для любых ЛДУ, особенно когда метод неопределённых коэффициентов неприменим (правая часть не спецвида).',
@@ -767,7 +766,7 @@ function toggleSolution(card) {
     ];
 
 
-    const existingSolutions = [
+const existingSolutions = [
         `<strong>Решение:</strong><br><br>
                             Соответствующее ОЛДУ:
                             $$ y'' + 4y = 0 $$
@@ -881,19 +880,22 @@ const krTaskSolutions = [
 Соответствующее ОЛДУ:
 $$ y'' + y = 0 $$
 Характеристическое уравнение:
-$$ \lambda^2 + 1 = 0 $$
-$$ \implies \lambda_{1,2} = \pm i $$<br>
+$$ \lambda^2 + 1 = 0 \implies \lambda_{1,2} = \pm i $$<br>
 ФСР: $$ \cos x,\; \sin x $$
 $$ y_{о.о.} = C_1 \cos x + C_2 \sin x $$<br>
-Возвращаемся к НЛДУ (Метод вариации):
+Возвращаемся к НЛДУ (Метод вариации произвольных постоянных):
 $$ \begin{cases} \cos x \cdot C_1' + \sin x \cdot C_2' = 0 \\ -\sin x \cdot C_1' + \cos x \cdot C_2' = \frac{1}{\cos x} \end{cases} $$<br>
+Считаем определители:
 $$ \Delta = \begin{vmatrix} \cos x & \sin x \\ -\sin x & \cos x \end{vmatrix} = 1 $$
 $$ \Delta_1 = \begin{vmatrix} 0 & \sin x \\ \frac{1}{\cos x} & \cos x \end{vmatrix} = -\tg x $$
 $$ \Delta_2 = \begin{vmatrix} \cos x & 0 \\ -\sin x & \frac{1}{\cos x} \end{vmatrix} = 1 $$<br>
-$$ C_1' = \frac{\Delta_1}{\Delta} = -\tg x \implies C_1 = \int -\tg x\,dx = \ln|\cos x| + D_1 $$
-$$ C_2' = \frac{\Delta_2}{\Delta} = 1 \implies C_2 = \int 1\,dx = x + D_2 $$<br>
+Находим производные и интегрируем:
+$$ C_1' = -\tg x \implies C_1 = \ln|\cos x| + D_1 $$
+$$ C_2' = 1 \implies C_2 = x + D_2 $$<br>
+Сборка решения:
+$$ y_{о.н.} = (ln|\cos x| + D_1)\cos x + (x + D_2)\sin x $$
 <br><strong>Ответ (общее решение НЛДУ):</strong>
-$$ y_{о.н.} = D_1 \cos x + D_2 \sin x + \cos x \cdot \ln|\cos x| + x \sin x $$`,
+$$ y_{о.н.} = D_1 \cos x + D_2 \sin x + \cos x \ln|\cos x| + x \sin x $$`,
 
         `<strong>Решение:</strong><br><br>
 Соответствующее ОЛДУ:
@@ -947,7 +949,7 @@ $$ \\Delta_2 = \\begin{vmatrix} e^x & 0 \\\\ e^x & \\frac{e^x}{x} \\end{vmatrix}
 $$ C_1' = \\frac{\\Delta_1}{\\Delta} = -1 \\implies C_1 = -x + D_1 $$
 $$ C_2' = \\frac{\\Delta_2}{\\Delta} = \\frac{1}{x} \\implies C_2 = \\ln|x| + D_2 $$<br>
 <br><strong>Ответ (общее решение НЛДУ):</strong>
-$$ y_{о.н.} = e^x (D_1 + D_2 x + x \\ln|x|) $$`,
+$$ y_{о.н.} = e^x (D_1 + D_2 x - x + x \\ln|x|) $$`,
 
     `<strong>Решение:</strong><br><br>
 Соответствующее ОЛДУ:
@@ -980,11 +982,12 @@ $$ \\begin{cases} \\cos x \\cdot C_1' + \\sin x \\cdot C_2' = 0 \\\\ -\\sin x \\
 $$ \\Delta = 1 $$
 $$ \\Delta_1 = -\\frac{2\\sin x}{\\cos^3 x} $$
 $$ \\Delta_2 = \\frac{2}{\\cos^2 x} $$<br>
-$$ C_1' = -\\frac{2\\sin x}{\\cos^3 x} \\implies C_1 = \\frac{1}{\\cos^2 x} + D_1 $$
+$$ C_1' = -\\frac{2\\sin x}{\\cos^3 x} \\implies C_1 = -\\frac{1}{\\cos^2 x} + D_1 $$
 $$ C_2' = \\frac{2}{\\cos^2 x} \\implies C_2 = 2\\tg x + D_2 $$<br>
 Сборка решения:
-$$ y_{о.н.} = \\left(D_1 + \\frac{1}{\\cos^2 x}\\right)\\cos x + \\left(D_2 + 2\\tg x\\right)\\sin x = D_1\\cos x + \\frac{1}{\\cos x} + D_2\\sin x + \\frac{2\\sin^2 x}{\\cos x} $$
+$$ y_{о.н.} = \\left(D_1 - \\frac{1}{\\cos^2 x}\\right)\\cos x + \\left(D_2 + 2\\tg x\\right)\\sin x = D_1\\cos x - \\frac{1}{\\cos x} + D_2\\sin x + \\frac{2\\sin^2 x}{\\cos x} $$
 Учитывая $$ \\frac{2\\sin^2 x}{\\cos x} = \\frac{2(1-\\cos^2 x)}{\\cos x} = \\frac{2}{\\cos x} - 2\\cos x $$:<br>
+$$ y_{о.н.} = D_1\\cos x + D_2\\sin x + \\frac{1}{\\cos x} - 2\\cos x = (D_1 - 2)\\cos x + D_2\\sin x + \\frac{1}{\\cos x} $$
 <br><strong>Ответ (общее решение НЛДУ):</strong>
 $$ y_{о.н.} = D_1 \\cos x + D_2 \\sin x + \\frac{1}{\\cos x} $$`,
 
@@ -1420,16 +1423,16 @@ $$ \Delta_2 = \begin{vmatrix} e^{-x} & 0 \\ -e^{-x} & \frac{2e^{x}}{e^{x}+1} \en
 $$ C_1' = \frac{\Delta_1}{\Delta} = -\frac{e^{2x}}{e^{x}+1} $$
 $$ C_2' = \frac{\Delta_2}{\Delta} = \frac{1}{e^{x}+1} $$
 Интегрируем:
-$$ C_1 = e^{x} - \ln(e^{x}+1) + D_1 $$
-$$ C_2 = \ln(e^{x}+1) - x + D_2 $$
+$$ C_1 = -e^{x} + \ln(e^{x}+1) + D_1 $$
+$$ C_2 = x - \ln(e^{x}+1) + D_2 $$
 <br>Общее решение НЛДУ:
-$$ y_{о.н.} = D_1 e^{-x} + D_2 e^{x} + 1 - e^{-x}\ln(e^{x}+1) + e^{x}(\ln(e^{x}+1) - x) $$
+$$ y_{о.н.} = D_1 e^{-x} + D_2 e^{x} - 1 + e^{-x}\ln(e^{x}+1) + e^{x}(x - \ln(e^{x}+1)) $$
 <br>Используем начальные условия:
-$$ y(0) = 0 \implies D_1 + D_2 + 1 - \ln 2 + \ln 2 = D_1 + D_2 + 1 = 0 \implies D_1 + D_2 = -1 $$
-$$ y'(0) = 0 \implies -D_1 + D_2 + (\text{члены от частного}) = 0 $$
-$$ \implies D_1 = -1,\; D_2 = 0 \text{ (после подстановки)} $$
+$$ y(0) = 0 \implies D_1 + D_2 - 1 + \ln 2 + 0 - \ln 2 = D_1 + D_2 - 1 = 0 \implies D_1 + D_2 = 1 $$
+$$ y'(0) = 0 \implies -D_1 + D_2 + 1 = 0 $$
+$$ \implies D_1 = 1,\; D_2 = 0 $$
 <br><strong>Ответ (решение задачи Коши):</strong>
-$$ y = e^{-x}(\ln(e^{x}+1) - e^{x}\ln(e^{x}+1) + e^{x}(e^{x}+1)(\ln(e^{x}+1)-x)) $$`,
+$$ y = e^{-x} - 1 + e^{-x}\ln(e^{x}+1) + e^{x}(x - \ln(e^{x}+1)) $$`,
 
         String.raw`<strong>Решение:</strong><br><br>
 Соответствующее ОЛДУ:
@@ -1477,11 +1480,11 @@ $$ C_2 = x(\ln x - 1) + D_2 $$
 <br>Общее решение НЛДУ:
 $$ y_{о.н.} = e^{-x}\left(D_1 + D_2 x + \frac{x^2}{2}\left(\frac{1}{2} - \ln x\right) + x^2(\ln x - 1)\right) $$
 <br>Используем начальные условия:
-$$ y(1) = 0 \implies e^{-1}\left(D_1 + D_2 + \frac{1}{2}\left(\frac{1}{2} - 0\right) + (0 - 1)\right) = 0 \implies D_1 + D_2 + \frac{1}{4} - 1 = 0 \implies D_1 + D_2 = \frac{3}{4} $$
-$$ y'(1) = 0 \implies D_2 - \frac{5}{4} = 0 \implies D_2 = \frac{5}{4} $$
-$$ \implies D_1 = -\frac{1}{2},\; D_2 = \frac{5}{4} $$
+$$ y(1) = 0 \implies e^{-1}\left(D_1 + D_2 - \frac{3}{4}\right) = 0 \implies D_1 + D_2 = \frac{3}{4} $$
+$$ y'(1) = 0 \implies e^{-1}\left(-D_1 + D_2 - 1\right) = 0 \implies -D_1 + D_2 = 1 $$
+$$ \implies D_1 = -\frac{1}{8},\; D_2 = \frac{7}{8} $$
 <br><strong>Ответ (решение задачи Коши):</strong>
-$$ y = e^{-x}\left(-\frac{1}{2} + \frac{5}{4}x + \frac{x^2}{4}(1 - 2\ln x) + x^2(\ln x - 1)\right) $$`,
+$$ y = e^{-x}\left(-\frac{1}{8} + \frac{7}{8}x - \frac{3x^2}{4} + \frac{x^2}{2}\ln x\right) $$`,
 
         String.raw`<strong>Решение:</strong><br><br>
 Соответствующее ОЛДУ:
@@ -1525,15 +1528,19 @@ $$ C_1' = \frac{\Delta_1}{\Delta} = \frac{e^{x}}{e^{x}+1} $$
 $$ C_2' = \frac{\Delta_2}{\Delta} = -\frac{e^{2x}}{e^{x}+1} $$
 Интегрируем:
 $$ C_1 = \ln(e^{x}+1) + D_1 $$
-$$ C_2 = e^{x} - \ln(e^{x}+1) + D_2 $$
+$$ C_2 = -e^{x} + \ln(e^{x}+1) + D_2 $$
 <br>Общее решение НЛДУ:
-$$ y_{о.н.} = D_1 e^{-x} + D_2 e^{-2x} + e^{-x}\ln(e^{x}+1) + e^{-2x}(e^{x} - \ln(e^{x}+1)) $$
+$$ y_{о.н.} = D_1 e^{-x} + D_2 e^{-2x} + e^{-x}\ln(e^{x}+1) + e^{-2x}(-e^{x} + \ln(e^{x}+1)) $$
 <br>Используем начальные условия:
-$$ y(0) = \ln 2 \implies D_1 + D_2 + \ln 2 + 1 - \ln 2 = D_1 + D_2 + 1 = \ln 2 $$
-$$ y'(0) = 0 \implies -D_1 - 2D_2 - 1 + 2\ln 2 = 0 $$
-$$ \implies D_1 = 2\ln 2 - 1,\; D_2 = 0 $$
+$$ y(0) = \ln 2 \implies D_1 + D_2 + \ln 2 - 1 + \ln 2 = D_1 + D_2 + 2\ln 2 - 1 = \ln 2 $$
+$$ \implies D_1 + D_2 = 1 - \ln 2 $$
+$$ y'(x) = -D_1 e^{-x} - 2D_2 e^{-2x} - e^{-x}\ln(e^{x}+1) + e^{-x}\cdot\frac{e^x}{e^x+1} + 2e^{-2x} - 2e^{-2x}\ln(e^{x}+1) - e^{-2x}\cdot\frac{e^x}{e^x+1} $$
+$$ y'(0) = 0 \implies -D_1 - 2D_2 - \ln 2 + \frac{1}{2} + 2 - 2\ln 2 - \frac{1}{2} = 0 $$
+$$ \implies -D_1 - 2D_2 + 2 - 3\ln 2 = 0 $$
+$$ \begin{cases} D_1 + D_2 = 1 - \ln 2 \\ -D_1 - 2D_2 = 3\ln 2 - 2 \end{cases} \implies -D_2 = 2\ln 2 - 1 \implies D_2 = 1 - 2\ln 2 $$
+$$ \implies D_1 = 1 - \ln 2 - (1 - 2\ln 2) = \ln 2 $$
 <br><strong>Ответ (решение задачи Коши):</strong>
-$$ y = e^{-x}(2\ln 2 - 1) + e^{-x}\ln(e^{x}+1) + e^{-2x}(e^{x} - \ln(e^{x}+1)) $$`
+$$ y = (\ln 2) e^{-x} + (1 - 2\ln 2) e^{-2x} + e^{-x}\ln(e^{x}+1) + e^{-2x}(-e^{x} + \ln(e^{x}+1)) $$`
     ]
 ,
     

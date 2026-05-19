@@ -1,0 +1,950 @@
+const krTaskSolutions = [
+[
+        null,
+
+        String.raw`<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ:
+$$ y'' + y = 0 $$
+Характеристическое уравнение:
+$$ \lambda^2 + 1 = 0 \implies \lambda_{1,2} = \pm i $$<br>
+ФСР: $$ \cos x,\; \sin x $$
+$$ y_{о.о.} = C_1 \cos x + C_2 \sin x $$<br>
+Возвращаемся к НЛДУ (Метод вариации произвольных постоянных):
+$$ \begin{cases} \cos x \cdot C_1' + \sin x \cdot C_2' = 0 \\ -\sin x \cdot C_1' + \cos x \cdot C_2' = \frac{1}{\cos x} \end{cases} $$<br>
+Считаем определители:
+$$ \Delta = \begin{vmatrix} \cos x & \sin x \\ -\sin x & \cos x \end{vmatrix} = 1 $$
+$$ \Delta_1 = \begin{vmatrix} 0 & \sin x \\ \frac{1}{\cos x} & \cos x \end{vmatrix} = -\tg x $$
+$$ \Delta_2 = \begin{vmatrix} \cos x & 0 \\ -\sin x & \frac{1}{\cos x} \end{vmatrix} = 1 $$<br>
+Находим производные и интегрируем:
+$$ C_1' = -\tg x \implies C_1 = \ln|\cos x| + D_1 $$
+$$ C_2' = 1 \implies C_2 = x + D_2 $$<br>
+Сборка решения:
+$$ y_{о.н.} = (ln|\cos x| + D_1)\cos x + (x + D_2)\sin x $$
+<br><strong>Ответ (общее решение НЛДУ):</strong>
+$$ y_{о.н.} = D_1 \cos x + D_2 \sin x + \cos x \ln|\cos x| + x \sin x $$`,
+
+        `<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ:
+$$ y'' + y = 0 $$
+Характеристическое уравнение:
+$$ \\lambda^2 + 1 = 0 \\implies \\lambda_{1,2} = \\pm i $$<br>
+ФСР: $$ \\cos x,\\; \\sin x $$
+$$ y_{о.о.} = C_1 \\cos x + C_2 \\sin x $$<br>
+Возвращаемся к НЛДУ (Метод вариации произвольных постоянных):
+$$ \\begin{cases} \\cos x \\cdot C_1' + \\sin x \\cdot C_2' = 0 \\\\ -\\sin x \\cdot C_1' + \\cos x \\cdot C_2' = \\frac{1}{\\sin x} \\end{cases} $$<br>
+Считаем определители:
+$$ \\Delta = \\begin{vmatrix} \\cos x & \\sin x \\\\ -\\sin x & \\cos x \\end{vmatrix} = 1 $$
+$$ \\Delta_1 = \\begin{vmatrix} 0 & \\sin x \\\\ \\frac{1}{\\sin x} & \\cos x \\end{vmatrix} = -1 $$
+$$ \\Delta_2 = \\begin{vmatrix} \\cos x & 0 \\\\ -\\sin x & \\frac{1}{\\sin x} \\end{vmatrix} = \\ctg x $$<br>
+$$ C_1' = -1 \\implies C_1 = \\int -1\\,dx = -x + D_1 $$
+$$ C_2' = \\ctg x \\implies C_2 = \\int \\frac{\\cos x}{\\sin x}\\,dx = \\ln|\\sin x| + D_2 $$<br>
+<br><strong>Ответ (общее решение НЛДУ):</strong>
+$$ y_{о.н.} = D_1 \\cos x + D_2 \\sin x - x \\cos x + \\sin x \\cdot \\ln|\\sin x| $$`,
+
+    `<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ:
+$$ y'' + 4y = 0 $$
+Характеристическое уравнение:
+$$ \\lambda^2 + 4 = 0 \\implies \\lambda_{1,2} = \\pm 2i $$<br>
+ФСР: $$ \\cos 2x,\\; \\sin 2x $$
+$$ y_{о.о.} = C_1 \\cos 2x + C_2 \\sin 2x $$<br>
+Возвращаемся к НЛДУ (Метод вариации произвольных постоянных):
+$$ \\begin{cases} \\cos 2x \\cdot C_1' + \\sin 2x \\cdot C_2' = 0 \\\\ -2\\sin 2x \\cdot C_1' + 2\\cos 2x \\cdot C_2' = 2\\tg x \\end{cases} $$<br>
+Считаем определители:
+$$ \\Delta = \\begin{vmatrix} \\cos 2x & \\sin 2x \\\\ -2\\sin 2x & 2\\cos 2x \\end{vmatrix} = 2\\cos^2 2x + 2\\sin^2 2x = 2 $$
+$$ \\Delta_1 = -2\\tg x \\sin 2x = -2\\cdot\\frac{\\sin x}{\\cos x}\\cdot 2\\sin x\\cos x = -4\\sin^2 x = -2(1-\\cos 2x) $$
+$$ \\Delta_2 = 2\\tg x \\cos 2x = 2\\frac{\\sin x}{\\cos x}(2\\cos^2 x - 1) = 4\\sin x\\cos x - \\frac{2\\sin x}{\\cos x} = 2\\sin 2x - 2\\tg x $$<br>
+$$ C_1' = \\frac{\\Delta_1}{\\Delta} = \\cos 2x - 1 \\implies C_1 = \\frac{1}{2}\\sin 2x - x + D_1 $$
+$$ C_2' = \\frac{\\Delta_2}{\\Delta} = \\sin 2x - \\tg x \\implies C_2 = -\\frac{1}{2}\\cos 2x + \\ln|\\cos x| + D_2 $$<br>
+<br><strong>Ответ (общее решение НЛДУ):</strong>
+$$ y_{о.н.} = D_1 \\cos 2x + D_2 \\sin 2x - x \\cos 2x + \\sin 2x \\cdot \\ln|\\cos x| $$`,
+
+    `<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ:
+$$ y'' - 2y' + y = 0 $$
+Характеристическое уравнение:
+$$ \\lambda^2 - 2\\lambda + 1 = 0 \\implies (\\lambda-1)^2 = 0 \\implies \\lambda_{1,2} = 1 $$<br>
+ФСР: $$ e^x,\\; x e^x $$
+$$ y_{о.о.} = (C_1 + C_2 x) e^x $$<br>
+Возвращаемся к НЛДУ (Метод вариации произвольных постоянных):
+$$ \\begin{cases} e^x \\cdot C_1' + x e^x \\cdot C_2' = 0 \\\\ e^x \\cdot C_1' + (e^x + x e^x) \\cdot C_2' = \\frac{e^x}{x} \\end{cases} $$<br>
+Считаем определители:
+$$ \\Delta = \\begin{vmatrix} e^x & x e^x \\\\ e^x & e^x + x e^x \\end{vmatrix} = e^{2x} + x e^{2x} - x e^{2x} = e^{2x} $$
+$$ \\Delta_1 = \\begin{vmatrix} 0 & x e^x \\\\ \\frac{e^x}{x} & e^x + x e^x \\end{vmatrix} = -e^{2x} $$
+$$ \\Delta_2 = \\begin{vmatrix} e^x & 0 \\\\ e^x & \\frac{e^x}{x} \\end{vmatrix} = \\frac{e^{2x}}{x} $$<br>
+$$ C_1' = \\frac{\\Delta_1}{\\Delta} = -1 \\implies C_1 = -x + D_1 $$
+$$ C_2' = \\frac{\\Delta_2}{\\Delta} = \\frac{1}{x} \\implies C_2 = \\ln|x| + D_2 $$<br>
+<br><strong>Ответ (общее решение НЛДУ):</strong>
+$$ y_{о.н.} = e^x (D_1 + D_2 x + x \\ln|x|) $$`,
+
+    `<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ:
+$$ y'' + 3y' + 2y = 0 $$
+Характеристическое уравнение:
+$$ \\lambda^2 + 3\\lambda + 2 = 0 \\implies (\\lambda+1)(\\lambda+2)=0 \\implies \\lambda_1 = -1,\\; \\lambda_2 = -2 $$<br>
+ФСР: $$ e^{-x},\\; e^{-2x} $$
+$$ y_{о.о.} = C_1 e^{-x} + C_2 e^{-2x} $$<br>
+Возвращаемся к НЛДУ (Метод вариации произвольных постоянных):
+$$ \\begin{cases} e^{-x} \\cdot C_1' + e^{-2x} \\cdot C_2' = 0 \\\\ -e^{-x} \\cdot C_1' - 2e^{-2x} \\cdot C_2' = \\frac{1}{e^x + 1} \\end{cases} $$<br>
+Считаем определители:
+$$ \\Delta = \\begin{vmatrix} e^{-x} & e^{-2x} \\\\ -e^{-x} & -2e^{-2x} \\end{vmatrix} = -2e^{-3x} + e^{-3x} = -e^{-3x} $$
+$$ \\Delta_1 = \\begin{vmatrix} 0 & e^{-2x} \\\\ \\frac{1}{e^x+1} & -2e^{-2x} \\end{vmatrix} = -\\frac{e^{-2x}}{e^x+1} $$
+$$ \\Delta_2 = \\begin{vmatrix} e^{-x} & 0 \\\\ -e^{-x} & \\frac{1}{e^x+1} \\end{vmatrix} = \\frac{e^{-x}}{e^x+1} $$<br>
+$$ C_1' = \\frac{\\Delta_1}{\\Delta} = \\frac{e^x}{e^x+1} \\implies C_1 = \\ln(e^x+1) + D_1 $$
+$$ C_2' = \\frac{\\Delta_2}{\\Delta} = -\\frac{e^{2x}}{e^x+1} \\implies C_2 = -\\int\\frac{t}{t+1}dt = -e^x + \\ln(e^x+1) + D_2 $$<br>
+<br><strong>Ответ (общее решение НЛДУ):</strong>
+$$ y_{о.н.} = D_1 e^{-x} + D_2 e^{-2x} + (e^{-x} + e^{-2x}) \\ln(e^x+1) - e^{-x} $$`,
+
+    `<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ:
+$$ y'' + y = 0 $$
+Характеристическое уравнение:
+$$ \\lambda^2 + 1 = 0 \\implies \\lambda_{1,2} = \\pm i $$<br>
+ФСР: $$ \\cos x,\\; \\sin x $$
+$$ y_{о.о.} = C_1 \\cos x + C_2 \\sin x $$<br>
+Возвращаемся к НЛДУ (Метод вариации произвольных постоянных):
+$$ \\begin{cases} \\cos x \\cdot C_1' + \\sin x \\cdot C_2' = 0 \\\\ -\\sin x \\cdot C_1' + \\cos x \\cdot C_2' = \\frac{2}{\\cos^3 x} \\end{cases} $$<br>
+Считаем определители:
+$$ \\Delta = 1 $$
+$$ \\Delta_1 = -\\frac{2\\sin x}{\\cos^3 x} $$
+$$ \\Delta_2 = \\frac{2}{\\cos^2 x} $$<br>
+$$ C_1' = -\\frac{2\\sin x}{\\cos^3 x} \\implies C_1 = \\frac{1}{\\cos^2 x} + D_1 $$
+$$ C_2' = \\frac{2}{\\cos^2 x} \\implies C_2 = 2\\tg x + D_2 $$<br>
+Сборка решения:
+$$ y_{о.н.} = \\left(D_1 + \\frac{1}{\\cos^2 x}\\right)\\cos x + \\left(D_2 + 2\\tg x\\right)\\sin x = D_1\\cos x + \\frac{1}{\\cos x} + D_2\\sin x + \\frac{2\\sin^2 x}{\\cos x} $$
+Учитывая $$ \\frac{2\\sin^2 x}{\\cos x} = \\frac{2(1-\\cos^2 x)}{\\cos x} = \\frac{2}{\\cos x} - 2\\cos x $$:<br>
+<br><strong>Ответ (общее решение НЛДУ):</strong>
+$$ y_{о.н.} = D_1 \\cos x + D_2 \\sin x + \\frac{1}{\\cos x} $$`,
+
+    `<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ:
+$$ y'' - y' = 0 $$
+Характеристическое уравнение:
+$$ \\lambda^2 - \\lambda = 0 \\implies \\lambda(\\lambda-1)=0 \\implies \\lambda_1 = 0,\\; \\lambda_2 = 1 $$<br>
+ФСР: $$ 1,\\; e^x $$
+$$ y_{о.о.} = C_1 + C_2 e^x $$<br>
+Возвращаемся к НЛДУ (Метод вариации произвольных постоянных):
+$$ \\begin{cases} 1 \\cdot C_1' + e^x \\cdot C_2' = 0 \\\\ 0 \\cdot C_1' + e^x \\cdot C_2' = \\frac{e^{2x}}{e^x+1} \\end{cases} $$<br>
+Считаем определители:
+$$ \\Delta = e^x $$
+$$ \\Delta_1 = -\\frac{e^{3x}}{e^x+1} $$
+$$ \\Delta_2 = \\frac{e^{2x}}{e^x+1} $$<br>
+$$ C_1' = -\\frac{e^{2x}}{e^x+1} \\implies C_1 = -\\int\\frac{t^2}{t+1}dt = -e^x + \\ln(e^x+1) + D_1 $$
+$$ C_2' = \\frac{e^x}{e^x+1} \\implies C_2 = \\ln(e^x+1) + D_2 $$<br>
+<br><strong>Ответ (общее решение НЛДУ):</strong>
+$$ y_{о.н.} = D_1 + D_2 e^x + (e^x+1)\\ln(e^x+1) - e^x $$`,
+
+    `<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ:
+$$ y'' + 2y' + y = 0 $$
+Характеристическое уравнение:
+$$ \\lambda^2 + 2\\lambda + 1 = 0 \\implies (\\lambda+1)^2 = 0 \\implies \\lambda_{1,2} = -1 $$<br>
+ФСР: $$ e^{-x},\\; x e^{-x} $$
+$$ y_{о.о.} = (C_1 + C_2 x) e^{-x} $$<br>
+Возвращаемся к НЛДУ (Метод вариации произвольных постоянных):
+$$ \\begin{cases} e^{-x} \\cdot C_1' + x e^{-x} \\cdot C_2' = 0 \\\\ -e^{-x} \\cdot C_1' + (1-x)e^{-x} \\cdot C_2' = \\frac{e^{-x}}{x^2} \\end{cases} $$<br>
+Считаем определители:
+$$ \\Delta = e^{-2x} $$
+$$ \\Delta_1 = -\\frac{e^{-2x}}{x} $$
+$$ \\Delta_2 = \\frac{e^{-2x}}{x^2} $$<br>
+$$ C_1' = -\\frac{1}{x} \\implies C_1 = -\\ln|x| + D_1 $$
+$$ C_2' = \\frac{1}{x^2} \\implies C_2 = -\\frac{1}{x} + D_2 $$<br>
+<br><strong>Ответ (общее решение НЛДУ):</strong>
+$$ y_{о.н.} = e^{-x}(D_1 + D_2 x - \\ln|x|) $$`,
+
+    `<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ:
+$$ y'' + y = 0 $$
+Характеристическое уравнение:
+$$ \\lambda^2 + 1 = 0 \\implies \\lambda_{1,2} = \\pm i $$<br>
+ФСР: $$ \\cos x,\\; \\sin x $$
+$$ y_{о.о.} = C_1 \\cos x + C_2 \\sin x $$<br>
+Возвращаемся к НЛДУ (Метод вариации произвольных постоянных):
+$$ \\begin{cases} \\cos x \\cdot C_1' + \\sin x \\cdot C_2' = 0 \\\\ -\\sin x \\cdot C_1' + \\cos x \\cdot C_2' = \\frac{1}{\\sin^3 x} \\end{cases} $$<br>
+Считаем определители:
+$$ \\Delta = 1 $$
+$$ \\Delta_1 = -\\frac{1}{\\sin^2 x} $$
+$$ \\Delta_2 = \\frac{\\cos x}{\\sin^3 x} $$<br>
+$$ C_1' = -\\frac{1}{\\sin^2 x} \\implies C_1 = \\ctg x + D_1 $$
+$$ C_2' = \\sin^{-3} x \\, d(\\sin x) \\implies C_2 = -\\frac{1}{2\\sin^2 x} + D_2 $$<br>
+Сборка решения:
+$$ y_{о.н.} = (D_1 + \\ctg x)\\cos x + \\left(D_2 - \\frac{1}{2\\sin^2 x}\\right)\\sin x = D_1\\cos x + D_2\\sin x + \\frac{\\cos^2 x}{\\sin x} - \\frac{1}{2\\sin x} $$
+Учитывая $$ \\frac{\\cos^2 x}{\\sin x} = \\frac{1-\\sin^2 x}{\\sin x} = \\frac{1}{\\sin x} - \\sin x $$:<br>
+<br><strong>Ответ (общее решение НЛДУ):</strong>
+$$ y_{о.н.} = D_1 \\cos x + D_2 \\sin x + \\frac{1}{2\\sin x} $$`
+],
+
+    
+[
+        null,
+
+        String.raw`<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ:
+$$ y'' - 2y' - 3y = e^{4x} $$
+Характеристическое уравнение:
+$$ \lambda^2 - 2\lambda - 3 = 0 $$
+$$ \implies \lambda_1 = 3,\; \lambda_2 = -1 $$<br>
+ФСР: $$ e^{3x},\; e^{-x} $$
+$$ y_{о.о.} = C_1 e^{3x} + C_2 e^{-x} $$<br>
+Возвращаемся к НЛДУ (Метод неопределенных коэффициентов):
+$$ F(x) = e^{4x} $$
+$$ \alpha = 4,\; \beta = 0,\; \deg(P) = 0 $$
+$$ \alpha + \beta i = 4 \text{ не совпадает с корнями} \implies S = 0 $$
+$$ \deg(R) = \deg(T) = 0 \implies R(x) = A,\; T(x) = B $$
+$$ y_{ч.н.} = x^{0} \cdot e^{4x} \cdot A = A e^{4x} $$<br>
+Находим производные для подстановки:
+$$ y'_{ч.н.} = 4A e^{4x} $$
+$$ y''_{ч.н.} = 16A e^{4x} $$
+<br>Подставляем в исходное уравнение:
+$$ 16A e^{4x} - 2(4A e^{4x}) - 3(A e^{4x}) = e^{4x} $$
+$$ (16A - 8A - 3A) e^{4x} = e^{4x} \implies 5A = 1 \implies A = \frac{1}{5} $$
+<br>Частное решение:
+$$ y_{ч.н.} = \frac{1}{5} e^{4x} $$<br>
+<br><strong>Ответ (общее решение НЛДУ):</strong>
+$$ y_{о.н.} = C_1 e^{3x} + C_2 e^{-x} + \frac{1}{5} e^{4x} $$`,
+
+        String.raw`<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ:
+$$ y'' + y = 4\sin x $$
+Характеристическое уравнение:
+$$ \lambda^2 + 1 = 0 $$
+$$ \implies \lambda_{1,2} = \pm i $$<br>
+ФСР: $$ \cos x,\; \sin x $$
+$$ y_{о.о.} = C_1 \cos x + C_2 \sin x $$<br>
+Возвращаемся к НЛДУ (Метод неопределенных коэффициентов):
+$$ F(x) = 4\sin x $$
+$$ \alpha = 0,\; \beta = 1,\; \deg(P) = -\infty,\; \deg(Q) = 0 $$
+$$ \alpha + \beta i = i \text{ совпадает с корнем} \implies S = 1 $$
+$$ \deg(R) = \deg(T) = 0 \implies R(x) = A,\; T(x) = B $$
+$$ y_{ч.н.} = x^{1} \cdot e^{0 \cdot x} (A \cos x + B \sin x) = x(A \cos x + B \sin x) $$<br>
+Находим производные для подстановки:
+$$ y'_{ч.н.} = (A\cos x + B\sin x) + x(-A\sin x + B\cos x) $$
+$$ y''_{ч.н.} = -2A\sin x + 2B\cos x - x(A\cos x + B\sin x) $$
+<br>Подставляем в исходное уравнение:
+$$ -2A\sin x + 2B\cos x - \cancel{x(A\cos x + B\sin x)} + \cancel{x(A\cos x + B\sin x)} = 4\sin x $$
+$$ -2A\sin x + 2B\cos x = 4\sin x + 0\cdot\cos x $$
+$$ \begin{cases} -2A = 4 \\ 2B = 0 \end{cases} \implies \begin{cases} A = -2 \\ B = 0 \end{cases} $$
+<br>Частное решение:
+$$ y_{ч.н.} = -2x\cos x $$<br>
+<br><strong>Ответ (общее решение НЛДУ):</strong>
+$$ y_{о.н.} = C_1 \cos x + C_2 \sin x - 2x \cos x $$`,
+
+        String.raw`<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ:
+$$ y'' - 5y' + 4y = 4x^2 e^{2x} $$
+Характеристическое уравнение:
+$$ \lambda^2 - 5\lambda + 4 = 0 \implies (\lambda - 1)(\lambda - 4) = 0 $$
+$$ \implies \lambda_1 = 1,\; \lambda_2 = 4 $$<br>
+ФСР: $$ e^x,\; e^{4x} $$
+$$ y_{о.о.} = C_1 e^x + C_2 e^{4x} $$<br>
+Возвращаемся к НЛДУ (Метод неопределенных коэффициентов):
+$$ F(x) = 4x^2 e^{2x} $$
+$$ \alpha = 2,\; \beta = 0,\; \deg(P) = 2 $$
+$$ \alpha + \beta i = 2 \text{ не является корнем} \implies S = 0 $$
+$$ \deg(R) = \deg(T) = 2 \implies R(x) = Ax^2 + Bx + C,\; T(x) = 0 $$
+$$ y_{ч.н.} = x^{0} \cdot e^{2x} (Ax^2 + Bx + C) = (Ax^2 + Bx + C) e^{2x} $$<br>
+Находим производные для подстановки:
+$$ y'_{ч.н.} = (2Ax + B)e^{2x} + 2(Ax^2 + Bx + C)e^{2x} $$
+$$ y''_{ч.н.} = (2A)e^{2x} + 2(2Ax + B)e^{2x} + \big[2(2Ax + B)e^{2x} + 4(Ax^2 + Bx + C)e^{2x}\big] $$
+$$ y''_{ч.н.} = \big(4Ax^2 + (8A + 4B)x + (2A + 4B + 4C)\big)e^{2x} $$
+<br>Подставляем в исходное уравнение:
+$$ \big[4Ax^2 + (8A + 4B)x + 2A + 4B + 4C - 5(2Ax^2 + (2A + 2B)x + B + 2C) + 4(Ax^2 + Bx + C)\big] e^{2x} = 4x^2 e^{2x} $$
+$$ \text{Группируем по степеням }x: $$
+$$ \begin{cases} x^2: 4A - 10A + 4A = -2A = 4 \implies A = -2 \\ x: 8A + 4B - 10A - 10B + 4B = -2A - 2B = 0 \implies B = 2 \\ 1: 2A + 4B + 4C - 5B - 10C + 4C = 2A - B - 2C = 0 \implies C = -3 \end{cases} $$
+<br>Частное решение:
+$$ y_{ч.н.} = (-2x^2 + 2x - 3) e^{2x} $$<br>
+<br><strong>Ответ (общее решение НЛДУ):</strong>
+$$ y_{о.н.} = C_1 e^x + C_2 e^{4x} - (2x^2 - 2x + 3) e^{2x} $$`,
+
+        String.raw`<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ:
+$$ y'' - 2y' + y = 6x e^x $$
+Характеристическое уравнение:
+$$ \lambda^2 - 2\lambda + 1 = 0 \implies (\lambda - 1)^2 = 0 $$
+$$ \implies \lambda_{1,2} = 1 \text{ (кр. 2)} $$<br>
+ФСР: $$ e^x,\; x e^x $$
+$$ y_{о.о.} = (C_1 + C_2 x) e^x $$<br>
+Возвращаемся к НЛДУ (Метод неопределенных коэффициентов):
+$$ F(x) = 6x e^x $$
+$$ \alpha = 1,\; \beta = 0,\; \deg(P) = 1 $$
+$$ \alpha + \beta i = 1 \text{ совпадает с корнем кр. 2} \implies S = 2 $$
+$$ \deg(R) = \deg(T) = 1 \implies R(x) = Ax + B,\; T(x) = 0 $$
+$$ y_{ч.н.} = x^2 \cdot e^x (Ax + B) = (Ax^3 + Bx^2) e^x $$<br>
+Находим производные для подстановки:
+$$ y'_{ч.н.} = (3Ax^2 + 2Bx)e^x + (Ax^3 + Bx^2)e^x = (Ax^3 + (3A + B)x^2 + 2Bx)e^x $$
+$$ y''_{ч.н.} = \big(Ax^3 + (6A + B)x^2 + (6A + 4B)x + 2B\big)e^x $$
+<br>Подставляем в исходное уравнение:
+$$ \big[\cancel{Ax^3} + (6A + B)x^2 + (6A + 4B)x + 2B - 2(Ax^3 + (3A + B)x^2 + 2Bx) + (\cancel{Ax^3} + Bx^2)\big]e^x = 6x e^x $$
+$$ \text{Сравниваем коэффициенты:} $$
+$$ \begin{cases} x^2: 6A + B - 6A - 2B + B = 0 \\ x: 6A + 4B - 4B = 6A = 6 \implies A = 1 \\ 1: 2B = 0 \implies B = 0 \end{cases} $$
+<br>Частное решение:
+$$ y_{ч.н.} = x^3 e^x $$<br>
+<br><strong>Ответ (общее решение НЛДУ):</strong>
+$$ y_{о.н.} = (C_1 + C_2 x + x^3) e^x $$`,
+
+        String.raw`<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ:
+$$ y'' + y = 4x e^x $$
+Характеристическое уравнение:
+$$ \lambda^2 + 1 = 0 $$
+$$ \implies \lambda_{1,2} = \pm i $$<br>
+ФСР: $$ \cos x,\; \sin x $$
+$$ y_{о.о.} = C_1 \cos x + C_2 \sin x $$<br>
+Возвращаемся к НЛДУ (Метод неопределенных коэффициентов):
+$$ F(x) = 4x e^x $$
+$$ \alpha = 1,\; \beta = 0,\; \deg(P) = 1 $$
+$$ \alpha + \beta i = 1 \text{ не является корнем} \implies S = 0 $$
+$$ \deg(R) = \deg(T) = 1 \implies R(x) = Ax + B,\; T(x) = 0 $$
+$$ y_{ч.н.} = x^{0} \cdot e^x (Ax + B) = (Ax + B) e^x $$<br>
+Находим производные для подстановки:
+$$ y'_{ч.н.} = A e^x + (Ax + B)e^x = (Ax + A + B)e^x $$
+$$ y''_{ч.н.} = A e^x + (Ax + A + B)e^x = (Ax + 2A + B)e^x $$
+<br>Подставляем в исходное уравнение:
+$$ (Ax + 2A + B)e^x + (Ax + B)e^x = 4x e^x $$
+$$ 2Ax + (2A + 2B) = 4x \quad \big|\text{ сокращаем }e^x $$
+$$ \begin{cases} 2A = 4 \\ 2A + 2B = 0 \end{cases} \implies \begin{cases} A = 2 \\ B = -2 \end{cases} $$
+<br>Частное решение:
+$$ y_{ч.н.} = (2x - 2) e^x = 2(x - 1) e^x $$<br>
+<br><strong>Ответ (общее решение НЛДУ):</strong>
+$$ y_{о.н.} = C_1 \cos x + C_2 \sin x + 2(x - 1) e^x $$`,
+
+        String.raw`<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ:
+$$ y'' + 4y' + 4y = x e^{2x} $$
+Характеристическое уравнение:
+$$ \lambda^2 + 4\lambda + 4 = 0 \implies (\lambda + 2)^2 = 0 $$
+$$ \implies \lambda = -2 \text{ (кр. 2)} $$<br>
+ФСР: $$ e^{-2x},\; x e^{-2x} $$
+$$ y_{о.о.} = (C_1 + C_2 x) e^{-2x} $$<br>
+Возвращаемся к НЛДУ (Метод неопределенных коэффициентов):
+$$ F(x) = x e^{2x} $$
+$$ \alpha = 2,\; \beta = 0,\; \deg(P) = 1 $$
+$$ \alpha + \beta i = 2 \text{ не совпадает с }\lambda = -2 \implies S = 0 $$
+$$ \deg(R) = \deg(T) = 1 \implies R(x) = Ax + B,\; T(x) = 0 $$
+$$ y_{ч.н.} = x^{0} \cdot e^{2x} (Ax + B) = (Ax + B) e^{2x} $$<br>
+Находим производные для подстановки:
+$$ y'_{ч.н.} = A e^{2x} + 2(Ax + B) e^{2x} = (2Ax + 2B + A) e^{2x} $$
+$$ y''_{ч.н.} = 2A e^{2x} + 2(2Ax + 2B + A) e^{2x} = (4Ax + 4B + 4A) e^{2x} $$
+<br>Подставляем в исходное уравнение:
+$$ (4Ax + 4B + 4A) e^{2x} + 4(2Ax + 2B + A) e^{2x} + 4(Ax + B) e^{2x} = x e^{2x} $$
+$$ (4Ax + 4B + 4A + 8Ax + 8B + 4A + 4Ax + 4B) e^{2x} = x e^{2x} $$
+$$ (16Ax + (8A + 16B)) e^{2x} = x e^{2x} $$
+$$ \begin{cases} 16A = 1 \implies A = \frac{1}{16} \\ 8A + 16B = 0 \implies B = -\frac{1}{32} \end{cases} $$
+<br>Частное решение:
+$$ y_{ч.н.} = \left(\frac{1}{16}x - \frac{1}{32}\right) e^{2x} = \frac{2x - 1}{32} e^{2x} $$<br>
+<br><strong>Ответ (общее решение НЛДУ):</strong>
+$$ y_{о.н.} = (C_1 + C_2 x) e^{-2x} + \frac{2x - 1}{32} e^{2x} $$`,
+
+        String.raw`<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ:
+$$ y'' + 9y = \cos 3x $$
+Характеристическое уравнение:
+$$ \lambda^2 + 9 = 0 $$
+$$ \implies \lambda_{1,2} = \pm 3i $$<br>
+ФСР: $$ \cos 3x,\; \sin 3x $$
+$$ y_{о.о.} = C_1 \cos 3x + C_2 \sin 3x $$<br>
+Возвращаемся к НЛДУ (Метод неопределенных коэффициентов):
+$$ F(x) = \cos 3x $$
+$$ \alpha = 0,\; \beta = 3,\; \deg(P) = 0,\; \deg(Q) = -\infty $$
+$$ \alpha + \beta i = 3i \text{ совпадает с корнем} \implies S = 1 $$
+$$ \deg(R) = \deg(T) = 0 \implies R(x) = A,\; T(x) = B $$
+$$ y_{ч.н.} = x^{1} \cdot e^{0 \cdot x} (A \cos 3x + B \sin 3x) = x(A \cos 3x + B \sin 3x) $$<br>
+Находим производные для подстановки:
+$$ y'_{ч.н.} = (A\cos 3x + B\sin 3x) + x(-3A\sin 3x + 3B\cos 3x) $$
+$$ y''_{ч.н.} = -6A\sin 3x + 6B\cos 3x - 9x(A\cos 3x + B\sin 3x) $$
+<br>Подставляем в исходное уравнение:
+$$ [-6A\sin 3x + 6B\cos 3x - 9x(A\cos 3x + B\sin 3x)] + 9x(A\cos 3x + B\sin 3x) = \cos 3x $$
+$$ -6A\sin 3x + 6B\cos 3x = \cos 3x $$
+$$ \begin{cases} -6A = 0 \implies A = 0 \\ 6B = 1 \implies B = \frac{1}{6} \end{cases} $$
+<br>Частное решение:
+$$ y_{ч.н.} = \frac{x}{6} \sin 3x $$<br>
+<br><strong>Ответ (общее решение НЛДУ):</strong>
+$$ y_{о.н.} = C_1 \cos 3x + C_2 \sin 3x + \frac{x}{6} \sin 3x $$`,
+
+        String.raw`<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ:
+$$ y'' - 4y' + 8y = e^{2x} + \sin 2x $$
+Характеристическое уравнение:
+$$ \lambda^2 - 4\lambda + 8 = 0 $$
+$$ \implies \lambda_{1,2} = 2 \pm 2i $$<br>
+ФСР: $$ e^{2x}\cos 2x,\; e^{2x}\sin 2x $$
+$$ y_{о.о.} = e^{2x}(C_1 \cos 2x + C_2 \sin 2x) $$<br>
+Возвращаемся к НЛДУ (Метод неопределенных коэффициентов):
+<br>Принцип суперпозиции:
+$$ y_{ч.н.} = y_1 + y_2 $$<br>
+<br>Для f_1(x) = e^{2x}:<br>
+$$ \alpha = 2,\; \beta = 0,\; \deg(P) = 0,\; S = 0 $$<br>
+$$ y_{ч.н.}^{(1)} = A e^{2x} $$<br>
+Находим производные:
+$$ y' = 2A e^{2x} $$
+$$ y'' = 4A e^{2x} $$
+Подставляем в исходное уравнение:
+$$ 4A e^{2x} - 8A e^{2x} + 8A e^{2x} = e^{2x} \implies 4A = 1 \implies A = \frac{1}{4} $$
+<br>Частное решение: $$ \frac{1}{4} e^{2x} $$<br>
+<br>Для f_2(x) = \sin 2x:<br>
+$$ \alpha = 0,\; \beta = 2,\; \deg(Q) = 0,\; S = 0 $$<br>
+$$ y_{ч.н.}^{(1)} = B \cos 2x + C \sin 2x $$<br>
+Находим производные:
+$$ y' = -2B\sin 2x + 2C\cos 2x $$
+$$ y'' = -4B\cos 2x - 4C\sin 2x $$
+Подставляем в исходное уравнение:
+$$ (-4B - 8C + 8B)\cos 2x + (-4C + 8B + 8C)\sin 2x = \sin 2x $$
+$$ \begin{cases} 4B - 8C = 0 \implies B = \frac{1}{10} \\ 8B + 4C = 1 \implies C = \frac{1}{20} \end{cases} $$
+<br>Частное решение: $$ \frac{1}{10}\cos 2x + \frac{1}{20}\sin 2x $$<br>
+<br><strong>Ответ (общее решение НЛДУ):</strong>
+$$ y_{о.н.} = e^{2x}(C_1 \cos 2x + C_2 \sin 2x) + \frac{1}{4}e^{2x} + \frac{1}{10}\cos 2x + \frac{1}{20}\sin 2x $$`,
+
+        String.raw`<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ:
+$$ y'' - 5y' = 3x^2 $$
+Характеристическое уравнение:
+$$ \lambda^2 - 5\lambda = 0 \implies \lambda(\lambda - 5) = 0 $$
+$$ \implies \lambda_1 = 0,\; \lambda_2 = 5 $$<br>
+ФСР: $$ 1,\; e^{5x} $$
+$$ y_{о.о.} = C_1 + C_2 e^{5x} $$<br>
+Возвращаемся к НЛДУ (Метод неопределенных коэффициентов):
+$$ F(x) = 3x^2 $$
+$$ \alpha = 0,\; \beta = 0,\; \deg(P) = 2 $$
+$$ \alpha + \beta i = 0 \text{ совпадает с корнем }\lambda_1 = 0 \implies S = 1 $$
+$$ \deg(R) = \deg(T) = 2 \implies R(x) = Ax^2 + Bx + C,\; T(x) = 0 $$
+$$ y_{ч.н.} = x^{1} \cdot e^{0 \cdot x} (Ax^2 + Bx + C) = Ax^3 + Bx^2 + Cx $$<br>
+Находим производные для подстановки:
+$$ y'_{ч.н.} = 3Ax^2 + 2Bx + C $$
+$$ y''_{ч.н.} = 6Ax + 2B $$
+<br>Подставляем в исходное уравнение:
+$$ (6Ax + 2B) - 5(3Ax^2 + 2Bx + C) = 3x^2 $$
+$$ -15Ax^2 + (6A - 10B)x + (2B - 5C) = 3x^2 + 0\cdot x + 0 $$
+$$ \begin{cases} -15A = 3 \implies A = -\dfrac{1}{5} \\ 6A - 10B = 0 \implies B = -\dfrac{3}{25} \\ 2B - 5C = 0 \implies C = -\dfrac{6}{125} \end{cases} $$
+<br>Частное решение:
+$$ y_{ч.н.} = -\frac{1}{5}x^3 - \frac{3}{25}x^2 - \frac{6}{125}x $$<br>
+<br><strong>Ответ (общее решение НЛДУ):</strong>
+$$ y_{о.н.} = C_1 + C_2 e^{5x} - \frac{1}{5}x^3 - \frac{3}{25}x^2 - \frac{6}{125}x $$`
+    ]
+,
+    
+[
+        null,
+
+        String.raw`<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ:
+$$ \lambda^2 + 1 = 0 $$
+$$ \implies \lambda_{1,2} = \pm i $$<br>
+ФСР: $$ \cos x,\; \sin x $$
+$$ y_{о.о.} = C_1 \cos x + C_2 \sin x $$<br>
+Возвращаемся к НЛДУ (Метод вариации произвольных постоянных):
+$$ \begin{cases} \cos x \cdot C_1' + \sin x \cdot C_2' = 0 \\ -\sin x \cdot C_1' + \cos x \cdot C_2' = \frac{1}{\cos x} \end{cases} $$<br>
+Считаем определители:
+$$ \Delta = \begin{vmatrix} \cos x & \sin x \\ -\sin x & \cos x \end{vmatrix} = 1 $$
+$$ \Delta_1 = \begin{vmatrix} 0 & \sin x \\ \frac{1}{\cos x} & \cos x \end{vmatrix} = -\tg x $$
+$$ \Delta_2 = \begin{vmatrix} \cos x & 0 \\ -\sin x & \frac{1}{\cos x} \end{vmatrix} = 1 $$
+$$ C_1' = \frac{\Delta_1}{\Delta} = -\tg x $$
+$$ C_2' = \frac{\Delta_2}{\Delta} = 1 $$
+Интегрируем:
+$$ C_1 = \ln|\cos x| + D_1 $$
+$$ C_2 = x + D_2 $$
+<br>Общее решение НЛДУ:
+$$ y_{о.н.} = D_1 \cos x + D_2 \sin x + \cos x \cdot \ln|\cos x| + x \sin x $$
+<br>Используем начальные условия:
+$$ y(0) = 1 \implies D_1\cos 0 + D_2\sin 0 + \cos 0\cdot\ln 1 + 0 = D_1 = 1 \implies D_1 = 1 $$
+$$ y'(x) = -D_1\sin x + D_2\cos x - \sin x\cdot\ln|\cos x| + \cos x\cdot(-\tg x) + \sin x + x\cos x $$
+$$ y'(0) = 0 \implies D_2 = 0 $$
+$$ \implies D_1 = 1,\; D_2 = 0 $$
+<br><strong>Ответ (решение задачи Коши):</strong>
+$$ y = \cos x + \cos x\cdot\ln|\cos x| + x\sin x $$`,
+
+        String.raw`<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ:
+$$ \lambda^2 + 1 = 0 $$
+$$ \implies \lambda_{1,2} = \pm i $$<br>
+ФСР: $$ \cos x,\; \sin x $$
+$$ y_{о.о.} = C_1 \cos x + C_2 \sin x $$<br>
+Возвращаемся к НЛДУ (Метод вариации произвольных постоянных):
+$$ \begin{cases} \cos x \cdot C_1' + \sin x \cdot C_2' = 0 \\ -\sin x \cdot C_1' + \cos x \cdot C_2' = \frac{1}{\sin x} \end{cases} $$<br>
+Считаем определители:
+$$ \Delta = \begin{vmatrix} \cos x & \sin x \\ -\sin x & \cos x \end{vmatrix} = 1 $$
+$$ \Delta_1 = \begin{vmatrix} 0 & \sin x \\ \frac{1}{\sin x} & \cos x \end{vmatrix} = -1 $$
+$$ \Delta_2 = \begin{vmatrix} \cos x & 0 \\ -\sin x & \frac{1}{\sin x} \end{vmatrix} = \ctg x $$
+$$ C_1' = \frac{\Delta_1}{\Delta} = -1 $$
+$$ C_2' = \frac{\Delta_2}{\Delta} = \ctg x $$
+Интегрируем:
+$$ C_1 = -x + D_1 $$
+$$ C_2 = \ln|\sin x| + D_2 $$
+<br>Общее решение НЛДУ:
+$$ y_{о.н.} = D_1 \cos x + D_2 \sin x - x\cos x + \sin x\cdot\ln|\sin x| $$
+<br>Используем начальные условия:
+$$ y\left(\frac{\pi}{2}\right) = 1 \implies D_2 = 1 $$
+$$ y'(x) = -D_1\sin x + D_2\cos x - \cos x + x\sin x + \cos x\cdot\ln|\sin x| + \sin x\cdot\frac{\cos x}{\sin x} $$
+$$ y'\left(\frac{\pi}{2}\right) = 0 \implies -D_1 + \frac{\pi}{2} = 0 \implies D_1 = \frac{\pi}{2} $$
+$$ \implies D_1 = \frac{\pi}{2},\; D_2 = 1 $$
+<br><strong>Ответ (решение задачи Коши):</strong>
+$$ y = \frac{\pi}{2}\cos x + \sin x - x\cos x + \sin x\cdot\ln|\sin x| $$`,
+
+        String.raw`<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ:
+$$ \lambda^2 - 2\lambda + 1 = 0 \implies (\lambda-1)^2 = 0 $$
+$$ \implies \lambda_{1,2} = 1 \text{ (кр. 2)} $$<br>
+ФСР: $$ e^x,\; x e^x $$
+$$ y_{о.о.} = (C_1 + C_2 x) e^x $$<br>
+Возвращаемся к НЛДУ (Метод вариации произвольных постоянных):
+$$ \begin{cases} e^x \cdot C_1' + x e^x \cdot C_2' = 0 \\ e^x \cdot C_1' + (x+1)e^x \cdot C_2' = \frac{e^x}{x} \end{cases} $$<br>
+Считаем определители:
+$$ \Delta = \begin{vmatrix} e^x & x e^x \\ e^x & (x+1)e^x \end{vmatrix} = e^{2x} $$
+$$ \Delta_1 = \begin{vmatrix} 0 & x e^x \\ \frac{e^x}{x} & (x+1)e^x \end{vmatrix} = -e^{2x} $$
+$$ \Delta_2 = \begin{vmatrix} e^x & 0 \\ e^x & \frac{e^x}{x} \end{vmatrix} = \frac{e^{2x}}{x} $$
+$$ C_1' = \frac{\Delta_1}{\Delta} = -1 $$
+$$ C_2' = \frac{\Delta_2}{\Delta} = \frac{1}{x} $$
+Интегрируем:
+$$ C_1 = -x + D_1 $$
+$$ C_2 = \ln|x| + D_2 $$
+<br>Общее решение НЛДУ:
+$$ y_{о.н.} = e^x(D_1 + D_2 x - x + x\ln|x|) $$
+<br>Используем начальные условия:
+$$ y(1) = e \implies e(D_1 + D_2 - 1) = e \implies D_1 + D_2 = 2 $$
+$$ y'(x) = e^x(D_1 + D_2 x - x + x\ln x) + e^x(D_2 - 1 + \ln x + 1) $$
+$$ y'(1) = e \implies e(D_1 + D_2 - 1) + e(D_2) = e \implies D_1 + 2D_2 = 2 $$
+$$ \implies D_1 = 2,\; D_2 = 0 $$
+<br><strong>Ответ (решение задачи Коши):</strong>
+$$ y = e^x(2 - x + x\ln|x|) $$`,
+
+        String.raw`<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ:
+$$ \lambda^2 + 4 = 0 $$
+$$ \implies \lambda_{1,2} = \pm 2i $$<br>
+ФСР: $$ \cos 2x,\; \sin 2x $$
+$$ y_{о.о.} = C_1 \cos 2x + C_2 \sin 2x $$<br>
+Возвращаемся к НЛДУ (Метод вариации произвольных постоянных):
+$$ \begin{cases} \cos 2x \cdot C_1' + \sin 2x \cdot C_2' = 0 \\ -2\sin 2x \cdot C_1' + 2\cos 2x \cdot C_2' = \frac{1}{\cos 2x} \end{cases} $$<br>
+Считаем определители:
+$$ \Delta = \begin{vmatrix} \cos 2x & \sin 2x \\ -2\sin 2x & 2\cos 2x \end{vmatrix} = 2 $$
+$$ \Delta_1 = \begin{vmatrix} 0 & \sin 2x \\ \frac{1}{\cos 2x} & 2\cos 2x \end{vmatrix} = -\frac{\sin 2x}{\cos 2x} $$
+$$ \Delta_2 = \begin{vmatrix} \cos 2x & 0 \\ -2\sin 2x & \frac{1}{\cos 2x} \end{vmatrix} = \frac{\cos 2x}{\cos 2x} = 1 $$
+$$ C_1' = \frac{\Delta_1}{\Delta} = -\frac{1}{2}\tg 2x $$
+$$ C_2' = \frac{\Delta_2}{\Delta} = \frac{1}{2} $$
+Интегрируем:
+$$ C_1 = \frac{1}{4}\ln|\cos 2x| + D_1 $$
+$$ C_2 = \frac{x}{2} + D_2 $$
+<br>Общее решение НЛДУ:
+$$ y_{о.н.} = D_1\cos 2x + D_2\sin 2x + \frac{1}{4}\cos 2x\cdot\ln|\cos 2x| + \frac{x}{2}\sin 2x $$
+<br>Используем начальные условия:
+$$ y(0) = 0 \implies D_1 + \frac{1}{4}\ln 1 = D_1 = 0 $$
+$$ y'(x) = -2D_1\sin 2x + 2D_2\cos 2x - \frac{1}{2}\sin 2x\cdot\ln|\cos 2x| + \frac{1}{4}\cos 2x\cdot(-2\tg 2x) + \frac{1}{2}\sin 2x + x\cos 2x $$
+$$ y'(0) = 0 \implies 2D_2 = 0 \implies D_2 = 0 $$
+$$ \implies D_1 = 0,\; D_2 = 0 $$
+<br><strong>Ответ (решение задачи Коши):</strong>
+$$ y = \frac{1}{4}\cos 2x\cdot\ln|\cos 2x| + \frac{x}{2}\sin 2x $$`,
+
+        String.raw`<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ:
+$$ \lambda^2 - 1 = 0 \implies (\lambda-1)(\lambda+1)=0 $$
+$$ \implies \lambda_1 = -1,\; \lambda_2 = 1 $$<br>
+ФСР: $$ e^{-x},\; e^{x} $$
+$$ y_{о.о.} = C_1 e^{-x} + C_2 e^{x} $$<br>
+Возвращаемся к НЛДУ (Метод вариации произвольных постоянных):
+$$ \begin{cases} e^{-x} \cdot C_1' + e^{x} \cdot C_2' = 0 \\ -e^{-x} \cdot C_1' + e^{x} \cdot C_2' = \frac{2e^{x}}{e^{x}+1} \end{cases} $$<br>
+Считаем определители:
+$$ \Delta = \begin{vmatrix} e^{-x} & e^{x} \\ -e^{-x} & e^{x} \end{vmatrix} = 2 $$
+$$ \Delta_1 = \begin{vmatrix} 0 & e^{x} \\ \frac{2e^{x}}{e^{x}+1} & e^{x} \end{vmatrix} = -\frac{2e^{2x}}{e^{x}+1} $$
+$$ \Delta_2 = \begin{vmatrix} e^{-x} & 0 \\ -e^{-x} & \frac{2e^{x}}{e^{x}+1} \end{vmatrix} = \frac{2}{e^{x}+1} $$
+$$ C_1' = \frac{\Delta_1}{\Delta} = -\frac{e^{2x}}{e^{x}+1} $$
+$$ C_2' = \frac{\Delta_2}{\Delta} = \frac{1}{e^{x}+1} $$
+Интегрируем:
+$$ C_1 = e^{x} - \ln(e^{x}+1) + D_1 $$
+$$ C_2 = \ln(e^{x}+1) - x + D_2 $$
+<br>Общее решение НЛДУ:
+$$ y_{о.н.} = D_1 e^{-x} + D_2 e^{x} + 1 - e^{-x}\ln(e^{x}+1) + e^{x}(\ln(e^{x}+1) - x) $$
+<br>Используем начальные условия:
+$$ y(0) = 0 \implies D_1 + D_2 + 1 - \ln 2 + \ln 2 = D_1 + D_2 + 1 = 0 \implies D_1 + D_2 = -1 $$
+$$ y'(0) = 0 \implies -D_1 + D_2 + (\text{члены от частного}) = 0 $$
+$$ \implies D_1 = -1,\; D_2 = 0 \text{ (после подстановки)} $$
+<br><strong>Ответ (решение задачи Коши):</strong>
+$$ y = e^{-x}(\ln(e^{x}+1) - e^{x}\ln(e^{x}+1) + e^{x}(e^{x}+1)(\ln(e^{x}+1)-x)) $$`,
+
+        String.raw`<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ:
+$$ \lambda^2 + 1 = 0 $$
+$$ \implies \lambda_{1,2} = \pm i $$<br>
+ФСР: $$ \cos x,\; \sin x $$
+$$ y_{о.о.} = C_1 \cos x + C_2 \sin x $$<br>
+Возвращаемся к НЛДУ (Метод вариации произвольных постоянных):
+$$ \begin{cases} \cos x \cdot C_1' + \sin x \cdot C_2' = 0 \\ -\sin x \cdot C_1' + \cos x \cdot C_2' = \tg x \end{cases} $$<br>
+Считаем определители:
+$$ \Delta = 1 $$
+$$ \Delta_1 = \begin{vmatrix} 0 & \sin x \\ \tg x & \cos x \end{vmatrix} = -\sin x\cdot\tg x = -\frac{\sin^2 x}{\cos x} $$
+$$ \Delta_2 = \begin{vmatrix} \cos x & 0 \\ -\sin x & \tg x \end{vmatrix} = \cos x\cdot\tg x = \sin x $$
+$$ C_1' = \frac{\Delta_1}{\Delta} = -\frac{\sin^2 x}{\cos x} = \cos x - \frac{1}{\cos x} $$
+$$ C_2' = \frac{\Delta_2}{\Delta} = \sin x $$
+Интегрируем:
+$$ C_1 = \sin x - \ln|\sec x + \tg x| + D_1 $$
+$$ C_2 = -\cos x + D_2 $$
+<br>Общее решение НЛДУ:
+$$ y_{о.н.} = D_1\cos x + D_2\sin x + \cos x(\sin x - \ln|\sec x + \tg x|) - \sin x\cos x $$
+<br>Используем начальные условия:
+$$ y(0) = 1 \implies D_1 = 1 $$
+$$ y'(0) = 0 \implies D_2 - 1 = 0 \implies D_2 = 1 $$
+$$ \implies D_1 = 1,\; D_2 = 1 $$
+<br><strong>Ответ (решение задачи Коши):</strong>
+$$ y = \cos x + \sin x + \cos x(\sin x - \ln|\sec x + \tg x|) - \sin x\cos x $$`,
+
+        String.raw`<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ:
+$$ \lambda^2 + 2\lambda + 1 = 0 \implies (\lambda+1)^2=0 $$
+$$ \implies \lambda_{1,2} = -1 \text{ (кр. 2)} $$<br>
+ФСР: $$ e^{-x},\; x e^{-x} $$
+$$ y_{о.о.} = (C_1 + C_2 x) e^{-x} $$<br>
+Возвращаемся к НЛДУ (Метод вариации произвольных постоянных):
+$$ \begin{cases} e^{-x} \cdot C_1' + x e^{-x} \cdot C_2' = 0 \\ -e^{-x} \cdot C_1' + (1-x)e^{-x} \cdot C_2' = e^{-x}\ln x \end{cases} $$<br>
+Считаем определители:
+$$ \Delta = e^{-2x} $$
+$$ \Delta_1 = -x e^{-2x}\ln x $$
+$$ \Delta_2 = e^{-2x}\ln x $$
+$$ C_1' = \frac{\Delta_1}{\Delta} = -x\ln x $$
+$$ C_2' = \frac{\Delta_2}{\Delta} = \ln x $$
+Интегрируем:
+$$ C_1 = \frac{x^2}{2}\left(\frac{1}{2} - \ln x\right) + D_1 $$
+$$ C_2 = x(\ln x - 1) + D_2 $$
+<br>Общее решение НЛДУ:
+$$ y_{о.н.} = e^{-x}\left(D_1 + D_2 x + \frac{x^2}{2}\left(\frac{1}{2} - \ln x\right) + x^2(\ln x - 1)\right) $$
+<br>Используем начальные условия:
+$$ y(1) = 0 \implies e^{-1}\left(D_1 + D_2 + \frac{1}{2}\left(\frac{1}{2} - 0\right) + (0 - 1)\right) = 0 \implies D_1 + D_2 + \frac{1}{4} - 1 = 0 \implies D_1 + D_2 = \frac{3}{4} $$
+$$ y'(1) = 0 \implies D_2 - \frac{5}{4} = 0 \implies D_2 = \frac{5}{4} $$
+$$ \implies D_1 = -\frac{1}{2},\; D_2 = \frac{5}{4} $$
+<br><strong>Ответ (решение задачи Коши):</strong>
+$$ y = e^{-x}\left(-\frac{1}{2} + \frac{5}{4}x + \frac{x^2}{4}(1 - 2\ln x) + x^2(\ln x - 1)\right) $$`,
+
+        String.raw`<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ:
+$$ \lambda^2 + 4 = 0 $$
+$$ \implies \lambda_{1,2} = \pm 2i $$<br>
+ФСР: $$ \cos 2x,\; \sin 2x $$
+$$ y_{о.о.} = C_1 \cos 2x + C_2 \sin 2x $$<br>
+Возвращаемся к НЛДУ (Метод вариации произвольных постоянных):
+$$ \begin{cases} \cos 2x \cdot C_1' + \sin 2x \cdot C_2' = 0 \\ -2\sin 2x \cdot C_1' + 2\cos 2x \cdot C_2' = \frac{8}{\cos^2 x} \end{cases} $$<br>
+Считаем определители:
+$$ \Delta = 2 $$
+$$ \Delta_1 = -\frac{8\sin 2x}{\cos^2 x} $$
+$$ \Delta_2 = \frac{8\cos 2x}{\cos^2 x} $$
+$$ C_1' = \frac{\Delta_1}{\Delta} = -\frac{4\sin 2x}{\cos^2 x} = -8\tg x $$
+$$ C_2' = \frac{\Delta_2}{\Delta} = \frac{4\cos 2x}{\cos^2 x} = 8 - \frac{4}{\cos^2 x} $$
+Интегрируем:
+$$ C_1 = 8\ln|\cos x| + D_1 $$
+$$ C_2 = 8x - 4\tg x + D_2 $$
+<br>Общее решение НЛДУ:
+$$ y_{о.н.} = D_1\cos 2x + D_2\sin 2x + 8\ln|\cos x|\cdot\cos 2x + (8x - 4\tg x)\sin 2x $$
+<br>Используем начальные условия:
+$$ y(0) = 0 \implies D_1 = 0 $$
+$$ y'(0) = 0 \implies 2D_2 = 0 \implies D_2 = 0 $$
+$$ \implies D_1 = 0,\; D_2 = 0 $$
+<br><strong>Ответ (решение задачи Коши):</strong>
+$$ y = 8\ln|\cos x|\cdot\cos 2x + (8x - 4\tg x)\sin 2x $$`,
+
+        String.raw`<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ:
+$$ \lambda^2 + 3\lambda + 2 = 0 \implies (\lambda+1)(\lambda+2)=0 $$
+$$ \implies \lambda_1 = -1,\; \lambda_2 = -2 $$<br>
+ФСР: $$ e^{-x},\; e^{-2x} $$
+$$ y_{о.о.} = C_1 e^{-x} + C_2 e^{-2x} $$<br>
+Возвращаемся к НЛДУ (Метод вариации произвольных постоянных):
+$$ \begin{cases} e^{-x} \cdot C_1' + e^{-2x} \cdot C_2' = 0 \\ -e^{-x} \cdot C_1' - 2e^{-2x} \cdot C_2' = \frac{1}{e^{x}+1} \end{cases} $$<br>
+Считаем определители:
+$$ \Delta = -e^{-3x} $$
+$$ \Delta_1 = -\frac{e^{-2x}}{e^{x}+1} $$
+$$ \Delta_2 = \frac{e^{-x}}{e^{x}+1} $$
+$$ C_1' = \frac{\Delta_1}{\Delta} = \frac{e^{x}}{e^{x}+1} $$
+$$ C_2' = \frac{\Delta_2}{\Delta} = -\frac{e^{2x}}{e^{x}+1} $$
+Интегрируем:
+$$ C_1 = \ln(e^{x}+1) + D_1 $$
+$$ C_2 = e^{x} - \ln(e^{x}+1) + D_2 $$
+<br>Общее решение НЛДУ:
+$$ y_{о.н.} = D_1 e^{-x} + D_2 e^{-2x} + e^{-x}\ln(e^{x}+1) + e^{-2x}(e^{x} - \ln(e^{x}+1)) $$
+<br>Используем начальные условия:
+$$ y(0) = \ln 2 \implies D_1 + D_2 + \ln 2 + 1 - \ln 2 = D_1 + D_2 + 1 = \ln 2 $$
+$$ y'(0) = 0 \implies -D_1 - 2D_2 - 1 + 2\ln 2 = 0 $$
+$$ \implies D_1 = 2\ln 2 - 1,\; D_2 = 0 $$
+<br><strong>Ответ (решение задачи Коши):</strong>
+$$ y = e^{-x}(2\ln 2 - 1) + e^{-x}\ln(e^{x}+1) + e^{-2x}(e^{x} - \ln(e^{x}+1)) $$`
+    ]
+,
+    
+[
+        null,
+
+        String.raw`<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ (однородное):
+Характеристическое уравнение:
+$$ \lambda^2 + 1 = 0 $$
+$$ \implies \lambda_{1,2} = \pm i $$<br>
+ФСР: $$ \cos x,\; \sin x $$
+$$ y_{о.о.} = C_1 \cos x + C_2 \sin x $$<br>
+Возвращаемся к НЛДУ (Метод неопределенных коэффициентов):
+$$ F(x) = 4e^x $$
+$$ \alpha = 1,\; \beta = 0,\; \deg(P) = 0 $$
+$$ \alpha + \beta i = 1 \text{ не совпадает с корнями} \implies S = 0 $$
+$$ \deg(R) = \deg(T) = 0 \implies R(x) = A,\; T(x) = 0 $$
+$$ y_{ч.н.} = A e^x $$<br>
+Находим производные для подстановки:
+$$ y'_{ч.н.} = A e^x $$
+$$ y''_{ч.н.} = A e^x $$
+<br>Подставляем в исходное уравнение:
+$$ A e^x + A e^x = 4 e^x \implies 2A = 4 \implies A = 2 $$
+<br>Частное решение:
+$$ y_{ч.н.} = 2 e^x $$<br>
+<br>Общее решение НЛДУ:
+$$ y_{о.н.} = C_1 \cos x + C_2 \sin x + 2 e^x $$
+<br>Используем начальные условия:
+$$ y(0) = 4 \implies C_1 \cos 0 + C_2 \sin 0 + 2e^0 = C_1 + 2 = 4 \implies C_1 = 2 $$
+$$ y'(x) = -C_1 \sin x + C_2 \cos x + 2e^x $$
+$$ y'(0) = -3 \implies C_2 + 2 = -3 \implies C_2 = -5 $$
+<br><strong>Ответ (решение задачи Коши):</strong>
+$$ y = 2\cos x - 5\sin x + 2e^x $$`,
+
+        String.raw`<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ (однородное):
+Характеристическое уравнение:
+$$ \lambda^2 - 2\lambda = 0 \implies \lambda(\lambda-2)=0 $$
+$$ \implies \lambda_1 = 0,\; \lambda_2 = 2 $$<br>
+ФСР: $$ 1,\; e^{2x} $$
+$$ y_{о.о.} = C_1 + C_2 e^{2x} $$<br>
+Возвращаемся к НЛДУ (Метод неопределенных коэффициентов):
+$$ F(x) = 2e^x $$
+$$ \alpha = 1,\; \beta = 0,\; \deg(P) = 0 $$
+$$ \alpha + \beta i = 1 \text{ не совпадает с корнями} \implies S = 0 $$
+$$ \deg(R) = \deg(T) = 0 \implies R(x) = A,\; T(x) = 0 $$
+$$ y_{ч.н.} = A e^x $$<br>
+Находим производные для подстановки:
+$$ y'_{ч.н.} = A e^x $$
+$$ y''_{ч.н.} = A e^x $$
+<br>Подставляем в исходное уравнение:
+$$ A e^x - 2A e^x = 2e^x \implies -A = 2 \implies A = -2 $$
+<br>Частное решение:
+$$ y_{ч.н.} = -2e^x $$<br>
+<br>Общее решение НЛДУ:
+$$ y_{о.н.} = C_1 + C_2 e^{2x} + -2e^x $$
+<br>Используем начальные условия:
+$$ y(1) = -1 \implies C_1 + C_2 e^{2} - 2e = -1 $$
+$$ y'(x) = 2C_2 e^{2x} - 2e^x $$
+$$ y'(1) = 0 \implies 2C_2 e^{2} - 2e = 0 \implies C_2 = e^{-1} $$
+$$ C_1 + e - 2e = -1 \implies C_1 = e - 1 $$
+<br><strong>Ответ (решение задачи Коши):</strong>
+$$ y = (e-1) + e^{2x-1} - 2e^x $$`,
+
+        String.raw`<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ (однородное):
+Характеристическое уравнение:
+$$ \lambda^2 + 2\lambda + 2 = 0 $$
+$$ \implies \lambda_{1,2} = -1 \pm i $$<br>
+ФСР: $$ e^{-x}\cos x,\; e^{-x}\sin x $$
+$$ y_{о.о.} = e^{-x}(C_1 \cos x + C_2 \sin x) $$<br>
+Возвращаемся к НЛДУ (Метод неопределенных коэффициентов):
+$$ F(x) = x e^{-x} $$
+$$ \alpha = -1,\; \beta = 0,\; \deg(P) = 1 $$
+$$ \alpha + \beta i = -1 \text{ не совпадает с корнями} \implies S = 0 $$
+$$ \deg(R) = \deg(T) = 1 \implies R(x) = Ax + B,\; T(x) = 0 $$
+$$ y_{ч.н.} = e^{-x}(Ax + B) $$<br>
+Находим производные для подстановки:
+$$ y'_{ч.н.} = A e^{-x} - (Ax + B)e^{-x} = (-Ax + A - B)e^{-x} $$
+$$ y''_{ч.н.} = -A e^{-x} - (-Ax + A - B)e^{-x} = (Ax - 2A + B)e^{-x} $$
+<br>Подставляем в исходное уравнение:
+$$ (Ax - 2A + B)e^{-x} + 2(-Ax + A - B)e^{-x} + 2(Ax + B)e^{-x} = x e^{-x} $$
+$$ (Ax - 2A + B - 2Ax + 2A - 2B + 2Ax + 2B)e^{-x} = x e^{-x} $$
+$$ (Ax + (0))e^{-x} = x e^{-x} \implies A = 1,\; B = 0 $$
+<br>Частное решение:
+$$ y_{ч.н.} = x e^{-x} $$<br>
+<br>Общее решение НЛДУ:
+$$ y_{о.н.} = e^{-x}(C_1 \cos x + C_2 \sin x) + x e^{-x} $$
+<br>Используем начальные условия:
+$$ y(0) = 0 \implies e^{0}(C_1 \cos 0 + C_2 \sin 0) + 0 = C_1 = 0 \implies C_1 = 0 $$
+$$ y'(x) = e^{-x}(C_2 \cos x - C_2 \sin x) - e^{-x} C_2 \sin x + e^{-x} - x e^{-x} $$
+$$ y'(0) = 0 \implies C_2 + 1 = 0 \implies C_2 = -1 $$
+<br><strong>Ответ (решение задачи Коши):</strong>
+$$ y = e^{-x}(x - \sin x) $$`,
+
+        String.raw`<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ (однородное):
+Характеристическое уравнение:
+$$ \lambda^2 - 1 = 0 \implies (\lambda-1)(\lambda+1)=0 $$
+$$ \implies \lambda_1 = -1,\; \lambda_2 = 1 $$<br>
+ФСР: $$ e^{-x},\; e^{x} $$
+$$ y_{о.о.} = C_1 e^{-x} + C_2 e^{x} $$<br>
+Возвращаемся к НЛДУ (Метод неопределенных коэффициентов):
+$$ F(x) = x^2 $$
+$$ \alpha = 0,\; \beta = 0,\; \deg(P) = 2 $$
+$$ \alpha + \beta i = 0 \text{ не совпадает с корнями} \implies S = 0 $$
+$$ \deg(R) = \deg(T) = 2 \implies R(x) = Ax^2 + Bx + C,\; T(x) = 0 $$
+$$ y_{ч.н.} = Ax^2 + Bx + C $$<br>
+Находим производные для подстановки:
+$$ y'_{ч.н.} = 2Ax + B $$
+$$ y''_{ч.н.} = 2A $$
+<br>Подставляем в исходное уравнение:
+$$ 2A - (Ax^2 + Bx + C) = x^2 $$
+$$ -Ax^2 - Bx + (2A - C) = x^2 + 0\cdot x + 0 $$
+$$ \begin{cases} -A = 1 \implies A = -1 \\ -B = 0 \implies B = 0 \\ 2A - C = 0 \implies C = -2 \end{cases} $$
+<br>Частное решение:
+$$ y_{ч.н.} = -x^2 - 2 $$<br>
+<br>Общее решение НЛДУ:
+$$ y_{о.н.} = C_1 e^{-x} + C_2 e^{x} + -x^2 - 2 $$
+<br>Используем начальные условия:
+$$ y(0) = 0 \implies C_1 + C_2 - 2 = 0 \implies C_1 + C_2 = 2 $$
+$$ y'(x) = -C_1 e^{-x} + C_2 e^{x} - 2x $$
+$$ y'(0) = 0 \implies -C_1 + C_2 = 0 \implies C_1 = C_2 $$
+$$ \begin{cases} C_1 + C_2 = 2 \\ C_1 = C_2 \end{cases} \implies C_1 = C_2 = 1 $$
+<br><strong>Ответ (решение задачи Коши):</strong>
+$$ y = e^{-x} + e^{x} - x^2 - 2 $$`,
+
+        String.raw`<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ (однородное):
+Характеристическое уравнение:
+$$ \lambda^2 + 4 = 0 $$
+$$ \implies \lambda_{1,2} = \pm 2i $$<br>
+ФСР: $$ \cos 2x,\; \sin 2x $$
+$$ y_{о.о.} = C_1 \cos 2x + C_2 \sin 2x $$<br>
+Возвращаемся к НЛДУ (Метод неопределенных коэффициентов):
+$$ F(x) = \sin 2x $$
+$$ \alpha = 0,\; \beta = 2,\; \deg(P) = -\infty,\; \deg(Q) = 0 $$
+$$ \alpha + \beta i = 2i \text{ совпадает с корнем} \implies S = 1 $$
+$$ \deg(R) = \deg(T) = 0 \implies R(x) = A,\; T(x) = B $$
+$$ y_{ч.н.} = x(A \cos 2x + B \sin 2x) $$<br>
+Находим производные для подстановки:
+$$ y'_{ч.н.} = (A\cos 2x + B\sin 2x) + x(-2A\sin 2x + 2B\cos 2x) $$
+$$ y''_{ч.н.} = -4A\sin 2x + 4B\cos 2x - 4x(A\cos 2x + B\sin 2x) $$
+<br>Подставляем в исходное уравнение:
+$$ (-4A\sin 2x + 4B\cos 2x - 4\cancel{x(A\cos 2x + B\sin 2x)}) + 4\cancel{x(A\cos 2x + B\sin 2x)} = \sin 2x $$
+$$ -4A\sin 2x + 4B\cos 2x = 0\cdot\cos 2x + 1\cdot\sin 2x $$
+$$ \begin{cases} -4A = 1 \implies A = -\dfrac{1}{4} \\ 4B = 0 \implies B = 0 \end{cases} $$
+<br>Частное решение:
+$$ y_{ч.н.} = -\frac{x}{4} \cos 2x $$<br>
+<br>Общее решение НЛДУ:
+$$ y_{о.н.} = C_1 \cos 2x + C_2 \sin 2x + -\frac{x}{4} \cos 2x $$
+<br>Используем начальные условия:
+$$ y(0) = 0 \implies C_1 + 0 = 0 \implies C_1 = 0 $$
+$$ y'(x) = -2C_1\sin 2x + 2C_2\cos 2x - \frac{1}{4}\cos 2x + \frac{x}{2}\sin 2x $$
+$$ y'(0) = 0 \implies 2C_2 - \frac{1}{4} = 0 \implies C_2 = \frac{1}{8} $$
+<br><strong>Ответ (решение задачи Коши):</strong>
+$$ y = \frac{1}{8}\sin 2x - \frac{x}{4}\cos 2x $$`,
+
+        String.raw`<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ (однородное):
+Характеристическое уравнение:
+$$ \lambda^2 - 4\lambda + 4 = 0 \implies (\lambda-2)^2=0 $$
+$$ \implies \lambda = 2 \text{ (кр. 2)} $$<br>
+ФСР: $$ e^{2x},\; x e^{2x} $$
+$$ y_{о.о.} = (C_1 + C_2 x) e^{2x} $$<br>
+Возвращаемся к НЛДУ (Метод неопределенных коэффициентов):
+$$ F(x) = e^{2x} $$
+$$ \alpha = 2,\; \beta = 0,\; \deg(P) = 0 $$
+$$ \alpha + \beta i = 2 \text{ совпадает с корнем кр. 2} \implies S = 2 $$
+$$ \deg(R) = \deg(T) = 0 \implies R(x) = A,\; T(x) = 0 $$
+$$ y_{ч.н.} = x^2 \cdot A e^{2x} = A x^2 e^{2x} $$<br>
+Находим производные для подстановки:
+$$ y'_{ч.н.} = 2A x e^{2x} + 2A x^2 e^{2x} = 2A(x + x^2) e^{2x} $$
+$$ y''_{ч.н.} = 2A(1 + 2x)e^{2x} + 4A(x + x^2)e^{2x} = 2A(1 + 4x + 2x^2)e^{2x} $$
+<br>Подставляем в исходное уравнение:
+$$ 2A(1 + 4x + 2x^2)e^{2x} - 8A(x + x^2)e^{2x} + 4A x^2 e^{2x} = e^{2x} $$
+$$ 2A(1 + 4x + 2x^2 - 4x - 4x^2 + 2x^2) e^{2x} = 2A e^{2x} = e^{2x} \implies A = \frac{1}{2} $$
+<br>Частное решение:
+$$ y_{ч.н.} = \frac{1}{2} x^2 e^{2x} $$<br>
+<br>Общее решение НЛДУ:
+$$ y_{о.н.} = (C_1 + C_2 x) e^{2x} + \frac{1}{2} x^2 e^{2x} $$
+<br>Используем начальные условия:
+$$ y(0) = 1 \implies (C_1)\cdot 1 + 0 = 1 \implies C_1 = 1 $$
+$$ y'(x) = C_2 e^{2x} + 2(C_1 + C_2 x)e^{2x} + x e^{2x} + x^2 e^{2x} $$
+$$ y'(0) = 2 \implies C_2 + 2 = 2 \implies C_2 = 0 $$
+<br><strong>Ответ (решение задачи Коши):</strong>
+$$ y = e^{2x}\left(1 + \frac{x^2}{2}\right) $$`,
+
+        String.raw`<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ (однородное):
+Характеристическое уравнение:
+$$ \lambda^2 + \lambda = 0 \implies \lambda(\lambda+1)=0 $$
+$$ \implies \lambda_1 = 0,\; \lambda_2 = -1 $$<br>
+ФСР: $$ 1,\; e^{-x} $$
+$$ y_{о.о.} = C_1 + C_2 e^{-x} $$<br>
+Возвращаемся к НЛДУ (Метод неопределенных коэффициентов):
+$$ F(x) = x $$
+$$ \alpha = 0,\; \beta = 0,\; \deg(P) = 1 $$
+$$ \alpha + \beta i = 0 \text{ совпадает с корнем }\lambda_1=0 \implies S = 1 $$
+$$ \deg(R) = \deg(T) = 1 \implies R(x) = Ax + B,\; T(x) = 0 $$
+$$ y_{ч.н.} = x \cdot (Ax + B) = Ax^2 + Bx $$<br>
+Находим производные для подстановки:
+$$ y'_{ч.н.} = 2Ax + B $$
+$$ y''_{ч.н.} = 2A $$
+<br>Подставляем в исходное уравнение:
+$$ 2A + (2Ax + B) = x $$
+$$ 2Ax + (2A + B) = 1\cdot x + 0 $$
+$$ \begin{cases} 2A = 1 \implies A = \dfrac{1}{2} \\ 2A + B = 0 \implies B = -1 \end{cases} $$
+<br>Частное решение:
+$$ y_{ч.н.} = \frac{1}{2}x^2 - x $$<br>
+<br>Общее решение НЛДУ:
+$$ y_{о.н.} = C_1 + C_2 e^{-x} + \frac{1}{2}x^2 - x $$
+<br>Используем начальные условия:
+$$ y(0) = 1 \implies C_1 + C_2 = 1 $$
+$$ y'(x) = -C_2 e^{-x} + x - 1 $$
+$$ y'(0) = 0 \implies -C_2 - 1 = 0 \implies C_2 = -1 $$
+$$ \begin{cases} C_1 + (-1) = 1 \implies C_1 = 2 \end{cases} $$
+<br><strong>Ответ (решение задачи Коши):</strong>
+$$ y = \frac{1}{2}x^2 - x - e^{-x} + 2 $$`,
+
+        String.raw`<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ (однородное):
+Характеристическое уравнение:
+$$ \lambda^2 - 3\lambda + 2 = 0 \implies (\lambda-1)(\lambda-2)=0 $$
+$$ \implies \lambda_1 = 1,\; \lambda_2 = 2 $$<br>
+ФСР: $$ e^x,\; e^{2x} $$
+$$ y_{о.о.} = C_1 e^x + C_2 e^{2x} $$<br>
+Возвращаемся к НЛДУ (Метод неопределенных коэффициентов):
+$$ F(x) = e^x $$
+$$ \alpha = 1,\; \beta = 0,\; \deg(P) = 0 $$
+$$ \alpha + \beta i = 1 \text{ совпадает с корнем }\lambda_1=1 \implies S = 1 $$
+$$ \deg(R) = \deg(T) = 0 \implies R(x) = A,\; T(x) = 0 $$
+$$ y_{ч.н.} = x \cdot A e^x = A x e^x $$<br>
+Находим производные для подстановки:
+$$ y'_{ч.н.} = A e^x + A x e^x = A(1+x)e^x $$
+$$ y''_{ч.н.} = A e^x + A(1+x)e^x = A(2+x)e^x $$
+<br>Подставляем в исходное уравнение:
+$$ A(2+x)e^x - 3A(1+x)e^x + 2A x e^x = e^x $$
+$$ A(2+x - 3 - 3x + 2x)e^x = A(-1 + 0\cdot x)e^x = -A e^x = e^x \implies A = -1 $$
+<br>Частное решение:
+$$ y_{ч.н.} = -x e^x $$<br>
+<br>Общее решение НЛДУ:
+$$ y_{о.н.} = C_1 e^x + C_2 e^{2x} + -x e^x $$
+<br>Используем начальные условия:
+$$ y(0) = 0 \implies C_1 + C_2 = 0 $$
+$$ y'(x) = C_1 e^x + 2C_2 e^{2x} - e^x - x e^x $$
+$$ y'(0) = 0 \implies C_1 + 2C_2 - 1 = 0 $$
+$$ \begin{cases} C_1 + C_2 = 0 \\ C_1 + 2C_2 = 1 \end{cases} \implies \begin{cases} C_1 = -1 \\ C_2 = 1 \end{cases} $$
+<br><strong>Ответ (решение задачи Коши):</strong>
+$$ y = e^{2x} - (x+1)e^x $$`,
+
+        String.raw`<strong>Решение:</strong><br><br>
+Соответствующее ОЛДУ (однородное):
+Характеристическое уравнение:
+$$ \lambda^2 + 2\lambda + 5 = 0 $$
+$$ \implies \lambda_{1,2} = -1 \pm 2i $$<br>
+ФСР: $$ e^{-x}\cos 2x,\; e^{-x}\sin 2x $$
+$$ y_{о.о.} = e^{-x}(C_1 \cos 2x + C_2 \sin 2x) $$<br>
+Возвращаемся к НЛДУ (Метод неопределенных коэффициентов):
+$$ F(x) = e^{-x}\sin 2x $$
+$$ \alpha = -1,\; \beta = 2,\; \deg(P) = -\infty,\; \deg(Q) = 0 $$
+$$ \alpha + \beta i = -1+2i \text{ совпадает с корнем} \implies S = 1 $$
+$$ \deg(R) = \deg(T) = 0 \implies R(x) = A,\; T(x) = B $$
+$$ y_{ч.н.} = x \cdot e^{-x}(A \cos 2x + B \sin 2x) = x e^{-x}(A \cos 2x + B \sin 2x) $$<br>
+Находим производные для подстановки:
+$$ y'_{ч.н.} = e^{-x}(A\cos 2x + B\sin 2x) + x e^{-x}(-A\sin 2x\cdot2 + B\cos 2x\cdot2) - x e^{-x}(A\cos 2x + B\sin 2x) $$
+$$ y''_{ч.н.} \text{ (далее подстановка в уравнение)} $$
+<br>Подставляем в исходное уравнение:
+$$ \text{После подстановки и упрощения:} $$
+$$ 4B e^{-x}\cos 2x - 4A e^{-x}\sin 2x = e^{-x}\sin 2x $$
+$$ \begin{cases} 4B = 0 \implies B = 0 \\ -4A = 1 \implies A = -\dfrac{1}{4} \end{cases} $$
+<br>Частное решение:
+$$ y_{ч.н.} = -\frac{x}{4} e^{-x} \cos 2x $$<br>
+<br>Общее решение НЛДУ:
+$$ y_{о.н.} = e^{-x}(C_1 \cos 2x + C_2 \sin 2x) + -\frac{x}{4} e^{-x} \cos 2x $$
+<br>Используем начальные условия:
+$$ y(0) = 0 \implies C_1 + 0 = 0 \implies C_1 = 0 $$
+$$ y'(x) = -e^{-x}C_2\sin 2x + 2e^{-x}C_2\cos 2x - \frac{1}{4}e^{-x}\cos 2x + \frac{x}{2}e^{-x}\sin 2x - \frac{x}{4}e^{-x}\cos 2x - \frac{x}{4}e^{-x}(-2\sin 2x) $$
+$$ y'(0) = 1 \implies 2C_2 - \frac{1}{4} = 1 \implies 2C_2 = \frac{5}{4} \implies C_2 = \frac{5}{8} $$
+<br><strong>Ответ (решение задачи Коши):</strong>
+$$ y = e^{-x}\left(\frac{5}{8}\sin 2x - \frac{x}{4}\cos 2x\right) $$`
+    ]
+
+
+];
