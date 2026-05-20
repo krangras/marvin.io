@@ -680,15 +680,13 @@ function toggleKrTask(taskId) {
     
     const checkbox = document.getElementById(`kr_chk_${taskId}`);
     const taskTitle = document.getElementById(`kr_title_${taskId}`);
+    const taskCard = document.querySelector(`.task-card[data-task-id="${taskId}"]`);
     if (checkbox) checkbox.checked = krProgress[taskId] === true;
     if (taskTitle) {
-        if (krProgress[taskId]) {
-            taskTitle.style.textDecoration = 'line-through';
-            taskTitle.style.opacity = '0.7';
-        } else {
-            taskTitle.style.textDecoration = 'none';
-            taskTitle.style.opacity = '1';
-        }
+        taskTitle.style.textDecoration = krProgress[taskId] ? 'line-through' : 'none';
+    }
+    if (taskCard) {
+        taskCard.classList.toggle('completed', krProgress[taskId]);
     }
 }
 
@@ -2070,11 +2068,11 @@ function renderControlTasks() {
             const label = `${i === 0 ? '🎯 ' : ''}Задача ${t+1}.${i+1} (${['вариация','НК','Коши вариация','Коши НК'][t]})`;
             const isFirst = (i === 0);
             html += `
-                <div class="task-card" data-task-id="${id}">
+                <div class="task-card${krProgress[id] ? ' completed' : ''}" data-task-id="${id}">
                     <div class="task-header" onclick="toggleSolution(this.parentElement)">
                         <div style="display: flex; align-items: center; gap: 12px;">
                             <input type="checkbox" id="kr_chk_${id}" ${krProgress[id] ? 'checked' : ''} onclick="event.stopPropagation(); toggleKrTask(${id})" style="width: 18px; height: 18px; cursor: pointer;">
-                            <span class="task-title" id="kr_title_${id}" style="${krProgress[id] ? 'text-decoration: line-through; opacity: 0.7;' : ''}">📌 ${label}</span>
+                            <span class="task-title" id="kr_title_${id}" style="${krProgress[id] ? 'text-decoration: line-through;' : ''}">📌 ${label}</span>
                         </div>
                         <span class="task-points">${type.points} баллов</span>
                     </div>
@@ -2332,6 +2330,12 @@ function toggleIntegralTask(sectionNum, taskIdx) {
     // Обновляем только чекбокс без перерисовки
     const checkbox = document.getElementById(`chk_${key}`);
     if (checkbox) checkbox.checked = integralsProgress[key] === true;
+    
+    // Затемняем карточку
+    const card = checkbox?.closest('.integral-card');
+    if (card) {
+        card.classList.toggle('completed', integralsProgress[key]);
+    }
     
     // Обновляем счётчик решённых задач в разделе
     const sectionData = INTEGRALS_DATA[`section${sectionNum}`];
@@ -2725,7 +2729,7 @@ function renderIntegrals() {
             const key = `s${section.num}_t${i}`;
             const isChecked = integralsProgress[key] === true;
             
-            html += `<div class="integral-card" style="margin: 0.5rem 1rem 0.5rem 1rem;">
+            html += `<div class="integral-card${isChecked ? ' completed' : ''}" style="margin: 0.5rem 1rem 0.5rem 1rem;">
                 <div class="integral-header" style="display: flex; align-items: center; gap: 12px; padding: 0.8rem 1rem;">
                     <input type="checkbox" class="integral-checkbox" id="chk_${key}" ${isChecked ? 'checked' : ''} onclick="event.stopPropagation(); toggleIntegralTask(${section.num}, ${i})" style="width: 18px; height: 18px; cursor: pointer; flex-shrink: 0;">
                     <span style="color: var(--pencil); font-size: 0.85rem; font-weight: 600; flex-shrink: 0;">${item.name.split(' ')[0]}</span>
