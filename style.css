@@ -1108,8 +1108,16 @@ body {
 
     .container { max-width: 100%; }
 
+    body {
+        background-image: none;
+    }
+
     #exam-pane, #control-pane, #integrals-pane {
         padding: 20px 14px;
+    }
+
+    #exam-pane::before, #control-pane::before, #integrals-pane::before {
+        background-image: none;
     }
 
     .hero { padding: 0 0 8px 0; margin-bottom: 12px; }
