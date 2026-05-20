@@ -35,6 +35,7 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
+    zoom: 1.5;
     font-family: var(--font-print);
     font-size: 18px;
     background-color: #d4c9b0;
@@ -43,6 +44,7 @@ body {
     color: var(--ink);
     min-height: 100vh;
     padding: 32px 16px 64px;
+    overflow-x: auto;
 }
 
 .container {
@@ -1007,26 +1009,24 @@ body {
 }
 
 /* ============================================================
-   MATHJAX — ФОРМУЛЫ
+   KATEX — ФОРМУЛЫ
    ============================================================ */
-mjx-container, .math, .task-equation, .solution, .cheatsheet {
+.katex, .math, .task-equation, .solution, .cheatsheet {
     font-family: 'Latin Modern Math', 'STIX Two Math', 'Cambria Math', 'Times New Roman', serif !important;
 }
 
-mjx-container {
+.katex {
     overflow-x: auto;
     overflow-y: hidden;
     margin: 10px 0;
     padding: 6px 0;
 }
 
-mjx-container[jax="CHTML"][display="true"] {
+.katex-display {
     text-align: center !important;
     display: block !important;
-}
-
-mjx-container[jax="CHTML"][display="false"] {
-    display: inline !important;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .math-display, .task-equation {

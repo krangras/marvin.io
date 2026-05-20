@@ -1,4 +1,12 @@
 ﻿// ========== ДАННЫЕ БИЛЕТОВ (19 ШТУК) ==========
+const CACHE_VERSION = 'v19';
+if (localStorage.getItem('cache_version') !== CACHE_VERSION) {
+    // Очищаем старые кеши с отрендеренным HTML (экономия памяти)
+    localStorage.removeItem('kr_rendered_cache');
+    localStorage.removeItem('integrals_rendered_cache');
+    localStorage.removeItem('tickets_open_state');
+    localStorage.setItem('cache_version', CACHE_VERSION);
+}
 const intervals = [1, 3, 7, 14, 30];
 const RANKS = [
     { minScore: 0, title: "Минимал", subtitle: "Сделал минимум", icon: "🪖" },
@@ -308,29 +316,51 @@ function render() {
         const cheatsheetDiv = div.querySelector('.cheatsheet');
         let loaded = false;
         
-        // Восстанавливаем содержимое, если билет был открыт
-        if (openTicketsData.has(idx)) {
+        // Восстанавливаем содержимое, только если оно не пустое
+        if (openTicketsData.has(idx) && openTicketsData.get(idx).trim() !== '') {
             cheatsheetDiv.innerHTML = openTicketsData.get(idx);
             cheatsheetDiv.style.display = 'block';
             loaded = true;
         }
 
-        
+        // Клик по всему билету открывает/закрывает
         div.onclick = (e) => {
-            if (e.target.tagName !== 'BUTTON') {
-                if (cheatsheetDiv.style.display === 'block') {
-                    cheatsheetDiv.style.display = 'none';
-                } else {
-                    cheatsheetDiv.style.display = 'block';
-                    if (!loaded && CONSPECTS && CONSPECTS[idx]) {
-                        cheatsheetDiv.innerHTML = CONSPECTS[idx];
-                        loaded = true;
-                        if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
-                            MathJax.typesetPromise([cheatsheetDiv]).catch(err => console.error("MathJax error:", err));
+            if (e.target.tagName === 'BUTTON') return;
+            if (cheatsheetDiv.style.display === 'block') {
+                // Фиксируем позицию скролла
+                const scrollY = window.scrollY;
+                cheatsheetDiv.style.display = 'none';
+                // Жёстко возвращаем скролл на место
+                window.scrollTo(0, scrollY);
+            } else {
+                cheatsheetDiv.style.display = 'block';
+                if (!loaded && CONSPECTS && CONSPECTS[idx]) {
+                    cheatsheetDiv.innerHTML = CONSPECTS[idx];
+                    loaded = true;
+                }
+                if (typeof renderMathInElement !== 'undefined') {
+                    setTimeout(() => {
+                        try {
+                            renderMathInElement(cheatsheetDiv, {
+                                delimiters: [
+                                    {left: '$$', right: '$$', display: true},
+                                    {left: '\\[', right: '\\]', display: true},
+                                    {left: '$', right: '$', display: false},
+                                    {left: '\\(', right: '\\)', display: false}
+                                ],
+                                macros: {
+                                    '\\tg': '\\operatorname{tg}',
+                                    '\\ctg': '\\operatorname{ctg}',
+                                    '\\arctg': '\\operatorname{arctg}'
+                                },
+                                throwOnError: false,
+                                trust: true,
+                                strict: false
+                            });
+                        } catch (err) {
+                            console.error('KaTeX error in ticket', idx, err);
                         }
-                    } else if (loaded && typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
-                        MathJax.typesetPromise([cheatsheetDiv]).catch(err => console.error("MathJax error:", err));
-                    }
+                    }, 0);
                 }
             }
             saveCheatsheetState();
@@ -591,20 +621,44 @@ function loadProgressFromFile() {
 function resetAllIntegralsProgress() {
     if (confirm("Сбросить весь прогресс интегралов?")) {
         integralsProgress = {};
-        localStorage.removeItem('integrals_rendered_cache');
         saveIntegralsProgress();
         invalidateIntegralsCache();
         alert("✅ Прогресс интегралов сброшен!");
     }
 }
-// ========== MATHJAX (сериализованный typeset) ==========
-let mathJaxQueue = Promise.resolve();
+// ========== KATEX (сериализованный typeset) ==========
+let katexQueue = Promise.resolve();
 
-function typesetMathJax(elements, doneCallback) {
-    if (typeof MathJax === 'undefined' || !MathJax.typesetPromise) { if (doneCallback) doneCallback(); return; }
-    mathJaxQueue = mathJaxQueue.then(() =>
-        MathJax.typesetPromise(elements).then(() => { if (doneCallback) doneCallback(); }).catch(err => console.log('MathJax error:', err))
-    );
+function typesetKaTeX(elements, doneCallback) {
+    if (typeof renderMathInElement === 'undefined') { if (doneCallback) doneCallback(); return; }
+    katexQueue = katexQueue.then(() => {
+        const valid = (elements || []).filter(el => el && el.nodeType === 1);
+        if (valid.length === 0) { if (doneCallback) doneCallback(); return; }
+        valid.forEach(el => {
+            try {
+                if (el.querySelector && el.querySelector('.katex')) return;
+                renderMathInElement(el, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '\\[', right: '\\]', display: true},
+                        {left: '$', right: '$', display: false},
+                        {left: '\\(', right: '\\)', display: false}
+                    ],
+                    macros: {
+                        '\\tg': '\\operatorname{tg}',
+                        '\\ctg': '\\operatorname{ctg}',
+                        '\\arctg': '\\operatorname{arctg}'
+                    },
+                    throwOnError: false,
+                    trust: true,
+                    strict: false
+                });
+            } catch (err) {
+                console.log('KaTeX error on element:', err);
+            }
+        });
+        if (doneCallback) doneCallback();
+    });
 }
 
 // ========== КОНТРОЛЬНАЯ РАБОТА ==========
@@ -642,15 +696,34 @@ function toggleKrType(typeIdx) {
     const content = document.getElementById(`kr-type-${typeIdx}-content`);
     const toggleBtn = document.getElementById(`kr-toggle-type-${typeIdx}`);
     if (content && toggleBtn) {
-        if (content.style.display === 'none') {
+        const isOpening = content.style.display === 'none';
+        if (isOpening) {
             content.style.display = 'block';
             toggleBtn.innerHTML = '▼';
+            // Ленивый рендер KaTeX для этой секции
+            if (!content.dataset.katexRendered && typeof renderMathInElement !== 'undefined') {
+                typesetKaTeX([content]);
+                content.dataset.katexRendered = '1';
+            }
         } else {
             content.style.display = 'none';
             toggleBtn.innerHTML = '▶';
         }
         saveKrSectionsState();
+        syncControlToggleBtn();
     }
+}
+
+function syncControlToggleBtn() {
+    const pane = document.getElementById('control-pane');
+    if (!pane) return;
+    let anyExpanded = false;
+    for (let t = 0; t < 4; t++) {
+        const content = document.getElementById(`kr-type-${t}-content`);
+        if (content && content.style.display !== 'none') { anyExpanded = true; break; }
+    }
+    const btn = document.getElementById('toggle-all-control');
+    if (btn) btn.textContent = anyExpanded ? '📁 Свернуть всё' : '📂 Развернуть всё';
 }
 
 function saveKrSectionsState() {
@@ -680,14 +753,26 @@ function toggleAllControlTasks() {
         }
     }
     saveKrSectionsState();
-    const btn = document.getElementById('toggle-all-control');
-    if (btn) btn.textContent = anyExpanded ? '📂 Развернуть всё' : '📁 Свернуть всё';
+    if (anyExpanded) {
+        pane.querySelectorAll('.solution').forEach(s => {
+            s.style.display = 'none';
+        });
+    } else {
+        // При разворачивании всех — ленивый рендер неотрендеренных секций
+        for (let t = 0; t < 4; t++) {
+            const content = document.getElementById(`kr-type-${t}-content`);
+            if (content && !content.dataset.katexRendered && typeof renderMathInElement !== 'undefined') {
+                typesetKaTeX([content]);
+                content.dataset.katexRendered = '1';
+            }
+        }
+    }
+    syncControlToggleBtn();
 }
 
 function resetKrProgress() {
     if (confirm("Сбросить весь прогресс контрольной работы?")) {
         krProgress = {};
-        localStorage.removeItem('kr_rendered_cache');
         saveKrProgress();
         renderControlTasks();
         alert("✅ Прогресс КР сброшен!");
@@ -950,7 +1035,7 @@ const existingSolutions = [
                             $$ y'_{ч.н.} = e^x(A\\cos x + B\\sin x) + xe^x(A\\cos x + B\\sin x) + xe^x(-A\\sin x + B\\cos x) $$
                             $$ \\begin{aligned} y''_{ч.н.} &= e^x(A\\cos x + B\\sin x) + e^x(-A\\sin x + B\\cos x) + e^x(A\\cos x + B\\sin x) + xe^x(A\\cos x + B\\sin x) \\\\ &\\quad + xe^x(-A\\sin x + B\\cos x) + e^x(-A\\sin x + B\\cos x) + xe^x(-A\\sin x + B\\cos x) + xe^x(-A\\cos x - B\\sin x) \\\\ &= 2e^x(A\\cos x + B\\sin x) + 2e^x(-A\\sin x + B\\cos x) + 2xe^x(-A\\sin x + B\\cos x) \\end{aligned} $$
                             <br>Подставляем всё в уравнение $y'' - 2y' + 2y = 4e^x\\cos x$:
-                            $$ \\require{cancel} \\begin{aligned} &\\cancel{2e^x(A\\cos x + B\\sin x)} + 2e^x(-A\\sin x + B\\cos x) + \\cancel{2xe^x(-A\\sin x + B\\cos x)} \\\\ &- \\cancel{2e^x(A\\cos x + B\\sin x)} - \\cancel{2xe^x(A\\cos x + B\\sin x)} - \\cancel{2xe^x(-A\\sin x + B\\cos x)} \\\\ &+ \\cancel{2xe^x(A\\cos x + B\\sin x)} = 4e^x\\cos x \\end{aligned} $$
+                            $$ \\begin{aligned} &\\cancel{2e^x(A\\cos x + B\\sin x)} + 2e^x(-A\\sin x + B\\cos x) + \\cancel{2xe^x(-A\\sin x + B\\cos x)} \\\\ &- \\cancel{2e^x(A\\cos x + B\\sin x)} - \\cancel{2xe^x(A\\cos x + B\\sin x)} - \\cancel{2xe^x(-A\\sin x + B\\cos x)} \\\\ &+ \\cancel{2xe^x(A\\cos x + B\\sin x)} = 4e^x\\cos x \\end{aligned} $$
                             $$ 2e^x(-A\\sin x + B\\cos x) = 4e^x\\cos x \\implies -A\\sin x + B\\cos x = 0 \\cdot \\sin x + 2\\cos x $$
                             $$ \\begin{cases} -A = 0 \\\\ B = 2 \\end{cases} \\Leftrightarrow \\begin{cases} A = 0 \\\\ B = 2 \\end{cases} $$
                             $$ y_{ч.н.} = xe^x(0 \\cdot \\cos x + 2\\sin x) = 2xe^x\\sin x $$
@@ -1647,7 +1732,7 @@ $$ y_{ч.н.} = x^1 \cdot e^x(A\cos x + B\sin x) = xe^x(A\cos x + B\sin x) $$
 $$ y'_{ч.н.} = e^x(A\cos x + B\sin x) + xe^x(A\cos x + B\sin x) + xe^x(-A\sin x + B\cos x) $$
 $$ \begin{aligned} y''_{ч.н.} &= 2e^x(A\cos x + B\sin x) + 2e^x(-A\sin x + B\cos x) + 2xe^x(-A\sin x + B\cos x) \end{aligned} $$
 <br>Подставляем всё в уравнение $y'' - 2y' + 2y = 4e^x\cos x$:
-$$ \require{cancel} \begin{aligned} &\cancel{2e^x(A\cos x + B\sin x)} + 2e^x(-A\sin x + B\cos x) + \cancel{2xe^x(-A\sin x + B\cos x)} \\ &- \cancel{2e^x(A\cos x + B\sin x)} - \cancel{2xe^x(A\cos x + B\sin x)} - \cancel{2xe^x(-A\sin x + B\cos x)} \\ &+ \cancel{2xe^x(A\cos x + B\sin x)} = 4e^x\cos x \end{aligned} $$
+$$ \begin{aligned} &\cancel{2e^x(A\cos x + B\sin x)} + 2e^x(-A\sin x + B\cos x) + \cancel{2xe^x(-A\sin x + B\cos x)} \\ &- \cancel{2e^x(A\cos x + B\sin x)} - \cancel{2xe^x(A\cos x + B\sin x)} - \cancel{2xe^x(-A\sin x + B\cos x)} \\ &+ \cancel{2xe^x(A\cos x + B\sin x)} = 4e^x\cos x \end{aligned} $$
 $$ 2e^x(-A\sin x + B\cos x) = 4e^x\cos x \implies -A\sin x + B\cos x = 0 \cdot \sin x + 2\cos x $$
 $$ \begin{cases} -A = 0 \\ B = 2 \end{cases} \implies A = 0, B = 2 $$
 $$ y_{ч.н.} = xe^x(0 \cdot \cos x + 2\sin x) = 2xe^x\sin x $$
@@ -1896,26 +1981,6 @@ function renderControlTasks() {
     const pane = document.getElementById('control-pane');
     if (!pane) return;
 
-    // ── СУПЕР-БЫСТРЫЙ ПУТЬ: MathJax уже отрендерил ──
-    const renderedCache = localStorage.getItem('kr_rendered_cache');
-    if (renderedCache) {
-        pane.innerHTML = renderedCache;
-        updateKrStats();
-        document.querySelectorAll('#control-pane input[type="checkbox"]').forEach(chk => {
-            const id = parseInt(chk.id.replace('kr_chk_', ''));
-            chk.checked = krProgress[id] === true;
-        });
-        restoreSolutionStates('kr');
-        // Обновляем текст кнопки после восстановления из кеша
-        const krSectionsState = JSON.parse(localStorage.getItem('kr_sections_state')) || {};
-        const anyExpanded = typeConfig.some((_, t) => krSectionsState[t] !== false);
-        const btn = document.getElementById('toggle-all-control');
-        if (btn) btn.textContent = anyExpanded ? '📁 Свернуть всё' : '📂 Развернуть всё';
-        // Кеш хранит сырой HTML с LaTeX — рендерим MathJax
-        typesetMathJax([pane], () => {});
-        return;
-    }
-
     const total = typeConfig.reduce((sum, t) => sum + t.tasks.length, 0);
     const solved = Object.keys(krProgress).length;
     const remaining = total - solved;
@@ -2025,10 +2090,11 @@ function renderControlTasks() {
     }
     
     pane.innerHTML = html;
-    localStorage.setItem('kr_rendered_cache', html);
     updateKrStats();
     restoreSolutionStates('kr');
-    typesetMathJax([pane], () => {});
+    // Рендерим KaTeX только для видимых секций
+    const visibleKrSections = Array.from(pane.querySelectorAll('.section-content')).filter(el => el.style.display !== 'none');
+    typesetKaTeX(visibleKrSections, () => {});
 }
 
 // ========== ТАБЫ ==========
@@ -2063,12 +2129,6 @@ async function initTabs() {
 }
 // ========== ЗАПУСК ==========
 document.addEventListener('DOMContentLoaded', () => {
-    // Инвалидируем старые кеши с отрендеренным MathJax (переход на сырой HTML)
-    if (localStorage.getItem('cache_version') !== '2') {
-        localStorage.removeItem('kr_rendered_cache');
-        localStorage.removeItem('integrals_rendered_cache');
-        localStorage.setItem('cache_version', '2');
-    }
     initState();
     renderControlTasks();
     renderIntegrals();
@@ -2080,24 +2140,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ========== ТАБЛИЦА ИНТЕГРАЛОВ ==========
 const integralsData = [
-    { theme: "📌 1. Степенные функции", integral: "∫ x^n dx", answer: "x^{n+1}/(n+1) + C, n ≠ -1", example: "∫ x^3 dx = x^4/4 + C", practice: "∫ x^5 dx" },
-    { theme: "📌 2. Обратная степень (n = -1)", integral: "∫ dx/x", answer: "ln|x| + C", example: "∫ dx/x = ln|x| + C", practice: "∫ dx/(x+2)" },
-    { theme: "📌 3. Экспоненциальные функции", integral: "∫ e^x dx", answer: "e^x + C", example: "∫ e^{2x} dx = e^{2x}/2 + C", practice: "∫ e^{3x} dx" },
-    { theme: "📌 4. Общая показательная", integral: "∫ a^x dx", answer: "a^x / ln a + C", example: "∫ 2^x dx = 2^x/ln2 + C", practice: "∫ 5^x dx" },
-    { theme: "📌 5. Синус", integral: "∫ sin x dx", answer: "-cos x + C", example: "∫ sin 3x dx = -cos(3x)/3 + C", practice: "∫ sin 2x dx" },
-    { theme: "📌 6. Косинус", integral: "∫ cos x dx", answer: "sin x + C", example: "∫ cos 4x dx = sin(4x)/4 + C", practice: "∫ cos 5x dx" },
-    { theme: "📌 7. Тангенс", integral: "∫ tg x dx", answer: "-ln|cos x| + C", example: "∫ tg 2x dx = -½·ln|cos 2x| + C", practice: "∫ tg 3x dx" },
-    { theme: "📌 8. Котангенс", integral: "∫ ctg x dx", answer: "ln|sin x| + C", example: "∫ ctg 4x dx = ¼·ln|sin 4x| + C", practice: "∫ ctg 2x dx" },
-    { theme: "📌 9. 1/sin²x", integral: "∫ dx/sin²x", answer: "-ctg x + C", example: "∫ dx/sin²(2x) = -½·ctg(2x) + C", practice: "∫ dx/sin²(3x)" },
-    { theme: "📌 10. 1/cos²x", integral: "∫ dx/cos²x", answer: "tg x + C", example: "∫ dx/cos²(3x) = ⅓·tg(3x) + C", practice: "∫ dx/cos²(2x)" },
-    { theme: "📌 11. 1/(x² + a²)", integral: "∫ dx/(x² + a²)", answer: "(1/a)·arctg(x/a) + C", example: "∫ dx/(x² + 4) = ½·arctg(x/2) + C", practice: "∫ dx/(x² + 9)" },
-    { theme: "📌 12. 1/(x² - a²)", integral: "∫ dx/(x² - a²)", answer: "(1/(2a))·ln|(x-a)/(x+a)| + C", example: "∫ dx/(x² - 4) = ¼·ln|(x-2)/(x+2)| + C", practice: "∫ dx/(x² - 9)" },
-    { theme: "📌 13. 1/√(a² - x²)", integral: "∫ dx/√(a² - x²)", answer: "arcsin(x/a) + C", example: "∫ dx/√(4 - x²) = arcsin(x/2) + C", practice: "∫ dx/√(9 - x²)" },
-    { theme: "📌 14. 1/√(x² ± a²)", integral: "∫ dx/√(x² ± a²)", answer: "ln|x + √(x² ± a²)| + C", example: "∫ dx/√(x² + 4) = ln|x + √(x²+4)| + C", practice: "∫ dx/√(x² + 9)" },
-    { theme: "📌 15. √(a² - x²)", integral: "∫ √(a² - x²) dx", answer: "(x/2)·√(a² - x²) + (a²/2)·arcsin(x/a) + C", example: "∫ √(4 - x²) dx", practice: "∫ √(9 - x²) dx" },
-    { theme: "📌 16. √(x² ± a²)", integral: "∫ √(x² ± a²) dx", answer: "(x/2)·√(x² ± a²) ± (a²/2)·ln|x + √(x² ± a²)| + C", example: "∫ √(x² + 4) dx", practice: "∫ √(x² + 9) dx" },
-    { theme: "📌 17. Интегрирование по частям", integral: "∫ u dv = uv - ∫ v du", answer: "формула", example: "∫ x e^x dx = x e^x - e^x + C", practice: "∫ x cos x dx" },
-    { theme: "📌 18. Замена переменной", integral: "∫ f(g(x))·g'(x) dx", answer: "∫ f(u) du, u = g(x)", example: "∫ 2x·e^{x²} dx = e^{x²} + C", practice: "∫ 3x²·sin(x³) dx" }
+    { theme: "📌 1. Степенные функции", integral: "x^n dx", answer: "\\frac{x^{n+1}}{n+1} + C,\\quad n \\not= -1", example: "\\int x^3\\,dx = \\frac{x^4}{4} + C", practice: "\\int x^5\\,dx" },
+    { theme: "📌 2. Обратная степень (n = -1)", integral: "\\frac{dx}{x}", answer: "\\ln|x| + C", example: "\\int \\frac{dx}{x} = \\ln|x| + C", practice: "\\int \\frac{dx}{x+2}" },
+    { theme: "📌 3. Экспоненциальные функции", integral: "e^x dx", answer: "e^x + C", example: "\\int e^{2x}\\,dx = \\frac{e^{2x}}{2} + C", practice: "\\int e^{3x}\\,dx" },
+    { theme: "📌 4. Общая показательная", integral: "a^x dx", answer: "\\frac{a^x}{\\ln a} + C", example: "\\int 2^x\\,dx = \\frac{2^x}{\\ln 2} + C", practice: "\\int 5^x\\,dx" },
+    { theme: "📌 5. Синус", integral: "\\sin x\\,dx", answer: "-\\cos x + C", example: "\\int \\sin 3x\\,dx = -\\frac{\\cos 3x}{3} + C", practice: "\\int \\sin 2x\\,dx" },
+    { theme: "📌 6. Косинус", integral: "\\cos x\\,dx", answer: "\\sin x + C", example: "\\int \\cos 4x\\,dx = \\frac{\\sin 4x}{4} + C", practice: "\\int \\cos 5x\\,dx" },
+    { theme: "📌 7. Тангенс", integral: "\\operatorname{tg} x\\,dx", answer: "-\\ln|\\cos x| + C", example: "\\int \\operatorname{tg} 2x\\,dx = -\\frac{1}{2}\\ln|\\cos 2x| + C", practice: "\\int \\operatorname{tg} 3x\\,dx" },
+    { theme: "📌 8. Котангенс", integral: "\\operatorname{ctg} x\\,dx", answer: "\\ln|\\sin x| + C", example: "\\int \\operatorname{ctg} 4x\\,dx = \\frac{1}{4}\\ln|\\sin 4x| + C", practice: "\\int \\operatorname{ctg} 2x\\,dx" },
+    { theme: "📌 9. 1/sin²x", integral: "\\frac{dx}{\\sin^2 x}", answer: "-\\operatorname{ctg} x + C", example: "\\int \\frac{dx}{\\sin^2 2x} = -\\frac{1}{2}\\operatorname{ctg} 2x + C", practice: "\\int \\frac{dx}{\\sin^2 3x}" },
+    { theme: "📌 10. 1/cos²x", integral: "\\frac{dx}{\\cos^2 x}", answer: "\\operatorname{tg} x + C", example: "\\int \\frac{dx}{\\cos^2 3x} = \\frac{1}{3}\\operatorname{tg} 3x + C", practice: "\\int \\frac{dx}{\\cos^2 2x}" },
+    { theme: "📌 11. 1/(x² + a²)", integral: "\\frac{dx}{x^2 + a^2}", answer: "\\frac{1}{a}\\operatorname{arctg}\\frac{x}{a} + C", example: "\\int \\frac{dx}{x^2 + 4} = \\frac{1}{2}\\operatorname{arctg}\\frac{x}{2} + C", practice: "\\int \\frac{dx}{x^2 + 9}" },
+    { theme: "📌 12. 1/(x² - a²)", integral: "\\frac{dx}{x^2 - a^2}", answer: "\\frac{1}{2a}\\ln\\left|\\frac{x-a}{x+a}\\right| + C", example: "\\int \\frac{dx}{x^2 - 4} = \\frac{1}{4}\\ln\\left|\\frac{x-2}{x+2}\\right| + C", practice: "\\int \\frac{dx}{x^2 - 9}" },
+    { theme: "📌 13. 1/√(a² - x²)", integral: "\\frac{dx}{\\sqrt{a^2 - x^2}}", answer: "\\arcsin\\frac{x}{a} + C", example: "\\int \\frac{dx}{\\sqrt{4 - x^2}} = \\arcsin\\frac{x}{2} + C", practice: "\\int \\frac{dx}{\\sqrt{9 - x^2}}" },
+    { theme: "📌 14. 1/√(x² ± a²)", integral: "\\frac{dx}{\\sqrt{x^2 \\pm a^2}}", answer: "\\ln\\left|x + \\sqrt{x^2 \\pm a^2}\\right| + C", example: "\\int \\frac{dx}{\\sqrt{x^2 + 4}} = \\ln\\left|x + \\sqrt{x^2 + 4}\\right| + C", practice: "\\int \\frac{dx}{\\sqrt{x^2 + 9}}" },
+    { theme: "📌 15. √(a² - x²)", integral: "\\sqrt{a^2 - x^2}\\,dx", answer: "\\frac{x}{2}\\sqrt{a^2 - x^2} + \\frac{a^2}{2}\\arcsin\\frac{x}{a} + C", example: "\\int \\sqrt{4 - x^2}\\,dx", practice: "\\int \\sqrt{9 - x^2}\\,dx" },
+    { theme: "📌 16. √(x² ± a²)", integral: "\\sqrt{x^2 \\pm a^2}\\,dx", answer: "\\frac{x}{2}\\sqrt{x^2 \\pm a^2} \\pm \\frac{a^2}{2}\\ln\\left|x + \\sqrt{x^2 \\pm a^2}\\right| + C", example: "\\int \\sqrt{x^2 + 4}\\,dx", practice: "\\int \\sqrt{x^2 + 9}\\,dx" },
+    { theme: "📌 17. Интегрирование по частям", integral: "u\\,dv", answer: "uv - \\int v\\,du", example: "\\int x e^x\\,dx = x e^x - e^x + C", practice: "\\int x \\cos x\\,dx" },
+    { theme: "📌 18. Замена переменной", integral: "f(g(x)) \\cdot g'(x)\\,dx", answer: "\\int f(u)\\,du,\\quad u = g(x)", example: "\\int 2x \\cdot e^{x^2}\\,dx = e^{x^2} + C", practice: "\\int 3x^2 \\cdot \\sin(x^3)\\,dx" }
 ];
 
 // ========== ТАБЛИЦА ИНТЕГРАЛОВ С ЧЕКБОКСАМИ, СВОРАЧИВАНИЕМ И ПРОГРЕССОМ ==========// ========== ПРОГРЕСС ИНТЕГРАЛОВ ==========
@@ -2106,7 +2166,7 @@ let integralsProgress = JSON.parse(localStorage.getItem('integrals_progress')) |
 // ========== КЕШИРОВАНИЕ ИНТЕГРАЛОВ ==========
 let integralsHTMLCache = null;
 let integralsRendered = false;
-let integralsMathJaxDone = false;
+let integralsKaTeXDone = false;
 
 function saveIntegralsProgress() {
     localStorage.setItem('integrals_progress', JSON.stringify(integralsProgress));
@@ -2177,8 +2237,9 @@ function saveIntegralsSectionState() {
 
 function loadIntegralsSectionState() {
     const saved = localStorage.getItem('integrals_sections_state');
+    const sectionsState = saved ? JSON.parse(saved) : {};
+    
     if (saved) {
-        const sectionsState = JSON.parse(saved);
         for (let i = 1; i <= 9; i++) {
             const content = document.getElementById(`section-${i}-content`);
             const toggleBtn = document.getElementById(`toggle-section-${i}`);
@@ -2199,6 +2260,14 @@ function loadIntegralsSectionState() {
     const btnText = document.getElementById('integrals-toggle-all-btn');
     if (btnText) {
         btnText.innerHTML = anyExpanded ? '📁 Свернуть всё' : '📂 Развернуть всё';
+    }
+    // Ленивый рендер KaTeX для секций, восстановленных из сохранённого состояния
+    for (let i = 1; i <= 9; i++) {
+        const content = document.getElementById(`section-${i}-content`);
+        if (content && sectionsState[i] && !content.dataset.katexRendered && typeof renderMathInElement !== 'undefined') {
+            typesetKaTeX([content]);
+            content.dataset.katexRendered = '1';
+        }
     }
 }
 
@@ -2285,8 +2354,28 @@ function toggleIntegralSolution(card) {
         const isOpen = solution.style.display === 'block';
         solution.style.display = isOpen ? 'none' : 'block';
         if (!isOpen) {
-            if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
-                MathJax.typesetPromise([solution]).catch(err => console.log('MathJax error:', err));
+            if (!solution.dataset.rendered && typeof renderMathInElement !== 'undefined' && !solution.querySelector('.katex')) {
+                try {
+                    renderMathInElement(solution, {
+                        delimiters: [
+                            {left: '$$', right: '$$', display: true},
+                            {left: '\\[', right: '\\]', display: true},
+                            {left: '$', right: '$', display: false},
+                            {left: '\\(', right: '\\)', display: false}
+                        ],
+                    macros: {
+                        '\\tg': '\\operatorname{tg}',
+                        '\\ctg': '\\operatorname{ctg}',
+                        '\\arctg': '\\operatorname{arctg}'
+                    },
+                        throwOnError: false,
+                        trust: true,
+                        strict: false
+                    });
+                    solution.dataset.rendered = 'true';
+                } catch (err) {
+                    console.error('KaTeX error in integral solution:', err);
+                }
             }
         }
         const chk = card.querySelector('.integral-checkbox');
@@ -2301,8 +2390,28 @@ function showIntegralAnswer(btn, answer) {
     const answerSpan = btn.nextElementSibling;
     if (answerSpan) {
         answerSpan.style.display = 'inline';
-        if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
-            MathJax.typesetPromise([answerSpan]).catch(err => console.log('MathJax error:', err));
+        if (!answerSpan.dataset.rendered && typeof renderMathInElement !== 'undefined' && !answerSpan.querySelector('.katex')) {
+            try {
+                renderMathInElement(answerSpan, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '\\[', right: '\\]', display: true},
+                        {left: '$', right: '$', display: false},
+                        {left: '\\(', right: '\\)', display: false}
+                    ],
+                    macros: {
+                        '\\tg': '\\operatorname{tg}',
+                        '\\ctg': '\\operatorname{ctg}',
+                        '\\arctg': '\\operatorname{arctg}'
+                    },
+                    throwOnError: false,
+                    trust: true,
+                    strict: false
+                });
+                answerSpan.dataset.rendered = 'true';
+            } catch (err) {
+                console.error('KaTeX error in integral answer:', err);
+            }
         }
         setTimeout(() => {
             answerSpan.style.display = 'none';
@@ -2314,24 +2423,6 @@ function renderIntegrals() {
     const container = document.getElementById('integrals-list');
     if (!container) return;
 
-    // ── СУПЕР-БЫСТРЫЙ ПУТЬ: MathJax уже отрендерил ──
-    const renderedCache = localStorage.getItem('integrals_rendered_cache');
-    if (renderedCache) {
-        container.innerHTML = renderedCache;
-        updateIntegralsStats();
-        document.querySelectorAll('.integral-checkbox').forEach(checkbox => {
-            const key = checkbox.id.replace('chk_', '');
-            checkbox.checked = integralsProgress[key] === true;
-        });
-        restoreSolutionStates('integral');
-        setTimeout(() => { loadIntegralsSectionState(); }, 50);
-        integralsHTMLCache = renderedCache;
-        integralsRendered = true;
-        // Кеш теперь хранит сырой HTML с LaTeX — всегда рендерим MathJax
-        typesetMathJax([container], () => { integralsMathJaxDone = true; });
-        return;
-    }
-
     // ── БЫСТРЫЙ ПУТЬ: кеш уже есть ──
     if (integralsHTMLCache && integralsRendered) {
         container.innerHTML = integralsHTMLCache;
@@ -2342,7 +2433,9 @@ function renderIntegrals() {
         });
         restoreSolutionStates('integral');
         setTimeout(() => { loadIntegralsSectionState(); }, 50);
-        typesetMathJax([container], () => { integralsMathJaxDone = true; });
+        // Рендерим KaTeX только для видимых секций (скрытые — при раскрытии)
+        const visibleIntSections = Array.from(container.querySelectorAll('.section-content')).filter(el => el.style.display !== 'none');
+        typesetKaTeX(visibleIntSections, () => { integralsKaTeXDone = true; });
         return;
     }
 
@@ -2401,7 +2494,7 @@ function renderIntegrals() {
                 </div>
                 <div class="theory-content">
                     <p><strong>Основные табличные интегралы:</strong></p>
-                    <div class="theory-formula">$$\\int x^n dx = \\frac{x^{n+1}}{n+1} + C \\quad (n \\neq -1)$$</div>
+                    <div class="theory-formula">$$\\int x^n dx = \\frac{x^{n+1}}{n+1} + C \\quad (n \\not= -1)$$</div>
                     <div class="theory-formula">$$\\int \\frac{dx}{x} = \\ln|x| + C$$</div>
                     <div class="theory-formula">$$\\int e^x dx = e^x + C$$</div>
                     <div class="theory-formula">$$\\int a^x dx = \\frac{a^x}{\\ln a} + C$$</div>
@@ -2660,17 +2753,23 @@ function renderIntegrals() {
         html += `</div></div></div>`;
     }
     
-    // Сохраняем в кеш ПЕРЕД MathJax (сырой HTML с LaTeX)
+    // Выносим \not= за пределы math-режима чтобы ≠ рендерился системным шрифтом
+    html = html.replace(/\$\$([^$]*?)\\not=([^$]*?)\$\$/gs, function(m, before, after) {
+        return '\\(' + before.replace(/\s+$/, '') + '\\) ≠ \\(' + after.replace(/^\s+/, '') + '\\)';
+    });
+
+    // Сохраняем в кеш ПЕРЕД KaTeX (сырой HTML с LaTeX)
     integralsHTMLCache = html;
     integralsRendered = true;
-    localStorage.setItem('integrals_rendered_cache', html);
 
     container.innerHTML = html;
     updateIntegralsStats();
     restoreSolutionStates('integral');
     setTimeout(() => { loadIntegralsSectionState(); }, 100);
-    typesetMathJax([container], () => {
-        integralsMathJaxDone = true;
+    // Рендерим KaTeX только для видимых секций
+    const visibleIntSections = Array.from(container.querySelectorAll('.section-content')).filter(el => el.style.display !== 'none');
+    typesetKaTeX(visibleIntSections, () => {
+        integralsKaTeXDone = true;
     });
 }
 
@@ -2690,14 +2789,31 @@ function toggleIntegralsSection(sectionNum) {
     const content = document.getElementById(`section-${sectionNum}-content`);
     const toggleBtn = document.getElementById(`toggle-section-${sectionNum}`);
     if (content && toggleBtn) {
-        if (content.style.display === 'none') {
+        const isOpening = content.style.display === 'none';
+        if (isOpening) {
             content.style.display = 'block';
             toggleBtn.innerHTML = '▼';
+            // Ленивый рендер KaTeX для этой секции
+            if (!content.dataset.katexRendered && typeof renderMathInElement !== 'undefined') {
+                typesetKaTeX([content]);
+                content.dataset.katexRendered = '1';
+            }
         } else {
             content.style.display = 'none';
             toggleBtn.innerHTML = '▶';
         }
         saveIntegralsSectionState();
+        syncIntegralsToggleBtn();
+    }
+}
+
+function syncIntegralsToggleBtn() {
+    const integralsPane = document.getElementById('integrals-pane');
+    if (!integralsPane) return;
+    const anyExpanded = Array.from(integralsPane.querySelectorAll('.section-content')).some(c => c.style.display === 'block');
+    const btnText = document.getElementById('integrals-toggle-all-btn');
+    if (btnText) {
+        btnText.innerHTML = anyExpanded ? '📁 Свернуть всё' : '📂 Развернуть всё';
     }
 }
 
@@ -2715,12 +2831,22 @@ function toggleIntegralsAllSections() {
         btn.innerHTML = anyExpanded ? '▶' : '▼';
     });
     
-    saveIntegralsSectionState();
-    
-    const btnText = document.getElementById('integrals-toggle-all-btn');
-    if (btnText) {
-        btnText.innerHTML = anyExpanded ? '📂 Развернуть всё' : '📁 Свернуть всё';
+    if (anyExpanded) {
+        integralsPane.querySelectorAll('.integral-solution').forEach(s => {
+            s.style.display = 'none';
+        });
+    } else {
+        // При разворачивании всех — ленивый рендер неотрендеренных секций
+        allContents.forEach(content => {
+            if (!content.dataset.katexRendered && typeof renderMathInElement !== 'undefined') {
+                typesetKaTeX([content]);
+                content.dataset.katexRendered = '1';
+            }
+        });
     }
+    
+    saveIntegralsSectionState();
+    syncIntegralsToggleBtn();
 }
 
 
