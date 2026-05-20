@@ -1104,20 +1104,14 @@ body {
    АДАПТИВ
    ============================================================ */
 @media (max-width: 768px) {
-    body { zoom: 1; padding: 12px 8px 40px; font-size: 16px; }
-
-    .container { max-width: 100%; }
-
-    body {
-        background-image: none;
-    }
+    body { zoom: 1; padding: 12px 8px 40px; font-size: 16px; background-image: none; }
 
     #exam-pane, #control-pane, #integrals-pane {
         padding: 20px 14px;
     }
 
     #exam-pane::before, #control-pane::before, #integrals-pane::before {
-        background-image: none;
+        display: none;
     }
 
     .hero { padding: 0 0 8px 0; margin-bottom: 12px; }
@@ -1181,6 +1175,16 @@ body {
 
     .info-banner { padding: 10px 14px; font-size: 0.85rem; }
     .info-banner::before { width: 30px; height: 10px; top: -6px; }
+}
+
+/* Планшеты — отключаем тяжёлую графику */
+@media (min-width: 768px) and (max-width: 1024px) {
+    body {
+        background-image: none;
+    }
+    #exam-pane::before, #control-pane::before, #integrals-pane::before {
+        display: none;
+    }
 }
 
 @media (max-width: 480px) {

@@ -1110,8 +1110,10 @@ $$ \\Delta_1 = -2\\tg x \\sin 2x = -2\\cdot\\frac{\\sin x}{\\cos x}\\cdot 2\\sin
 $$ \\Delta_2 = 2\\tg x \\cos 2x = 2\\frac{\\sin x}{\\cos x}(2\\cos^2 x - 1) = 4\\sin x\\cos x - \\frac{2\\sin x}{\\cos x} = 2\\sin 2x - 2\\tg x $$<br>
 $$ C_1' = \\frac{\\Delta_1}{\\Delta} = \\cos 2x - 1 \\implies C_1 = \\frac{1}{2}\\sin 2x - x + D_1 $$
 $$ C_2' = \\frac{\\Delta_2}{\\Delta} = \\sin 2x - \\tg x \\implies C_2 = -\\frac{1}{2}\\cos 2x + \\ln|\\cos x| + D_2 $$<br>
+<br>Сборка решения:
+$$ y_{о.н.} = \\left(\\frac{1}{2}\\sin 2x - x + D_1\\right)\\cos 2x + \\left(-\\frac{1}{2}\\cos 2x + \\ln|\\cos x| + D_2\\right)\\sin 2x $$
 <br><strong>Ответ (общее решение НЛДУ):</strong>
-$$ y_{о.н.} = D_1 \\cos 2x + D_2 \\sin 2x - x \\cos 2x + \\sin 2x \\cdot \\ln|\\cos x| $$`,
+$$ y_{о.н.} = \\left(\\frac{1}{2}\\sin 2x - x + D_1\\right)\\cos 2x + \\left(-\\frac{1}{2}\\cos 2x + \\ln|\\cos x| + D_2\\right)\\sin 2x $$`,
 
     `<strong>Решение:</strong><br><br>
 Соответствующее ОЛДУ:
@@ -1487,32 +1489,6 @@ $$ y_{о.н.} = C_1 + C_2 e^{5x} - \frac{1}{5}x^3 - \frac{3}{25}x^2 - \frac{6}{1
 [
     null, // Сдвиг (если используется в вашем коде)
     
-    // 3.1 (Уже была в демо, но добавил для полноты массива)
-    String.raw`<strong>Решение:</strong><br><br>
-Соответствующее ОЛДУ:
-$$ y'' + 2y' + y = 0 \implies \lambda^2 + 2\lambda + 1 = 0 \implies (\lambda + 1)^2 = 0 \implies \lambda_{1,2} = -1 $$
-ФСР: $$ e^{-x} \text{, } x e^{-x} $$
-$$ y_{о.о.} = C_1 e^{-x} + C_2 x e^{-x} $$
-<br>Возвращаемся к НЛДУ (Метод вариации):
-$$ y_{о.н.} = C_1(x) e^{-x} + C_2(x) x e^{-x} $$
-$$ \begin{cases} e^{-x} \cdot C_1' + x e^{-x} \cdot C_2' = 0 \\ -e^{-x} \cdot C_1' + (1-x)e^{-x} \cdot C_2' = 3e^{-x}\sqrt{x+1} \end{cases} \quad \Bigg| + $$
-<br>Складываем уравнения:
-$$ e^{-x} \cdot C_2' = 3e^{-x}\sqrt{x+1} \implies C_2' = 3\sqrt{x+1} $$
-$$ C_2 = 3\int \sqrt{x+1}\,dx = 2(x+1)^{\frac{3}{2}} + D_2 $$
-<br>Из первого уравнения находим $C_1'$: $$ e^{-x} \cdot C_1' + x e^{-x} \cdot 3\sqrt{x+1} = 0 \implies C_1' = -3x\sqrt{x+1} $$
-$$ C_1 = -3\int x\sqrt{x+1}\,dx = -\frac{6}{5}(x+1)^{\frac{5}{2}} + 2(x+1)^{\frac{3}{2}} + D_1 $$
-<br>Общее решение:
-$$ y_{о.н.} = \left(-\frac{6}{5}(x+1)^{\frac{5}{2}} + 2(x+1)^{\frac{3}{2}} + D_1\right) e^{-x} + \left(2(x+1)^{\frac{3}{2}} + D_2\right)x e^{-x} $$
-<br>Подставляем начальные условия задачи Коши:
-$$ y(0) = \frac{4}{5} \implies \left(-\frac{6}{5} + 2 + D_1\right) = \frac{4}{5} \implies D_1 = 0 $$
-<br>Находим $y'_{о.н.}$:
-$$ y'_{о.н.} = \left(-3(x+1)^{\frac{3}{2}} + 3(x+1)^{\frac{1}{2}}\right)e^{-x} - \left(-\frac{6}{5}(x+1)^{\frac{5}{2}} + 2(x+1)^{\frac{3}{2}}\right)e^{-x} + \left(3x(x+1)^{\frac{1}{2}} + 2(x+1)^{\frac{3}{2}} + D_2\right)e^{-x} - \left(2(x+1)^{\frac{3}{2}} + D_2\right)xe^{-x} $$
-$$ y'(0) = 2 \implies ( -3 + 3 ) - \left( -\frac{6}{5} + 2 \right) + (0 + 2 + D_2) = 2 \implies -\frac{4}{5} + 2 + D_2 = 2 \implies D_2 = \frac{4}{5} $$
-<br>Собираем функцию и упрощаем:
-$$ y = \left(-\frac{6}{5}(x+1)^{\frac{5}{2}} + 2(x+1)^{\frac{3}{2}}\right) e^{-x} + \left(2(x+1)^{\frac{3}{2}} + \frac{4}{5}\right)x e^{-x} = \frac{4}{5}e^{-x}\left(x + (x+1)^{\frac{5}{2}}\right) $$
-<br><strong>Ответ:</strong>
-$$ y = \frac{4}{5}e^{-x}\left(x + (x+1)^{\frac{5}{2}}\right) $$`,
-
     // 3.2
     String.raw`<strong>Решение:</strong><br><br>
 Соответствующее ОЛДУ:
@@ -1714,35 +1690,6 @@ $$ y = \frac{\ln 3}{2} e^{-x} + \ln 3 \cdot e^{-2x} + \frac{x}{2}e^{-x} - \frac{
 ,    
 [
     null, // Сдвиг (если используется в вашем коде)
-
-    // 4.1 (Уже была в демо, но добавил для полноты массива)
-    String.raw`<strong>Решение:</strong><br><br>
-Соответствующее ОЛДУ:
-$$ \lambda^2 - 2\lambda + 2 = 0 \implies \mathcal{D} = 4 - 8 = -4 \implies \lambda_{1,2} = \frac{2 \pm 2i}{2} = 1 \pm i $$
-ФСР: $$ e^x\cos x \text{, } e^x\sin x $$
-$$ y_{о.о.} = C_1 e^x\cos x + C_2 e^x\sin x $$
-<br>Возвращаемся к НЛДУ (Метод неопределенных коэффициентов):
-$$ F(x) = 4e^x\cos x = e^{1 \cdot x}(4\cos x + 0\sin x) $$
-$$ \alpha = 1, \ \beta = 1, \ P(x) = 4, \ Q(x) = 0 \implies \alpha + \beta i = 1 + i \implies S = 1 \text{ (резонанс)} $$
-$$ \deg(R) = \deg(T) = \max(\deg(P), \deg(Q)) = 0 \implies R(x) = A, \ T(x) = B $$
-$$ y_{ч.н.} = x^1 \cdot e^x(A\cos x + B\sin x) = xe^x(A\cos x + B\sin x) $$
-<br>Считаем производные:
-$$ y'_{ч.н.} = e^x(A\cos x + B\sin x) + xe^x(A\cos x + B\sin x) + xe^x(-A\sin x + B\cos x) $$
-$$ \begin{aligned} y''_{ч.н.} &= 2e^x(A\cos x + B\sin x) + 2e^x(-A\sin x + B\cos x) + 2xe^x(-A\sin x + B\cos x) \end{aligned} $$
-<br>Подставляем всё в уравнение $y'' - 2y' + 2y = 4e^x\cos x$:
-$$ \begin{aligned} &\cancel{2e^x(A\cos x + B\sin x)} + 2e^x(-A\sin x + B\cos x) + \cancel{2xe^x(-A\sin x + B\cos x)} \\ &- \cancel{2e^x(A\cos x + B\sin x)} - \cancel{2xe^x(A\cos x + B\sin x)} - \cancel{2xe^x(-A\sin x + B\cos x)} \\ &+ \cancel{2xe^x(A\cos x + B\sin x)} = 4e^x\cos x \end{aligned} $$
-$$ 2e^x(-A\sin x + B\cos x) = 4e^x\cos x \implies -A\sin x + B\cos x = 0 \cdot \sin x + 2\cos x $$
-$$ \begin{cases} -A = 0 \\ B = 2 \end{cases} \implies A = 0, B = 2 $$
-$$ y_{ч.н.} = xe^x(0 \cdot \cos x + 2\sin x) = 2xe^x\sin x $$
-<br>Общее решение:
-$$ y_{о.н.} = C_1 e^x\cos x + C_2 e^x\sin x + 2xe^x\sin x $$
-<br>Подставляем начальные условия задачи Коши:
-$$ y(\pi) = \pi e^\pi \implies -C_1 e^\pi = \pi e^\pi \implies C_1 = -\pi $$
-<br>Находим $y'_{о.н.}$:
-$$ y'_{о.н.} = C_1 e^x\cos x - C_1 e^x\sin x + C_2 e^x\sin x + C_2 e^x\cos x + 2e^x\sin x + 2xe^x\sin x + 2xe^x\cos x $$
-$$ y'(\pi) = e^\pi \implies -C_1 e^\pi - C_2 e^\pi - 2\pi e^\pi = e^\pi \implies \pi - C_2 - 2\pi = 1 \implies C_2 = -\pi - 1 $$
-<br><strong>Ответ:</strong>
-$$ y = e^x((2x - \pi - 1)\sin x - \pi\cos x) $$`,
 
     // 4.2
     String.raw`<strong>Решение:</strong><br><br>
