@@ -2380,7 +2380,10 @@ function renderIntegrals() {
         updateIntegralsStats();
         document.querySelectorAll('.integral-checkbox').forEach(checkbox => {
             const key = checkbox.id.replace('chk_', '');
-            checkbox.checked = integralsProgress[key] === true;
+            const checked = integralsProgress[key] === true;
+            checkbox.checked = checked;
+            const card = checkbox.closest('.integral-card');
+            if (card) card.classList.toggle('completed', checked);
         });
         restoreSolutionStates('integral');
         setTimeout(() => { loadIntegralsSectionState(); }, 50);
