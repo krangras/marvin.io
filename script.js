@@ -487,12 +487,36 @@ function importAllFromFile() {
                 }
                 
                 if (data.integrals) {
-                    integralsProgress = data.integrals;
+                    integralsProgress = {};
+                    const validKeys = new Set();
+                    for (let i = 1; i <= 9; i++) {
+                        const section = INTEGRALS_DATA[`section${i}`];
+                        if (section) {
+                            for (let j = 0; j < section.length; j++) {
+                                validKeys.add(`s${i}_t${j}`);
+                            }
+                        }
+                    }
+                    for (const key of Object.keys(data.integrals)) {
+                        if (validKeys.has(key)) {
+                            integralsProgress[key] = data.integrals[key];
+                        }
+                    }
                     saveIntegralsProgress();
                 }
                 
                 if (data.kr) {
-                    krProgress = data.kr;
+                    krProgress = {};
+                    let maxKrId = 0;
+                    for (const type of typeConfig) {
+                        maxKrId += type.tasks.length;
+                    }
+                    for (const key of Object.keys(data.kr)) {
+                        const id = parseInt(key, 10);
+                        if (!isNaN(id) && id >= 1 && id <= maxKrId) {
+                            krProgress[id] = data.kr[id];
+                        }
+                    }
                     saveKrProgress();
                 }
                 
@@ -661,9 +685,32 @@ function typesetKaTeX(elements, doneCallback) {
     });
 }
 
+function pluralTasks(n) {
+    const i = Math.floor(Math.abs(n));
+    if (i % 10 === 1 && i % 100 !== 11) return 'задача';
+    if (i % 10 >= 2 && i % 10 <= 4 && (i % 100 < 10 || i % 100 >= 20)) return 'задачи';
+    return 'задач';
+}
+
+function fmtNum(n) {
+    return n % 1 === 0 ? n.toString() : n.toFixed(3);
+}
+
 // ========== КОНТРОЛЬНАЯ РАБОТА ==========
 // ========== КОНТРОЛЬНАЯ РАБОТА ==========
 let krProgress = JSON.parse(localStorage.getItem('kr_progress')) || {};
+
+function getKrSolvedCount() {
+    let count = 0;
+    let id = 1;
+    for (const type of typeConfig) {
+        for (let i = 0; i < type.tasks.length; i++) {
+            if (krProgress[id]) count++;
+            id++;
+        }
+    }
+    return count;
+}
 
 function saveKrProgress() {
     localStorage.setItem('kr_progress', JSON.stringify(krProgress));
@@ -779,8 +826,8 @@ function resetKrProgress() {
 
 function updateKrStats() {
     const total = typeConfig ? typeConfig.reduce((sum, t) => sum + t.tasks.length, 0) : 4;
-    const solved = Object.keys(krProgress).length;
-    const remaining = total - solved;
+    const solved = getKrSolvedCount();
+    const remaining = Math.max(0, total - solved);
     
     const solvedSpan = document.getElementById('kr-solved');
     const totalSpan = document.getElementById('kr-total');
@@ -792,8 +839,8 @@ function updateKrStats() {
     if (solvedSpan) solvedSpan.innerText = solved;
     if (remainingSpan) remainingSpan.innerText = remaining;
     if (totalSpan) totalSpan.innerText = total;
-    if (percentSpan) percentSpan.innerText = ((solved / total) * 100).toFixed(1);
-    if (progressFill) progressFill.style.width = `${(solved / total) * 100}%`;
+    if (percentSpan) percentSpan.innerText = total > 0 ? ((solved / total) * 100).toFixed(1) : 0;
+    if (progressFill) progressFill.style.width = `${total > 0 ? (solved / total) * 100 : 0}%`;
     
     // Per-type counters
     let taskId = 1;
@@ -812,7 +859,6 @@ function updateKrStats() {
     const examDate = new Date(2026, 4, 22);
     const now = new Date();
     const daysLeft = (examDate - now) / 86400000;
-    const perDay = remaining / daysLeft;
     
     if (paceSpan) {
         if (remaining <= 0) {
@@ -820,7 +866,8 @@ function updateKrStats() {
         } else if (daysLeft <= 0) {
             paceSpan.innerHTML = '⏰ Срок вышел! Решай оставшиеся задачи.';
         } else {
-            paceSpan.innerHTML = `📅 До 22 мая: ${daysLeft.toFixed(3)} дн. | Осталось: ${remaining} задач | Нужно: ${perDay.toFixed(3)} задачи в день`;
+            const perDay = Math.min(remaining, remaining / daysLeft);
+            paceSpan.innerHTML = `📅 До 22 мая: ${daysLeft.toFixed(3)} дн. | Осталось: ${remaining} ${pluralTasks(remaining)} | Нужно: ${fmtNum(perDay)} ${pluralTasks(perDay)} в день`;
         }
     }
 }
@@ -1927,13 +1974,12 @@ function renderControlTasks() {
     if (!pane) return;
 
     const total = typeConfig.reduce((sum, t) => sum + t.tasks.length, 0);
-    const solved = Object.keys(krProgress).length;
-    const remaining = total - solved;
+    const solved = getKrSolvedCount();
+    const remaining = Math.max(0, total - solved);
     
     const examDate = new Date(2026, 4, 22);
     const now = new Date();
     const daysLeft = (examDate - now) / 86400000;
-    const perDay = remaining / daysLeft;
     
     let paceText = '';
     if (remaining <= 0) {
@@ -1941,9 +1987,12 @@ function renderControlTasks() {
     } else if (daysLeft <= 0) {
         paceText = '⏰ Срок вышел! Решай оставшиеся задачи.';
     } else {
-        paceText = `📅 До 22 мая: ${daysLeft.toFixed(3)} дн. | Осталось: ${remaining} задач | Нужно: ${perDay.toFixed(3)} задачи в день`;
+        const perDay = Math.min(remaining, remaining / daysLeft);
+        paceText = `📅 До 22 мая: ${daysLeft.toFixed(3)} дн. | Осталось: ${remaining} ${pluralTasks(remaining)} | Нужно: ${fmtNum(perDay)} ${pluralTasks(perDay)} в день`;
     }
     
+
+
     // Состояние секций
     const krSectionsState = JSON.parse(localStorage.getItem('kr_sections_state')) || {};
     const anySectionExpanded = typeConfig.some((_, t) => krSectionsState[t] !== false);
@@ -1969,7 +2018,7 @@ function renderControlTasks() {
                     <div class="stats-grid-label">📋 Всего задач</div>
                 </div>
                 <div class="stats-grid-item">
-                    <div class="stats-grid-value" id="kr-percent">${((solved/total)*100).toFixed(1)}%</div>
+                    <div class="stats-grid-value" id="kr-percent">${total > 0 ? ((solved/total)*100).toFixed(1) : 0}%</div>
                     <div class="stats-grid-label">📊 Прогресс</div>
                 </div>
                 <div class="stats-grid-item">
@@ -1979,7 +2028,7 @@ function renderControlTasks() {
             </div>
         </div>
         <div class="progress-bar" style="margin-top: 12px;">
-            <div class="progress-fill" id="kr-progress-fill" style="width: ${(solved/total)*100}%;"></div>
+            <div class="progress-fill" id="kr-progress-fill" style="width: ${total > 0 ? (solved/total)*100 : 0}%;"></div>
         </div>
         <div id="kr-pace" style="margin-top: 12px; font-size:0.85rem; color:var(--pencil); text-align:center;">${paceText}</div>
     </div>
@@ -2000,7 +2049,7 @@ function renderControlTasks() {
                 <div style="display: flex; align-items: center; gap: 12px;">
                     <span class="section-toggle" id="kr-toggle-type-${t}" style="color:var(--ink-blue); font-size:1.2rem;">${isExpanded ? '▼' : '▶'}</span>
                     <span style="color:var(--ink-blue); font-weight:600;">Тип ${t+1}: ${type.title}</span>
-                    <span style="color:var(--pencil); font-size:0.8rem;">(${type.tasks.length} задач)</span>
+                    <span style="color:var(--pencil); font-size:0.8rem;">(${type.tasks.length} ${pluralTasks(type.tasks.length)})</span>
                 </div>
                 <div style="font-size:0.8rem; color:var(--pencil);">
                     ✅ <span id="kr-type-${t}-counter">${solvedInType}/${type.tasks.length}</span>
@@ -2119,7 +2168,16 @@ function saveIntegralsProgress() {
 }
 
 function getSolvedCount() {
-    return Object.keys(integralsProgress).length;
+    let count = 0;
+    for (let i = 1; i <= 9; i++) {
+        const sectionData = INTEGRALS_DATA[`section${i}`];
+        if (sectionData) {
+            for (let j = 0; j < sectionData.length; j++) {
+                if (integralsProgress[`s${i}_t${j}`]) count++;
+            }
+        }
+    }
+    return count;
 }
 
 function getTotalTasksCount() {
@@ -2229,18 +2287,17 @@ function updateIntegralsStats() {
     const paceSpan = document.getElementById('integrals-pace');
     const remainingSpan = document.getElementById('integrals-remaining');
     
-    if (progressFill) progressFill.style.width = `${(solved / total) * 100}%`;
+    if (progressFill) progressFill.style.width = `${total > 0 ? (solved / total) * 100 : 0}%`;
     if (solvedSpan) solvedSpan.innerText = solved;
     if (totalSpan) totalSpan.innerText = total;
     if (percentSpan) percentSpan.innerText = total > 0 ? ((solved / total) * 100).toFixed(1) : 0;
-    if (remainingSpan) remainingSpan.innerText = total - solved;
+    if (remainingSpan) remainingSpan.innerText = Math.max(0, total - solved);
     
     // Темп до 22 мая 2026
     const examDate = new Date(2026, 4, 22);
     const now = new Date();
     const daysLeft = (examDate - now) / 86400000;
-    const remaining = total - solved;
-    const perDay = remaining / daysLeft;
+    const remaining = Math.max(0, total - solved);
     
     if (paceSpan) {
         if (remaining <= 0) {
@@ -2248,7 +2305,8 @@ function updateIntegralsStats() {
         } else if (daysLeft <= 0) {
             paceSpan.innerHTML = '⏰ Срок вышел! Решай оставшиеся задачи.';
         } else {
-            paceSpan.innerHTML = `📅 До 22 мая: ${daysLeft.toFixed(3)} дн. | Осталось: ${remaining} задач | Нужно: ${perDay.toFixed(3)} задачи в день`;
+            const perDay = Math.min(remaining, remaining / daysLeft);
+            paceSpan.innerHTML = `📅 До 22 мая: ${daysLeft.toFixed(3)} дн. | Осталось: ${remaining} ${pluralTasks(remaining)} | Нужно: ${fmtNum(perDay)} ${pluralTasks(perDay)} в день`;
         }
     }
     
@@ -2424,13 +2482,13 @@ function renderIntegrals() {
                     <div class="stats-grid-label">📊 Прогресс</div>
                 </div>
                 <div class="stats-grid-item">
-                    <div class="stats-grid-value" id="integrals-remaining">${totalTasks - solved}</div>
+                    <div class="stats-grid-value" id="integrals-remaining">${Math.max(0, totalTasks - solved)}</div>
                     <div class="stats-grid-label">⏳ Осталось</div>
                 </div>
             </div>
         </div>
         <div class="progress-bar" style="margin-top: 12px;">
-            <div class="progress-fill" id="integrals-progress-fill" style="width: ${(solved / totalTasks) * 100}%;"></div>
+            <div class="progress-fill" id="integrals-progress-fill" style="width: ${totalTasks > 0 ? (solved / totalTasks) * 100 : 0}%;"></div>
         </div>
         <div id="integrals-pace" style="margin-top: 12px; font-size:0.85rem; color:var(--pencil); text-align:center;">загрузка...</div>
     </div>
@@ -2662,7 +2720,7 @@ function renderIntegrals() {
                 <div style="display: flex; align-items: center; gap: 12px;">
                     <span class="section-toggle" id="toggle-section-${section.num}" style="color:var(--ink-blue); font-size:1.2rem;">${sectionIsExpanded ? '▼' : '▶'}</span>
                     <span style="color:var(--ink-blue); font-weight:600;">${section.num}. ${section.title}</span>
-                    <span style="color:var(--pencil); font-size:0.8rem;">(${section.data.length} задач)</span>
+                    <span style="color:var(--pencil); font-size:0.8rem;">(${section.data.length} ${pluralTasks(section.data.length)})</span>
                 </div>
                 <div style="font-size:0.8rem; color:var(--pencil);">
                     ✅ <span id="section-${section.num}-counter">${solvedInSection}/${section.data.length}</span>
