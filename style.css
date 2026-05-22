@@ -27,6 +27,347 @@
     --font-print:  'Patrick Hand', cursive;
     --font-mono:   'Courier Prime', monospace;
     --font-serif:  'Libre Baskerville', serif;
+    --card-bg:     #fff;
+    --panel-bg:    rgba(255,255,255,0.55);
+    --body-bg:     #d4c9b0;
+    --btn-bg:      #eef4f9;
+}
+
+/* ============================================================
+   ТЁМНАЯ ТЕМА
+   ============================================================ */
+[data-theme="dark"] {
+    --paper:       #12121e;
+    --paper-alt:   #1a1a2e;
+    --paper-cover: #0d0d18;
+    --line:        #2a2a45;
+    --line-red:    rgba(220,80,80,0.12);
+    --ink:         #d0d0e0;
+    --ink-blue:    #8ac8ff;
+    --ink-red:     #f56b6b;
+    --ink-green:   #6bcb6b;
+    --pencil:      #8a8aa8;
+    --accent:      #f06060;
+    --accent2:     #d4a020;
+    --accent3:     #5a9ae0;
+    --shadow:      rgba(0,0,0,0.5);
+    --ring:        #3a3a58;
+    --tape:        rgba(50,50,80,0.55);
+    --sticker-y:   #3a3a18;
+    --sticker-b:   #182a4a;
+    --sticker-p:   #3a183a;
+    --card-bg:     #1a1a2e;
+    --panel-bg:    rgba(20,20,35,0.7);
+    --body-bg:     #080812;
+    --btn-bg:      #2a2a45;
+}
+
+[data-theme="dark"] body {
+    background-color: var(--body-bg);
+    background-image: none;
+}
+
+[data-theme="dark"] .hero-logo {
+    filter: brightness(2);
+}
+
+[data-theme="dark"] .modal-overlay {
+    background: rgba(0,0,0,0.7);
+}
+
+[data-theme="dark"] #exam-pane::before,
+[data-theme="dark"] #control-pane::before,
+[data-theme="dark"] #integrals-pane::before {
+    display: none;
+}
+
+[data-theme="dark"] .ticket-title,
+[data-theme="dark"] .ticket {
+    color: var(--ink);
+}
+
+[data-theme="dark"] .action-btn,
+[data-theme="dark"] .undo-btn {
+    background: var(--btn-bg);
+    border-color: var(--ring);
+    color: var(--ink);
+}
+
+[data-theme="dark"] .action-btn:hover:not(:disabled) {
+    background: #3a3a58;
+    border-color: #5a5a7a;
+}
+
+[data-theme="dark"] .undo-btn:hover:not(:disabled) {
+    background: #3a1a1a;
+    border-color: #6a3a3a;
+    color: #e08080;
+}
+
+[data-theme="dark"] .btn-save,
+[data-theme="dark"] .btn-load {
+    background: var(--btn-bg);
+    border-color: var(--ring);
+    color: var(--ink);
+}
+
+[data-theme="dark"] .btn-save:hover,
+[data-theme="dark"] .btn-load:hover {
+    background: #3a3a58;
+}
+
+[data-theme="dark"] .glass-panel {
+    background: var(--panel-bg);
+}
+
+[data-theme="dark"] .timer-card {
+    background: rgba(40,40,60,0.5);
+}
+
+[data-theme="dark"] .pace-card {
+    background: rgba(30,50,30,0.4);
+}
+
+[data-theme="dark"] .stats-grid {
+    background: rgba(50,30,30,0.4);
+}
+
+[data-theme="dark"] .stats {
+    color: var(--ink);
+}
+
+[data-theme="dark"] .task-card,
+[data-theme="dark"] .integral-card {
+    background: var(--card-bg);
+}
+
+[data-theme="dark"] .cheatsheet,
+[data-theme="dark"] .conspect-content,
+[data-theme="dark"] .ticket {
+    background: var(--card-bg);
+    color: var(--ink);
+}
+
+[data-theme="dark"] .ticket.ready {
+    background: linear-gradient(90deg, rgba(30,60,30,0.3) 0%, var(--card-bg) 80px);
+}
+
+[data-theme="dark"] .task-header {
+    background: rgba(30,30,50,0.5);
+}
+
+[data-theme="dark"] .task-equation {
+    background: rgba(30,30,50,0.6);
+}
+
+[data-theme="dark"] .task-card:hover {
+    border-color: var(--accent3);
+}
+
+[data-theme="dark"] .task-points {
+    background: var(--sticker-y);
+    color: var(--ink);
+}
+
+[data-theme="dark"] .solution {
+    background: rgba(30,60,30,0.2);
+}
+
+[data-theme="dark"] .info-banner {
+    background: var(--sticker-y);
+    color: var(--ink);
+}
+
+[data-theme="dark"] .theory-block {
+    background: rgba(20,20,40,0.5);
+}
+
+[data-theme="dark"] .theory-header {
+    background: rgba(25,25,50,0.6);
+}
+
+[data-theme="dark"] .theory-content p,
+[data-theme="dark"] .theory-content li {
+    color: var(--ink);
+}
+
+[data-theme="dark"] .theory-content code {
+    background: rgba(30,30,50,0.8);
+    color: var(--ink-blue);
+}
+
+[data-theme="dark"] .theory-example {
+    background: rgba(30,60,30,0.2);
+}
+
+[data-theme="dark"] .theory-formula {
+    background: rgba(30,30,50,0.6);
+}
+
+[data-theme="dark"] .theory-table th {
+    background: rgba(25,25,50,0.7);
+}
+
+[data-theme="dark"] .theory-table td {
+    color: var(--ink);
+}
+
+[data-theme="dark"] .theory-table tr:nth-child(even) td {
+    background: rgba(30,30,50,0.4);
+}
+
+[data-theme="dark"] .integrals-section-header {
+    background: rgba(25,25,50,0.6) !important;
+}
+
+[data-theme="dark"] .integrals-stats-panel,
+[data-theme="dark"] .kr-stats-panel {
+    background: var(--panel-bg);
+}
+
+[data-theme="dark"] .integral-header {
+    background: rgba(25,25,50,0.4);
+}
+
+[data-theme="dark"] .integral-solution {
+    background: rgba(30,60,30,0.15);
+}
+
+[data-theme="dark"] .check-btn {
+    background: var(--card-bg);
+    color: var(--ink);
+    border-color: var(--ring);
+}
+
+[data-theme="dark"] .check-btn:hover {
+    background: var(--ink-green);
+    border-color: var(--ink-green);
+    color: white;
+}
+
+[data-theme="dark"] .btn-toggle-all {
+    background: var(--card-bg);
+    color: var(--ink);
+    border-color: var(--ring);
+}
+
+[data-theme="dark"] .btn-toggle-all:hover {
+    background: var(--ink-blue);
+    border-color: var(--ink-blue);
+    color: white;
+}
+
+[data-theme="dark"] .kr-action-btn,
+[data-theme="dark"] .integral-action-btn {
+    background: var(--btn-bg);
+    border-color: var(--ring);
+    color: var(--ink);
+}
+
+[data-theme="dark"] .kr-action-btn:hover,
+[data-theme="dark"] .integral-action-btn:hover {
+    background: #3a3a58;
+}
+
+[data-theme="dark"] .kr-reset-btn,
+[data-theme="dark"] .kr-reset-btn:hover {
+    background: #3a1a1a !important;
+    border-color: #6a3a3a !important;
+    color: #e06060;
+}
+
+[data-theme="dark"] .ticket::after {
+    border-color: transparent var(--paper-alt) transparent transparent;
+}
+
+[data-theme="dark"] .math {
+    color: var(--ink);
+}
+
+[data-theme="dark"] .modal-box {
+    background: var(--paper);
+    border-color: var(--ring);
+}
+
+[data-theme="dark"] .modal-list li {
+    color: var(--ink);
+}
+
+[data-theme="dark"] .rank-card {
+    background: linear-gradient(135deg, var(--card-bg) 0%, var(--paper) 100%);
+}
+
+[data-theme="dark"] .katex { color: var(--ink); }
+[data-theme="dark"] .katex .mathnormal { color: var(--ink); }
+[data-theme="dark"] .katex .mord { color: var(--ink); }
+[data-theme="dark"] .katex .mbin { color: var(--ink); }
+[data-theme="dark"] .katex .mrel { color: var(--ink); }
+[data-theme="dark"] .katex .mopen { color: var(--ink); }
+[data-theme="dark"] .katex .mclose { color: var(--ink); }
+[data-theme="dark"] .katex .mpunct { color: var(--ink); }
+[data-theme="dark"] .katex .mspace { color: var(--ink); }
+[data-theme="dark"] .katex .vlist-t { color: var(--ink); }
+[data-theme="dark"] .katex .vlist-r { color: var(--ink); }
+[data-theme="dark"] .katex .vlist { color: var(--ink); }
+[data-theme="dark"] .katex .katex-html { color: var(--ink); }
+[data-theme="dark"] .task-equation {
+    background: rgba(30,30,50,0.6);
+}
+
+[data-theme="dark"] .rank-icon {
+    background: rgba(0,0,0,0.3);
+}
+
+[data-theme="dark"] .theory-section {
+    background: var(--card-bg);
+}
+
+[data-theme="dark"] .integral-formula {
+    color: var(--ink);
+}
+
+[data-theme="dark"] .ticket-header {
+    border-bottom-color: var(--line);
+}
+
+[data-theme="dark"] .cheatsheet h4,
+[data-theme="dark"] .conspect-content h4,
+[data-theme="dark"] .conspect-content h3 {
+    color: #8ac8ff !important;
+}
+
+[data-theme="dark"] .ticket-title {
+    color: #8ac8ff;
+}
+
+[data-theme="dark"] #exam-pane,
+[data-theme="dark"] #control-pane,
+[data-theme="dark"] #integrals-pane {
+    border-color: var(--ring);
+}
+
+[data-theme="dark"] .ticket-meta {
+    color: var(--pencil);
+}
+
+[data-theme="dark"] .global-undo-btn {
+    background: #2a2a1a;
+    border-color: #5a5a3a;
+    color: #c0c080;
+}
+
+[data-theme="dark"] .global-undo-btn:hover {
+    background: #3a3a20;
+}
+
+[data-theme="dark"] .reset-btn {
+    background: #2a0a0a;
+    border-color: #5a1a1a;
+    color: #e08080;
+}
+
+[data-theme="dark"] .reset-btn:hover {
+    background: #3a0a0a;
 }
 
 /* ============================================================
@@ -56,6 +397,30 @@ body {
 /* ============================================================
    HERO — ШАПКА
    ============================================================ */
+.theme-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--paper-alt);
+    border: 2px solid var(--ring);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    z-index: 10;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px var(--shadow);
+}
+
+.theme-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 16px var(--shadow);
+}
+
 .hero {
     background: transparent;
     padding: 0;
@@ -1106,6 +1471,8 @@ body {
 @media (max-width: 768px) {
     body { zoom: 1; padding: 12px 8px 40px; font-size: 16px; background-image: none; }
 
+    .theme-btn { width: 32px; height: 32px; font-size: 1rem; top: 0; right: 0; }
+
     #exam-pane, #control-pane, #integrals-pane {
         padding: 20px 14px;
     }
@@ -1189,6 +1556,8 @@ body {
 
 @media (max-width: 480px) {
     body { padding: 8px 4px 32px; font-size: 14px; }
+
+    .theme-btn { width: 28px; height: 28px; font-size: 0.85rem; top: 0; right: 0; }
 
     #exam-pane, #control-pane, #integrals-pane {
         padding: 14px 10px;

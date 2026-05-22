@@ -2121,8 +2121,38 @@ async function initTabs() {
         });
     });
 }
+// ========== ТЕМА (светлая/тёмная) ==========
+function toggleTheme() {
+    const html = document.documentElement;
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    if (isDark) {
+        html.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+        document.getElementById('theme-btn').textContent = '🌙';
+    } else {
+        html.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        document.getElementById('theme-btn').textContent = '☀️';
+    }
+}
+
+function loadTheme() {
+    const saved = localStorage.getItem('theme') || 'light';
+    const html = document.documentElement;
+    const btn = document.getElementById('theme-btn');
+    if (saved === 'dark') {
+        html.setAttribute('data-theme', 'dark');
+        if (btn) btn.textContent = '☀️';
+    } else {
+        html.removeAttribute('data-theme');
+        if (btn) btn.textContent = '🌙';
+    }
+}
+
+window.toggleTheme = toggleTheme;
 // ========== ЗАПУСК ==========
 document.addEventListener('DOMContentLoaded', () => {
+    loadTheme();
     initState();
     renderControlTasks();
     renderIntegrals();
