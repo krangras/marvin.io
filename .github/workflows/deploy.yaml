@@ -32,4 +32,4 @@ jobs:
 
             docker compose up --build --wait
 
-            docker compose ps --services --filter "status=running" | grep -q .
+            if docker compose ps --format "{{.Status}}" | grep -q unhealthy; then echo "Unhealthy container detected"; exit 1; fi
