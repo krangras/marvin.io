@@ -9,7 +9,7 @@ if (localStorage.getItem('cache_version') !== CACHE_VERSION) {
 }
 const intervals = [1, 3, 7, 14, 30];
 const RANKS = [
-    { minScore: 0, title: "Гаджетник", subtitle: "Просто открыл страницу", icon: "📱" },
+    { minScore: 0, title: "Гаджетник", subtitle: "Позор радиофака", icon: "📱" },
     { minScore: 1, title: "Минимал", subtitle: "Сделал минимум", icon: "🪖" },
     { minScore: 7, title: "Пунктуальный", subtitle: "Начал готовиться", icon: "⏰" },
     { minScore: 15, title: "Дедлайн-боец", subtitle: "Успевает", icon: "⚡" },
