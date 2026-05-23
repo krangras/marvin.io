@@ -41,6 +41,12 @@ const ticketsData = [
     { t: "Теорема о существовании ФСР СОЛДУ. Теорема о структуре общего решения СОЛДУ." }
 ];
 
+const modules = [
+    { title: 'Евклидовы пространства', tickets: [0, 1, 2, 3] },
+    { title: 'Линейные операторы', tickets: [4, 5, 6, 7, 8, 9] },
+    { title: 'Дифференциальные уравнения', tickets: [10, 11, 12, 13, 14, 15, 16, 17] }
+];
+
 let state = null;
 let lastAction = null;
 let renderScheduled = false;
@@ -65,6 +71,7 @@ function initState() {
         state = ticketsData.map((item, idx) => ({ id: idx, name: item.t, step: 0, nextReview: null, history: [] }));
     }
     saveToLocalStorage();
+    renderSidebar();
 }
 
 function calculateTotalScore() {
@@ -91,6 +98,171 @@ function updateRankUI() {
     if (rankSub) rankSub.innerHTML = cur.subtitle;
     if (rankProgressFill) rankProgressFill.style.width = `${(score / maxScore) * 100}%`;
     if (rankStats) rankStats.innerHTML = `${score}/${maxScore} очков`;
+}
+
+// ========== САЙДБАР ==========
+function renderSidebar() {
+    const list = document.getElementById('sidebar-tickets');
+    if (!list) return;
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    let totalScore = 0;
+    let maxScore = 0;
+    state.forEach(item => {
+        totalScore += Math.min(item.step, 5);
+        maxScore += 5;
+    });
+    const pct = maxScore > 0 ? (totalScore / maxScore * 100) : 0;
+    const fill = document.getElementById('sidebar-progress-fill');
+    const text = document.getElementById('sidebar-progress-text');
+    if (fill) fill.style.width = pct + '%';
+    if (text) text.textContent = Math.round(pct) + '%';
+    let html = '';
+    const modulesState = JSON.parse(localStorage.getItem('sidebar_modules_state') || '{}');
+    modules.forEach((mod, mi) => {
+        const isOpen = modulesState[mi] !== false;
+        const chevron = isOpen ? '▼' : '▶';
+        const modDone = mod.tickets.filter(i => state[i].step >= 5).length;
+        html += `<div class="sidebar-module">
+            <div class="sidebar-module-header" onclick="toggleModule(${mi}, event)">
+                <span class="sidebar-module-chevron">${chevron}</span>
+                <span class="sidebar-module-title">Модуль ${mi + 1}. ${mod.title}</span>
+                <span class="sidebar-module-meta">${modDone}/${mod.tickets.length}</span>
+            </div>
+            <div class="sidebar-module-body"${isOpen ? '' : ' style="display:none"'}>`;
+        mod.tickets.forEach((idx) => {
+            const item = state[idx];
+            let cls = 'not-started';
+            let icon = '○';
+            if (item.step >= 5) { cls = 'mastered'; icon = '✓'; }
+            else if (item.step > 0) { cls = 'learning'; icon = '◐'; }
+            const nameShort = item.name.length > 50 ? item.name.slice(0, 47) + '…' : item.name;
+            html += `<div class="sidebar-lesson ${cls}" onclick="goToTicket(${idx})">
+                <span class="sidebar-lesson-icon">${icon}</span>
+                <span class="sidebar-lesson-name" title="${item.name.replace(/"/g, '&quot;')}">${nameShort}</span>
+                <span class="sidebar-lesson-step">${item.step}/5</span>
+            </div>`;
+        });
+        html += `</div></div>`;
+    });
+    list.innerHTML = html;
+}
+function toggleModule(mi, e) {
+    if (e) e.stopPropagation();
+    const modulesState = JSON.parse(localStorage.getItem('sidebar_modules_state') || '{}');
+    modulesState[mi] = modulesState[mi] === false ? true : false;
+    localStorage.setItem('sidebar_modules_state', JSON.stringify(modulesState));
+    renderSidebar();
+}
+function goToTicket(idx) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('.tab-btn[data-tab="exam"]')?.classList.add('active');
+    document.getElementById('exam-pane')?.classList.add('active-pane');
+    document.getElementById('archive-pane')?.classList.remove('active-pane');
+    saveActiveTab();
+    const openCheat = (ticketEl) => {
+        const sheet = ticketEl.querySelector('.cheatsheet');
+        if (sheet && sheet.style.display !== 'block') {
+            sheet.style.display = 'block';
+            if (!sheet.dataset.loaded && typeof CONSPECTS !== 'undefined' && CONSPECTS[idx]) {
+                sheet.innerHTML = CONSPECTS[idx];
+                sheet.dataset.loaded = '1';
+            }
+            if (typeof renderMathInElement !== 'undefined') {
+                setTimeout(() => {
+                    try { renderMathInElement(sheet, {
+                        delimiters: [
+                            {left: '$$', right: '$$', display: true},
+                            {left: '\\[', right: '\\]', display: true},
+                            {left: '$', right: '$', display: false},
+                            {left: '\\(', right: '\\)', display: false}
+                        ],
+                        macros: {
+                            '\\tg': '\\operatorname{tg}',
+                            '\\ctg': '\\operatorname{ctg}',
+                            '\\arctg': '\\operatorname{arctg}'
+                        }, throwOnError: false, trust: true, strict: false
+                    }); } catch (e) {}
+                }, 50);
+            }
+        }
+        ticketEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    const ticket = document.querySelector(`.ticket[data-idx="${idx}"]`);
+    if (ticket) {
+        openCheat(ticket);
+    } else {
+        render();
+        requestAnimationFrame(() => {
+            const t = document.querySelector(`.ticket[data-idx="${idx}"]`);
+            if (t) openCheat(t);
+        });
+    }
+}
+function toggleSidebarPin() {
+    const sidebar = document.getElementById('sidebar');
+    const pinned = sidebar.classList.toggle('pinned');
+    localStorage.setItem('sidebar_pinned', pinned ? '1' : '0');
+}
+let sidebarCollapseTimer = null;
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    if (!sidebar) return;
+    clearTimeout(sidebarCollapseTimer);
+    sidebar.classList.toggle('expanded');
+}
+function closeSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    if (!sidebar || sidebar.classList.contains('pinned')) return;
+    clearTimeout(sidebarCollapseTimer);
+    sidebar.classList.remove('expanded');
+}
+function toggleMobileSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    if (!sidebar) return;
+    const isOpen = sidebar.classList.contains('mobile-open');
+    sidebar.classList.toggle('mobile-open');
+    document.body.classList.toggle('sidebar-open');
+    if (!isOpen) closeSidebar();
+}
+function loadSidebarPinState() {
+    const sidebar = document.getElementById('sidebar');
+    if (!sidebar) return;
+    const pinned = localStorage.getItem('sidebar_pinned') === '1';
+    if (pinned) sidebar.classList.add('pinned');
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('#sidebar') || e.target.closest('.hamburger-btn')) return;
+        closeSidebar();
+        if (sidebar.classList.contains('mobile-open')) {
+            sidebar.classList.remove('mobile-open');
+            document.body.classList.remove('sidebar-open');
+        }
+    });
+    sidebar.addEventListener('mouseover', () => { clearTimeout(sidebarCollapseTimer); });
+    sidebar.addEventListener('mouseout', (e) => {
+        if (e.relatedTarget && sidebar.contains(e.relatedTarget)) return;
+        if (!sidebar.classList.contains('expanded') || sidebar.classList.contains('pinned')) return;
+        sidebarCollapseTimer = setTimeout(() => closeSidebar(), 300);
+    });
+}
+function switchToArchiveSubtab(subtab) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('.tab-btn[data-tab="archive"]')?.classList.add('active');
+    document.getElementById('archive-pane')?.classList.add('active-pane');
+    document.getElementById('exam-pane')?.classList.remove('active-pane');
+    saveActiveTab();
+    document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.sub-tab-pane').forEach(p => p.classList.remove('active-sub-pane'));
+    const subBtn = document.querySelector(`.sub-tab-btn[data-subtab="${subtab}"]`);
+    if (subBtn) subBtn.classList.add('active');
+    if (subtab === 'control') {
+        document.getElementById('archive-control')?.classList.add('active-sub-pane');
+        saveActiveSubTab();
+    } else if (subtab === 'integrals') {
+        document.getElementById('archive-integrals')?.classList.add('active-sub-pane');
+        saveActiveSubTab();
+        requestAnimationFrame(() => renderIntegrals());
+    }
 }
 
 // ========== ОСНОВНЫЕ ДЕЙСТВИЯ (с debounce) ==========
@@ -394,6 +566,7 @@ function render() {
     
     updatePace();
     updateRankUI();
+    renderSidebar();
 }
 
 function updatePace() {
@@ -2182,6 +2355,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initTabs();
     loadActiveTab();
     render();
+    loadSidebarPinState();
     setInterval(updatePace, 60000);
 });
 

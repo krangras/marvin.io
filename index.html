@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Marvin.io — АГиТДУ | Экзамен + Контрольная работа</title>
-    <link rel="stylesheet" href="style.css?v=2">
+    <link rel="stylesheet" href="style.css?v=23">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/cancel.js"></script>
@@ -31,81 +31,121 @@
 <div class="container">
     <div class="theme-btn" onclick="toggleTheme()" id="theme-btn" title="Переключить тему"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
     <div class="hero">
-        <img src="logo.svg" alt="Marvin.io" class="hero-logo">
-        <div class="hero-subtitle">АГиТДУ — интервальные повторения + контрольная работа</div>
+        <img src="logo.svg" alt="Marvin.io" class="hero-logo" draggable="false">
+        <div class="hero-subtitle">АГиТДУ — система интервальных повторений для подготовки к экзамену</div>
     </div>
 
-    <div class="tabs">
-        <div class="tab-btn active" data-tab="exam">📚 Экзамен (билеты)</div>
-        <div class="tab-btn" data-tab="archive">🗂 Архив</div>
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-trigger" id="sidebar-trigger" onclick="toggleSidebar()">
+        <span class="sidebar-trigger-text">syllabus</span>
+        <span class="sidebar-trigger-arrow">&gt;</span>
     </div>
-
-    <div id="exam-pane" class="tab-pane active-pane">
-        <div class="toolbar">
-            <button class="btn-save" onclick="exportAllToFile()">Сохранить прогресс</button>
-            <button class="btn-load" onclick="importAllFromFile()">Загрузить прогресс</button>
+    <div class="sidebar-content">
+        <div class="sidebar-content-inner">
+            <div class="sidebar-pin-row">
+                <span class="sidebar-pin-label">Содержание</span>
+                <button class="sidebar-pin-btn" id="sidebar-pin" onclick="toggleSidebarPin()" title="Закрепить">📌</button>
+            </div>
+            <div class="sidebar-progress" id="sidebar-progress">
+                <div class="sidebar-progress-label">Прогресс</div>
+                <div class="sidebar-progress-bar">
+                    <div class="sidebar-progress-fill" id="sidebar-progress-fill"></div>
+                </div>
+                <div class="sidebar-progress-text" id="sidebar-progress-text">0%</div>
+            </div>
+            <div class="sidebar-ticket-list" id="sidebar-tickets"></div>
+            <div class="sidebar-archive-section">
+                <div class="sidebar-section-title">🗂 Архив</div>
+                <div class="sidebar-item" onclick="switchToArchiveSubtab('control')">✍️ Контрольная работа по АГиТДУ за второй семестр</div>
+                <div class="sidebar-item" onclick="switchToArchiveSubtab('integrals')">∫ Способы и методы взятия интегралов</div>
+            </div>
         </div>
-        <div id="rank-card" class="rank-card">
-            <div class="rank-icon" id="rank-icon">🎖️</div>
-            <div class="rank-info">
-                <div class="rank-title" id="rank-title">Минимал</div>
-                <div class="rank-sub" id="rank-sub">Сделал минимум — открыл билеты</div>
-                <div class="rank-progress">
-                    <div class="progress-bar"><div class="progress-fill" id="rank-progress-fill"></div></div>
-                    <div class="rank-stats" id="rank-stats">0 / 85 очков</div>
+    </div>
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleMobileSidebar()"></div>
+</aside>
+
+<button class="hamburger-btn" id="hamburger-btn" onclick="toggleMobileSidebar()" aria-label="Меню">
+    <span></span>
+    <span></span>
+    <span></span>
+</button>
+
+<div class="main-layout">
+    <div class="main-content">
+            <div class="tabs">
+                <div class="tab-btn active" data-tab="exam">📚 Экзамен (билеты)</div>
+                <div class="tab-btn" data-tab="archive">🗂 Архив</div>
+            </div>
+
+            <div id="exam-pane" class="tab-pane active-pane">
+                <div class="toolbar">
+                    <button class="btn-save" onclick="exportAllToFile()">Сохранить прогресс</button>
+                    <button class="btn-load" onclick="importAllFromFile()">Загрузить прогресс</button>
+                </div>
+                <div id="rank-card" class="rank-card">
+                    <div class="rank-icon" id="rank-icon">🎖️</div>
+                    <div class="rank-info">
+                        <div class="rank-title" id="rank-title">Минимал</div>
+                        <div class="rank-sub" id="rank-sub">Сделал минимум — открыл билеты</div>
+                        <div class="rank-progress">
+                            <div class="progress-bar"><div class="progress-fill" id="rank-progress-fill"></div></div>
+                            <div class="rank-stats" id="rank-stats">0 / 85 очков</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel timer-card" id="timer">Загрузка...</div>
+                <div class="glass-panel pace-card" id="pace-info">Анализируем твою скорость...</div>
+                <div class="glass-panel stats">
+                    <div>📅 <span id="today-date"></span></div>
+                    <div>🔥 Осталось освоить: <span id="count-ready">0</span></div>
+                    <div>📊 Освоено: <span id="mastery-percent">0</span>%</div>
+                </div>
+
+                <div class="glass-panel stats-grid" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+                    <div style="text-align: center; flex: 1;">
+                        <div style="font-size: 1.8rem; font-weight: bold; color: #1a6e3a;" id="stat-mastered">0</div>
+                        <div style="font-size: 0.7rem; color: var(--pencil);">✅ Освоено (шаг 5)</div>
+                    </div>
+                    <div style="text-align: center; flex: 1;">
+                        <div style="font-size: 1.8rem; font-weight: bold; color: var(--ink-blue);" id="stat-learning">0</div>
+                        <div style="font-size: 0.7rem; color: var(--pencil);">🔄 В процессе</div>
+                    </div>
+                    <div style="text-align: center; flex: 1;">
+                        <div style="font-size: 1.8rem; font-weight: bold; color: var(--ink-red);" id="stat-notstarted">0</div>
+                        <div style="font-size: 0.7rem; color: var(--pencil);">⏳ Не начато</div>
+                    </div>
+                    <div style="text-align: center; flex: 1;">
+                        <div style="font-size: 1.8rem; font-weight: bold; color: var(--ink-blue);" id="stat-totalrepeats">0</div>
+                        <div style="font-size: 0.7rem; color: var(--pencil);">📚 Всего повторений</div>
+                    </div>
+                </div>
+                <div id="list" class="ticket-list"></div>
+                <div class="ornament">◈ ◈ ◈</div>
+                <div class="button-group">
+                    <button class="global-undo-btn" onclick="undoLastAction()">↩️ Отменить последнее</button>
+                    <button class="reset-btn" onclick="resetAll()">🗑️ Сбросить прогресс</button>
+                </div>
+            </div>
+
+            <div id="archive-pane" class="tab-pane archive-pane">
+                <div class="sub-tabs">
+                    <div class="sub-tab-btn active" data-subtab="control">✍️ Контрольная работа №3 | ЛДУ-II</div>
+                    <div class="sub-tab-btn" data-subtab="integrals">∫ Интегралы</div>
+                </div>
+                <div id="archive-control" class="sub-tab-pane active-sub-pane">
+                    <div id="control-tasks"></div>
+                </div>
+                <div id="archive-integrals" class="sub-tab-pane">
+                    <div id="integrals-list"></div>
                 </div>
             </div>
         </div>
-
-        <div class="glass-panel timer-card" id="timer">Загрузка...</div>
-        <div class="glass-panel pace-card" id="pace-info">Анализируем твою скорость...</div>
-        <div class="glass-panel stats">
-            <div>📅 <span id="today-date"></span></div>
-            <div>🔥 Осталось освоить: <span id="count-ready">0</span></div>
-            <div>📊 Освоено: <span id="mastery-percent">0</span>%</div>
-        </div>
-
-        <div class="glass-panel stats-grid" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
-            <div style="text-align: center; flex: 1;">
-                <div style="font-size: 1.8rem; font-weight: bold; color: #1a6e3a;" id="stat-mastered">0</div>
-                <div style="font-size: 0.7rem; color: var(--pencil);">✅ Освоено (шаг 5)</div>
-            </div>
-            <div style="text-align: center; flex: 1;">
-                <div style="font-size: 1.8rem; font-weight: bold; color: var(--ink-blue);" id="stat-learning">0</div>
-                <div style="font-size: 0.7rem; color: var(--pencil);">🔄 В процессе</div>
-            </div>
-            <div style="text-align: center; flex: 1;">
-                <div style="font-size: 1.8rem; font-weight: bold; color: var(--ink-red);" id="stat-notstarted">0</div>
-                <div style="font-size: 0.7rem; color: var(--pencil);">⏳ Не начато</div>
-            </div>
-            <div style="text-align: center; flex: 1;">
-                <div style="font-size: 1.8rem; font-weight: bold; color: var(--ink-blue);" id="stat-totalrepeats">0</div>
-                <div style="font-size: 0.7rem; color: var(--pencil);">📚 Всего повторений</div>
-            </div>
-        </div>
-        <div id="list" class="ticket-list"></div>
-        <div class="ornament">◈ ◈ ◈</div>
-        <div class="button-group">
-            <button class="global-undo-btn" onclick="undoLastAction()">↩️ Отменить последнее</button>
-            <button class="reset-btn" onclick="resetAll()">🗑️ Сбросить прогресс</button>
-        </div>
     </div>
+</div>
 
-    <div id="archive-pane" class="tab-pane archive-pane">
-        <div class="sub-tabs">
-            <div class="sub-tab-btn active" data-subtab="control">✍️ Контрольная работа №3 | ЛДУ-II</div>
-            <div class="sub-tab-btn" data-subtab="integrals">∫ Интегралы</div>
-        </div>
-        <div id="archive-control" class="sub-tab-pane active-sub-pane">
-            <div id="control-tasks"></div>
-        </div>
-        <div id="archive-integrals" class="sub-tab-pane">
-            <div id="integrals-list"></div>
-        </div>
-    </div>
-
-<script src="conspects.js?v=16"></script>
-<script src="script.js?v=20"></script>
-<script src="integrals_data.js?v=16"></script>
+<script src="conspects.js?v=24"></script>
+<script src="script.js?v=35"></script>
+<script src="integrals_data.js?v=24"></script>
 </body>
 </html>
