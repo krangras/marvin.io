@@ -53,11 +53,19 @@
                 </div>
                 <div class="sidebar-progress-text" id="sidebar-progress-text">0%</div>
             </div>
+            <div class="sidebar-archive-section" style="margin-top: 12px;">
+                <div class="sidebar-section-title">📐 АГиТДУ — теория (2 семестр)</div>
+            </div>
             <div class="sidebar-ticket-list" id="sidebar-tickets"></div>
             <div class="sidebar-archive-section">
                 <div class="sidebar-section-title">🗂 Архив</div>
                 <div class="sidebar-item" onclick="switchToArchiveSubtab('control')">✍️ Контрольная работа по АГиТДУ за второй семестр</div>
-                <div class="sidebar-item" onclick="switchToArchiveSubtab('integrals')">∫ Способы и методы взятия интегралов</div>
+            </div>
+            <div class="sidebar-archive-section">
+                <div class="sidebar-section-title">📘 1 семестр</div>
+                <div class="sidebar-item" onclick="switchToSemester1Subtab('agidu')">📐 АГиТДУ — экз 1 сем</div>
+                <div class="sidebar-item" onclick="switchToSemester1Subtab('math')">📐 Математика — Интегралы</div>
+                <div class="sidebar-item" onclick="switchToSemester1Subtab('discrete')">💻 Дискретная математика</div>
             </div>
         </div>
     </div>
@@ -75,6 +83,7 @@
             <div class="tabs">
                 <div class="tab-btn active" data-tab="exam">📚 Экзамен (билеты)</div>
                 <div class="tab-btn" data-tab="archive">🗂 Архив</div>
+                <div class="tab-btn" data-tab="semester1">📘 1 семестр</div>
             </div>
 
             <div id="exam-pane" class="tab-pane active-pane">
@@ -120,6 +129,9 @@
                         <div style="font-size: 0.7rem; color: var(--pencil);">📚 Всего повторений</div>
                     </div>
                 </div>
+                <div class="glass-panel" style="margin: 1rem 0; padding: 0.6rem 1rem; text-align: center; font-weight: bold; font-size: 1.1rem; border-left: 4px solid var(--ink-blue);">
+                    📐 АГиТДУ — теория (2 семестр)
+                </div>
                 <div id="list" class="ticket-list"></div>
                 <div class="ornament">◈ ◈ ◈</div>
                 <div class="button-group">
@@ -131,13 +143,30 @@
             <div id="archive-pane" class="tab-pane archive-pane">
                 <div class="sub-tabs">
                     <div class="sub-tab-btn active" data-subtab="control">✍️ Контрольная работа №3 | ЛДУ-II</div>
-                    <div class="sub-tab-btn" data-subtab="integrals">∫ Интегралы</div>
                 </div>
                 <div id="archive-control" class="sub-tab-pane active-sub-pane">
                     <div id="control-tasks"></div>
                 </div>
-                <div id="archive-integrals" class="sub-tab-pane">
-                    <div id="integrals-list"></div>
+            </div>
+
+            <div id="semester1-pane" class="tab-pane">
+                <div class="sub-tabs">
+                    <div class="sub-tab-btn active" data-subtab="agidu">📐 АГиТДУ</div>
+                    <div class="sub-tab-btn" data-subtab="math">📐 Математика</div>
+                    <div class="sub-tab-btn" data-subtab="discrete">💻 Дискретная математика</div>
+                </div>
+                <div id="semester1-agidu" class="sub-tab-pane active-sub-pane">
+                    <div id="semester1-agidu-list"></div>
+                </div>
+                <div id="semester1-math" class="sub-tab-pane">
+                    <div id="semester1-math-content"></div>
+                </div>
+                <div id="semester1-discrete" class="sub-tab-pane">
+                    <div id="semester1-discrete-content">
+                        <div class="glass-panel" style="margin: 1rem; padding: 1.2rem; text-align: center; color: var(--pencil);">
+                            📖 Материалы по дискретной математике будут добавлены позже.
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -147,5 +176,6 @@
 <script src="conspects.js?v=24"></script>
 <script src="script.js?v=35"></script>
 <script src="integrals_data.js?v=24"></script>
+<script src="semester1_data.js?v=1"></script>
 </body>
 </html>
