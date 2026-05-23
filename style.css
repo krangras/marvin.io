@@ -75,12 +75,6 @@
     background: rgba(0,0,0,0.7);
 }
 
-[data-theme="dark"] #exam-pane::before,
-[data-theme="dark"] #control-pane::before,
-[data-theme="dark"] #integrals-pane::before {
-    display: none;
-}
-
 [data-theme="dark"] .ticket-title,
 [data-theme="dark"] .ticket {
     color: var(--ink);
@@ -341,9 +335,10 @@
 }
 
 [data-theme="dark"] #exam-pane,
-[data-theme="dark"] #control-pane,
-[data-theme="dark"] #integrals-pane {
+[data-theme="dark"] .archive-pane,
+[data-theme="dark"] .sub-tab-pane {
     border-color: var(--ring);
+    background-image: none;
 }
 
 [data-theme="dark"] .ticket-meta {
@@ -371,7 +366,7 @@
 }
 
 /* ============================================================
-   RESET & BASE
+   TOOLBAR
    ============================================================ */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -524,7 +519,7 @@ body {
 }
 
 /* Страница-тетрадь */
-#exam-pane, #control-pane, #integrals-pane {
+#exam-pane, #archive-pane {
     background: var(--paper);
     border: 2px solid #9a8a6a;
     border-radius: 0 12px 12px 12px;
@@ -537,14 +532,10 @@ body {
     line-height: 1.9;
 }
 
-/* Клетчатая бумага через псевдо-элемент (не шакалит при разворачивании) */
-#exam-pane::before, #control-pane::before, #integrals-pane::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 0 12px 12px 12px;
-    pointer-events: none;
-    z-index: 0;
+/* Клетчатая бумага — статичная, одинаковая на всех страницах */
+#exam-pane,
+.archive-pane,
+.sub-tab-pane {
     background-image:
         repeating-linear-gradient(
             to bottom,
@@ -556,16 +547,66 @@ body {
             transparent 0px, transparent 23px,
             rgba(200,216,240,0.4) 23px, rgba(200,216,240,0.4) 24px
         );
-    background-attachment: fixed;
+    background-attachment: scroll;
+    background-size: auto 24px, 24px auto;
 }
 
 /* Контент поверх клеточки */
-#exam-pane > *, #control-pane > *, #integrals-pane > * {
+#exam-pane > *,
+.sub-tab-pane > *,
+.archive-pane > * {
     position: relative;
     z-index: 1;
 }
 
-
+/* Под-табы внутри Архива */
+.sub-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 0;
+    position: relative;
+    z-index: 3;
+}
+.sub-tab-btn {
+    background: var(--paper-alt);
+    border: 2px solid var(--ring);
+    border-bottom: none;
+    padding: 8px 20px 12px;
+    border-radius: 6px 6px 0 0;
+    font-family: var(--font-hand);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--pencil);
+    position: relative;
+    margin-right: 3px;
+    transform: translateY(2px);
+}
+.sub-tab-btn.active {
+    background: var(--paper);
+    color: var(--ink-blue);
+    transform: translateY(0px);
+    border-color: #9a8a6a;
+    z-index: 4;
+}
+.sub-tab-btn:hover:not(.active) {
+    background: var(--paper);
+    color: var(--ink);
+    transform: translateY(1px);
+}
+.sub-tab-pane {
+    display: none;
+    border: 2px solid #9a8a6a;
+    border-radius: 0 8px 8px 8px;
+    padding: 24px;
+    background-color: var(--paper);
+    position: relative;
+    margin-top: -1px;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.6);
+}
+.sub-tab-pane.active-sub-pane {
+    display: block;
+}
 
 /* ============================================================
    TOOLBAR
@@ -1473,11 +1514,11 @@ body {
 
     .theme-btn { width: 32px; height: 32px; font-size: 1rem; top: 0; right: 0; }
 
-    #exam-pane, #control-pane, #integrals-pane {
+    #exam-pane, #archive-pane {
         padding: 20px 14px;
     }
 
-    #exam-pane::before, #control-pane::before, #integrals-pane::before {
+    #exam-pane::before, #archive-pane::before {
         display: none;
     }
 
@@ -1549,7 +1590,7 @@ body {
     body {
         background-image: none;
     }
-    #exam-pane::before, #control-pane::before, #integrals-pane::before {
+    #exam-pane::before, #archive-pane::before {
         display: none;
     }
 }
@@ -1559,7 +1600,7 @@ body {
 
     .theme-btn { width: 28px; height: 28px; font-size: 0.85rem; top: 0; right: 0; }
 
-    #exam-pane, #control-pane, #integrals-pane {
+    #exam-pane, #archive-pane {
         padding: 14px 10px;
     }
 
@@ -1648,7 +1689,7 @@ body {
 @media (max-width: 360px) {
     body { padding: 6px 2px 24px; font-size: 13px; }
 
-    #exam-pane, #control-pane, #integrals-pane {
+    #exam-pane, #archive-pane {
         padding: 10px 6px;
     }
 

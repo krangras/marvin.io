@@ -29,7 +29,7 @@
 </head>
 <body>
 <div class="container">
-    <div class="theme-btn" onclick="toggleTheme()" id="theme-btn" title="Переключить тему">🌙</div>
+    <div class="theme-btn" onclick="toggleTheme()" id="theme-btn" title="Переключить тему"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
     <div class="hero">
         <img src="logo.svg" alt="Marvin.io" class="hero-logo">
         <div class="hero-subtitle">АГиТДУ — интервальные повторения + контрольная работа</div>
@@ -37,8 +37,7 @@
 
     <div class="tabs">
         <div class="tab-btn active" data-tab="exam">📚 Экзамен (билеты)</div>
-        <div class="tab-btn" data-tab="control">✍️ Контрольная работа №3 | ЛДУ-II</div>
-        <div class="tab-btn" data-tab="integrals">∫ Интегралы</div>
+        <div class="tab-btn" data-tab="archive">🗂 Архив</div>
     </div>
 
     <div id="exam-pane" class="tab-pane active-pane">
@@ -92,11 +91,17 @@
         </div>
     </div>
 
-    <div id="control-pane" class="tab-pane">
-        <div id="control-tasks"></div>
-    </div>
-    <div id="integrals-pane" class="tab-pane">
-        <div id="integrals-list"></div>
+    <div id="archive-pane" class="tab-pane archive-pane">
+        <div class="sub-tabs">
+            <div class="sub-tab-btn active" data-subtab="control">✍️ Контрольная работа №3 | ЛДУ-II</div>
+            <div class="sub-tab-btn" data-subtab="integrals">∫ Интегралы</div>
+        </div>
+        <div id="archive-control" class="sub-tab-pane active-sub-pane">
+            <div id="control-tasks"></div>
+        </div>
+        <div id="archive-integrals" class="sub-tab-pane">
+            <div id="integrals-list"></div>
+        </div>
     </div>
 
 <script src="conspects.js?v=15"></script>

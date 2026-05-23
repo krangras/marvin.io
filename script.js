@@ -611,8 +611,8 @@ function loadProgressFromFile() {
                         integralsProgress = loaded.integrals;
                         saveIntegralsProgress();
                         // Обновляем отображение интегралов, если вкладка открыта
-                        const integralsPane = document.getElementById('integrals-pane');
-                        if (integralsPane && integralsPane.classList.contains('active-pane')) {
+                        const archivePane = document.getElementById('archive-pane');
+                        if (archivePane && archivePane.classList.contains('active-pane')) {
                             invalidateIntegralsCache();
                         } else {
                             // Сбрасываем кеш, чтобы при следующем открытии пересчиталось
@@ -761,7 +761,7 @@ function toggleKrType(typeIdx) {
 }
 
 function syncControlToggleBtn() {
-    const pane = document.getElementById('control-pane');
+    const pane = document.getElementById('control-tasks');
     if (!pane) return;
     let anyExpanded = false;
     for (let t = 0; t < 4; t++) {
@@ -782,7 +782,7 @@ function saveKrSectionsState() {
 }
 
 function toggleAllControlTasks() {
-    const pane = document.getElementById('control-pane');
+    const pane = document.getElementById('control-tasks');
     if (!pane) return;
     let anyExpanded = false;
     for (let t = 0; t < 4; t++) {
@@ -883,7 +883,7 @@ function saveSolutionState(type, key, isOpen) {
 function restoreSolutionStates(type) {
     const storageKey = type === 'kr' ? 'ui_kr_solutions' : 'ui_integral_solutions';
     const state = JSON.parse(localStorage.getItem(storageKey)) || {};
-    const container = type === 'kr' ? document.getElementById('control-pane') : document.getElementById('integrals-pane');
+    const container = type === 'kr' ? document.getElementById('control-tasks') : document.getElementById('integrals-list');
     if (!container) return;
     Object.keys(state).forEach(key => {
         if (!state[key]) return;
@@ -1971,7 +1971,7 @@ $$ y = \frac{3}{4} - \frac{3}{4}e^{4x} - 2x^2 - x $$`
 ];
 
 function renderControlTasks() {
-    const pane = document.getElementById('control-pane');
+    const pane = document.getElementById('control-tasks');
     if (!pane) return;
 
     const total = typeConfig.reduce((sum, t) => sum + t.tasks.length, 0);
@@ -2094,46 +2094,68 @@ function renderControlTasks() {
 
 // ========== ТАБЫ ==========
 async function initTabs() {
+    initArchiveSubTabs();
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', async () => {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
             const examPane = document.getElementById('exam-pane');
-            const controlPane = document.getElementById('control-pane');
-            const integralsPane = document.getElementById('integrals-pane');
+            const archivePane = document.getElementById('archive-pane');
 
             examPane?.classList.remove('active-pane');
-            controlPane?.classList.remove('active-pane');
-            integralsPane?.classList.remove('active-pane');
+            archivePane?.classList.remove('active-pane');
 
             if (btn.dataset.tab === 'exam') {
                 examPane?.classList.add('active-pane');
                 render();
                 saveActiveTab();
-            } else if (btn.dataset.tab === 'control') {
-                controlPane?.classList.add('active-pane');
+            } else if (btn.dataset.tab === 'archive') {
+                archivePane?.classList.add('active-pane');
                 saveActiveTab();
-            } else if (btn.dataset.tab === 'integrals') {
-                integralsPane?.classList.add('active-pane');
-                saveActiveTab();
-                renderIntegrals();
+                const activeSub = document.querySelector('.sub-tab-btn.active');
+                if (activeSub?.dataset.subtab === 'integrals') {
+                    requestAnimationFrame(() => renderIntegrals());
+                }
+            }
+        });
+    });
+}
+
+function initArchiveSubTabs() {
+    document.querySelectorAll('.sub-tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            document.querySelectorAll('.sub-tab-pane').forEach(p => p.classList.remove('active-sub-pane'));
+
+            if (btn.dataset.subtab === 'control') {
+                document.getElementById('archive-control')?.classList.add('active-sub-pane');
+                saveActiveSubTab();
+            } else if (btn.dataset.subtab === 'integrals') {
+                document.getElementById('archive-integrals')?.classList.add('active-sub-pane');
+                saveActiveSubTab();
+                requestAnimationFrame(() => renderIntegrals());
             }
         });
     });
 }
 // ========== ТЕМА (светлая/тёмная) ==========
+const moonIcon = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
+const sunIcon  = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`;
+
 function toggleTheme() {
     const html = document.documentElement;
     const isDark = html.getAttribute('data-theme') === 'dark';
     if (isDark) {
         html.removeAttribute('data-theme');
         localStorage.setItem('theme', 'light');
-        document.getElementById('theme-btn').textContent = '🌙';
+        document.getElementById('theme-btn').innerHTML = moonIcon;
     } else {
         html.setAttribute('data-theme', 'dark');
         localStorage.setItem('theme', 'dark');
-        document.getElementById('theme-btn').textContent = '☀️';
+        document.getElementById('theme-btn').innerHTML = sunIcon;
     }
 }
 
@@ -2143,10 +2165,10 @@ function loadTheme() {
     const btn = document.getElementById('theme-btn');
     if (saved === 'dark') {
         html.setAttribute('data-theme', 'dark');
-        if (btn) btn.textContent = '☀️';
+        if (btn) btn.innerHTML = sunIcon;
     } else {
         html.removeAttribute('data-theme');
-        if (btn) btn.textContent = '🌙';
+        if (btn) btn.innerHTML = moonIcon;
     }
 }
 
@@ -2233,28 +2255,43 @@ function loadActiveTab() {
     if (savedTab) {
         const tabBtn = document.querySelector(`.tab-btn[data-tab="${savedTab}"]`);
         if (tabBtn) {
-            // Снимаем активность со всех
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             tabBtn.classList.add('active');
             
-            // Показываем нужную панель
             const examPane = document.getElementById('exam-pane');
-            const controlPane = document.getElementById('control-pane');
-            const integralsPane = document.getElementById('integrals-pane');
+            const archivePane = document.getElementById('archive-pane');
             
             examPane?.classList.remove('active-pane');
-            controlPane?.classList.remove('active-pane');
-            integralsPane?.classList.remove('active-pane');
+            archivePane?.classList.remove('active-pane');
             
             if (savedTab === 'exam') {
                 examPane?.classList.add('active-pane');
                 render();
-            } else if (savedTab === 'control') {
-                controlPane?.classList.add('active-pane');
-            } else if (savedTab === 'integrals') {
-                integralsPane?.classList.add('active-pane');
+            } else if (savedTab === 'archive') {
+                archivePane?.classList.add('active-pane');
+                const savedSub = localStorage.getItem('active_subtab');
+                if (savedSub) {
+                    const subBtn = document.querySelector(`.sub-tab-btn[data-subtab="${savedSub}"]`);
+                    if (subBtn) {
+                        document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+                        subBtn.classList.add('active');
+                        document.querySelectorAll('.sub-tab-pane').forEach(p => p.classList.remove('active-sub-pane'));
+                        const paneId = savedSub === 'control' ? 'archive-control' : 'archive-integrals';
+                        document.getElementById(paneId)?.classList.add('active-sub-pane');
+                        if (savedSub === 'integrals') {
+                            requestAnimationFrame(() => renderIntegrals());
+                        }
+                    }
+                }
             }
         }
+    }
+}
+
+function saveActiveSubTab() {
+    const active = document.querySelector('.sub-tab-btn.active');
+    if (active) {
+        localStorage.setItem('active_subtab', active.getAttribute('data-subtab'));
     }
 }
 
@@ -2289,7 +2326,7 @@ function loadIntegralsSectionState() {
         }
     }
     // Sync toggle-all button text with actual state
-    const integralsPane = document.getElementById('integrals-pane');
+    const integralsPane = document.getElementById('integrals-list');
     const anyExpanded = integralsPane ? Array.from(integralsPane.querySelectorAll('.section-content')).some(c => c.style.display === 'block') : false;
     const btnText = document.getElementById('integrals-toggle-all-btn');
     if (btnText) {
@@ -2851,7 +2888,7 @@ function toggleIntegralsSection(sectionNum) {
 }
 
 function syncIntegralsToggleBtn() {
-    const integralsPane = document.getElementById('integrals-pane');
+    const integralsPane = document.getElementById('integrals-list');
     if (!integralsPane) return;
     const anyExpanded = Array.from(integralsPane.querySelectorAll('.section-content')).some(c => c.style.display === 'block');
     const btnText = document.getElementById('integrals-toggle-all-btn');
@@ -2861,7 +2898,7 @@ function syncIntegralsToggleBtn() {
 }
 
 function toggleIntegralsAllSections() {
-    const integralsPane = document.getElementById('integrals-pane');
+    const integralsPane = document.getElementById('integrals-list');
     if (!integralsPane) return;
     const allContents = integralsPane.querySelectorAll('.section-content');
     const allBtns = integralsPane.querySelectorAll('.section-toggle');
