@@ -390,6 +390,7 @@
 }
 
 [data-theme="dark"] #exam-pane,
+[data-theme="dark"] #exam-tasks-pane,
 [data-theme="dark"] .archive-pane,
 [data-theme="dark"] .sub-tab-pane {
     border-color: var(--ring);
@@ -1069,7 +1070,7 @@ body {
 }
 
 /* Страница-тетрадь */
-#exam-pane, #archive-pane {
+#exam-pane, #archive-pane, #exam-tasks-pane {
     background: var(--paper);
     border: 2px solid #9a8a6a;
     border-radius: 0 12px 12px 12px;
@@ -1084,6 +1085,7 @@ body {
 
 /* Клетчатая бумага — статичная, одинаковая на всех страницах */
 #exam-pane,
+#exam-tasks-pane,
 .archive-pane,
 .sub-tab-pane {
     background-image:
@@ -1103,6 +1105,7 @@ body {
 
 /* Контент поверх клеточки */
 #exam-pane > *,
+#exam-tasks-pane > *,
 .sub-tab-pane > *,
 .archive-pane > * {
     position: relative;
@@ -1164,7 +1167,7 @@ body {
 .toolbar {
     display: flex;
     gap: 10px;
-    justify-content: flex-end;
+    justify-content: center;
     margin-bottom: 20px;
 }
 
@@ -1409,6 +1412,7 @@ body {
    ============================================================ */
 .cheatsheet {
     display: none;
+    position: relative;
     margin-top: 8px;
     padding: 18px 20px;
     background: rgba(255,255,255,0.85);
@@ -1422,6 +1426,10 @@ body {
     overflow-x: hidden;
 }
 
+.ticket.cheatsheet-open:hover {
+    transform: none !important;
+}
+
 .conspect-content {
     font-family: 'Latin Modern Math', 'STIX Two Math', serif;
     line-height: 1.8;
@@ -1433,6 +1441,75 @@ body {
 .cheatsheet > div {
     max-width: 100%;
     overflow-x: hidden;
+}
+
+/* ── Floating collapse button — paper/notebook style ── */
+#collapse-float-btn {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
+    padding: 8px 18px;
+    border-radius: 20px;
+    border: 1.5px solid #a3b6cc;
+    font-family: var(--font-print);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: #1a2a3a;
+    background: #eef4f9;
+    box-shadow: 0 2px 10px rgba(26,58,110,0.10), 0 1px 3px rgba(0,0,0,0.07);
+    transition: opacity 0.2s ease, transform 0.2s ease, background 0.15s, border-color 0.15s, box-shadow 0.15s;
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+}
+#collapse-float-btn.visible {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+#collapse-float-btn:hover {
+    background: #d8e4f0;
+    border-color: #8aa0ba;
+    box-shadow: 0 4px 16px rgba(26,58,110,0.15), 0 1px 4px rgba(0,0,0,0.08);
+    transform: translateY(-1px);
+}
+#collapse-float-btn:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+#collapse-float-btn svg {
+    flex-shrink: 0;
+    color: var(--ink-blue);
+}
+[data-theme="dark"] #collapse-float-btn {
+    background: #3a3a58;
+    border-color: #5a5a7a;
+    color: var(--ink);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+[data-theme="dark"] #collapse-float-btn:hover {
+    background: #4a4a6a;
+    border-color: #7a7aaa;
+}
+[data-theme="dark"] #collapse-float-btn svg {
+    color: var(--ink-blue);
+}
+@media (max-width: 600px) {
+    #collapse-float-btn {
+        bottom: 16px;
+        right: 12px;
+        padding: 7px 14px;
+        font-size: 0.74rem;
+    }
 }
 
 .cheatsheet p {
@@ -2082,7 +2159,7 @@ body {
     .sidebar.pinned ~ .main-layout { margin-left: 0; }
     .main-layout { display: block; }
 
-    #exam-pane, #archive-pane {
+    #exam-pane, #archive-pane, #exam-tasks-pane {
         padding: 20px 14px;
     }
 
@@ -2175,7 +2252,7 @@ body {
 
     .theme-btn { width: 28px; height: 28px; font-size: 0.85rem; top: 0; right: 0; }
 
-    #exam-pane, #archive-pane {
+    #exam-pane, #archive-pane, #exam-tasks-pane {
         padding: 14px 10px;
     }
 
@@ -2264,7 +2341,7 @@ body {
 @media (max-width: 360px) {
     body { padding: 6px 2px 24px; font-size: 13px; }
 
-    #exam-pane, #archive-pane {
+    #exam-pane, #archive-pane, #exam-tasks-pane {
         padding: 10px 6px;
     }
 

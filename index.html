@@ -54,9 +54,13 @@
                 <div class="sidebar-progress-text" id="sidebar-progress-text">0%</div>
             </div>
             <div class="sidebar-archive-section" style="margin-top: 12px;">
-                <div class="sidebar-section-title">📐 АГиТДУ — теория (2 семестр)</div>
+                <div class="sidebar-section-title" style="color: var(--ink-blue); font-size: 1rem;">📝 Экзамен</div>
+            </div>
+            <div style="padding-left: 12px;">
+                <div class="sidebar-section-title" style="font-size: 0.85rem;">📐 Теория</div>
             </div>
             <div class="sidebar-ticket-list" id="sidebar-tickets"></div>
+            <div class="sidebar-item" onclick="switchToExamTasks()" style="margin: 4px 0 8px 12px; padding-left: 12px;">📝 Практика</div>
             <div class="sidebar-archive-section">
                 <div class="sidebar-section-title">🗂 Архив</div>
                 <div class="sidebar-item" onclick="switchToArchiveSubtab('control')">✍️ Контрольная работа по АГиТДУ за второй семестр</div>
@@ -82,8 +86,7 @@
     <div class="main-content">
             <div class="tabs">
                 <div class="tab-btn active" data-tab="exam">📚 Экзамен (билеты)</div>
-                <div class="tab-btn" data-tab="archive">🗂 Архив</div>
-                <div class="tab-btn" data-tab="semester1">📘 1 семестр</div>
+                <div class="tab-btn" data-tab="exam-tasks">📝 Задачи экзамена</div>
             </div>
 
             <div id="exam-pane" class="tab-pane active-pane">
@@ -168,6 +171,10 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div id="exam-tasks-pane" class="tab-pane">
+                <div id="exam-tasks-content"></div>
             </div>
         </div>
     </div>
