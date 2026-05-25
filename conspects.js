@@ -573,7 +573,7 @@
     <h4 style="color:#1a3a6e;">Определение из прошлого семестра</h4>
 
     <p><b>Опр. 1.</b></p>
-    <p><b>Линейным пространством</b> над числовым полем \\(P\\) называется множество \\(V\\) ≠ \\(\\varnothing\\), на котором определены операции «+» и «*» на число из \\(P\\), удовлетворяющие следующим требованиям (<b>аксиомам линейного пространства</b>):</p>
+    <p><b>Линейным пространством</b> над числовым полем \\(P\\) называется множество \\(V \\neq \\varnothing\\), на котором определены операции «+» и «*» на число из \\(P\\), удовлетворяющие следующим требованиям (<b>аксиомам линейного пространства</b>):</p>
     <ol>
         <li>\\(\\forall \\bar{x}, \\bar{y} \\in V \\quad \\bar{x} + \\bar{y} = \\bar{y} + \\bar{x}\\)</li>
         <li>\\(\\forall \\bar{x}, \\bar{y}, \\bar{z} \\in V \\quad (\\bar{x} + \\bar{y}) + \\bar{z} = \\bar{x} + (\\bar{y} + \\bar{z})\\)</li>
@@ -615,7 +615,12 @@
 
     <h4 style="color:#1a3a6e;">Теорема (неравенство Коши – Буняковского)</h4>
 
-    <p>$$\forall \\bar{x}, \\bar{y} \\in V \\quad |(\\bar{x}; \\bar{y})| \\le \\|\\bar{x}\\| \\cdot \\|\\bar{y}\\|$$</p>
+    <p>Теорема (неравенство Коши – Буняковского)</p>
+    <p>\\(∀ \\overline{x}, \\overline{y} \\in V \\quad |(\\overline{x}, \\overline{y})| \\le \\|\\overline{x}\\| \\cdot \\|\\overline{y}\\|\\)</p>
+
+
+
+
 
     <p><b>Д-во:</b></p>
     <p>\\(\\forall \\bar{x}, \\bar{y} \\in V \\quad \\forall \\alpha \\in \\mathbb{R} \\quad (\\bar{x} - \\alpha \\bar{y}; \\bar{x} - \\alpha \\bar{y}) \\ge 0\\)</p>
@@ -623,7 +628,7 @@
     <p>\\(= (\\bar{x}; \\bar{x}) - \\alpha (\\bar{x}; \\bar{y}) - \\alpha (\\bar{x}; \\bar{y}) + \\alpha^2 \\cdot (\\bar{y}; \\bar{y})\\)</p>
     <p>\\(= (\\bar{y}; \\bar{y}) \\cdot \\alpha^2 - 2 \\alpha \\cdot (\\bar{x}; \\bar{y}) + (\\bar{x}; \\bar{x}) \\ge 0\\)</p>
 
-    <p><b>1) случай:</b> \\(\\bar{y}\\) ≠ \\(\\bar{0}\\)</p>
+    <p><b>1) случай:</b> \\(\\bar{y} \\neq \\bar{0}\\)</p>
     <p>\\(\\mathcal{D} \\le 0\\)</p>
     <p>\\(\\mathcal{D} = 4 (\\bar{x}; \\bar{y})^2 - 4 (\\bar{y}; \\bar{y}) \\cdot (\\bar{x}; \\bar{x})\\)</p>
     <p>\\(4 (\\bar{x}; \\bar{y})^2 - 4 (\\bar{y}; \\bar{y}) \\cdot (\\bar{x}; \\bar{x}) \\le 0\\)</p>

@@ -2940,19 +2940,7 @@ function fixNeq(html) {
             break;
         }
         var mathContent = html.slice(match.index, endIdx + endToken.length);
-        if (token === '\\(') {
-            var parts = mathContent.split(NEQ);
-            if (parts.length === 1) {
-                result += mathContent;
-            } else {
-                for (var p = 0; p < parts.length; p++) {
-                    if (p > 0) result += ' ' + NEQ + ' ';
-                    result += parts[p];
-                }
-            }
-        } else {
-            result += mathContent.split(NEQ).join('\\neq');
-        }
+        result += mathContent.split(NEQ).join('\\neq');
         mathToken.lastIndex = endIdx + endToken.length;
         lastIdx = mathToken.lastIndex;
     }
