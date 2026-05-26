@@ -938,9 +938,6 @@ function render() {
             }
             saveCheatsheetState();
         };
-        updatePace();
-        updateRankUI();
-        updateTabTitle();
         container.appendChild(div);
     });
     
@@ -966,6 +963,7 @@ function render() {
     
     updatePace();
     updateRankUI();
+    updateTabTitle();
     renderSidebar();
     renderPracticeSidebar();
 }
@@ -3237,13 +3235,24 @@ document.addEventListener('DOMContentLoaded', () => {
     initState();
     initSemester1State();
     renderControlTasks();
-    renderIntegrals();
     renderExamTasks();
     initTabs();
     loadActiveTab();
     render();
     loadSidebarPinState();
     setInterval(updatePace, 60000);
+
+    if (typeof onReinit === 'function') {
+        onReinit(() => {
+            initState();
+            initSemester1State();
+            renderControlTasks();
+            renderExamTasks();
+            loadActiveTab();
+            render();
+            updatePace();
+        });
+    }
 });
 
 // ========== РЕНДЕР СЕМЕСТРА 1 — АГиТДУ ==========

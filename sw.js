@@ -1,4 +1,4 @@
-const CACHE = 'marvin-v1'
+const CACHE = 'marvin-v2'
 const FILES = [
   '/',
   '/index.html',
@@ -6,6 +6,10 @@ const FILES = [
   '/script.js',
   '/conspects.js',
   '/integrals_data.js',
+  '/semester1_data.js',
+  '/firebase-init.js',
+  '/firebase-auth.js',
+  '/firebase-sync.js',
   '/logo.svg'
 ]
 
@@ -17,11 +21,24 @@ self.addEventListener('install', e => {
 })
 
 self.addEventListener('activate', e => {
-  e.waitUntil(clients.claim())
+  e.waitUntil(Promise.all([
+    caches.keys().then(names =>
+      Promise.all(names.filter(n => n !== CACHE).map(n => caches.delete(n)))
+    ),
+    clients.claim()
+  ]))
 })
 
 self.addEventListener('fetch', e => {
   e.respondWith(
-    caches.match(e.request).then(r => r || fetch(e.request))
+    fetch(e.request)
+      .then(res => {
+        if (res && res.ok) {
+          const clone = res.clone()
+          caches.open(CACHE).then(c => c.put(e.request, clone)).catch(() => {})
+        }
+        return res
+      })
+      .catch(() => caches.match(e.request))
   )
 })
