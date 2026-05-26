@@ -46,4 +46,27 @@
 - По клику открывается модальное окно со списком изменений (overlay + modal)
 - Удалён статический `.version-badge` из `index.html` и `style.css`
 
+### 5. Регистрация `onReinit()` и чистка `DOMContentLoaded`
+
+**Задача:** `onReinit()` в `firebase-sync.js` никогда не вызывался из `script.js` → после авторизации Firestore данные писались в localStorage, но UI не перерисовывался (`_reinitCallback === null`).
+
+**Фикс:**
+- В `script.js` зарегистрирован колбэк `onReinit()`, который перезапускает `initState()`, `initSemester1State()`, `renderControlTasks()`, `renderExamTasks()`, `loadActiveTab()`, `render()`, `updatePace()` — без перезагрузки
+- Убран `renderIntegrals()` из `DOMContentLoaded` (контейнера `#integrals-list` нет в HTML)
+- `updatePace()`, `updateRankUI()`, `updateTabTitle()` вынесены из цикла `state.forEach` → вызывались 250+ раз, теперь один раз после цикла
+
+### 6. Network-first Service Worker (вместо cache-first)
+
+**Задача:** При обычной загрузке страницы SW `v1` отдавал старый кэш (без `firebase-auth.js`, `firebase-sync.js`, `semester1_data.js` и без CSS-правил для `.header-buttons`). Из-за этого:
+- Кнопка темы съезжала влево (нет `position: absolute; right: 0` у `.header-buttons`)
+- Иконки авторизации и changelog не появлялись (скрипты не грузились)
+- `Ctrl+Shift+R` обходил SW и работало
+
+**Фикс (`sw.js`):**
+- Стратегия **network-first**: все запросы сначала идут в сеть, кэш — только как fallback (offline / ошибка сервера)
+- Каждый успешный ответ (status 2xx) обновляет кэш
+- Старый кэш `marvin-v1` удаляется при активации нового SW
+- В `FILES` добавлены: `semester1_data.js`, `firebase-init.js`, `firebase-auth.js`, `firebase-sync.js`
+- Версия кэша: `marvin-v2`
+
 ## Critical Context
