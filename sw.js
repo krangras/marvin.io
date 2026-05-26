@@ -1,4 +1,4 @@
-const CACHE = 'marvin-v2'
+const CACHE = 'marvin-v3'
 const FILES = [
   '/',
   '/index.html',
@@ -30,6 +30,8 @@ self.addEventListener('activate', e => {
 })
 
 self.addEventListener('fetch', e => {
+  const isSelf = e.request.method === 'GET' && new URL(e.request.url).origin === self.location.origin;
+  if (!isSelf) return;
   e.respondWith(
     fetch(e.request)
       .then(res => {
@@ -39,6 +41,6 @@ self.addEventListener('fetch', e => {
         }
         return res
       })
-      .catch(() => caches.match(e.request))
+      .catch(() => caches.match(e.request).then(r => r || new Response('', { status: 503 })))
   )
 })
