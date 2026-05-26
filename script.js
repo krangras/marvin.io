@@ -276,9 +276,7 @@ function renderPracticeSidebar() {
 }
 
 function togglePracticeType(typeIdx) {
-    window._sidebarClickGuard = true;
-    clearTimeout(window._sidebarClickGuardTimer);
-    window._sidebarClickGuardTimer = setTimeout(() => { window._sidebarClickGuard = false; }, 800);
+    clearTimeout(sidebarCollapseTimer);
     const state = JSON.parse(localStorage.getItem('practice_modules_state') || '{}');
     state[typeIdx] = state[typeIdx] === false ? true : false;
     localStorage.setItem('practice_modules_state', JSON.stringify(state));
@@ -395,28 +393,21 @@ function loadSidebarPinState() {
     const pinned = localStorage.getItem('sidebar_pinned') === '1';
     if (pinned) sidebar.classList.add('pinned');
     document.addEventListener('click', (e) => {
-        if (e.target.closest('#sidebar') || e.target.closest('.hamburger-btn')) return;
+        const _path = e.composedPath();
+        const _sb = document.getElementById('sidebar');
+        const _hb = document.querySelector('.hamburger-btn');
+        if (_path.includes(_sb) || (_hb && _path.includes(_hb))) return;
         closeSidebar();
         if (sidebar.classList.contains('mobile-open')) {
             sidebar.classList.remove('mobile-open');
             document.body.classList.remove('sidebar-open');
         }
     });
-    sidebar.addEventListener('mouseover', () => { clearTimeout(sidebarCollapseTimer); });
-    sidebar.addEventListener('click', () => {
-        window._sidebarClickGuard = true;
-        clearTimeout(window._sidebarClickGuardTimer);
-        window._sidebarClickGuardTimer = setTimeout(() => { window._sidebarClickGuard = false; }, 800);
-    });
-    sidebar.addEventListener('mouseout', (e) => {
-        if (e.relatedTarget && sidebar.contains(e.relatedTarget)) return;
+    sidebar.addEventListener('mouseenter', () => { clearTimeout(sidebarCollapseTimer); });
+    sidebar.addEventListener('mouseleave', () => {
         if (!sidebar.classList.contains('expanded') || sidebar.classList.contains('pinned')) return;
-        if (window._sidebarClickGuard) {
-            clearTimeout(window._sidebarClickGuardTimer);
-            window._sidebarClickGuard = false;
-            return;
-        }
-        sidebarCollapseTimer = setTimeout(() => closeSidebar(), 300);
+        clearTimeout(sidebarCollapseTimer);
+        sidebarCollapseTimer = setTimeout(() => closeSidebar(), 400);
     });
 }
 function switchToArchiveSubtab(subtab) {
@@ -2803,7 +2794,7 @@ $$ \\Delta_3 = \\det(A) = 4(2-1) - (-2)(-2-0) + 0 = 4 - 4 = 0 $$
             {
                 label: 'Задача 6 (6.2)', cond: 'Определить тип ДУ: $y\' + 2xy = y^4 \\tg x$.',
                 solution: `<strong>Решение:</strong><br><br>
-Это <strong>уравнение Бернулли</strong> (вид $y\' + p(x)y = y^n q(x)$, $n ≠ 0,1$).<br>
+Это <strong>уравнение Бернулли</strong> (вид $y\' + p(x)y = y^n q(x)$, $n \neq 0,1$).<br>
 Сводится к линейному делением на $y^4$ и заменой $v = y^{1-4} = y^{-3}$.`
             },
             {
@@ -3436,7 +3427,7 @@ function renderSemester1Math() {
             </div>
             <div class="theory-content">
                 <p><strong>Основные табличные интегралы:</strong></p>
-                <div class="theory-formula">$$\\int x^n dx = \\frac{x^{n+1}}{n+1} + C \\quad (n ≠ -1)$$</div>
+                <div class="theory-formula">$$\\int x^n dx = \\frac{x^{n+1}}{n+1} + C \\quad (n \neq -1)$$</div>
                 <div class="theory-formula">$$\\int \\frac{dx}{x} = \\ln|x| + C$$</div>
                 <div class="theory-formula">$$\\int e^x dx = e^x + C$$</div>
                 <div class="theory-formula">$$\\int a^x dx = \\frac{a^x}{\\ln a} + C$$</div>
@@ -3693,7 +3684,7 @@ function toggleSemester1Integral(key, checked) {
 
 // ========== ТАБЛИЦА ИНТЕГРАЛОВ ==========
 const integralsData = [
-    { theme: "📌 1. Степенные функции", integral: "x^n dx", answer: "\\frac{x^{n+1}}{n+1} + C,\\quad n ≠ -1", example: "\\int x^3\\,dx = \\frac{x^4}{4} + C", practice: "\\int x^5\\,dx" },
+    { theme: "📌 1. Степенные функции", integral: "x^n dx", answer: "\\frac{x^{n+1}}{n+1} + C,\\quad n \neq -1", example: "\\int x^3\\,dx = \\frac{x^4}{4} + C", practice: "\\int x^5\\,dx" },
     { theme: "📌 2. Обратная степень (n = -1)", integral: "\\frac{dx}{x}", answer: "\\ln|x| + C", example: "\\int \\frac{dx}{x} = \\ln|x| + C", practice: "\\int \\frac{dx}{x+2}" },
     { theme: "📌 3. Экспоненциальные функции", integral: "e^x dx", answer: "e^x + C", example: "\\int e^{2x}\\,dx = \\frac{e^{2x}}{2} + C", practice: "\\int e^{3x}\\,dx" },
     { theme: "📌 4. Общая показательная", integral: "a^x dx", answer: "\\frac{a^x}{\\ln a} + C", example: "\\int 2^x\\,dx = \\frac{2^x}{\\ln 2} + C", practice: "\\int 5^x\\,dx" },
@@ -4062,7 +4053,7 @@ function renderIntegrals() {
                 </div>
                 <div class="theory-content">
                     <p><strong>Основные табличные интегралы:</strong></p>
-                    <div class="theory-formula">$$\\int x^n dx = \\frac{x^{n+1}}{n+1} + C \\quad (n ≠ -1)$$</div>
+                    <div class="theory-formula">$$\\int x^n dx = \\frac{x^{n+1}}{n+1} + C \\quad (n \neq -1)$$</div>
                     <div class="theory-formula">$$\\int \\frac{dx}{x} = \\ln|x| + C$$</div>
                     <div class="theory-formula">$$\\int e^x dx = e^x + C$$</div>
                     <div class="theory-formula">$$\\int a^x dx = \\frac{a^x}{\\ln a} + C$$</div>
