@@ -7,6 +7,9 @@ let syncTimer = null;
 const SYNC_DELAY = 1000;
 let _reinitCallback = null;
 let _skipSync = false;
+let _snapshotUnsub = null;
+let _isPushing = false;
+let _firstSnapshotDone = false;
 
 function collectLocalData() {
   var data = {};
@@ -22,13 +25,16 @@ function collectLocalData() {
 
 function pushLocalToFirestore() {
   if (!authUser || _skipSync) return;
+  _isPushing = true;
   var data = collectLocalData();
   db.collection('users').doc(authUser.uid).set({
     progress: data,
     _updated: firebase.firestore.FieldValue.serverTimestamp()
   }).then(function () {
+    _isPushing = false;
     localStorage.setItem('sync_updated', Date.now().toString());
   }).catch(function (err) {
+    _isPushing = false;
     console.error('Firestore sync error:', err);
   });
 }
@@ -76,9 +82,39 @@ function onReinit(cb) {
   _reinitCallback = cb;
 }
 
+function subscribeToFirestore(user) {
+  if (_snapshotUnsub) { _snapshotUnsub(); _snapshotUnsub = null; }
+  _firstSnapshotDone = false;
+  _snapshotUnsub = db.collection('users').doc(user.uid).onSnapshot(function (doc) {
+    if (!_firstSnapshotDone) { _firstSnapshotDone = true; return; }
+    if (_isPushing || _skipSync || !doc.exists || !doc.data().progress) return;
+    var remote = doc.data();
+    var remoteUpdated = remote._updated
+      ? new Date(remote._updated.seconds * 1000).getTime()
+      : 0;
+    var localUpdated = parseInt(localStorage.getItem('sync_updated') || '0', 10);
+    if (remoteUpdated <= localUpdated) return;
+    var rp = remote.progress;
+    for (var j = 0; j < SYNC_KEYS.length; j++) {
+      var k = SYNC_KEYS[j];
+      if (rp[k] !== undefined && rp[k] !== null) {
+        localStorage.setItem(k, rp[k]);
+      }
+    }
+    localStorage.setItem('sync_updated', remoteUpdated.toString());
+    reinitApp();
+  });
+}
+
+function unsubscribeFirestore() {
+  if (_snapshotUnsub) { _snapshotUnsub(); _snapshotUnsub = null; }
+}
+
 function handleAuth(user) {
   if (user) {
     loadFromFirestore(user);
+  } else {
+    unsubscribeFirestore();
   }
 }
 
@@ -86,6 +122,7 @@ function loadFromFirestore(user) {
   db.collection('users').doc(user.uid).get().then(function (doc) {
     if (!doc.exists || !doc.data().progress) {
       pushLocalToFirestore();
+      subscribeToFirestore(user);
       return;
     }
     var remote = doc.data();
@@ -107,6 +144,7 @@ function loadFromFirestore(user) {
     } else {
       pushLocalToFirestore();
     }
+    subscribeToFirestore(user);
   }).catch(function (err) {
     console.error('Firestore load error:', err);
   });
