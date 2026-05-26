@@ -36,9 +36,9 @@ class LoggingHandler(http.server.SimpleHTTPRequestHandler):
             logging.error("Error handling %s: %s", self.path, e)
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 80))
+    port = int(os.environ.get("PORT", 8000))
     bind = os.environ.get("BIND", "0.0.0.0")
-    directory = os.environ.get("DIR", "/app")
+    directory = os.environ.get("DIR", ".")
 
     os.chdir(directory)
 

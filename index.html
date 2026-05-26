@@ -25,11 +25,16 @@
             trust: true,
             strict: false
         })}"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
     <script>try{if('serviceWorker'in navigator&&location.protocol!=='file:'){navigator.serviceWorker.register('/sw.js').catch(()=>{})}}catch(e){}</script>
 </head>
 <body>
 <div class="container">
-    <div class="theme-btn" onclick="toggleTheme()" id="theme-btn" title="Переключить тему"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
+    <div class="header-buttons">
+        <div class="theme-btn" onclick="toggleTheme()" id="theme-btn" title="Переключить тему"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
+    </div>
     <div class="hero">
         <img src="logo.svg" alt="Marvin.io" class="hero-logo" draggable="false">
         <div class="hero-subtitle">АГиТДУ — система интервальных повторений для подготовки к экзамену</div>
@@ -60,7 +65,10 @@
                 <div class="sidebar-section-title" style="font-size: 0.85rem;">📐 Теория</div>
             </div>
             <div class="sidebar-ticket-list" id="sidebar-tickets"></div>
-            <div class="sidebar-item" onclick="switchToExamTasks()" style="margin: 4px 0 8px 12px; padding-left: 12px;">📝 Практика</div>
+            <div style="padding-left: 12px;">
+                <div class="sidebar-section-title" style="font-size: 0.85rem;">📝 Практика</div>
+            </div>
+            <div class="sidebar-practice-list" id="sidebar-practice"></div>
             <div class="sidebar-archive-section">
                 <div class="sidebar-section-title">🗂 Архив</div>
                 <div class="sidebar-item" onclick="switchToArchiveSubtab('control')">✍️ Контрольная работа по АГиТДУ за второй семестр</div>
@@ -180,6 +188,9 @@
     </div>
 </div>
 
+<script src="firebase-init.js?v=1"></script>
+<script src="firebase-auth.js?v=1"></script>
+<script src="firebase-sync.js?v=1"></script>
 <script src="conspects.js?v=24"></script>
 <script src="script.js?v=35"></script>
 <script src="integrals_data.js?v=24"></script>

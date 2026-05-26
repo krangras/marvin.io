@@ -527,6 +527,8 @@ body {
 .sidebar-content::-webkit-scrollbar { width: 5px; }
 .sidebar-content::-webkit-scrollbar-thumb { background: var(--ring); border-radius: 10px; }
 .sidebar-content::-webkit-scrollbar-track { background: transparent; }
+.sidebar-content { overscroll-behavior: contain; }
+.sidebar { overscroll-behavior: contain; }
 .sidebar-content-inner {
     padding: 16px 14px 32px;
     width: 260px;
@@ -943,10 +945,16 @@ body {
 /* ============================================================
    HERO — ШАПКА
    ============================================================ */
-.theme-btn {
+.header-buttons {
     position: absolute;
     top: 0;
     right: 0;
+    display: flex;
+    gap: 6px;
+    z-index: 10;
+}
+
+.theme-btn {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -957,7 +965,6 @@ body {
     justify-content: center;
     cursor: pointer;
     font-size: 1.2rem;
-    z-index: 10;
     transition: all 0.2s ease;
     box-shadow: 0 2px 8px var(--shadow);
 }
@@ -990,6 +997,7 @@ body {
     padding-top: 8px;
     text-align: center;
 }
+
 
 /* ============================================================
    ВКЛАДКИ — КАК ЗАКЛАДКИ В ТЕТРАДИ
@@ -2139,7 +2147,7 @@ body {
 @media (max-width: 768px) {
     body { zoom: 1; padding: 12px 8px 40px; font-size: 16px; background-image: none; }
 
-    .theme-btn { width: 32px; height: 32px; font-size: 1rem; top: 0; right: 0; }
+    .theme-btn { width: 32px; height: 32px; font-size: 1rem; }
 
     .hamburger-btn { display: flex; }
     .sidebar { display: none; }
@@ -2250,7 +2258,7 @@ body {
 @media (max-width: 480px) {
     body { padding: 8px 4px 32px; font-size: 14px; }
 
-    .theme-btn { width: 28px; height: 28px; font-size: 0.85rem; top: 0; right: 0; }
+    .theme-btn { width: 28px; height: 28px; font-size: 0.85rem; }
 
     #exam-pane, #archive-pane, #exam-tasks-pane {
         padding: 14px 10px;

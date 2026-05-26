@@ -141,6 +141,7 @@ function initState() {
     }
     saveToLocalStorage();
     renderSidebar();
+    renderPracticeSidebar();
 }
 
 function initSemester1State() {
@@ -236,6 +237,85 @@ function toggleModule(mi, e) {
     modulesState[mi] = modulesState[mi] === false ? true : false;
     localStorage.setItem('sidebar_modules_state', JSON.stringify(modulesState));
     renderSidebar();
+    renderPracticeSidebar();
+}
+
+function renderPracticeSidebar() {
+    const list = document.getElementById('sidebar-practice');
+    if (!list) return;
+    let html = '';
+    const state = JSON.parse(localStorage.getItem('practice_modules_state') || '{}');
+    let taskId = 1;
+    for (let t = 0; t < examTasksData.length; t++) {
+        const type = examTasksData[t];
+        let solvedInType = 0;
+        for (let i = 0; i < type.tasks.length; i++) {
+            if (examTasksProgress[taskId + i]) solvedInType++;
+        }
+        const isOpen = state[t] !== false;
+        html += `<div class="sidebar-module">
+            <div class="sidebar-module-header" onclick="togglePracticeType(${t})">
+                <span class="sidebar-module-chevron" id="practice-chevron-${t}">${isOpen ? '▼' : '▶'}</span>
+                <span class="sidebar-module-title">${type.title}</span>
+                <span class="sidebar-module-meta">${solvedInType}/${type.tasks.length}</span>
+            </div>
+            <div class="sidebar-module-body" id="practice-body-${t}"${isOpen ? '' : ' style="display:none"'}>`;
+        for (let i = 0; i < type.tasks.length; i++) {
+            const id = taskId + i;
+            const task = type.tasks[i];
+            const solved = examTasksProgress[id] === true;
+            html += `<div class="sidebar-lesson ${solved ? 'mastered' : 'not-started'}" onclick="goToPracticeTask(${id}, ${t})">
+                <span class="sidebar-lesson-icon">${solved ? '✓' : '○'}</span>
+                <span class="sidebar-lesson-name">${task.label.replace(/"/g, '&quot;')}</span>
+            </div>`;
+        }
+        html += `</div></div>`;
+        taskId += type.tasks.length;
+    }
+    list.innerHTML = html;
+}
+
+function togglePracticeType(typeIdx) {
+    window._sidebarClickGuard = true;
+    clearTimeout(window._sidebarClickGuardTimer);
+    window._sidebarClickGuardTimer = setTimeout(() => { window._sidebarClickGuard = false; }, 800);
+    const state = JSON.parse(localStorage.getItem('practice_modules_state') || '{}');
+    state[typeIdx] = state[typeIdx] === false ? true : false;
+    localStorage.setItem('practice_modules_state', JSON.stringify(state));
+    renderPracticeSidebar();
+}
+
+function goToPracticeTask(taskId, typeIdx) {
+    window._sidebarClickGuard = true;
+    clearTimeout(window._sidebarClickGuardTimer);
+    window._sidebarClickGuardTimer = setTimeout(() => { window._sidebarClickGuard = false; }, 800);
+    clearTimeout(sidebarCollapseTimer);
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('.tab-btn[data-tab="exam-tasks"]')?.classList.add('active');
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active-pane'));
+    document.getElementById('exam-tasks-pane')?.classList.add('active-pane');
+    saveActiveTab();
+
+    const content = document.getElementById(`exam-type-${typeIdx}-content`);
+    const toggleBtn = document.getElementById(`exam-toggle-type-${typeIdx}`);
+    if (content && toggleBtn) {
+        content.style.display = 'block';
+        toggleBtn.innerHTML = '▼';
+        if (typeof renderMathInElement !== 'undefined' && !content.dataset.katexRendered) {
+            typesetKaTeX([content]);
+            content.dataset.katexRendered = '1';
+        }
+    }
+
+    setTimeout(() => {
+        const taskCard = document.querySelector(`.task-card[data-task-id="exam_${taskId}"]`);
+        if (taskCard) {
+            taskCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            taskCard.style.transition = 'background-color 0.5s';
+            taskCard.style.backgroundColor = 'var(--sticker-y)';
+            setTimeout(() => { taskCard.style.backgroundColor = ''; }, 1500);
+        }
+    }, 200);
 }
 function goToTicket(idx) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -323,9 +403,19 @@ function loadSidebarPinState() {
         }
     });
     sidebar.addEventListener('mouseover', () => { clearTimeout(sidebarCollapseTimer); });
+    sidebar.addEventListener('click', () => {
+        window._sidebarClickGuard = true;
+        clearTimeout(window._sidebarClickGuardTimer);
+        window._sidebarClickGuardTimer = setTimeout(() => { window._sidebarClickGuard = false; }, 800);
+    });
     sidebar.addEventListener('mouseout', (e) => {
         if (e.relatedTarget && sidebar.contains(e.relatedTarget)) return;
         if (!sidebar.classList.contains('expanded') || sidebar.classList.contains('pinned')) return;
+        if (window._sidebarClickGuard) {
+            clearTimeout(window._sidebarClickGuardTimer);
+            window._sidebarClickGuard = false;
+            return;
+        }
         sidebarCollapseTimer = setTimeout(() => closeSidebar(), 300);
     });
 }
@@ -886,6 +976,7 @@ function render() {
     updatePace();
     updateRankUI();
     renderSidebar();
+    renderPracticeSidebar();
 }
 
 function updatePace() {
@@ -2805,6 +2896,7 @@ function toggleExamTask(taskId) {
     if (taskCard) {
         taskCard.classList.toggle('completed', examTasksProgress[taskId]);
     }
+    renderPracticeSidebar();
 }
 
 function toggleExamType(typeIdx) {
@@ -3041,7 +3133,7 @@ function renderExamTasks() {
         html += `</div></div>`;
     }
 
-    html = html.replace(/\\neq|\\not=/g, '≠');
+    html = fixNeq(html);
     pane.innerHTML = html;
     updateExamStats();
     restoreSolutionStates('exam');
@@ -3542,7 +3634,7 @@ function renderSemester1Math() {
         html += `</div></div>`;
     }
 
-    container.innerHTML = html;
+    container.innerHTML = fixNeq(html);
 
     if (typeof renderMathInElement !== 'undefined') {
         setTimeout(() => {
@@ -4229,10 +4321,7 @@ function renderIntegrals() {
         html += `</div></div></div>`;
     }
     
-    // Заменяем \neq / \not= на Unicode ≠, чтобы избежать проблем с рендером KaTeX
-    html = html.replace(/\\neq|\\not=/g, '≠');
-
-    // Сохраняем в кеш ПЕРЕД KaTeX (сырой HTML с LaTeX)
+    html = fixNeq(html);
     integralsHTMLCache = html;
     integralsRendered = true;
 
