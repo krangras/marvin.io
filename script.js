@@ -67,11 +67,11 @@ let openTicketsToRestore = new Set();
 
 // ========== СОХРАНЕНИЕ ==========
 function saveToLocalStorage() {
-    localStorage.setItem('exam_manager_v9', JSON.stringify(state));
+    saveToStorage('exam_manager_v9', JSON.stringify(state));
 }
 
 function saveSemester1State() {
-    localStorage.setItem('semester1_progress', JSON.stringify(semester1State));
+    saveToStorage('semester1_progress', JSON.stringify(semester1State));
 }
 
 const OLD_TICKET_NAMES = [
@@ -1320,7 +1320,7 @@ function getKrSolvedCount() {
 }
 
 function saveKrProgress() {
-    localStorage.setItem('kr_progress', JSON.stringify(krProgress));
+    saveToStorage('kr_progress', JSON.stringify(krProgress));
     updateKrStats();
 }
 
@@ -1395,7 +1395,7 @@ function toggleAllControlTasks() {
         const content = document.getElementById(`kr-type-${t}-content`);
         if (content && content.style.display !== 'none') anyExpanded = true;
     }
-    
+
     for (let t = 0; t < 4; t++) {
         const content = document.getElementById(`kr-type-${t}-content`);
         const toggleBtn = document.getElementById(`kr-toggle-type-${t}`);
@@ -1410,7 +1410,6 @@ function toggleAllControlTasks() {
             s.style.display = 'none';
         });
     } else {
-        // При разворачивании всех — ленивый рендер неотрендеренных секций
         for (let t = 0; t < 4; t++) {
             const content = document.getElementById(`kr-type-${t}-content`);
             if (content && !content.dataset.katexRendered && typeof renderMathInElement !== 'undefined') {
@@ -1435,20 +1434,20 @@ function updateKrStats() {
     const total = typeConfig ? typeConfig.reduce((sum, t) => sum + t.tasks.length, 0) : 4;
     const solved = getKrSolvedCount();
     const remaining = Math.max(0, total - solved);
-    
+
     const solvedSpan = document.getElementById('kr-solved');
     const totalSpan = document.getElementById('kr-total');
     const percentSpan = document.getElementById('kr-percent');
     const progressFill = document.getElementById('kr-progress-fill');
     const paceSpan = document.getElementById('kr-pace');
     const remainingSpan = document.getElementById('kr-remaining');
-    
+
     if (solvedSpan) solvedSpan.innerText = solved;
     if (remainingSpan) remainingSpan.innerText = remaining;
     if (totalSpan) totalSpan.innerText = total;
     if (percentSpan) percentSpan.innerText = total > 0 ? ((solved / total) * 100).toFixed(1) : 0;
     if (progressFill) progressFill.style.width = `${total > 0 ? (solved / total) * 100 : 0}%`;
-    
+
     // Per-type counters
     let taskId = 1;
     for (let t = 0; t < typeConfig.length; t++) {
@@ -1461,12 +1460,12 @@ function updateKrStats() {
         if (counter) counter.innerText = `${solvedInType}/${type.tasks.length}`;
         taskId += type.tasks.length;
     }
-    
+
     // Темп до 22 мая 2026
     const examDate = new Date(2026, 4, 22);
     const now = new Date();
     const daysLeft = (examDate - now) / 86400000;
-    
+
     if (paceSpan) {
         if (remaining <= 0) {
             paceSpan.innerHTML = '🏆 ВСЕ ЗАДАЧИ РЕШЕНЫ!';
@@ -2864,7 +2863,7 @@ function getExamSolvedCount() {
 }
 
 function saveExamProgress() {
-    localStorage.setItem('exam_tasks_progress', JSON.stringify(examTasksProgress));
+    saveToStorage('exam_tasks_progress', JSON.stringify(examTasksProgress));
     updateExamStats();
 }
 
@@ -3675,7 +3674,7 @@ function toggleSemester1Section(num) {
 
 function toggleSemester1Integral(key, checked) {
     integralsProgress[key] = checked;
-    localStorage.setItem('integrals_progress', JSON.stringify(integralsProgress));
+    saveToStorage('integrals_progress', JSON.stringify(integralsProgress));
     // update visual state
     const card = document.getElementById(`chk_sem1_${key}`)?.closest('.integral-card');
     if (card) card.classList.toggle('completed', checked);
@@ -3722,7 +3721,7 @@ let integralsRendered = false;
 let integralsKaTeXDone = false;
 
 function saveIntegralsProgress() {
-    localStorage.setItem('integrals_progress', JSON.stringify(integralsProgress));
+    saveToStorage('integrals_progress', JSON.stringify(integralsProgress));
     updateIntegralsStats();
 }
 

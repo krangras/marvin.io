@@ -1,9 +1,6 @@
 const SYNC_KEYS = [
-  'exam_manager_v9', 'semester1_progress', 'sidebar_modules_state',
-  'sidebar_pinned', 'tickets_open_state', 'kr_progress', 'kr_sections_state',
-  'ui_kr_solutions', 'ui_exam_solutions', 'ui_integral_solutions',
-  'exam_tasks_progress', 'exam_sections_state', 'theme',
-  'integrals_sections_state', 'integrals_progress', 'active_tab', 'active_subtab'
+  'exam_manager_v9', 'semester1_progress',
+  'kr_progress', 'exam_tasks_progress', 'integrals_progress'
 ];
 
 let syncTimer = null;
@@ -46,14 +43,18 @@ function scheduleFirestoreSync() {
 
 function saveToStorage(key, value) {
   localStorage.setItem(key, value);
-  localStorage.setItem('sync_updated', Date.now().toString());
-  if (authUser && !_skipSync) scheduleFirestoreSync();
+  if (authUser && !_skipSync) {
+    localStorage.setItem('sync_updated', Date.now().toString());
+    scheduleFirestoreSync();
+  }
 }
 
 function removeFromStorage(key) {
   localStorage.removeItem(key);
-  localStorage.setItem('sync_updated', Date.now().toString());
-  if (authUser && !_skipSync) scheduleFirestoreSync();
+  if (authUser && !_skipSync) {
+    localStorage.setItem('sync_updated', Date.now().toString());
+    scheduleFirestoreSync();
+  }
 }
 
 function clearAuthProgress() {
