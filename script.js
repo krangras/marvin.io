@@ -2906,6 +2906,10 @@ function getPhysicsProblem(sectionId, problemIdx) {
     return section.problems[problemIdx];
 }
 
+function getPhysicsSection(sectionId) {
+    return PHYSICS_NTK_DATA.find(s => s.id === sectionId) || { problems: [] };
+}
+
 function setPhysicsSolvedIfCorrect(sectionId, problemIdx) {
     const problem = getPhysicsProblem(sectionId, problemIdx);
     if (!problem) return;
@@ -2963,6 +2967,57 @@ function togglePhysicsTask(sectionId, problemIdx) {
     if (checkbox) checkbox.checked = physicsProgress[key] === true;
     if (card) card.classList.toggle('completed', physicsProgress[key]);
     updatePhysicsSectionStats(sectionId);
+}
+
+function resetPhysicsProgress() {
+    if (!confirm('Сбросить весь прогресс по физике НТК?')) return;
+    for (const section of PHYSICS_NTK_DATA) {
+        section.problems.forEach((_, idx) => {
+            const key = `${section.id}_${idx}`;
+            delete physicsProgress[key];
+            delete physicsAnswers[`${key}_opt`];
+            delete physicsAnswers[`${key}_chk`];
+            delete physicsAnswers[`${key}_sol`];
+            delete physicsAnswers[`${key}_txt`];
+        });
+    }
+    savePhysicsProgress();
+    savePhysicsAnswers();
+    renderPhysicsNtkStats();
+    renderPhysicsNtk();
+}
+
+function toggleAllPhysicsSolutions() {
+    let anyOpen = false;
+    for (const section of PHYSICS_NTK_DATA) {
+        anyOpen = section.problems.some((_, idx) => physicsAnswers[`${section.id}_${idx}_sol`] === '1');
+        if (anyOpen) break;
+    }
+    for (const section of PHYSICS_NTK_DATA) {
+        section.problems.forEach((_, idx) => {
+            const solKey = `${section.id}_${idx}_sol`;
+            if (anyOpen) {
+                delete physicsAnswers[solKey];
+            } else {
+                physicsAnswers[solKey] = '1';
+            }
+        });
+    }
+    savePhysicsAnswers();
+    renderPhysicsNtkStats();
+    renderPhysicsNtk();
+    syncPhysicsToggleBtn();
+}
+
+function syncPhysicsToggleBtn() {
+    const btn = document.getElementById('toggle-all-physics');
+    if (!btn) return;
+    let anyOpen = false;
+    for (const section of PHYSICS_NTK_DATA) {
+        anyOpen = section.problems.some((_, idx) => physicsAnswers[`${section.id}_${idx}_sol`] === '1');
+        if (anyOpen) break;
+    }
+    btn.textContent = anyOpen ? '📁 Свернуть всё' : '📂 Развернуть всё';
 }
 
 function selectPhysicsOption(sectionId, problemIdx, optIdx) {
@@ -3507,6 +3562,11 @@ document.addEventListener('DOMContentLoaded', () => {
     render();
     loadSidebarPinState();
     setInterval(updatePace, 60000);
+    setInterval(() => {
+        if (document.getElementById('physics-ntk-pane')?.classList.contains('active-pane')) {
+            renderPhysicsNtkStats();
+        }
+    }, 60000);
 
     if (typeof onReinit === 'function') {
         onReinit(() => {
@@ -4053,6 +4113,7 @@ function loadActiveTab() {
                 }
             }
             requestAnimationFrame(() => {
+                renderPhysicsNtkStats();
                 renderPhysicsNtk();
                 const savedScroll = localStorage.getItem('physics_ntk_scroll');
                 if (savedScroll) {
@@ -4061,6 +4122,66 @@ function loadActiveTab() {
             });
         }
     }
+}
+
+function buildPhysicsPaceText(total, solved) {
+    const remaining = Math.max(0, total - solved);
+    if (remaining <= 0) return '🏆 ВСЕ ЗАДАЧИ РЕШЕНЫ!';
+
+    const deadline = new Date(2026, 5, 5);
+    const now = new Date();
+    const daysLeft = (deadline - now) / 86400000;
+
+    if (daysLeft <= 0) return '⏰ Срок вышел! Решай оставшиеся задачи.';
+
+    const perDay = Math.ceil(Math.min(remaining, remaining / daysLeft));
+    return `📅 До 5 июня: ${daysLeft.toFixed(3)} дн. | Осталось: ${remaining} ${pluralTasks(remaining)} | Нужно: ${perDay} ${pluralTasks(perDay)} в день`;
+}
+
+function renderPhysicsNtkStats() {
+    const container = document.getElementById('physics-ntk-stats');
+    if (!container) return;
+    let total = 0, solved = 0;
+    for (const section of PHYSICS_NTK_DATA) {
+        total += section.problems.length;
+        solved += section.problems.filter((_, idx) => physicsProgress[`${section.id}_${idx}`]).length;
+    }
+    const pct = total > 0 ? (solved / total) * 100 : 0;
+    container.innerHTML = `
+        <div class="kr-stats-panel">
+            <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;">
+                <button class="kr-action-btn" onclick="exportAllToFile()">💾 Сохранить прогресс</button>
+                <button class="kr-action-btn" onclick="importAllFromFile()">📂 Загрузить прогресс</button>
+                <button class="kr-action-btn" id="toggle-all-physics" onclick="toggleAllPhysicsSolutions()">📁 Свернуть всё</button>
+                <button class="kr-action-btn kr-reset-btn" onclick="resetPhysicsProgress()">🗑️ Сбросить</button>
+            </div>
+            <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; align-items: center;">
+                <div class="stats-grid-inline" style="flex:1;">
+                    <div class="stats-grid-item">
+                        <div class="stats-grid-value">${solved}</div>
+                        <div class="stats-grid-label">✅ Решено</div>
+                    </div>
+                    <div class="stats-grid-item">
+                        <div class="stats-grid-value">${total}</div>
+                        <div class="stats-grid-label">📋 Всего задач</div>
+                    </div>
+                    <div class="stats-grid-item">
+                        <div class="stats-grid-value">${pct.toFixed(1)}%</div>
+                        <div class="stats-grid-label">📊 Прогресс</div>
+                    </div>
+                    <div class="stats-grid-item">
+                        <div class="stats-grid-value">${Math.max(0, total - solved)}</div>
+                        <div class="stats-grid-label">⏳ Осталось</div>
+                    </div>
+                </div>
+            </div>
+            <div class="progress-bar" style="margin-top: 12px;">
+                <div class="progress-fill" style="width: ${pct}%;"></div>
+            </div>
+            <div id="physics-pace" style="margin-top: 8px; font-size:0.85rem; color:var(--pencil); text-align:center;">${buildPhysicsPaceText(total, solved)}</div>
+        </div>
+    `;
+    syncPhysicsToggleBtn();
 }
 
 function renderPhysicsNtk(subtabId) {
@@ -4079,13 +4200,6 @@ function renderPhysicsNtk(subtabId) {
             container.innerHTML = '<div class="glass-panel" style="margin: 1rem; padding: 1.2rem; text-align: center; color: var(--pencil);">📖 Задачи будут добавлены позже.</div>';
             continue;
         }
-        const total = section.problems.length;
-        const solved = section.problems.filter((_, idx) => physicsProgress[`${section.id}_${idx}`]).length;
-        const pct = total > 0 ? Math.round(solved / total * 100) : 0;
-        const statsDiv = document.createElement('div');
-        statsDiv.className = 'phys-section-stats';
-        statsDiv.innerHTML = `✅ Решено: <strong>${solved}</strong> из <strong>${total}</strong> (${pct}%)`;
-        container.appendChild(statsDiv);
         section.problems.forEach((problem, idx) => {
             const key = `${section.id}_${idx}`;
             const solvedFlag = !!physicsProgress[key];
@@ -4094,13 +4208,17 @@ function renderPhysicsNtk(subtabId) {
             card.setAttribute('data-phys-key', key);
             let html = `
                 <div class="task-header">
-                    <input type="checkbox" id="phys_chk_${key}" ${solvedFlag ? 'checked' : ''} onchange="togglePhysicsTask('${section.id}', ${idx})">
+                    <input type="checkbox" id="phys_chk_${key}" ${solvedFlag ? 'checked' : ''} style="width:18px;height:18px;cursor:pointer;" onchange="togglePhysicsTask('${section.id}', ${idx})">
                     <span class="task-title" id="phys_title_${key}">
                         <strong>${problem.num}.</strong> ${problem.text}
                     </span>
                 </div>
             `;
-            if (problem.image) {
+            if (problem.images) {
+                for (const src of problem.images) {
+                    html += `<div class="phys-image"><img src="${src}" alt="Рис. ${problem.num}" onclick="this.classList.toggle('phys-img-expanded')" loading="lazy"></div>`;
+                }
+            } else if (problem.image) {
                 html += `<div class="phys-image"><img src="${problem.image}" alt="Рис. ${problem.num}" onclick="this.classList.toggle('phys-img-expanded')" loading="lazy"></div>`;
             }
             const isMulti = problem.correctIndices !== undefined;
@@ -4130,7 +4248,7 @@ function renderPhysicsNtk(subtabId) {
                         html += `<button class="${cls}" onclick="togglePhysicsOption('${section.id}', ${idx}, ${oi})">${opt}</button>`;
                     });
                     html += '</div>';
-                    html += `<div class="phys-check-row"><button class="phys-check-btn" onclick="checkPhysicsMultiSelect('${section.id}', ${idx})">${wasChecked ? '🔄' : '🔍'}</button>`;
+                    html += `<div class="phys-check-row"><button class="phys-check-btn" onclick="checkPhysicsMultiSelect('${section.id}', ${idx})">${wasChecked ? '🔄' : 'Проверить'}</button>`;
                     if (wasChecked) {
                         const total = problem.correctIndices.length;
                         let correctCount = 0;
@@ -4170,7 +4288,7 @@ function renderPhysicsNtk(subtabId) {
                 html += `<div class="phys-answer-row">`;
                 html += `<input type="text" class="phys-answer-input" id="phys_input_${key}" placeholder="Введи ответ..." value="${physicsAnswers[`${key}_txt`] || ''}" onchange="savePhysicsTypedAnswer('${section.id}', ${idx}, this.value)">`;
                 if (problem.answer) {
-                    html += `<button class="phys-check-btn" onclick="checkPhysicsAnswer('${section.id}', ${idx})">${wasChecked ? '🔄' : '🔍'}</button>`;
+                    html += `<button class="phys-check-btn" onclick="checkPhysicsAnswer('${section.id}', ${idx})">${wasChecked ? '🔄' : 'Проверить'}</button>`;
                     if (wasChecked) {
                         const userAnswer = (physicsAnswers[`${key}_txt`] || '').trim().toLowerCase().replace(/,/g, '.');
                         const correctAnswer = problem.answer.trim().toLowerCase().replace(/,/g, '.');
@@ -4202,6 +4320,7 @@ function renderPhysicsNtk(subtabId) {
         const elements = Array.from(container.querySelectorAll('.phys-card'));
         typesetKaTeX(elements, () => {});
     }
+    renderPhysicsNtkStats();
 }
 
 function saveActiveSubTab() {
