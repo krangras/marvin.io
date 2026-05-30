@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Marvin.io — АГиТДУ | Экзамен + Контрольная работа</title>
-    <link rel="stylesheet" href="style.css?v=23">
+    <link rel="stylesheet" href="style.css?v=24">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
@@ -94,6 +94,7 @@
             <div class="tabs">
                 <div class="tab-btn active" data-tab="exam">📚 Экзамен (билеты)</div>
                 <div class="tab-btn" data-tab="exam-tasks">📝 Задачи экзамена</div>
+                <div class="tab-btn" data-tab="physics-ntk">🔬 Физика НТК</div>
             </div>
 
             <div id="exam-pane" class="tab-pane active-pane">
@@ -183,16 +184,59 @@
             <div id="exam-tasks-pane" class="tab-pane">
                 <div id="exam-tasks-content"></div>
             </div>
+
+            <div id="physics-ntk-pane" class="tab-pane">
+                <div id="physics-ntk-stats"></div>
+                <div class="sub-tabs" id="physics-ntk-sub-tabs">
+                    <div class="sub-tab-btn active" data-subtab="kinematika">Кинематика</div>
+                    <div class="sub-tab-btn" data-subtab="dinamika">Динамика</div>
+                    <div class="sub-tab-btn" data-subtab="vrashatelnoe_dvizhenie">Вращательное движение материальной точки твёрдого тела</div>
+                    <div class="sub-tab-btn" data-subtab="molekulyarnaya_fizika">Молекулярная физика</div>
+                    <div class="sub-tab-btn" data-subtab="termodinamika">Термодинамика</div>
+                    <div class="sub-tab-btn" data-subtab="elektrostatika">Электростатика</div>
+                    <div class="sub-tab-btn" data-subtab="postoyanny_tok">Постоянный электрический ток</div>
+                    <div class="sub-tab-btn" data-subtab="magnetizm">Магнетизм</div>
+                    <div class="sub-tab-btn" data-subtab="elektromagnitnaya_induktsiya">Электромагнитная индукция</div>
+                </div>
+                <div id="physics-ntk-kinematika" class="sub-tab-pane active-sub-pane">
+                    <div id="physics-ntk-kinematika-list"></div>
+                </div>
+                <div id="physics-ntk-dinamika" class="sub-tab-pane">
+                    <div id="physics-ntk-dinamika-list"></div>
+                </div>
+                <div id="physics-ntk-vrashatelnoe_dvizhenie" class="sub-tab-pane">
+                    <div id="physics-ntk-vrashatelnoe_dvizhenie-list"></div>
+                </div>
+                <div id="physics-ntk-molekulyarnaya_fizika" class="sub-tab-pane">
+                    <div id="physics-ntk-molekulyarnaya_fizika-list"></div>
+                </div>
+                <div id="physics-ntk-termodinamika" class="sub-tab-pane">
+                    <div id="physics-ntk-termodinamika-list"></div>
+                </div>
+                <div id="physics-ntk-elektrostatika" class="sub-tab-pane">
+                    <div id="physics-ntk-elektrostatika-list"></div>
+                </div>
+                <div id="physics-ntk-postoyanny_tok" class="sub-tab-pane">
+                    <div id="physics-ntk-postoyanny_tok-list"></div>
+                </div>
+                <div id="physics-ntk-magnetizm" class="sub-tab-pane">
+                    <div id="physics-ntk-magnetizm-list"></div>
+                </div>
+                <div id="physics-ntk-elektromagnitnaya_induktsiya" class="sub-tab-pane">
+                    <div id="physics-ntk-elektromagnitnaya_induktsiya-list"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <script src="firebase-init.js?v=1"></script>
-<script src="firebase-auth.js?v=1"></script>
-<script src="firebase-sync.js?v=1"></script>
+<script src="firebase-auth.js?v=2"></script>
+<script src="firebase-sync.js?v=2"></script>
 <script src="conspects.js?v=24"></script>
-<script src="script.js?v=35"></script>
+<script src="physics_ntk_data.js?v=9"></script>
 <script src="integrals_data.js?v=24"></script>
 <script src="semester1_data.js?v=1"></script>
+<script src="script.js?v=47"></script>
 </body>
 </html>
