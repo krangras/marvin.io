@@ -391,10 +391,13 @@
 
 [data-theme="dark"] #exam-pane,
 [data-theme="dark"] #exam-tasks-pane,
+[data-theme="dark"] #physics-ntk-pane,
 [data-theme="dark"] .archive-pane,
 [data-theme="dark"] .sub-tab-pane {
     border-color: var(--ring);
     background-image: none;
+    background-color: transparent;
+    box-shadow: none;
 }
 
 [data-theme="dark"] .ticket-meta {
@@ -1667,6 +1670,11 @@ body {
     padding: 14px 20px;
     margin-bottom: 18px;
     box-shadow: 1px 2px 0 rgba(0,0,0,0.04);
+}
+[data-theme="dark"] #physics-ntk-stats .kr-stats-panel {
+    background: var(--panel-bg);
+    border-color: var(--ring);
+    box-shadow: none;
 }
 #physics-ntk-stats .progress-bar {
     height: 6px;
