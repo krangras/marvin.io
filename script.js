@@ -1,5 +1,5 @@
 ﻿// ========== ДАННЫЕ БИЛЕТОВ (19 ШТУК) ==========
-const CACHE_VERSION = 'v20';
+const CACHE_VERSION = 'v21';
 if (localStorage.getItem('cache_version') !== CACHE_VERSION) {
     // Очищаем старые кеши с отрендеренным HTML (экономия памяти)
     localStorage.removeItem('kr_rendered_cache');
@@ -1016,6 +1016,8 @@ function exportAllToFile() {
         integrals: integralsProgress || {},
         kr: krProgress || {},
         examTasks: examTasksProgress || {},
+        physics: physicsProgress || {},
+        physicsAnswers: physicsAnswers || {},
         semester1: semester1State ? semester1State.map(({ id, name, step, nextReview, history }) => ({
             id, name, step, nextReview, history
         })) : [],
@@ -1110,6 +1112,24 @@ function importAllFromFile() {
                     saveSemester1State();
                 }
                 
+                if (data.physics) {
+                    physicsProgress = {};
+                    for (const section of PHYSICS_NTK_DATA) {
+                        for (let i = 0; i < section.problems.length; i++) {
+                            const key = `${section.id}_${i}`;
+                            if (data.physics[key]) physicsProgress[key] = data.physics[key];
+                        }
+                    }
+                    savePhysicsProgress();
+                }
+                if (data.physicsAnswers) {
+                    physicsAnswers = {};
+                    for (const key of Object.keys(data.physicsAnswers)) {
+                        physicsAnswers[key] = data.physicsAnswers[key];
+                    }
+                    savePhysicsAnswers();
+                }
+
                 if (data.examTasks) {
                     examTasksProgress = {};
                     let maxExamId = 0;
@@ -1131,6 +1151,7 @@ function importAllFromFile() {
                 if (typeof renderControlTasks === 'function') renderControlTasks();
                 if (typeof renderSemester1AGiTDU === 'function') renderSemester1AGiTDU();
                 if (typeof renderExamTasks === 'function') renderExamTasks();
+                if (typeof renderPhysicsNtk === 'function') renderPhysicsNtk();
                 
                 setTimeout(() => {
                     if (data.integralsSectionsState) {
@@ -2850,6 +2871,218 @@ $$ \\ddot{x} - 8\\dot{x} + 16x = 0 $$
 
 let examTasksProgress = JSON.parse(localStorage.getItem('exam_tasks_progress')) || {};
 
+let physicsProgress = JSON.parse(localStorage.getItem('physics_progress')) || {};
+let physicsAnswers = JSON.parse(localStorage.getItem('physics_answers')) || {};
+
+function savePhysicsProgress() {
+    saveToStorage('physics_progress', JSON.stringify(physicsProgress));
+}
+
+function savePhysicsAnswers() {
+    saveToStorage('physics_answers', JSON.stringify(physicsAnswers));
+}
+
+function saveVisiblePhysicsInputs(sectionId) {
+    const prefix = 'physics-ntk-' + sectionId;
+    const container = document.getElementById(prefix + '-list');
+    if (!container) return;
+    const inputs = container.querySelectorAll('.phys-answer-input');
+    for (let i = 0; i < inputs.length; i++) {
+        const input = inputs[i];
+        const id = input && input.id;
+        if (id) {
+            const m = id.match(/^phys_input_(.+)$/);
+            if (m) {
+                physicsAnswers[m[1] + '_txt'] = input.value;
+            }
+        }
+    }
+    savePhysicsAnswers();
+}
+
+function getPhysicsProblem(sectionId, problemIdx) {
+    const section = PHYSICS_NTK_DATA.find(s => s.id === sectionId);
+    if (!section || !section.problems[problemIdx]) return null;
+    return section.problems[problemIdx];
+}
+
+function setPhysicsSolvedIfCorrect(sectionId, problemIdx) {
+    const problem = getPhysicsProblem(sectionId, problemIdx);
+    if (!problem) return;
+    const key = `${sectionId}_${problemIdx}`;
+    if (problem.correctIndex !== undefined) {
+        const selected = physicsAnswers[`${key}_opt`];
+        if (selected !== undefined && Number(selected) === problem.correctIndex) {
+            physicsProgress[key] = true;
+        }
+    } else if (problem.correctIndices) {
+        const selected = (physicsAnswers[`${key}_opt`] || '').split(',').map(Number).filter(n => !isNaN(n));
+        const allCorrect = problem.correctIndices.length === selected.length && problem.correctIndices.every(c => selected.includes(c));
+        if (allCorrect) physicsProgress[key] = true;
+    } else if (problem.answer) {
+        const userAnswer = (physicsAnswers[`${key}_txt`] || '').trim().toLowerCase().replace(/,/g, '.');
+        const correctAnswer = problem.answer.trim().toLowerCase().replace(/,/g, '.');
+        let isCorrect = false;
+        if (problem.answerType === 'number') {
+            const uNum = parseFloat(userAnswer);
+            const cNum = parseFloat(correctAnswer);
+            isCorrect = !isNaN(uNum) && !isNaN(cNum) && Math.abs(uNum - cNum) < 0.01;
+        } else {
+            isCorrect = userAnswer === correctAnswer;
+        }
+        if (isCorrect) physicsProgress[key] = true;
+    }
+}
+
+function getPhysicsSolvedCount() {
+    let count = 0;
+    for (const section of PHYSICS_NTK_DATA) {
+        for (let i = 0; i < section.problems.length; i++) {
+            const key = `${section.id}_${i}`;
+            if (physicsProgress[key]) count++;
+        }
+    }
+    return count;
+}
+
+function togglePhysicsTask(sectionId, problemIdx) {
+    const key = `${sectionId}_${problemIdx}`;
+    if (physicsProgress[key]) {
+        delete physicsProgress[key];
+        delete physicsAnswers[`${key}_opt`];
+        delete physicsAnswers[`${key}_chk`];
+        delete physicsAnswers[`${key}_sol`];
+        delete physicsAnswers[`${key}_txt`];
+        savePhysicsAnswers();
+    } else {
+        physicsProgress[key] = true;
+    }
+    savePhysicsProgress();
+    const checkbox = document.getElementById(`phys_chk_${key}`);
+    const card = document.querySelector(`.phys-card[data-phys-key="${key}"]`);
+    if (checkbox) checkbox.checked = physicsProgress[key] === true;
+    if (card) card.classList.toggle('completed', physicsProgress[key]);
+    updatePhysicsSectionStats(sectionId);
+}
+
+function selectPhysicsOption(sectionId, problemIdx, optIdx) {
+    const key = `${sectionId}_${problemIdx}`;
+    const optKey = `${key}_opt`;
+    const solKey = `${key}_sol`;
+    physicsAnswers[optKey] = optIdx;
+    physicsAnswers[`${key}_chk`] = '1';
+    physicsAnswers[solKey] = '1';
+    const problem = getPhysicsProblem(sectionId, problemIdx);
+    if (problem && problem.correctIndex !== undefined && optIdx === problem.correctIndex) {
+        physicsProgress[`${sectionId}_${problemIdx}`] = true;
+    } else {
+        delete physicsProgress[`${sectionId}_${problemIdx}`];
+    }
+    savePhysicsAnswers();
+    savePhysicsProgress();
+    renderPhysicsNtk(sectionId);
+}
+
+function checkPhysicsAnswer(sectionId, problemIdx) {
+    const key = `${sectionId}_${problemIdx}`;
+    const input = document.getElementById(`phys_input_${key}`);
+    if (!input) return;
+    const chkKey = `${key}_chk`;
+    const solKey = `${key}_sol`;
+    const txtKey = `${key}_txt`;
+    if (physicsAnswers[chkKey] === '1') {
+        delete physicsAnswers[chkKey];
+        delete physicsAnswers[solKey];
+        delete physicsProgress[key];
+        input.value = '';
+        physicsAnswers[txtKey] = '';
+    } else {
+        physicsAnswers[txtKey] = input.value;
+        physicsAnswers[chkKey] = '1';
+        physicsAnswers[solKey] = '1';
+        setPhysicsSolvedIfCorrect(sectionId, problemIdx);
+    }
+    savePhysicsAnswers();
+    savePhysicsProgress();
+    renderPhysicsNtk(sectionId);
+}
+
+function updatePhysicsSectionStats(sectionId) {
+    const section = PHYSICS_NTK_DATA.find(s => s.id === sectionId);
+    if (!section) return;
+    const total = section.problems.length;
+    const solved = section.problems.filter((_, idx) => physicsProgress[`${sectionId}_${idx}`]).length;
+    const subtabBtn = document.querySelector(`#physics-ntk-pane .sub-tab-btn[data-subtab="${sectionId}"]`);
+    if (subtabBtn) {
+        let label = section.title;
+        if (total > 0) {
+            const pct = Math.round(solved / total * 100);
+            label += ` <span class="phys-subtab-stats">${solved}/${total} ${pct}%</span>`;
+        }
+        subtabBtn.innerHTML = label;
+    }
+}
+
+function togglePhysicsOption(sectionId, problemIdx, optIdx) {
+    const key = `${sectionId}_${problemIdx}_opt`;
+    let selectedStr = physicsAnswers[key] || '';
+    let selected = selectedStr ? selectedStr.split(',').map(Number) : [];
+    const pos = selected.indexOf(optIdx);
+    if (pos >= 0) {
+        selected.splice(pos, 1);
+    } else {
+        selected.push(optIdx);
+    }
+    physicsAnswers[key] = selected.join(',');
+    savePhysicsAnswers();
+    renderPhysicsNtk(sectionId);
+}
+
+function checkPhysicsMultiSelect(sectionId, problemIdx) {
+    const key = `${sectionId}_${problemIdx}`;
+    const chkKey = `${key}_chk`;
+    const solKey = `${key}_sol`;
+    const optKey = `${key}_opt`;
+    if (physicsAnswers[chkKey] === '1') {
+        delete physicsAnswers[chkKey];
+        delete physicsAnswers[optKey];
+        delete physicsProgress[key];
+    } else {
+        physicsAnswers[chkKey] = '1';
+        physicsAnswers[solKey] = '1';
+        const problem = getPhysicsProblem(sectionId, problemIdx);
+        if (problem && problem.correctIndices) {
+            const selected = (physicsAnswers[optKey] || '').split(',').map(Number).filter(n => !isNaN(n));
+            const allCorrect = problem.correctIndices.length === selected.length && problem.correctIndices.every(c => selected.includes(c));
+            if (allCorrect) {
+                physicsProgress[key] = true;
+            } else {
+                delete physicsProgress[key];
+            }
+        }
+    }
+    savePhysicsAnswers();
+    savePhysicsProgress();
+    renderPhysicsNtk(sectionId);
+}
+
+function togglePhysicsSolution(sectionId, problemIdx) {
+    const solKey = `${sectionId}_${problemIdx}_sol`;
+    if (physicsAnswers[solKey] === '1') {
+        delete physicsAnswers[solKey];
+    } else {
+        physicsAnswers[solKey] = '1';
+    }
+    savePhysicsAnswers();
+    renderPhysicsNtk(sectionId);
+}
+
+function savePhysicsTypedAnswer(sectionId, problemIdx, value) {
+    const txtKey = `${sectionId}_${problemIdx}_txt`;
+    physicsAnswers[txtKey] = value;
+    savePhysicsAnswers();
+}
+
 function getExamSolvedCount() {
     let count = 0;
     let id = 1;
@@ -3133,8 +3366,14 @@ function renderExamTasks() {
 async function initTabs() {
     initArchiveSubTabs();
     initSemester1SubTabs();
+    initPhysicsNtkSubTabs();
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', async () => {
+            const fromTab = document.querySelector('.tab-btn.active')?.getAttribute('data-tab');
+            if (fromTab === 'physics-ntk') {
+                saveActiveSubTab();
+                localStorage.setItem('physics_ntk_scroll', window.scrollY);
+            }
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
@@ -3148,6 +3387,14 @@ async function initTabs() {
                 document.getElementById('exam-tasks-pane')?.classList.add('active-pane');
                 saveActiveTab();
                 requestAnimationFrame(() => renderExamTasks());
+            } else if (btn.dataset.tab === 'physics-ntk') {
+                document.getElementById('physics-ntk-pane')?.classList.add('active-pane');
+                saveActiveTab();
+                requestAnimationFrame(() => {
+                    renderPhysicsNtk();
+                    const savedScroll = localStorage.getItem('physics_ntk_scroll');
+                    if (savedScroll) window.scrollTo(0, parseInt(savedScroll, 10));
+                });
             }
         });
     });
@@ -3192,6 +3439,26 @@ function initSemester1SubTabs() {
             } else if (btn.dataset.subtab === 'discrete') {
                 document.getElementById('semester1-discrete')?.classList.add('active-sub-pane');
                 saveActiveSubTab();
+            }
+        });
+    });
+}
+function initPhysicsNtkSubTabs() {
+    document.querySelectorAll('#physics-ntk-pane .sub-tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            saveActiveSubTab();
+            localStorage.setItem('physics_ntk_scroll', window.scrollY);
+
+            document.querySelectorAll('#physics-ntk-pane .sub-tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            document.querySelectorAll('#physics-ntk-pane .sub-tab-pane').forEach(p => p.classList.remove('active-sub-pane'));
+
+            const subtab = btn.dataset.subtab;
+            const pane = document.getElementById(`physics-ntk-${subtab}`);
+            if (pane) {
+                pane.classList.add('active-sub-pane');
+                requestAnimationFrame(() => renderPhysicsNtk(subtab));
             }
         });
     });
@@ -3247,6 +3514,7 @@ document.addEventListener('DOMContentLoaded', () => {
             initSemester1State();
             renderControlTasks();
             renderExamTasks();
+            initPhysicsNtkSubTabs();
             loadActiveTab();
             render();
             updatePace();
@@ -3757,7 +4025,7 @@ function saveActiveTab() {
 
 function loadActiveTab() {
     const savedTab = localStorage.getItem('active_tab');
-    const tabToShow = (savedTab === 'exam' || savedTab === 'exam-tasks') ? savedTab : 'exam';
+    const tabToShow = (savedTab === 'exam' || savedTab === 'exam-tasks' || savedTab === 'physics-ntk') ? savedTab : 'exam';
     const tabBtn = document.querySelector(`.tab-btn[data-tab="${tabToShow}"]`);
     if (tabBtn) {
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -3771,7 +4039,168 @@ function loadActiveTab() {
         } else if (tabToShow === 'exam-tasks') {
             document.getElementById('exam-tasks-pane')?.classList.add('active-pane');
             requestAnimationFrame(() => renderExamTasks());
+        } else if (tabToShow === 'physics-ntk') {
+            document.getElementById('physics-ntk-pane')?.classList.add('active-pane');
+            const savedSubTab = localStorage.getItem('active_subtab');
+            if (savedSubTab) {
+                const subBtn = document.querySelector(`#physics-ntk-pane .sub-tab-btn[data-subtab="${savedSubTab}"]`);
+                if (subBtn) {
+                    document.querySelectorAll('#physics-ntk-pane .sub-tab-btn').forEach(b => b.classList.remove('active'));
+                    subBtn.classList.add('active');
+                    document.querySelectorAll('#physics-ntk-pane .sub-tab-pane').forEach(p => p.classList.remove('active-sub-pane'));
+                    const pane = document.getElementById(`physics-ntk-${savedSubTab}`);
+                    if (pane) pane.classList.add('active-sub-pane');
+                }
+            }
+            requestAnimationFrame(() => {
+                renderPhysicsNtk();
+                const savedScroll = localStorage.getItem('physics_ntk_scroll');
+                if (savedScroll) {
+                    window.scrollTo(0, parseInt(savedScroll, 10));
+                }
+            });
         }
+    }
+}
+
+function renderPhysicsNtk(subtabId) {
+    let sectionsToRender;
+    if (subtabId) {
+        sectionsToRender = PHYSICS_NTK_DATA.filter(s => s.id === subtabId);
+    } else {
+        sectionsToRender = PHYSICS_NTK_DATA;
+    }
+    for (const section of sectionsToRender) {
+        const container = document.getElementById(`physics-ntk-${section.id}-list`);
+        if (!container) continue;
+        saveVisiblePhysicsInputs(section.id);
+        container.innerHTML = '';
+        if (section.problems.length === 0) {
+            container.innerHTML = '<div class="glass-panel" style="margin: 1rem; padding: 1.2rem; text-align: center; color: var(--pencil);">📖 Задачи будут добавлены позже.</div>';
+            continue;
+        }
+        const total = section.problems.length;
+        const solved = section.problems.filter((_, idx) => physicsProgress[`${section.id}_${idx}`]).length;
+        const pct = total > 0 ? Math.round(solved / total * 100) : 0;
+        const statsDiv = document.createElement('div');
+        statsDiv.className = 'phys-section-stats';
+        statsDiv.innerHTML = `✅ Решено: <strong>${solved}</strong> из <strong>${total}</strong> (${pct}%)`;
+        container.appendChild(statsDiv);
+        section.problems.forEach((problem, idx) => {
+            const key = `${section.id}_${idx}`;
+            const solvedFlag = !!physicsProgress[key];
+            const card = document.createElement('div');
+            card.className = `phys-card task-card ${solvedFlag ? 'completed' : ''}`;
+            card.setAttribute('data-phys-key', key);
+            let html = `
+                <div class="task-header">
+                    <input type="checkbox" id="phys_chk_${key}" ${solvedFlag ? 'checked' : ''} onchange="togglePhysicsTask('${section.id}', ${idx})">
+                    <span class="task-title" id="phys_title_${key}">
+                        <strong>${problem.num}.</strong> ${problem.text}
+                    </span>
+                </div>
+            `;
+            if (problem.image) {
+                html += `<div class="phys-image"><img src="${problem.image}" alt="Рис. ${problem.num}" onclick="this.classList.toggle('phys-img-expanded')" loading="lazy"></div>`;
+            }
+            const isMulti = problem.correctIndices !== undefined;
+            const optKey = `${key}_opt`;
+            const chkKey = `${key}_chk`;
+            const solKey = `${key}_sol`;
+            const wasChecked = physicsAnswers[chkKey] === '1';
+            const showSol = physicsAnswers[solKey] === '1';
+            if (problem.options && problem.options.length > 0) {
+                if (isMulti) {
+                    const selectedStr = physicsAnswers[optKey] || '';
+                    const selectedSet = selectedStr ? selectedStr.split(',').map(Number) : [];
+                    html += '<div class="phys-options">';
+                    problem.options.forEach((opt, oi) => {
+                        let cls = 'phys-opt-btn';
+                        const isSel = selectedSet.includes(oi);
+                        if (wasChecked) {
+                            const isCorrectOpt = problem.correctIndices.includes(oi);
+                            if (isSel) {
+                                cls += isCorrectOpt ? ' phys-opt-correct' : ' phys-opt-wrong';
+                            } else if (isCorrectOpt) {
+                                cls += ' phys-opt-missed';
+                            }
+                        } else if (isSel) {
+                            cls += ' phys-opt-selected';
+                        }
+                        html += `<button class="${cls}" onclick="togglePhysicsOption('${section.id}', ${idx}, ${oi})">${opt}</button>`;
+                    });
+                    html += '</div>';
+                    html += `<div class="phys-check-row"><button class="phys-check-btn" onclick="checkPhysicsMultiSelect('${section.id}', ${idx})">${wasChecked ? '🔄' : '🔍'}</button>`;
+                    if (wasChecked) {
+                        const total = problem.correctIndices.length;
+                        let correctCount = 0;
+                        const selectedStr2 = physicsAnswers[optKey] || '';
+                        const selectedSet2 = selectedStr2 ? selectedStr2.split(',').map(Number) : [];
+                        for (const s of selectedSet2) {
+                            if (problem.correctIndices.includes(s)) correctCount++;
+                        }
+                        const allFound = correctCount === total && selectedSet2.length === total;
+                        html += `<span class="phys-feedback ${allFound ? 'phys-fb-correct' : 'phys-fb-wrong'}">${allFound ? '✅ Верно!' : '❌ Неверно'}</span>`;
+                    }
+                    html += `</div>`;
+                } else {
+                    const selectedIdx = physicsAnswers[optKey] !== undefined ? physicsAnswers[optKey] : -1;
+                    const hasCorrect = problem.correctIndex !== undefined && problem.correctIndex !== null;
+                    html += '<div class="phys-options">';
+                    problem.options.forEach((opt, oi) => {
+                        let cls = 'phys-opt-btn';
+                        let icon = '';
+                        if (selectedIdx === oi) {
+                            cls += ' phys-opt-selected';
+                            if (hasCorrect) {
+                                if (oi === problem.correctIndex) {
+                                    cls += ' phys-opt-correct';
+                                    icon = ' ✅';
+                                } else {
+                                    cls += ' phys-opt-wrong';
+                                    icon = ' ❌';
+                                }
+                            }
+                        }
+                        html += `<button class="${cls}" onclick="selectPhysicsOption('${section.id}', ${idx}, ${oi})">${opt}${icon}</button>`;
+                    });
+                    html += '</div>';
+                }
+            } else {
+                html += `<div class="phys-answer-row">`;
+                html += `<input type="text" class="phys-answer-input" id="phys_input_${key}" placeholder="Введи ответ..." value="${physicsAnswers[`${key}_txt`] || ''}" onchange="savePhysicsTypedAnswer('${section.id}', ${idx}, this.value)">`;
+                if (problem.answer) {
+                    html += `<button class="phys-check-btn" onclick="checkPhysicsAnswer('${section.id}', ${idx})">${wasChecked ? '🔄' : '🔍'}</button>`;
+                    if (wasChecked) {
+                        const userAnswer = (physicsAnswers[`${key}_txt`] || '').trim().toLowerCase().replace(/,/g, '.');
+                        const correctAnswer = problem.answer.trim().toLowerCase().replace(/,/g, '.');
+                        let isCorrect = false;
+                        if (problem.answerType === 'number') {
+                            const uNum = parseFloat(userAnswer);
+                            const cNum = parseFloat(correctAnswer);
+                            isCorrect = !isNaN(uNum) && !isNaN(cNum) && Math.abs(uNum - cNum) < 0.01;
+                        } else {
+                            isCorrect = userAnswer === correctAnswer;
+                        }
+                        html += `<span class="phys-feedback ${isCorrect ? 'phys-fb-correct' : 'phys-fb-wrong'}">${isCorrect ? '✅ Верно!' : '❌ Неверно. Правильно: ' + problem.answer.replace(/\./g, ',')}</span>`;
+                    }
+                }
+                html += `</div>`;
+            }
+            if (problem.solution) {
+                html += `<div class="phys-solution">`;
+                html += `<div class="phys-solution-header" onclick="togglePhysicsSolution('${section.id}', ${idx})">📖 Решение <span class="phys-sol-arrow">${showSol ? '▲' : '▼'}</span></div>`;
+                if (showSol) {
+                    html += `<div class="phys-solution-body">${problem.solution.replace(/\n/g, '<br>')}</div>`;
+                }
+                html += `</div>`;
+            }
+            card.innerHTML = html;
+            container.appendChild(card);
+        });
+        updatePhysicsSectionStats(section.id);
+        const elements = Array.from(container.querySelectorAll('.phys-card'));
+        typesetKaTeX(elements, () => {});
     }
 }
 
