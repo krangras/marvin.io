@@ -197,7 +197,7 @@ function getChangelogBtn() {
     btn = document.createElement('div');
     btn.id = 'changelog-btn';
     btn.className = 'changelog-btn';
-    btn.textContent = 'v1.0';
+    btn.textContent = 'v1.1';
     btn.title = 'Что нового';
     btn.onclick = function (e) { e.stopPropagation(); showChangelog(); };
     var headerBtns = document.querySelector('.header-buttons');

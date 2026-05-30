@@ -2967,6 +2967,7 @@ function togglePhysicsTask(sectionId, problemIdx) {
     if (checkbox) checkbox.checked = physicsProgress[key] === true;
     if (card) card.classList.toggle('completed', physicsProgress[key]);
     updatePhysicsSectionStats(sectionId);
+    renderPhysicsNtkStats();
 }
 
 function resetPhysicsProgress() {
@@ -4146,42 +4147,46 @@ function renderPhysicsNtkStats() {
         total += section.problems.length;
         solved += section.problems.filter((_, idx) => physicsProgress[`${section.id}_${idx}`]).length;
     }
-    const pct = total > 0 ? (solved / total) * 100 : 0;
+    const remaining = Math.max(0, total - solved);
+    let anyOpen = false;
+    for (const section of PHYSICS_NTK_DATA) {
+        anyOpen = section.problems.some((_, idx) => physicsAnswers[`${section.id}_${idx}_sol`] === '1');
+        if (anyOpen) break;
+    }
     container.innerHTML = `
+        <div class="toolbar" style="margin-bottom: 16px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+            <button class="btn-save" onclick="exportAllToFile()">💾 Сохранить прогресс</button>
+            <button class="btn-load" onclick="importAllFromFile()">📂 Загрузить прогресс</button>
+            <button class="btn-save" id="toggle-all-physics" onclick="toggleAllPhysicsSolutions()">${anyOpen ? '📁 Свернуть всё' : '📂 Развернуть всё'}</button>
+            <button class="reset-btn" onclick="resetPhysicsProgress()" style="padding: 5px 18px; border-radius: 20px; font-size: 0.8rem;">🗑️ Сбросить</button>
+        </div>
         <div class="kr-stats-panel">
-            <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;">
-                <button class="kr-action-btn" onclick="exportAllToFile()">💾 Сохранить прогресс</button>
-                <button class="kr-action-btn" onclick="importAllFromFile()">📂 Загрузить прогресс</button>
-                <button class="kr-action-btn" id="toggle-all-physics" onclick="toggleAllPhysicsSolutions()">📁 Свернуть всё</button>
-                <button class="kr-action-btn kr-reset-btn" onclick="resetPhysicsProgress()">🗑️ Сбросить</button>
-            </div>
             <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; align-items: center;">
                 <div class="stats-grid-inline" style="flex:1;">
                     <div class="stats-grid-item">
-                        <div class="stats-grid-value">${solved}</div>
+                        <div class="stats-grid-value" id="physics-solved">${solved}</div>
                         <div class="stats-grid-label">✅ Решено</div>
                     </div>
                     <div class="stats-grid-item">
-                        <div class="stats-grid-value">${total}</div>
+                        <div class="stats-grid-value" id="physics-total" style="color:var(--ink-blue);">${total}</div>
                         <div class="stats-grid-label">📋 Всего задач</div>
                     </div>
                     <div class="stats-grid-item">
-                        <div class="stats-grid-value">${pct.toFixed(1)}%</div>
+                        <div class="stats-grid-value" id="physics-percent">${total > 0 ? ((solved/total)*100).toFixed(1) : 0}%</div>
                         <div class="stats-grid-label">📊 Прогресс</div>
                     </div>
                     <div class="stats-grid-item">
-                        <div class="stats-grid-value">${Math.max(0, total - solved)}</div>
+                        <div class="stats-grid-value" id="physics-remaining">${remaining}</div>
                         <div class="stats-grid-label">⏳ Осталось</div>
                     </div>
                 </div>
             </div>
             <div class="progress-bar" style="margin-top: 12px;">
-                <div class="progress-fill" style="width: ${pct}%;"></div>
+                <div class="progress-fill" id="physics-progress-fill" style="width: ${total > 0 ? (solved/total)*100 : 0}%;"></div>
             </div>
-            <div id="physics-pace" style="margin-top: 8px; font-size:0.85rem; color:var(--pencil); text-align:center;">${buildPhysicsPaceText(total, solved)}</div>
+            <div id="physics-pace" style="margin-top: 12px; font-size:0.85rem; color:var(--pencil); text-align:center;">${buildPhysicsPaceText(total, solved)}</div>
         </div>
     `;
-    syncPhysicsToggleBtn();
 }
 
 function renderPhysicsNtk(subtabId) {
