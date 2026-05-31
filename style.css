@@ -62,6 +62,31 @@
     --btn-bg:      #2a2a45;
 }
 
+/* ============================================================
+   ГЛОБАЛЬНЫЕ СТИЛИ СКРОЛЛБАРОВ
+   ============================================================ */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--ring) transparent;
+}
+*::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+    background: var(--ring);
+    border-radius: 10px;
+}
+*::-webkit-scrollbar-thumb:hover {
+    background: var(--pencil);
+}
+*::-webkit-scrollbar-button {
+    display: none;
+}
+
 [data-theme="dark"] body {
     background-color: var(--body-bg);
     background-image: none;
@@ -525,11 +550,7 @@ body {
     width: 260px;
     overflow-y: auto;
     overflow-x: hidden;
-    scrollbar-width: thin;
 }
-.sidebar-content::-webkit-scrollbar { width: 5px; }
-.sidebar-content::-webkit-scrollbar-thumb { background: var(--ring); border-radius: 10px; }
-.sidebar-content::-webkit-scrollbar-track { background: transparent; }
 .sidebar-content { overscroll-behavior: contain; }
 .sidebar { overscroll-behavior: contain; }
 .sidebar-content-inner {
@@ -2727,4 +2748,187 @@ body {
 .modal-close-btn:hover {
     opacity: 0.85;
     transform: translateY(-1px);
+}
+
+/* ===== Кнопка теории (?) ===== */
+.physics-theory-btn {
+    position: fixed;
+    bottom: 56px;
+    right: 24px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--accent3);
+    color: #fff;
+    border: 2px solid rgba(255,255,255,0.3);
+    font-size: 1.3rem;
+    font-weight: 700;
+    font-family: var(--font-print);
+    cursor: pointer;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    line-height: 1;
+}
+.physics-theory-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    background: var(--accent2);
+}
+.physics-theory-btn:active {
+    transform: scale(0.95);
+}
+
+/* ===== Оверлей теории ===== */
+.physics-theory-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    animation: fadeIn 0.2s ease;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+.physics-theory-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ===== Модалка теории ===== */
+.physics-theory-modal {
+    background: var(--paper);
+    border: 2px solid var(--ring);
+    border-radius: 16px;
+    max-width: 680px;
+    width: 92%;
+    max-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.25);
+    animation: slideUp 0.25s ease;
+    position: relative;
+}
+
+.physics-theory-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px 12px 28px;
+    border-bottom: 2px dashed var(--line);
+    flex-shrink: 0;
+}
+.physics-theory-header h2 {
+    font-family: var(--font-hand);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--ink-blue);
+    margin: 0;
+}
+
+.physics-theory-close {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    background: var(--paper-alt);
+    border: 1px solid var(--ring);
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    color: var(--ink);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    line-height: 1;
+    margin-left: 12px;
+}
+.physics-theory-close:hover {
+    background: #e8e0d0;
+    transform: scale(1.1);
+}
+
+.physics-theory-body {
+    padding: 16px 28px 20px;
+    overflow-y: auto;
+    flex: 1;
+    font-family: var(--font-print);
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: var(--ink);
+}
+
+.physics-theory-body h3.theory-title {
+    font-family: var(--font-hand);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--ink-blue);
+    margin: 18px 0 10px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--line);
+}
+.physics-theory-body h3.theory-title:first-child {
+    margin-top: 0;
+}
+
+.physics-theory-body p {
+    margin: 8px 0;
+}
+.physics-theory-body ul {
+    margin: 6px 0 6px 1.2em;
+    padding: 0;
+}
+.physics-theory-body li {
+    margin: 4px 0;
+}
+
+.physics-theory-ok {
+    background: var(--accent3);
+    border: none;
+    color: #fff;
+    padding: 12px 40px;
+    border-radius: 24px;
+    cursor: pointer;
+    font-family: var(--font-print);
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.15s;
+    flex-shrink: 0;
+    margin: 0 auto 12px;
+}
+.physics-theory-ok:hover {
+    opacity: 0.85;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* ===== Тёмная тема ===== */
+[data-theme="dark"] .physics-theory-btn {
+    background: #4a6fa5;
+    border-color: rgba(255,255,255,0.15);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+}
+[data-theme="dark"] .physics-theory-btn:hover {
+    background: #5a8fc5;
+}
+[data-theme="dark"] .physics-theory-overlay {
+    background: rgba(0,0,0,0.7);
+}
+[data-theme="dark"] .physics-theory-close {
+    background: #333;
+    border-color: #5a5a5a;
+    color: #ddd;
+}
+[data-theme="dark"] .physics-theory-close:hover {
+    background: #444;
+}
+[data-theme="dark"] .physics-theory-ok {
+    background: #4a6fa5;
 }
