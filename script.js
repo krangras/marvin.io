@@ -3616,6 +3616,10 @@ function normalizeFormula(s) {
     return s;
 }
 
+function normalizeText(s) {
+    return s.replace(/[\s,.]/g, '').toLowerCase();
+}
+
 function setPhysicsSolvedIfCorrect(sectionId, problemIdx) {
     const problem = getPhysicsProblem(sectionId, problemIdx);
     if (!problem) return;
@@ -3640,7 +3644,7 @@ function setPhysicsSolvedIfCorrect(sectionId, problemIdx) {
         } else if (problem.answerType === 'formula') {
             isCorrect = normalizeFormula(userAnswer) === normalizeFormula(correctAnswer);
         } else {
-            isCorrect = userAnswer === correctAnswer;
+            isCorrect = normalizeText(userAnswer) === normalizeText(correctAnswer);
         }
         if (isCorrect) physicsProgress[key] = true;
     }
@@ -5018,7 +5022,7 @@ function renderPhysicsNtk(subtabId) {
                         } else if (problem.answerType === 'formula') {
                             isCorrect = normalizeFormula(userAnswer) === normalizeFormula(correctAnswer);
                         } else {
-                            isCorrect = userAnswer === correctAnswer;
+                            isCorrect = normalizeText(userAnswer) === normalizeText(correctAnswer);
                         }
                         html += `<span class="phys-feedback ${isCorrect ? 'phys-fb-correct' : 'phys-fb-wrong'}">${isCorrect ? '✅ Верно!' : '❌ Неверно. Правильно: ' + problem.answer.replace(/\./g, ',')}</span>`;
                     }
