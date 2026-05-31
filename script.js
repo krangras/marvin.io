@@ -965,6 +965,11 @@ function render() {
         container.appendChild(div);
     });
     
+    // Восстанавливаем позицию скролла после пересоздания DOM
+    if (scrollPositionToRestore) {
+        requestAnimationFrame(() => window.scrollTo(0, scrollPositionToRestore));
+    }
+    
     // Статистика
     const masteredCount = state.filter(s => s.step >= intervals.length).length;
     const learningCount = state.filter(s => s.step > 0 && s.step < intervals.length).length;
@@ -4246,8 +4251,11 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(updatePace, 60000);
     setInterval(() => {
         if (document.getElementById('physics-ntk-pane')?.classList.contains('active-pane')) {
-            renderPhysicsNtkStats();
-        }
+    renderPhysicsNtkStats();
+    if (savedScrollY) {
+        requestAnimationFrame(() => window.scrollTo(0, savedScrollY));
+    }
+}
     }, 60000);
 
     if (typeof onReinit === 'function') {
@@ -4871,6 +4879,7 @@ function renderPhysicsNtkStats() {
 }
 
 function renderPhysicsNtk(subtabId) {
+    const savedScrollY = window.scrollY;
     let sectionsToRender;
     if (subtabId) {
         sectionsToRender = PHYSICS_NTK_DATA.filter(s => s.id === subtabId);
