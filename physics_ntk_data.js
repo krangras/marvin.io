@@ -477,9 +477,14 @@
       {
         num: 15,
         text: 'Тело скользит с ускорением \\(a\\) вниз по наклонной плоскости с углом наклона α к горизонту. Коэффициенту трения скольжения соответствует выражение:',
-        answer: '(g sinα − a) / (g cosα)',
-        answerType: 'text',
-        solution: 'Уравнения движения: \\(mg\\sin\\alpha - F_{\\text{тр}} = ma\\), \\(N = mg\\cos\\alpha\\). \\(F_{\\text{тр}} = \\mu N = \\mu mg\\cos\\alpha\\). Подставляем: \\(mg\\sin\\alpha - \\mu mg\\cos\\alpha = ma \\implies \\mu = \\frac{g\\sin\\alpha - a}{g\\cos\\alpha}\\).'
+        options: [
+          '\\(\\mu = \\operatorname{tg} \\alpha\\)',
+          '\\(\\mu > \\operatorname{tg} \\alpha\\)',
+          '\\(\\mu < \\operatorname{tg} \\alpha\\)',
+          'определённого ответа дать нельзя'
+        ],
+        correctIndex: 2,
+        solution: 'Уравнения движения: \\(mg\\sin\\alpha - F_{\\text{тр}} = ma\\), \\(N = mg\\cos\\alpha\\). \\(F_{\\text{тр}} = \\mu N = \\mu mg\\cos\\alpha\\). Подставляем: \\(mg\\sin\\alpha - \\mu mg\\cos\\alpha = ma \\implies \\mu = \\frac{g\\sin\\alpha - a}{g\\cos\\alpha} = \\operatorname{tg}\\alpha - \\frac{a}{g\\cos\\alpha}\\). Поскольку \\(a > 0\\), получаем \\(\\mu < \\operatorname{tg}\\alpha\\).'
       },
       {
         num: 16,
