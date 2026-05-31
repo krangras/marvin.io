@@ -3595,6 +3595,27 @@ function getPhysicsSection(sectionId) {
     return PHYSICS_NTK_DATA.find(s => s.id === sectionId) || { problems: [] };
 }
 
+function normalizeFormula(s) {
+    s = s.toLowerCase().trim();
+    s = s.replace(/,/g, '.');
+    s = s.replace(/\s+/g, '');
+    s = s.replace(/·/g, '*');
+    s = s.replace(/×/g, '*');
+    s = s.replace(/∕/g, '/');
+    s = s.replace(/l₁/g, 'l1').replace(/l₂/g, 'l2').replace(/l₃/g, 'l3');
+    s = s.replace(/f₀/g, 'f0').replace(/f₁/g, 'f1').replace(/f₂/g, 'f2');
+    s = s.replace(/₀/g, '0').replace(/₁/g, '1').replace(/₂/g, '2').replace(/₃/g, '3');
+    s = s.replace(/л/g, 'l');
+    s = s.replace(/\)\(/g, ')*(');
+    s = s.replace(/(\d)([a-z(])/g, '$1*$2');
+    s = s.replace(/([a-z)])(\d)/g, '$1*$2');
+    s = s.replace(/\*+/g, '*');
+    s = s.replace(/(\+)\*|(\-)\*/g, '$1$2');
+    s = s.replace(/\*\+/g, '+');
+    s = s.replace(/\*\-/g, '-');
+    return s;
+}
+
 function setPhysicsSolvedIfCorrect(sectionId, problemIdx) {
     const problem = getPhysicsProblem(sectionId, problemIdx);
     if (!problem) return;
@@ -3616,6 +3637,8 @@ function setPhysicsSolvedIfCorrect(sectionId, problemIdx) {
             const uNum = parseFloat(userAnswer);
             const cNum = parseFloat(correctAnswer);
             isCorrect = !isNaN(uNum) && !isNaN(cNum) && Math.abs(uNum - cNum) < 0.01;
+        } else if (problem.answerType === 'formula') {
+            isCorrect = normalizeFormula(userAnswer) === normalizeFormula(correctAnswer);
         } else {
             isCorrect = userAnswer === correctAnswer;
         }
@@ -4992,6 +5015,8 @@ function renderPhysicsNtk(subtabId) {
                             const uNum = parseFloat(userAnswer);
                             const cNum = parseFloat(correctAnswer);
                             isCorrect = !isNaN(uNum) && !isNaN(cNum) && Math.abs(uNum - cNum) < 0.01;
+                        } else if (problem.answerType === 'formula') {
+                            isCorrect = normalizeFormula(userAnswer) === normalizeFormula(correctAnswer);
                         } else {
                             isCorrect = userAnswer === correctAnswer;
                         }
