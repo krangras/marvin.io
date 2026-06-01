@@ -2366,8 +2366,8 @@ body {
 /* ============================================================
    KATEX — ФОРМУЛЫ
    ============================================================ */
-.katex, .math, .task-equation, .solution, .cheatsheet {
-    font-family: 'Latin Modern Math', 'STIX Two Math', 'Cambria Math', 'Times New Roman', serif !important;
+.math, .task-equation, .solution, .cheatsheet {
+    font-family: 'Latin Modern Math', 'STIX Two Math', 'Cambria Math', 'Times New Roman', serif;
 }
 
 .katex {
