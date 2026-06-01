@@ -1,4 +1,4 @@
-const CACHE = 'marvin-v3'
+const CACHE = 'marvin-v4'
 const FILES = [
   '/',
   '/index.html',
@@ -7,6 +7,7 @@ const FILES = [
   '/conspects.js',
   '/integrals_data.js',
   '/semester1_data.js',
+  '/physics_ntk_data.js',
   '/firebase-init.js',
   '/firebase-auth.js',
   '/firebase-sync.js',

@@ -289,6 +289,9 @@ function initAuth() {
       console.log('[auth] onAuthStateChanged:', user ? user.email : 'null');
       authUser = user;
       updateAuthUI(user);
+      if (user && typeof analytics !== 'undefined') {
+        analytics.logEvent('login', { method: 'google' });
+      }
       if (typeof handleAuth === 'function') {
         handleAuth(user);
       }

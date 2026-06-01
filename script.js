@@ -340,6 +340,9 @@ function goToPracticeTask(taskId, typeIdx) {
     }, 200);
 }
 function goToTicket(idx) {
+    if (typeof analytics !== 'undefined') {
+        analytics.logEvent('ticket_view', { ticket_index: idx });
+    }
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelector('.tab-btn[data-tab="exam"]')?.classList.add('active');
     document.getElementById('exam-pane')?.classList.add('active-pane');
@@ -4147,6 +4150,10 @@ async function initTabs() {
 
             document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active-pane'));
 
+            if (typeof analytics !== 'undefined') {
+                analytics.logEvent('tab_switch', { from: fromTab, to: btn.dataset.tab });
+            }
+
             if (btn.dataset.tab === 'exam') {
                 document.getElementById('exam-pane')?.classList.add('active-pane');
                 render();
@@ -4274,6 +4281,11 @@ document.addEventListener('DOMContentLoaded', () => {
     initTabs();
     loadActiveTab();
     render();
+
+    if (typeof analytics !== 'undefined') {
+        const initialTab = document.querySelector('.tab-btn.active')?.getAttribute('data-tab') || 'exam';
+        analytics.logEvent('page_view', { page_title: initialTab });
+    }
     loadSidebarPinState();
     setInterval(updatePace, 60000);
     setInterval(() => {
