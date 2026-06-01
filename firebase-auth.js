@@ -290,7 +290,8 @@ function initAuth() {
       authUser = user;
       updateAuthUI(user);
       if (user && typeof analytics !== 'undefined') {
-        analytics.logEvent('login', { method: 'google' });
+        try { analytics.logEvent('login', { method: 'google' }); }
+        catch (e) { console.warn('analytics.logEvent failed:', e.message); }
       }
       if (typeof handleAuth === 'function') {
         handleAuth(user);

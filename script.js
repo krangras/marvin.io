@@ -341,7 +341,8 @@ function goToPracticeTask(taskId, typeIdx) {
 }
 function goToTicket(idx) {
     if (typeof analytics !== 'undefined') {
-        analytics.logEvent('ticket_view', { ticket_index: idx });
+        try { analytics.logEvent('ticket_view', { ticket_index: idx }); }
+        catch (e) { /* analytics blocked */ }
     }
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelector('.tab-btn[data-tab="exam"]')?.classList.add('active');
@@ -4153,7 +4154,8 @@ async function initTabs() {
             document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active-pane'));
 
             if (typeof analytics !== 'undefined') {
-                analytics.logEvent('tab_switch', { from: fromTab, to: btn.dataset.tab });
+                try { analytics.logEvent('tab_switch', { from: fromTab, to: btn.dataset.tab }); }
+                catch (e) { /* analytics blocked */ }
             }
 
             if (btn.dataset.tab === 'exam') {
@@ -4286,7 +4288,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (typeof analytics !== 'undefined') {
         const initialTab = document.querySelector('.tab-btn.active')?.getAttribute('data-tab') || 'exam';
-        analytics.logEvent('page_view', { page_title: initialTab });
+        try { analytics.logEvent('page_view', { page_title: initialTab }); }
+        catch (e) { /* analytics blocked */ }
     }
     loadSidebarPinState();
     setInterval(updatePace, 60000);
