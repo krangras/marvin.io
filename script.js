@@ -3646,6 +3646,8 @@ function setPhysicsSolvedIfCorrect(sectionId, problemIdx) {
             isCorrect = !isNaN(uNum) && !isNaN(cNum) && Math.abs(uNum - cNum) < 0.01;
         } else if (problem.answerType === 'formula') {
             isCorrect = normalizeFormula(userAnswer) === normalizeFormula(correctAnswer);
+        } else if (problem.accept) {
+            isCorrect = problem.accept.some(a => normalizeText(userAnswer) === normalizeText(a.trim().toLowerCase().replace(/,/g, '.')));
         } else {
             isCorrect = normalizeText(userAnswer) === normalizeText(correctAnswer);
         }
@@ -5033,6 +5035,8 @@ function renderPhysicsNtk(subtabId) {
                             isCorrect = !isNaN(uNum) && !isNaN(cNum) && Math.abs(uNum - cNum) < 0.01;
                         } else if (problem.answerType === 'formula') {
                             isCorrect = normalizeFormula(userAnswer) === normalizeFormula(correctAnswer);
+                        } else if (problem.accept) {
+                            isCorrect = problem.accept.some(a => normalizeText(userAnswer) === normalizeText(a.trim().toLowerCase().replace(/,/g, '.')));
                         } else {
                             isCorrect = normalizeText(userAnswer) === normalizeText(correctAnswer);
                         }
