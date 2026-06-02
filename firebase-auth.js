@@ -184,11 +184,13 @@ function showChangelog() {
     });
   }
   overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 
 function closeChangelog() {
   var overlay = document.getElementById('changelog-overlay');
   if (overlay) overlay.classList.remove('open');
+  document.body.style.overflow = '';
 }
 
 function getChangelogBtn() {
