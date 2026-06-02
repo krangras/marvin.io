@@ -1,4 +1,4 @@
-const CONSPECTS = {
+﻿const CONSPECTS = {
 5: `
 <div class="conspect-content">
     <h3 style="color:#1a3a6e; font-size:1.2rem; margin-bottom: 1.5em;">Билет 6. Критерии линейности оператора. Теорема о линейности суммы операторов, произведения оператора и числа, а также произведения операторов.</h3>
@@ -31,25 +31,25 @@ const CONSPECTS = {
 
     <h4 style="color:#1a3a6e;">3. Теорема 1 (критерий линейности)</h4>
 
-    <p>$$\\hat{A} : V \\to V \\text{ — линейный оператор} \\iff \\forall \\bar{x}, \\bar{y} \\in V\\ \\forall \\alpha, \\beta \\in P \\quad \\hat{A}(\\alpha\\bar{x} + \\beta\\bar{y}) = \\alpha\\hat{A}(\\bar{x}) + \\beta\\hat{A}(\\bar{y})$</p>
+    <p>$$\\hat{A} : V \\to V \\text{ — линейный оператор} \\iff \\forall \\bar{x}, \\bar{y} \\in V\\ \\forall \\alpha, \\beta \\in P \\quad \\hat{A}(\\alpha\\bar{x} + \\beta\\bar{y}) = \\alpha\\hat{A}(\\bar{x}) + \\beta\\hat{A}(\\bar{y}).$$</p>
 
     <p><b>Доказательство.</b></p>
 
     <p><i>Необходимость (⇒).</i> Пусть \\(\\hat{A}\\) — линейный оператор. Проверим выполнение свойства для произвольных \\(\\bar{x}, \\bar{y} \\in V\\) и \\(\\alpha, \\beta \\in P\\).</p>
     <p>Сначала используем аддитивность, «разрывая» сумму под оператором:</p>
-    <p>$$\\hat{A}(\\alpha\\bar{x} + \\beta\\bar{y}) = \\hat{A}(\\alpha\\bar{x}) + \\hat{A}(\\beta\\bar{y})$</p>
+    <p>$$\\hat{A}(\\alpha\\bar{x} + \\beta\\bar{y}) = \\hat{A}(\\alpha\\bar{x}) + \\hat{A}(\\beta\\bar{y}).$$</p>
     <p>Теперь к каждому слагаемому применяем однородность — выносим скалярный множитель:</p>
-    <p>$$\\hat{A}(\\alpha\\bar{x}) + \\hat{A}(\\beta\\bar{y}) = \\alpha\\hat{A}(\\bar{x}) + \\beta\\hat{A}(\\bar{y})$</p>
+    <p>$$\\hat{A}(\\alpha\\bar{x}) + \\hat{A}(\\beta\\bar{y}) = \\alpha\\hat{A}(\\bar{x}) + \\beta\\hat{A}(\\bar{y}).$$</p>
     <p>Цепочка равенств даёт требуемое.</p>
 
     <p><i>Достаточность (⇐).</i> Пусть для всех \\(\\bar{x}, \\bar{y} \\in V\\) и \\(\\alpha, \\beta \\in P\\) выполняется \\(\\hat{A}(\\alpha\\bar{x} + \\beta\\bar{y}) = \\alpha\\hat{A}(\\bar{x}) + \\beta\\hat{A}(\\bar{y})\\). Докажем, что \\(\\hat{A}\\) — линейный оператор.</p>
 
     <p><b>Аддитивность.</b> Подставим в условие \\(\\alpha = 1\\), \\(\\beta = 1\\):</p>
-    <p>$$\\hat{A}(1 \\cdot \\bar{x} + 1 \\cdot \\bar{y}) = 1 \\cdot \\hat{A}(\\bar{x}) + 1 \\cdot \\hat{A}(\\bar{y})$</p>
+    <p>$$\\hat{A}(1 \\cdot \\bar{x} + 1 \\cdot \\bar{y}) = 1 \\cdot \\hat{A}(\\bar{x}) + 1 \\cdot \\hat{A}(\\bar{y}).$$</p>
     <p>Упрощая: \\(\\hat{A}(\\bar{x} + \\bar{y}) = \\hat{A}(\\bar{x}) + \\hat{A}(\\bar{y})\\). Аддитивность доказана.</p>
 
     <p><b>Однородность.</b> Зафиксируем произвольное \\(\\alpha \\in P\\), положим \\(\\beta = 0\\). Учтём, что \\(0 \\cdot \\bar{y} = \\bar{0}\\) и по условию при \\(\\beta = 0\\) второе слагаемое обнуляется:</p>
-    <p>$$\\hat{A}(\\alpha\\bar{x} + 0 \\cdot \\bar{y}) = \\alpha\\hat{A}(\\bar{x}) + 0 \\cdot \\hat{A}(\\bar{y})$</p>
+    <p>$$\\hat{A}(\\alpha\\bar{x} + 0 \\cdot \\bar{y}) = \\alpha\\hat{A}(\\bar{x}) + 0 \\cdot \\hat{A}(\\bar{y}).$$</p>
     <p>Упрощая: \\(\\hat{A}(\\alpha\\bar{x}) = \\alpha\\hat{A}(\\bar{x})\\). Однородность доказана.</p>
     <p>Оба свойства выполнены, значит \\(\\hat{A}\\) — линейный оператор. \\(\\blacksquare\\)</p>
 
@@ -71,33 +71,33 @@ const CONSPECTS = {
     <p><b>Доказательство.</b> По критерию линейности (теорема 1) достаточно проверить, что каждый из операторов удовлетворяет равенству \\(\\hat{A}(\\alpha\\bar{x} + \\beta\\bar{y}) = \\alpha\\hat{A}(\\bar{x}) + \\beta\\hat{A}(\\bar{y})\\).</p>
 
     <p><b>Сумма.</b> Пусть \\(\\bar{x}, \\bar{y} \\in V\\), \\(\\alpha, \\beta \\in P\\). Распишем по определению суммы:</p>
-    <p>$$(\\hat{A} + \\hat{B})(\\alpha\\bar{x} + \\beta\\bar{y}) = \\hat{A}(\\alpha\\bar{x} + \\beta\\bar{y}) + \\hat{B}(\\alpha\\bar{x} + \\beta\\bar{y})$</p>
+    <p>$$(\\hat{A} + \\hat{B})(\\alpha\\bar{x} + \\beta\\bar{y}) = \\hat{A}(\\alpha\\bar{x} + \\beta\\bar{y}) + \\hat{B}(\\alpha\\bar{x} + \\beta\\bar{y}).$$</p>
     <p>Пользуемся линейностью \\(\\hat{A}\\) и \\(\\hat{B}\\) (по критерию):</p>
-    <p>$$\\hat{A}(\\alpha\\bar{x} + \\beta\\bar{y}) + \\hat{B}(\\alpha\\bar{x} + \\beta\\bar{y}) = (\\alpha\\hat{A}(\\bar{x}) + \\beta\\hat{A}(\\bar{y})) + (\\alpha\\hat{B}(\\bar{x}) + \\beta\\hat{B}(\\bar{y}))$</p>
+    <p>$$\\hat{A}(\\alpha\\bar{x} + \\beta\\bar{y}) + \\hat{B}(\\alpha\\bar{x} + \\beta\\bar{y}) = (\\alpha\\hat{A}(\\bar{x}) + \\beta\\hat{A}(\\bar{y})) + (\\alpha\\hat{B}(\\bar{x}) + \\beta\\hat{B}(\\bar{y})).$$</p>
     <p>Группируем слагаемые с \\(\\alpha\\) и \\(\\beta\\):</p>
-    <p>$$= \\alpha(\\hat{A}(\\bar{x}) + \\hat{B}(\\bar{x})) + \\beta(\\hat{A}(\\bar{y}) + \\hat{B}(\\bar{y}))$</p>
+    <p>$$= \\alpha(\\hat{A}(\\bar{x}) + \\hat{B}(\\bar{x})) + \\beta(\\hat{A}(\\bar{y}) + \\hat{B}(\\bar{y})).$$</p>
     <p>По определению суммы операторов это равно:</p>
-    <p>$$= \\alpha(\\hat{A} + \\hat{B})(\\bar{x}) + \\beta(\\hat{A} + \\hat{B})(\\bar{y})$</p>
+    <p>$$= \\alpha(\\hat{A} + \\hat{B})(\\bar{x}) + \\beta(\\hat{A} + \\hat{B})(\\bar{y}).$$</p>
     <p>Критерий выполнен \\(\\implies \\hat{A} + \\hat{B}\\) — линейный оператор.</p>
 
     <p><b>Умножение на число.</b> Пусть \\(\\gamma \\in P\\). Проверим критерий для \\(\\gamma\\hat{A}\\):</p>
-    <p>$$(\\gamma\\hat{A})(\\alpha\\bar{x} + \\beta\\bar{y}) = \\gamma \\cdot \\hat{A}(\\alpha\\bar{x} + \\beta\\bar{y})$</p>
+    <p>$$(\\gamma\\hat{A})(\\alpha\\bar{x} + \\beta\\bar{y}) = \\gamma \\cdot \\hat{A}(\\alpha\\bar{x} + \\beta\\bar{y}).$$</p>
     <p>По линейности \\(\\hat{A}\\):</p>
-    <p>$$= \\gamma \\cdot (\\alpha\\hat{A}(\\bar{x}) + \\beta\\hat{A}(\\bar{y}))$</p>
+    <p>$$= \\gamma \\cdot (\\alpha\\hat{A}(\\bar{x}) + \\beta\\hat{A}(\\bar{y})).$$</p>
     <p>Раскрываем скобки:</p>
-    <p>$$= \\alpha(\\gamma\\hat{A}(\\bar{x})) + \\beta(\\gamma\\hat{A}(\\bar{y}))$</p>
+    <p>$$= \\alpha(\\gamma\\hat{A}(\\bar{x})) + \\beta(\\gamma\\hat{A}(\\bar{y})).$$</p>
     <p>По определению произведения на число:</p>
-    <p>$$= \\alpha(\\gamma\\hat{A})(\\bar{x}) + \\beta(\\gamma\\hat{A})(\\bar{y})$</p>
+    <p>$$= \\alpha(\\gamma\\hat{A})(\\bar{x}) + \\beta(\\gamma\\hat{A})(\\bar{y}).$$</p>
     <p>Критерий выполнен \\(\\implies \\gamma\\hat{A}\\) — линейный оператор.</p>
 
     <p><b>Композиция.</b> Проверим критерий для \\(\\hat{A}\\hat{B}\\):</p>
-    <p>$$(\\hat{A}\\hat{B})(\\alpha\\bar{x} + \\beta\\bar{y}) = \\hat{A}(\\hat{B}(\\alpha\\bar{x} + \\beta\\bar{y}))$</p>
+    <p>$$(\\hat{A}\\hat{B})(\\alpha\\bar{x} + \\beta\\bar{y}) = \\hat{A}(\\hat{B}(\\alpha\\bar{x} + \\beta\\bar{y})).$$</p>
     <p>По линейности \\(\\hat{B}\\) (критерий):</p>
-    <p>$$= \\hat{A}(\\alpha\\hat{B}(\\bar{x}) + \\beta\\hat{B}(\\bar{y}))$</p>
+    <p>$$= \\hat{A}(\\alpha\\hat{B}(\\bar{x}) + \\beta\\hat{B}(\\bar{y})).$$</p>
     <p>По линейности \\(\\hat{A}\\) (критерий):</p>
-    <p>$$= \\alpha\\hat{A}(\\hat{B}(\\bar{x})) + \\beta\\hat{A}(\\hat{B}(\\bar{y}))$</p>
+    <p>$$= \\alpha\\hat{A}(\\hat{B}(\\bar{x})) + \\beta\\hat{A}(\\hat{B}(\\bar{y})).$$</p>
     <p>По определению композиции:</p>
-    <p>$$= \\alpha(\\hat{A}\\hat{B})(\\bar{x}) + \\beta(\\hat{A}\\hat{B})(\\bar{y})$</p>
+    <p>$$= \\alpha(\\hat{A}\\hat{B})(\\bar{x}) + \\beta(\\hat{A}\\hat{B})(\\bar{y}).$$</p>
     <p>Критерий выполнен \\(\\implies \\hat{A}\\hat{B}\\) — линейный оператор. \\(\\blacksquare\\)</p>
 </div>
 `,
@@ -114,14 +114,14 @@ const CONSPECTS = {
     </p>
 
     <p><b>Матрица перехода</b> \\(T_{\\text{Б} \\to \\text{Б}'}\\) — матрица, \\(j\\)-й столбец которой есть координаты \\(\\bar{e}'_j\\) в базисе Б. Связь координат одного вектора в разных базисах:</p>
-    <p>$$[\\bar{x}]_\\text{Б} = T_{\\text{Б} \\to \\text{Б}'} \\cdot [\\bar{x}]_{\\text{Б}'}$</p>
+    <p>$$[\\bar{x}]_\\text{Б} = T_{\\text{Б} \\to \\text{Б}'} \\cdot [\\bar{x}]_{\\text{Б}'}.$$</p>
     <p>Отсюда: \\(T_{\\text{Б}' \\to \\text{Б}} = T_{\\text{Б} \\to \\text{Б}'}^{-1}\\).</p>
 
     <h4 style="color:#1a3a6e;">2. Матрица линейного оператора</h4>
 
     <p>Пусть \\(\\text{Б} = (\\bar{e}_1, \\dots, \\bar{e}_n)\\) — базис \\(V\\), \\(\\hat{A}\\) — линейный оператор в \\(V\\).</p>
     <p><b>Матрица оператора</b> \\(\\hat{A}\\) в базисе Б — матрица \\([\\hat{A}]_\\text{Б}\\), \\(j\\)-й столбец которой равен координатам образа \\(j\\)-го базисного вектора:</p>
-    <p>$$[\\hat{A}]_\\text{Б} = \\begin{pmatrix} [\\hat{A}(\\bar{e}_1)]_\\text{Б} & [\\hat{A}(\\bar{e}_2)]_\\text{Б} & \\dots & [\\hat{A}(\\bar{e}_n)]_\\text{Б} \\end{pmatrix}$</p>
+    <p>$$[\\hat{A}]_\\text{Б} = \\begin{pmatrix} [\\hat{A}(\\bar{e}_1)]_\\text{Б} & [\\hat{A}(\\bar{e}_2)]_\\text{Б} & \\dots & [\\hat{A}(\\bar{e}_n)]_\\text{Б} \\end{pmatrix}.$$</p>
 
     <p>Если расписать по координатам:</p>
     <p>$$
@@ -142,36 +142,36 @@ const CONSPECTS = {
     <h4 style="color:#1a3a6e;">3. Теорема 1 (связь координат образа и прообраза)</h4>
 
     <p>Для любого \\(\\bar{x} \\in V\\):</p>
-    <p>$$[\\hat{A}(\\bar{x})]_\\text{Б} = [\\hat{A}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б}$</p>
+    <p>$$[\\hat{A}(\\bar{x})]_\\text{Б} = [\\hat{A}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б}.$$</p>
 
     <p><b>Доказательство.</b> Пусть \\(\\bar{x} = x_1 \\bar{e}_1 + x_2 \\bar{e}_2 + \\dots + x_n \\bar{e}_n\\), т.е. \\([\\bar{x}]_\\text{Б} = (x_1, x_2, \\dots, x_n)^T\\).</p>
     <p>Применим оператор \\(\\hat{A}\\) к разложению \\(\\bar{x}\\) по базису. По линейности оператора:</p>
-    <p>$$\\hat{A}(\\bar{x}) = \\hat{A}(x_1 \\bar{e}_1 + \\dots + x_n \\bar{e}_n) = x_1 \\hat{A}(\\bar{e}_1) + x_2 \\hat{A}(\\bar{e}_2) + \\dots + x_n \\hat{A}(\\bar{e}_n)$</p>
+    <p>$$\\hat{A}(\\bar{x}) = \\hat{A}(x_1 \\bar{e}_1 + \\dots + x_n \\bar{e}_n) = x_1 \\hat{A}(\\bar{e}_1) + x_2 \\hat{A}(\\bar{e}_2) + \\dots + x_n \\hat{A}(\\bar{e}_n).$$</p>
     <p>Подставим разложение каждого \\(\\hat{A}(\\bar{e}_j)\\) по базису из определения матрицы оператора:</p>
-    <p>$$\\hat{A}(\\bar{x}) = x_1 \\sum_{i=1}^n a_{i1}\\bar{e}_i + x_2 \\sum_{i=1}^n a_{i2}\\bar{e}_i + \\dots + x_n \\sum_{i=1}^n a_{in}\\bar{e}_i$</p>
+    <p>$$\\hat{A}(\\bar{x}) = x_1 \\sum_{i=1}^n a_{i1}\\bar{e}_i + x_2 \\sum_{i=1}^n a_{i2}\\bar{e}_i + \\dots + x_n \\sum_{i=1}^n a_{in}\\bar{e}_i.$$</p>
     <p>Сгруппируем коэффициенты при каждом \\(\\bar{e}_i\\). При \\(\\bar{e}_1\\) коэффициент: \\(a_{11}x_1 + a_{12}x_2 + \\dots + a_{1n}x_n\\). При \\(\\bar{e}_2\\): \\(a_{21}x_1 + a_{22}x_2 + \\dots + a_{2n}x_n\\), и так далее. Получаем:</p>
-    <p>$$\\hat{A}(\\bar{x}) = \\left(\\sum_{j=1}^n a_{1j}x_j\\right)\\bar{e}_1 + \\left(\\sum_{j=1}^n a_{2j}x_j\\right)\\bar{e}_2 + \\dots + \\left(\\sum_{j=1}^n a_{nj}x_j\\right)\\bar{e}_n$</p>
+    <p>$$\\hat{A}(\\bar{x}) = \\left(\\sum_{j=1}^n a_{1j}x_j\\right)\\bar{e}_1 + \\left(\\sum_{j=1}^n a_{2j}x_j\\right)\\bar{e}_2 + \\dots + \\left(\\sum_{j=1}^n a_{nj}x_j\\right)\\bar{e}_n.$$</p>
     <p>Вектор-столбец из этих сумм есть результат умножения матрицы \\([\\hat{A}]_\\text{Б}\\) на столбец \\([\\bar{x}]_\\text{Б}\\). Следовательно:</p>
     <p>$$[\\hat{A}(\\bar{x})]_\\text{Б} = [\\hat{A}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б}. \\quad \\blacksquare$$</p>
 
     <h4 style="color:#1a3a6e;">4. Теорема 2 (связь матриц оператора в разных базисах)</h4>
 
     <p>Для любых базисов Б и Б\\('\\):</p>
-    <p>$$[\\hat{A}]_{\\text{Б}'} = T_{\\text{Б}' \\to \\text{Б}} \\cdot [\\hat{A}]_\\text{Б} \\cdot T_{\\text{Б} \\to \\text{Б}'}$</p>
+    <p>$$[\\hat{A}]_{\\text{Б}'} = T_{\\text{Б}' \\to \\text{Б}} \\cdot [\\hat{A}]_\\text{Б} \\cdot T_{\\text{Б} \\to \\text{Б}'}.$$</p>
 
     <p><b>Доказательство.</b> Возьмём произвольный вектор \\(\\bar{x} \\in V\\). Выразим \\([\\hat{A}(\\bar{x})]_\\text{Б}\\) двумя способами.</p>
     
     <p><b>Способ 1.</b> По теореме 1: \\([\\hat{A}(\\bar{x})]_\\text{Б} = [\\hat{A}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б}\\). Далее переходим от базиса Б к базису Б\\('\\) для \\(\\bar{x}\\):</p>
-    <p>$$[\\hat{A}(\\bar{x})]_\\text{Б} = [\\hat{A}]_\\text{Б} \\cdot T_{\\text{Б} \\to \\text{Б}'} \\cdot [\\bar{x}]_{\\text{Б}'}$</p>
+    <p>$$[\\hat{A}(\\bar{x})]_\\text{Б} = [\\hat{A}]_\\text{Б} \\cdot T_{\\text{Б} \\to \\text{Б}'} \\cdot [\\bar{x}]_{\\text{Б}'}.$$</p>
 
     <p><b>Способ 2.</b> Сначала перейдём к базису Б\\('\\) для вектора \\(\\hat{A}(\\bar{x})\\), а затем применим теорему 1 в базисе Б\\('\\):</p>
-    <p>$$[\\hat{A}(\\bar{x})]_\\text{Б} = T_{\\text{Б} \\to \\text{Б}'} \\cdot [\\hat{A}(\\bar{x})]_{\\text{Б}'} = T_{\\text{Б} \\to \\text{Б}'} \\cdot [\\hat{A}]_{\\text{Б}'} \\cdot [\\bar{x}]_{\\text{Б}'}$</p>
+    <p>$$[\\hat{A}(\\bar{x})]_\\text{Б} = T_{\\text{Б} \\to \\text{Б}'} \\cdot [\\hat{A}(\\bar{x})]_{\\text{Б}'} = T_{\\text{Б} \\to \\text{Б}'} \\cdot [\\hat{A}]_{\\text{Б}'} \\cdot [\\bar{x}]_{\\text{Б}'}.$$</p>
 
     <p>Приравниваем правые части обоих способов. Получаем равенство, выполняющееся для любого столбца \\([\\bar{x}]_{\\text{Б}'}\\):</p>
-    <p>$$[\\hat{A}]_\\text{Б} \\cdot T_{\\text{Б} \\to \\text{Б}'} \\cdot [\\bar{x}]_{\\text{Б}'} = T_{\\text{Б} \\to \\text{Б}'} \\cdot [\\hat{A}]_{\\text{Б}'} \\cdot [\\bar{x}]_{\\text{Б}'}$</p>
+    <p>$$[\\hat{A}]_\\text{Б} \\cdot T_{\\text{Б} \\to \\text{Б}'} \\cdot [\\bar{x}]_{\\text{Б}'} = T_{\\text{Б} \\to \\text{Б}'} \\cdot [\\hat{A}]_{\\text{Б}'} \\cdot [\\bar{x}]_{\\text{Б}'}.$$</p>
 
     <p>Ввиду произвольности \\([\\bar{x}]_{\\text{Б}'}\\) матрицы-сомножители при нём равны:</p>
-    <p>$$[\\hat{A}]_\\text{Б} \\cdot T_{\\text{Б} \\to \\text{Б}'} = T_{\\text{Б} \\to \\text{Б}'} \\cdot [\\hat{A}]_{\\text{Б}'}$</p>
+    <p>$$[\\hat{A}]_\\text{Б} \\cdot T_{\\text{Б} \\to \\text{Б}'} = T_{\\text{Б} \\to \\text{Б}'} \\cdot [\\hat{A}]_{\\text{Б}'}.$$</p>
 
     <p>Умножаем обе части слева на \\(T_{\\text{Б} \\to \\text{Б}'}^{-1}\\). Поскольку \\(T_{\\text{Б} \\to \\text{Б}'}^{-1} = T_{\\text{Б}' \\to \\text{Б}}\\), окончательно:</p>
     <p>$$[\\hat{A}]_{\\text{Б}'} = T_{\\text{Б}' \\to \\text{Б}} \\cdot [\\hat{A}]_\\text{Б} \\cdot T_{\\text{Б} \\to \\text{Б}'}. \\quad \\blacksquare$$</p>
@@ -190,7 +190,7 @@ const CONSPECTS = {
     </p>
 
     <p><b>Матрица перехода</b> \\(T_{\\text{Б} \\to \\text{Б}'}\\) — матрица, столбцы которой — координаты векторов нового базиса в старом:</p>
-    <p>$$[\\bar{x}]_\\text{Б} = T_{\\text{Б} \\to \\text{Б}'} \\cdot [\\bar{x}]_{\\text{Б}'}, \\quad T_{\\text{Б}' \\to \\text{Б}} = T_{\\text{Б} \\to \\text{Б}'}^{-1}$</p>
+    <p>$$[\\bar{x}]_\\text{Б} = T_{\\text{Б} \\to \\text{Б}'} \\cdot [\\bar{x}]_{\\text{Б}'}, \\quad T_{\\text{Б}' \\to \\text{Б}} = T_{\\text{Б} \\to \\text{Б}'}^{-1}.$$</p>
 
     <h4 style="color:#1a3a6e;">2. Теорема (связь линейных операторов с алгеброй их матриц)</h4>
 
@@ -207,37 +207,37 @@ const CONSPECTS = {
     <p><b>Пункт 1 (сумма операторов).</b></p>
     <p>По определению суммы операторов: \\((\\hat{A} + \\hat{B})(\\bar{x}) = \\hat{A}(\\bar{x}) + \\hat{B}(\\bar{x})\\).</p>
     <p>Запишем координаты обеих частей в базисе Б. По теореме о связи образа и прообраза:</p>
-    <p>$$[(\\hat{A} + \\hat{B})(\\bar{x})]_\\text{Б} = [\\hat{A} + \\hat{B}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б}$</p>
+    <p>$$[(\\hat{A} + \\hat{B})(\\bar{x})]_\\text{Б} = [\\hat{A} + \\hat{B}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б}.$$</p>
     <p>С другой стороны, используя свойства координат (координаты суммы равны сумме координат):</p>
-    <p>$$[\\hat{A}(\\bar{x}) + \\hat{B}(\\bar{x})]_\\text{Б} = [\\hat{A}(\\bar{x})]_\\text{Б} + [\\hat{B}(\\bar{x})]_\\text{Б}$</p>
+    <p>$$[\\hat{A}(\\bar{x}) + \\hat{B}(\\bar{x})]_\\text{Б} = [\\hat{A}(\\bar{x})]_\\text{Б} + [\\hat{B}(\\bar{x})]_\\text{Б}.$$</p>
     <p>Применяем теорему о связи образа и прообраза к каждому слагаемому:</p>
-    <p>$$[\\hat{A}(\\bar{x})]_\\text{Б} + [\\hat{B}(\\bar{x})]_\\text{Б} = [\\hat{A}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б} + [\\hat{B}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б} = ([\\hat{A}]_\\text{Б} + [\\hat{B}]_\\text{Б}) \\cdot [\\bar{x}]_\\text{Б}$</p>
+    <p>$$[\\hat{A}(\\bar{x})]_\\text{Б} + [\\hat{B}(\\bar{x})]_\\text{Б} = [\\hat{A}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б} + [\\hat{B}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б} = ([\\hat{A}]_\\text{Б} + [\\hat{B}]_\\text{Б}) \\cdot [\\bar{x}]_\\text{Б}.$$</p>
     <p>Итак, получили:</p>
-    <p>$$[\\hat{A} + \\hat{B}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б} = ([\\hat{A}]_\\text{Б} + [\\hat{B}]_\\text{Б}) \\cdot [\\bar{x}]_\\text{Б}$</p>
+    <p>$$[\\hat{A} + \\hat{B}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б} = ([\\hat{A}]_\\text{Б} + [\\hat{B}]_\\text{Б}) \\cdot [\\bar{x}]_\\text{Б}.$$</p>
     <p>Это равенство выполняется для любого вектора \\(\\bar{x}\\), а значит, для любого столбца \\([\\bar{x}]_\\text{Б}\\). Следовательно, матрицы равны:</p>
-    <p>$$[\\hat{A} + \\hat{B}]_\\text{Б} = [\\hat{A}]_\\text{Б} + [\\hat{B}]_\\text{Б}$</p>
+    <p>$$[\\hat{A} + \\hat{B}]_\\text{Б} = [\\hat{A}]_\\text{Б} + [\\hat{B}]_\\text{Б}.$$</p>
 
     <p><b>Пункт 2 (композиция операторов).</b></p>
     <p>По определению композиции: \\((\\hat{A} \\hat{B})(\\bar{x}) = \\hat{A}(\\hat{B}(\\bar{x}))\\).</p>
     <p>Запишем координаты левой части по теореме о связи образа и прообраза:</p>
-    <p>$$[(\\hat{A} \\hat{B})(\\bar{x})]_\\text{Б} = [\\hat{A} \\hat{B}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б}$</p>
+    <p>$$[(\\hat{A} \\hat{B})(\\bar{x})]_\\text{Б} = [\\hat{A} \\hat{B}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б}.$$</p>
     <p>Для правой части сначала применяем теорему к \\(\\hat{B}\\):</p>
-    <p>$$[\\hat{B}(\\bar{x})]_\\text{Б} = [\\hat{B}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б}$</p>
+    <p>$$[\\hat{B}(\\bar{x})]_\\text{Б} = [\\hat{B}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б}.$$</p>
     <p>Теперь применяем теорему к \\(\\hat{A}\\), подставляя \\(\\hat{B}(\\bar{x})\\) в качестве аргумента:</p>
-    <p>$$[\\hat{A}(\\hat{B}(\\bar{x}))]_\\text{Б} = [\\hat{A}]_\\text{Б} \\cdot [\\hat{B}(\\bar{x})]_\\text{Б} = [\\hat{A}]_\\text{Б} \\cdot [\\hat{B}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б}$</p>
+    <p>$$[\\hat{A}(\\hat{B}(\\bar{x}))]_\\text{Б} = [\\hat{A}]_\\text{Б} \\cdot [\\hat{B}(\\bar{x})]_\\text{Б} = [\\hat{A}]_\\text{Б} \\cdot [\\hat{B}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б}.$$</p>
     <p>Приравнивая левую и правую части, получаем:</p>
-    <p>$$[\\hat{A} \\hat{B}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б} = [\\hat{A}]_\\text{Б} \\cdot [\\hat{B}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б}$</p>
+    <p>$$[\\hat{A} \\hat{B}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б} = [\\hat{A}]_\\text{Б} \\cdot [\\hat{B}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б}.$$</p>
     <p>Ввиду произвольности \\(\\bar{x}\\) матрицы равны:</p>
-    <p>$$[\\hat{A} \\hat{B}]_\\text{Б} = [\\hat{A}]_\\text{Б} \\cdot [\\hat{B}]_\\text{Б}$</p>
+    <p>$$[\\hat{A} \\hat{B}]_\\text{Б} = [\\hat{A}]_\\text{Б} \\cdot [\\hat{B}]_\\text{Б}.$$</p>
 
     <p><b>Пункт 3 (умножение оператора на число).</b></p>
     <p>По определению: \\((\\alpha \\hat{A})(\\bar{x}) = \\alpha \\cdot \\hat{A}(\\bar{x})\\).</p>
     <p>Координаты левой части:</p>
-    <p>$$[(\\alpha \\hat{A})(\\bar{x})]_\\text{Б} = [\\alpha \\hat{A}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б}$</p>
+    <p>$$[(\\alpha \\hat{A})(\\bar{x})]_\\text{Б} = [\\alpha \\hat{A}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б}.$$</p>
     <p>Координаты правой части (константа \\(\\alpha\\) выносится за знак координат):</p>
-    <p>$$[\\alpha \\cdot \\hat{A}(\\bar{x})]_\\text{Б} = \\alpha \\cdot [\\hat{A}(\\bar{x})]_\\text{Б} = \\alpha \\cdot [\\hat{A}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б}$</p>
+    <p>$$[\\alpha \\cdot \\hat{A}(\\bar{x})]_\\text{Б} = \\alpha \\cdot [\\hat{A}(\\bar{x})]_\\text{Б} = \\alpha \\cdot [\\hat{A}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б}.$$</p>
     <p>Приравнивая:</p>
-    <p>$$[\\alpha \\hat{A}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б} = \\alpha \\cdot [\\hat{A}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б}$</p>
+    <p>$$[\\alpha \\hat{A}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б} = \\alpha \\cdot [\\hat{A}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б}.$$</p>
     <p>Ввиду произвольности \\(\\bar{x}\\) получаем:</p>
     <p>$$[\\alpha \\hat{A}]_\\text{Б} = \\alpha [\\hat{A}]_\\text{Б}. \\quad \\blacksquare$$</p>
 </div>
@@ -258,10 +258,10 @@ const CONSPECTS = {
     <h4 style="color:#1a3a6e;">2. Ядро и область значений</h4>
 
     <p><b>Ядро</b> линейного оператора \\(\\hat{A}: V \\to V\\) — множество векторов, которые оператор переводит в нуль:</p>
-    <p>$$\\operatorname{Ker}(\\hat{A}) = \\{ \\bar{x} \\in V : \\hat{A}(\\bar{x}) = \\bar{0} \\}$</p>
+    <p>$$\\operatorname{Ker}(\\hat{A}) = \\{ \\bar{x} \\in V : \\hat{A}(\\bar{x}) = \\bar{0} \\}.$$</p>
 
     <p><b>Область значений</b> линейного оператора \\(\\hat{A}\\) — множество всех векторов, которые можно получить как образ какого-либо вектора:</p>
-    <p>$$\\operatorname{Im}(\\hat{A}) = \\{ \\bar{y} \\in V : \\exists \\bar{x} \\in V,\\ \\hat{A}(\\bar{x}) = \\bar{y} \\}$</p>
+    <p>$$\\operatorname{Im}(\\hat{A}) = \\{ \\bar{y} \\in V : \\exists \\bar{x} \\in V,\\ \\hat{A}(\\bar{x}) = \\bar{y} \\}.$$</p>
 
     <h4 style="color:#1a3a6e;">3. Теорема 1 (ядро и образ — подпространства)</h4>
 
@@ -271,20 +271,20 @@ const CONSPECTS = {
 
     <p><b>Для ядра.</b> Проверим два условия подпространства.</p>
     <p><i>Замкнутость относительно сложения.</i> Пусть \\(\\bar{x}, \\bar{y} \\in \\operatorname{Ker}(\\hat{A})\\). Это значит, что \\(\\hat{A}(\\bar{x}) = \\bar{0}\\) и \\(\\hat{A}(\\bar{y}) = \\bar{0}\\). Применим оператор к сумме и воспользуемся линейностью:</p>
-    <p>$$\\hat{A}(\\bar{x} + \\bar{y}) = \\hat{A}(\\bar{x}) + \\hat{A}(\\bar{y}) = \\bar{0} + \\bar{0} = \\bar{0}$</p>
+    <p>$$\\hat{A}(\\bar{x} + \\bar{y}) = \\hat{A}(\\bar{x}) + \\hat{A}(\\bar{y}) = \\bar{0} + \\bar{0} = \\bar{0}.$$</p>
     <p>Получили \\(\\bar{0}\\), значит \\(\\bar{x} + \\bar{y} \\in \\operatorname{Ker}(\\hat{A})\\).</p>
     <p><i>Замкнутость относительно умножения на число.</i> Пусть \\(\\bar{x} \\in \\operatorname{Ker}(\\hat{A})\\), \\(\\alpha \\in P\\). Тогда:</p>
-    <p>$$\\hat{A}(\\alpha\\bar{x}) = \\alpha \\cdot \\hat{A}(\\bar{x}) = \\alpha \\cdot \\bar{0} = \\bar{0}$</p>
+    <p>$$\\hat{A}(\\alpha\\bar{x}) = \\alpha \\cdot \\hat{A}(\\bar{x}) = \\alpha \\cdot \\bar{0} = \\bar{0}.$$</p>
     <p>Значит \\(\\alpha\\bar{x} \\in \\operatorname{Ker}(\\hat{A})\\). Оба условия выполнены — ядро является подпространством.</p>
     <p><i>Замечание.</i> Можно было проверить одним шагом: для любых \\(\\bar{x}, \\bar{y} \\in \\operatorname{Ker}(\\hat{A})\\) и \\(\\alpha, \\beta \\in P\\):</p>
-    <p>$$\\hat{A}(\\alpha\\bar{x} + \\beta\\bar{y}) = \\alpha\\hat{A}(\\bar{x}) + \\beta\\hat{A}(\\bar{y}) = \\alpha\\bar{0} + \\beta\\bar{0} = \\bar{0} \\implies \\alpha\\bar{x} + \\beta\\bar{y} \\in \\operatorname{Ker}(\\hat{A})$</p>
+    <p>$$\\hat{A}(\\alpha\\bar{x} + \\beta\\bar{y}) = \\alpha\\hat{A}(\\bar{x}) + \\beta\\hat{A}(\\bar{y}) = \\alpha\\bar{0} + \\beta\\bar{0} = \\bar{0} \\implies \\alpha\\bar{x} + \\beta\\bar{y} \\in \\operatorname{Ker}(\\hat{A}).$$</p>
 
     <p><b>Для области значений.</b> Аналогично проверим два условия.</p>
     <p><i>Замкнутость относительно сложения.</i> Пусть \\(\\bar{y}_1, \\bar{y}_2 \\in \\operatorname{Im}(\\hat{A})\\). По определению, существуют \\(\\bar{x}_1, \\bar{x}_2 \\in V\\) такие, что \\(\\hat{A}(\\bar{x}_1) = \\bar{y}_1\\) и \\(\\hat{A}(\\bar{x}_2) = \\bar{y}_2\\). Тогда для суммы \\(\\bar{y}_1 + \\bar{y}_2\\) имеем:</p>
-    <p>$$\\bar{y}_1 + \\bar{y}_2 = \\hat{A}(\\bar{x}_1) + \\hat{A}(\\bar{x}_2) = \\hat{A}(\\bar{x}_1 + \\bar{x}_2)$</p>
+    <p>$$\\bar{y}_1 + \\bar{y}_2 = \\hat{A}(\\bar{x}_1) + \\hat{A}(\\bar{x}_2) = \\hat{A}(\\bar{x}_1 + \\bar{x}_2).$$</p>
     <p>Поскольку \\(\\bar{x}_1 + \\bar{x}_2 \\in V\\), сумма \\(\\bar{y}_1 + \\bar{y}_2\\) является образом вектора \\(\\bar{x}_1 + \\bar{x}_2\\), а значит, \\(\\bar{y}_1 + \\bar{y}_2 \\in \\operatorname{Im}(\\hat{A})\\).</p>
     <p><i>Замкнутость относительно умножения на число.</i> Пусть \\(\\bar{y} \\in \\operatorname{Im}(\\hat{A})\\), \\(\\alpha \\in P\\). Существует \\(\\bar{x} \\in V\\) такой, что \\(\\hat{A}(\\bar{x}) = \\bar{y}\\). Тогда:</p>
-    <p>$$\\alpha\\bar{y} = \\alpha\\hat{A}(\\bar{x}) = \\hat{A}(\\alpha\\bar{x})$</p>
+    <p>$$\\alpha\\bar{y} = \\alpha\\hat{A}(\\bar{x}) = \\hat{A}(\\alpha\\bar{x}).$$</p>
     <p>Поскольку \\(\\alpha\\bar{x} \\in V\\), вектор \\(\\alpha\\bar{y}\\) является образом \\(\\alpha\\bar{x}\\), значит \\(\\alpha\\bar{y} \\in \\operatorname{Im}(\\hat{A})\\). Область значений — подпространство. \\(\\blacksquare\\)</p>
 
     <h4 style="color:#1a3a6e;">4. Ранг и дефект</h4>
@@ -294,101 +294,119 @@ const CONSPECTS = {
 
     <h4 style="color:#1a3a6e;">5. Теорема 2 (о ранге и дефекте)</h4>
 
-    <p>$$\\operatorname{Rg}(\\hat{A}) + d(\\hat{A}) = \\dim(V)$</p>
+    <p>$$\\operatorname{Rg}(\\hat{A}) + d(\\hat{A}) = \\dim(V).$$</p>
 
     <p><b>Доказательство.</b> Пусть \\(\\dim(V) = n\\), \\(d(\\hat{A}) = d\\). Выберем базис ядра: \\((\\bar{e}_1, \\dots, \\bar{e}_d)\\).</p>
     <p><b>Шаг 1. Дополнение до базиса V.</b> Систему \\((\\bar{e}_1, \\dots, \\bar{e}_d)\\) можно дополнить до базиса всего пространства \\(V\\). Пусть дополнительные векторы: \\(\\bar{e}_{d+1}, \\dots, \\bar{e}_n\\). Теперь \\((\\bar{e}_1, \\dots, \\bar{e}_d, \\bar{e}_{d+1}, \\dots, \\bar{e}_n)\\) — базис \\(V\\).</p>
     
     <p><b>Шаг 2. Представление произвольного вектора из Im(Â).</b> Возьмём любой \\(\\bar{y} \\in \\operatorname{Im}(\\hat{A})\\). По определению, \\(\\exists \\bar{x} \\in V: \\hat{A}(\\bar{x}) = \\bar{y}\\). Разложим \\(\\bar{x}\\) по базису:</p>
-    <p>$$\\bar{x} = \\alpha_1\\bar{e}_1 + \\dots + \\alpha_d\\bar{e}_d + \\alpha_{d+1}\\bar{e}_{d+1} + \\dots + \\alpha_n\\bar{e}_n$</p>
+    <p>$$\\bar{x} = \\alpha_1\\bar{e}_1 + \\dots + \\alpha_d\\bar{e}_d + \\alpha_{d+1}\\bar{e}_{d+1} + \\dots + \\alpha_n\\bar{e}_n.$$</p>
     <p>Применим оператор \\(\\hat{A}\\) и воспользуемся линейностью:</p>
-    <p>$$\\bar{y} = \\hat{A}(\\bar{x}) = \\alpha_1\\hat{A}(\\bar{e}_1) + \\dots + \\alpha_d\\hat{A}(\\bar{e}_d) + \\alpha_{d+1}\\hat{A}(\\bar{e}_{d+1}) + \\dots + \\alpha_n\\hat{A}(\\bar{e}_n)$</p>
+    <p>$$\\bar{y} = \\hat{A}(\\bar{x}) = \\alpha_1\\hat{A}(\\bar{e}_1) + \\dots + \\alpha_d\\hat{A}(\\bar{e}_d) + \\alpha_{d+1}\\hat{A}(\\bar{e}_{d+1}) + \\dots + \\alpha_n\\hat{A}(\\bar{e}_n).$$</p>
     <p>Но \\(\\bar{e}_1, \\dots, \\bar{e}_d \\in \\operatorname{Ker}(\\hat{A})\\), значит \\(\\hat{A}(\\bar{e}_1) = \\dots = \\hat{A}(\\bar{e}_d) = \\bar{0}\\). Первые \\(d\\) слагаемых обнуляются:</p>
-    <p>$$\\bar{y} = \\alpha_{d+1}\\hat{A}(\\bar{e}_{d+1}) + \\dots + \\alpha_n\\hat{A}(\\bar{e}_n)$</p>
+    <p>$$\\bar{y} = \\alpha_{d+1}\\hat{A}(\\bar{e}_{d+1}) + \\dots + \\alpha_n\\hat{A}(\\bar{e}_n).$$</p>
     <p>Итак, любой вектор из \\(\\operatorname{Im}(\\hat{A})\\) линейно выражается через векторы \\(\\hat{A}(\\bar{e}_{d+1}), \\dots, \\hat{A}(\\bar{e}_n)\\).</p>
 
     <p><b>Шаг 3. Линейная независимость.</b> Покажем, что эти векторы линейно независимы. Предположим, что некоторая их линейная комбинация равна нулю:</p>
-    <p>$$\\beta_{d+1}\\hat{A}(\\bar{e}_{d+1}) + \\dots + \\beta_n\\hat{A}(\\bar{e}_n) = \\bar{0}$</p>
+    <p>$$\\beta_{d+1}\\hat{A}(\\bar{e}_{d+1}) + \\dots + \\beta_n\\hat{A}(\\bar{e}_n) = \\bar{0}.$$</p>
     <p>По линейности оператора:</p>
-    <p>$$\\hat{A}(\\beta_{d+1}\\bar{e}_{d+1} + \\dots + \\beta_n\\bar{e}_n) = \\bar{0}$</p>
+    <p>$$\\hat{A}(\\beta_{d+1}\\bar{e}_{d+1} + \\dots + \\beta_n\\bar{e}_n) = \\bar{0}.$$</p>
     <p>Это означает, что вектор \\(\\bar{z} = \\beta_{d+1}\\bar{e}_{d+1} + \\dots + \\beta_n\\bar{e}_n\\) лежит в ядре \\(\\operatorname{Ker}(\\hat{A})\\). Следовательно, \\(\\bar{z}\\) можно разложить по базису ядра:</p>
-    <p>$$\\bar{z} = \\gamma_1\\bar{e}_1 + \\dots + \\gamma_d\\bar{e}_d$</p>
+    <p>$$\\bar{z} = \\gamma_1\\bar{e}_1 + \\dots + \\gamma_d\\bar{e}_d.$$</p>
     <p>Приравнивая два выражения для \\(\\bar{z}\\) и перенося всё в одну сторону:</p>
-    <p>$$\\gamma_1\\bar{e}_1 + \\dots + \\gamma_d\\bar{e}_d - \\beta_{d+1}\\bar{e}_{d+1} - \\dots - \\beta_n\\bar{e}_n = \\bar{0}$</p>
+    <p>$$\\gamma_1\\bar{e}_1 + \\dots + \\gamma_d\\bar{e}_d - \\beta_{d+1}\\bar{e}_{d+1} - \\dots - \\beta_n\\bar{e}_n = \\bar{0}.$$</p>
     <p>Но \\((\\bar{e}_1, \\dots, \\bar{e}_n)\\) — базис \\(V\\), а значит, линейно независимая система. Поэтому все коэффициенты в последнем равенстве — нули. В частности, \\(\\beta_{d+1} = \\dots = \\beta_n = 0\\).</p>
     <p>Итак, равенство \\(\\sum \\beta_j \\hat{A}(\\bar{e}_j) = \\bar{0}\\) влечёт \\(\\beta_j = 0\\) для всех \\(j\\). Значит, система \\((\\hat{A}(\\bar{e}_{d+1}), \\dots, \\hat{A}(\\bar{e}_n))\\) линейно независима.</p>
 
     <p><b>Шаг 4. Размерность образа.</b> Мы показали, что векторы \\(\\hat{A}(\\bar{e}_{d+1}), \\dots, \\hat{A}(\\bar{e}_n)\\) образуют базис \\(\\operatorname{Im}(\\hat{A})\\). Их количество: \\(n - d\\). Следовательно:</p>
-    <p>$$\\operatorname{Rg}(\\hat{A}) = \\dim(\\operatorname{Im}(\\hat{A})) = n - d = \\dim(V) - d(\\hat{A})$</p>
+    <p>$$\\operatorname{Rg}(\\hat{A}) = \\dim(\\operatorname{Im}(\\hat{A})) = n - d = \\dim(V) - d(\\hat{A}).$$</p>
     <p>Перенося \\(d(\\hat{A})\\) в левую часть, получаем требуемое. \\(\\blacksquare\\)</p>
 </div>
 `,
 
 9: `
 <div class="conspect-content">
-    <h3 style="color:#1a3a6e; font-size:1.2rem; margin-bottom: 1.5em;">Билет 10. Свойства характеристического многочлена.</h3>
+    <h3 style="color:#1a3a6e; font-size:1.2rem; margin-bottom: 1.5em;">Билет 10. Свойства характеристического многочлена: переход из базиса в базис, связь собственного значения с корнями характеристического уравнения.</h3>
 
     <h4 style="color:#1a3a6e;">1. Свойства определителя</h4>
 
-    <p><b>Свойство 1.</b> \\(|A \\cdot B \\cdot C| = |A| \\cdot |B| \\cdot |C|\\)</p>
+    <p><b>Свойство 1.</b> Определитель произведения матриц равен произведению определителей:</p>
+    <p>$$|A \\cdot B \\cdot C| = |A| \\cdot |B| \\cdot |C|.$$</p>
 
-    <p><b>Свойство 2.</b> Система имеет ненулевое \\(n\\)-е решение \\(\\iff |A| = 0\\)</p>
+    <p><b>Свойство 2.</b> Однородная система \\(A\\mathcal{X} = O\\) имеет нетривиальное решение \\(\\mathcal{X}\\) <span style="font-size: 1.2em; font-weight: bold;">≠</span> \\(O_{n \\times 1}\\) тогда и только тогда, когда \\(|A| = 0\\).</p>
 
-    <h4 style="color:#1a3a6e;">2. Определение собственных значений и векторов</h4>
+    <h4 style="color:#1a3a6e;">2. Собственные значения и собственные векторы</h4>
 
-    <p><b>Опр. 1.</b> Пусть \\(\\hat{A}\\) — линейный оператор, действующий в ЛП \\(V\\) над числовым полем \\(P\\).</p>
-    <p>Число \\(\\lambda \\in P\\) называется <b>собственным значением (СЗ)</b> ЛО \\(\\hat{A}\\), а ненулевой вектор \\(\\bar{x} \\in V\\) называется <b>собственным вектором (СВ)</b> ЛО \\(\\hat{A}\\), соответствующим СЗ \\(\\lambda\\), если</p>
-    <p>$$\\hat{A}(\\bar{x}) = \\lambda \\bar{x}$$</p>
+    <p>Пусть \\(\\hat{A}\\) — линейный оператор в пространстве \\(V\\) над полем \\(P\\).</p>
 
-    <p><b>Опр. 2.</b> Пусть \\(\\hat{A}\\) — линейный оператор, действующий в ЛП \\(V\\) над числовым полем \\(P\\).</p>
-    <p>Многочлен \\(|[\\hat{A}]_Б - \\lambda E_{n \\times n}|\\) называется <b>характеристическим многочленом (ХМ)</b> оператора \\(\\hat{A}\\), а уравнение</p>
-    <p>$$|[\\hat{A}]_Б - \\lambda E_{n \\times n}| = 0$$</p>
-    <p>называется <b>характеристическим уравнением (ХУ)</b> оператора \\(\\hat{A}\\).</p>
+    <p>Число \\(\\lambda \\in P\\) называется <b>собственным значением</b> оператора \\(\\hat{A}\\), если существует ненулевой вектор \\(\\bar{x} \\in V\\) такой, что:</p>
+    <p>$$\\hat{A}(\\bar{x}) = \\lambda \\bar{x}.$$</p>
+    <p>Вектор \\(\\bar{x}\\) <span style="font-size: 1.2em; font-weight: bold;">≠</span> \\(\\bar{0}\\) называется <b>собственным вектором</b>, соответствующим собственному значению \\(\\lambda\\).</p>
 
-    <h4 style="color:#1a3a6e;">3. Теорема 1 (Об инвариантности ХМ)</h4>
+    <p><b>Характеристический многочлен</b> оператора \\(\\hat{A}\\) — многочлен от переменной \\(\\lambda\\):</p>
+    <p>$$\\chi_{\\hat{A}}(\\lambda) = |[\\hat{A}]_\\text{Б} - \\lambda E_{n \\times n}|.$$</p>
+    <p><b>Характеристическое уравнение</b>: \\(\\chi_{\\hat{A}}(\\lambda) = 0\\).</p>
 
-    <p>Характеристический многочлен конечномерного линейного оператора \\(\\hat{A}\\) имеет один и тот же вид во всех базисах.</p>
+    <h4 style="color:#1a3a6e;">3. Теорема 1 (инвариантность характеристического многочлена)</h4>
 
-    <p><b>Доказательство.</b></p>
+    <p>Характеристический многочлен оператора \\(\\hat{A}\\) не зависит от выбора базиса.</p>
 
-    <p>Пусть \\(Б\\) и \\(Б'\\) — базисы ЛП \\(V\\), в которых действует ЛО \\(\\hat{A}\\).</p>
+    <p><b>Доказательство.</b> Пусть Б и Б\\('\\) — два базиса пространства \\(V\\).</p>
 
-    <p>Выпишем разность матриц:</p>
-    <p>$$[\\hat{A}]_{Б'} - \\lambda E_{n \\times n} = T_{Б' \\to Б} \\cdot [\\hat{A}]_Б \\cdot T_{Б \\to Б'} - \\lambda E_{n \\times n}$$</p>
+    <p><b>Шаг 1. Связь матриц в разных базисах.</b> По теореме о связи матриц оператора (билет 7):</p>
+    <p>$$[\\hat{A}]_{\\text{Б}'} = T_{\\text{Б}' \\to \\text{Б}} \\cdot [\\hat{A}]_\\text{Б} \\cdot T_{\\text{Б} \\to \\text{Б}'}.$$</p>
 
-    <p>Сгруппируем второе слагаемое, используя свойство матрицы перехода \\(E_{n \\times n} = T_{Б' \\to Б} \\cdot T_{Б \\to Б'}\\):</p>
-    <p>$$\\begin{aligned}
-    &[\\hat{A}]_{Б'} - \\lambda E_{n \\times n} = T_{Б' \\to Б} \\cdot [\\hat{A}]_Б \\cdot T_{Б \\to Б'} - \\lambda \\cdot T_{Б' \\to Б} \\cdot T_{Б \\to Б'} \\\\
-    &= T_{Б' \\to Б} \\cdot [\\hat{A}]_Б \\cdot T_{Б \\to Б'} - T_{Б' \\to Б} \\cdot \\lambda E_{n \\times n} \\cdot T_{Б \\to Б'} \\\\
-    &= T_{Б' \\to Б} \\cdot \\left( [\\hat{A}]_Б - \\lambda E_{n \\times n} \\right) \\cdot T_{Б \\to Б'}
-    \\end{aligned}$$</p>
+    <p><b>Шаг 2. Вычитаем \\(\\lambda E\\).</b> Запишем характеристическую матрицу в базисе Б\\('\\):</p>
+    <p>$$[\\hat{A}]_{\\text{Б}'} - \\lambda E = T_{\\text{Б}' \\to \\text{Б}} \\cdot [\\hat{A}]_\\text{Б} \\cdot T_{\\text{Б} \\to \\text{Б}'} - \\lambda E.$$</p>
 
-    <p>Теперь вычислим определитель от обеих частей:</p>
-    <p>$$\\begin{aligned}
-    \\left| [\\hat{A}]_{Б'} - \\lambda E_{n \\times n} \\right| &= \\left| T_{Б' \\to Б} \\cdot \\left( [\\hat{A}]_Б - \\lambda E_{n \\times n} \\right) \\cdot T_{Б \\to Б'} \\right| \\\\
-    &= |T_{Б' \\to Б}| \\cdot \\left| [\\hat{A}]_Б - \\lambda E_{n \\times n} \\right| \\cdot |T_{Б \\to Б'}|
-    \\end{aligned}$$</p>
-    <p>Так как \\(|T_{Б' \\to Б}| \\cdot |T_{Б \\to Б'}| = |T_{Б' \\to Б} \\cdot T_{Б \\to Б'}| = |E_{n \\times n}| = 1\\), получаем:</p>
-    <p>$$= \\left| [\\hat{A}]_Б - \\lambda E_{n \\times n} \\right|$$</p>
+    <p><b>Шаг 3. Вносим \\(\\lambda E\\) внутрь.</b> Заметим, что \\(E = T_{\\text{Б}' \\to \\text{Б}} \\cdot T_{\\text{Б} \\to \\text{Б}'}\\). Тогда:</p>
+    <p>$$\\lambda E = \\lambda \\cdot T_{\\text{Б}' \\to \\text{Б}} \\cdot T_{\\text{Б} \\to \\text{Б}'} = T_{\\text{Б}' \\to \\text{Б}} \\cdot (\\lambda E) \\cdot T_{\\text{Б} \\to \\text{Б}'}.$$</p>
+
+    <p><b>Шаг 4. Выносим общий множитель.</b> Подставляем это в выражение:</p>
+    <p>$$[\\hat{A}]_{\\text{Б}'} - \\lambda E = T_{\\text{Б}' \\to \\text{Б}} \\cdot [\\hat{A}]_\\text{Б} \\cdot T_{\\text{Б} \\to \\text{Б}'} - T_{\\text{Б}' \\to \\text{Б}} \\cdot (\\lambda E) \\cdot T_{\\text{Б} \\to \\text{Б}'}.$$</p>
+    <p>Выносим \\(T_{\\text{Б}' \\to \\text{Б}}\\) слева и \\(T_{\\text{Б} \\to \\text{Б}'}\\) справа за скобки:</p>
+    <p>$$[\\hat{A}]_{\\text{Б}'} - \\lambda E = T_{\\text{Б}' \\to \\text{Б}} \\cdot \\bigl([\\hat{A}]_\\text{Б} - \\lambda E\\bigr) \\cdot T_{\\text{Б} \\to \\text{Б}'}.$$</p>
+
+    <p><b>Шаг 5. Переходим к определителям.</b></p>
+    <p>$$|[\\hat{A}]_{\\text{Б}'} - \\lambda E| = |T_{\\text{Б}' \\to \\text{Б}}| \\cdot |[\\hat{A}]_\\text{Б} - \\lambda E| \\cdot |T_{\\text{Б} \\to \\text{Б}'}|.$$</p>
+
+    <p><b>Шаг 6. Произведение определителей матриц перехода.</b> \\(|T_{\\text{Б}' \\to \\text{Б}}| \\cdot |T_{\\text{Б} \\to \\text{Б}'}| = |T_{\\text{Б}' \\to \\text{Б}} \\cdot T_{\\text{Б} \\to \\text{Б}'}| = |E| = 1\\).</p>
     <p>Следовательно:</p>
-    <p>$$\\left| [\\hat{A}]_{Б'} - \\lambda E_{n \\times n} \\right| = \\left| [\\hat{A}]_Б - \\lambda E_{n \\times n} \\right|$$</p>
-    <p style="text-align: right;">\\(\\blacksquare\\)</p>
+    <p>$$|[\\hat{A}]_{\\text{Б}'} - \\lambda E| = |[\\hat{A}]_\\text{Б} - \\lambda E|.$$</p>
+    <p>Многочлены совпадают при всех \\(\\lambda\\), значит характеристический многочлен не зависит от базиса. \\(\\blacksquare\\)</p>
 
-    <h4 style="color:#1a3a6e;">4. Теорема 2 (Связь СЗ с корнями ХМ)</h4>
+    <h4 style="color:#1a3a6e;">4. Теорема 2 (собственные значения и корни характеристического уравнения)</h4>
 
-    <p>Пусть \\(\\hat{A}\\) — линейный оператор, действующий в ЛП \\(V\\) над числовым полем \\(P\\).</p>
-    <p>\\(\\lambda \\in P\\) является собственным значением ЛО \\(\\hat{A} \\iff \\lambda\\) — корень характеристического многочлена ЛО \\(\\hat{A}\\).</p>
+    <p>\\(\\lambda \\in P\\) — собственное значение оператора \\(\\hat{A}\\) тогда и только тогда, когда \\(\\lambda\\) — корень характеристического уравнения.</p>
 
-    <p><b>Доказательство.</b></p>
+    <p><b>Доказательство.</b> Зафиксируем произвольный базис Б.</p>
 
-    <p>Выберем базис \\(Б\\) в ЛП \\(V\\).</p>
-    <p>\\(\\lambda \\in P\\) — СЗ \\(\\iff \\exists \\bar{x} \\neq \\bar{0}: \\hat{A}(\\bar{x}) = \\lambda \\bar{x} \\iff \\exists X_{n \\times 1} \\neq O_{n \\times 1}: [\\hat{A}]_Б \\cdot X_{n \\times 1} = \\lambda X_{n \\times 1}\\).</p>
-    <p>Перенесём всё в левую часть:</p>
-    <p>$$[\\hat{A}]_Б \\cdot X_{n \\times 1} - \\lambda E_{n \\times n} \\cdot X_{n \\times 1} = O_{n \\times 1} \\iff \\exists X_{n \\times 1} \\neq O_{n \\times 1}: ([\\hat{A}]_Б - \\lambda E_{n \\times n}) \\cdot X_{n \\times 1} = O_{n \\times 1}$$</p>
-    <p>Последнее означает, что система линейных однородных уравнений с матрицей \\([\\hat{A}]_Б - \\lambda E_{n \\times n}\\) имеет ненулевое решение.</p>
-    <p>Это, в свою очередь, равносильно условию:</p>
-    <p>$$\\left| [\\hat{A}]_Б - \\lambda E_{n \\times n} \\right| = 0$$</p>
-    <p style="text-align: right;">\\(\\blacksquare\\)</p>
+    <p><b>Шаг 1. От операторного равенства к матричному.</b> \\(\\lambda\\) — собственное значение \\(\\iff\\) существует \\(\\bar{x}\\) <span style="font-size: 1.2em; font-weight: bold;">≠</span> \\(\\bar{0}\\) такой, что \\(\\hat{A}(\\bar{x}) = \\lambda\\bar{x}\\).</p>
+    <p>Перепишем это равенство: \\(\\hat{A}(\\bar{x}) - \\lambda\\bar{x} = \\bar{0}\\), или \\((\\hat{A} - \\lambda\\mathcal{E})(\\bar{x}) = \\bar{0}\\), где \\(\\mathcal{E}\\) — тождественный оператор.</p>
+    <p>В координатах (по теореме из билета 7):</p>
+    <p>$$[\\hat{A}(\\bar{x})]_\\text{Б} = [\\hat{A}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б}, \\qquad [\\lambda\\bar{x}]_\\text{Б} = \\lambda [\\bar{x}]_\\text{Б}.$$</p>
+    <p>Поэтому матричная запись условия:</p>
+    <p>$$[\\hat{A}]_\\text{Б} \\cdot [\\bar{x}]_\\text{Б} = \\lambda [\\bar{x}]_\\text{Б}.$$</p>
+    <p>Обозначим \\(\\mathcal{X} = [\\bar{x}]_\\text{Б}\\). Тогда \\(\\mathcal{X}\\) <span style="font-size: 1.2em; font-weight: bold;">≠</span> \\(O_{n \\times 1}\\) (так как \\(\\bar{x}\\) <span style="font-size: 1.2em; font-weight: bold;">≠</span> \\(\\bar{0}\\)), и:</p>
+    <p>$$[\\hat{A}]_\\text{Б} \\cdot \\mathcal{X} = \\lambda \\mathcal{X}.$$</p>
+
+    <p><b>Шаг 2. Перенос в однородную систему.</b> Перенесём \\(\\lambda\\mathcal{X}\\) в левую часть:</p>
+    <p>$$[\\hat{A}]_\\text{Б} \\cdot \\mathcal{X} - \\lambda E \\cdot \\mathcal{X} = O_{n \\times 1}.$$</p>
+    <p>Выносим \\(\\mathcal{X}\\) за скобки справа:</p>
+    <p>$$([\\hat{A}]_\\text{Б} - \\lambda E) \\cdot \\mathcal{X} = O_{n \\times 1}.$$</p>
+
+    <p><b>Шаг 3. Применяем свойство 2.</b> Мы получили однородную систему линейных уравнений с матрицей \\([\\hat{A}]_\\text{Б} - \\lambda E\\). По свойству 2, она имеет нетривиальное решение \\(\\mathcal{X}\\) <span style="font-size: 1.2em; font-weight: bold;">≠</span> \\(O_{n \\times 1}\\) тогда и только тогда, когда определитель матрицы равен нулю:</p>
+    <p>$$|[\\hat{A}]_\\text{Б} - \\lambda E| = 0.$$</p>
+
+    <p><b>Шаг 4. Итог.</b> Мы получили цепочку равносильностей:</p>
+    <p>
+        \\(\\lambda\\) — собственное значение <br>
+        \\(\\iff\\) \\(\\exists \\bar{x}\\) <span style="font-size: 1.2em; font-weight: bold;">≠</span> \\(\\bar{0} : \\hat{A}(\\bar{x}) = \\lambda\\bar{x}\\) <br>
+        \\(\\iff\\) \\(\\exists \\mathcal{X}\\) <span style="font-size: 1.2em; font-weight: bold;">≠</span> \\(O_{n \\times 1} : ([\\hat{A}]_\\text{Б} - \\lambda E) \\cdot \\mathcal{X} = O_{n \\times 1}\\) <br>
+        \\(\\iff\\) \\(|[\\hat{A}]_\\text{Б} - \\lambda E| = 0\\) <br>
+        \\(\\iff\\) \\(\\lambda\\) — корень характеристического уравнения.
+    </p>
+    <p>Теорема доказана. \\(\\blacksquare\\)</p>
 </div>
 `,
 10: `
@@ -405,7 +423,7 @@ const CONSPECTS = {
 
     <h4 style="color:#1a3a6e;">2. Определитель полураспавшейся матрицы</h4>
 
-    <p>$$\\begin{vmatrix} A_{m \\times m} & C_{m \\times n} \\\\ O_{n \\times m} & B_{n \\times n} \\end{vmatrix} = |A| \\cdot |B|$</p>
+    <p>$$\\begin{vmatrix} A_{m \\times m} & C_{m \\times n} \\\\ O_{n \\times m} & B_{n \\times n} \\end{vmatrix} = |A| \\cdot |B|.$$</p>
 
     <h4 style="color:#1a3a6e;">3. Теорема 1 (свойства собственных векторов)</h4>
 
@@ -414,10 +432,10 @@ const CONSPECTS = {
     <p><b>Доказательство.</b></p>
     <p><i>Необходимость (⇒).</i> Пусть Б = \\((\\bar{e}_1, \\dots, \\bar{e}_n)\\) — базис из собственных векторов, и \\(\\hat{A}(\\bar{e}_i) = \\lambda_i \\bar{e}_i\\) для \\(i = 1, \\dots, n\\).</p>
     <p>По определению, \\(j\\)-й столбец матрицы \\([\\hat{A}]_\\text{Б}\\) — это координаты вектора \\(\\hat{A}(\\bar{e}_j)\\) в базисе Б. Так как \\(\\hat{A}(\\bar{e}_j) = \\lambda_j \\bar{e}_j\\), его координаты: \\(\\lambda_j\\) на \\(j\\)-м месте и нули на остальных. Следовательно:</p>
-    <p>$$[\\hat{A}]_\\text{Б} = \\begin{pmatrix} \\lambda_1 & 0 & \\dots & 0 \\\\ 0 & \\lambda_2 & \\dots & 0 \\\\ \\vdots & \\vdots & \\ddots & \\vdots \\\\ 0 & 0 & \\dots & \\lambda_n \\end{pmatrix}$</p>
+    <p>$$[\\hat{A}]_\\text{Б} = \\begin{pmatrix} \\lambda_1 & 0 & \\dots & 0 \\\\ 0 & \\lambda_2 & \\dots & 0 \\\\ \\vdots & \\vdots & \\ddots & \\vdots \\\\ 0 & 0 & \\dots & \\lambda_n \\end{pmatrix}.$$</p>
 
     <p><i>Достаточность (⇐).</i> Если матрица оператора в базисе Б имеет указанный диагональный вид, то для каждого базисного вектора \\(\\bar{e}_j\\):</p>
-    <p>$$[\\hat{A}(\\bar{e}_j)]_\\text{Б} = j\\text{-й столбец } [\\hat{A}]_\\text{Б} = (0, \\dots, 0, \\lambda_j, 0, \\dots, 0)^T$</p>
+    <p>$$[\\hat{A}(\\bar{e}_j)]_\\text{Б} = j\\text{-й столбец } [\\hat{A}]_\\text{Б} = (0, \\dots, 0, \\lambda_j, 0, \\dots, 0)^T.$$</p>
     <p>Это означает, что \\(\\hat{A}(\\bar{e}_j) = \\lambda_j \\bar{e}_j\\), то есть каждый \\(\\bar{e}_j\\) — собственный вектор. \\(\\blacksquare\\)</p>
 
     <p><b>Утверждение 2.</b> Количество линейно независимых собственных векторов, соответствующих данному собственному значению, не превосходит кратности этого собственного значения как корня характеристического уравнения.</p>
@@ -436,7 +454,7 @@ const CONSPECTS = {
     0 & 0 & \\dots & 0 & a_{k+2,k+2} & \\dots & a_{k+2,n} \\\\
     \\vdots & \\vdots & & \\vdots & \\vdots & \\ddots & \\vdots \\\\
     0 & 0 & \\dots & 0 & a_{n,k+2} & \\dots & a_{nn}
-    \\end{pmatrix}$</p>
+    \\end{pmatrix}.$$</p>
 
     <p>Левый верхний блок размера \\((k+1) \\times (k+1)\\) — диагональная матрица \\(\\lambda_0 E_{k+1}\\). Левый нижний блок размера \\((n-k-1) \\times (k+1)\\) — нулевой.</p>
 
@@ -490,7 +508,7 @@ const CONSPECTS = {
     <p>$$\\sum_{i=1}^{n_1} \\alpha_{1i} \\bar{e}_{1i} + \\sum_{i=1}^{n_2} \\alpha_{2i} \\bar{e}_{2i} + \\dots + \\sum_{i=1}^{n_k} \\alpha_{ki} \\bar{e}_{ki} + \\sum_{i=1}^{n_{k+1}} \\alpha_{k+1,i} \\bar{e}_{k+1,i} = \\bar{0}. \\qquad (*)$$</p>
 
     <p><b>Шаг 1. Применим оператор \\(\\hat{A}\\).</b> Подействуем оператором на обе части равенства \\((*)\\). Поскольку каждый вектор \\(\\bar{e}_{ji}\\) — собственный для \\(\\lambda_j\\), имеем \\(\\hat{A}(\\bar{e}_{ji}) = \\lambda_j \\bar{e}_{ji}\\). Получаем:</p>
-    <p>$$\\sum_{i=1}^{n_1} \\alpha_{1i} \\lambda_1 \\bar{e}_{1i} + \\sum_{i=1}^{n_2} \\alpha_{2i} \\lambda_2 \\bar{e}_{2i} + \\dots + \\sum_{i=1}^{n_{k+1}} \\alpha_{k+1,i} \\lambda_{k+1} \\bar{e}_{k+1,i} = \\bar{0}$</p>
+    <p>$$\\sum_{i=1}^{n_1} \\alpha_{1i} \\lambda_1 \\bar{e}_{1i} + \\sum_{i=1}^{n_2} \\alpha_{2i} \\lambda_2 \\bar{e}_{2i} + \\dots + \\sum_{i=1}^{n_{k+1}} \\alpha_{k+1,i} \\lambda_{k+1} \\bar{e}_{k+1,i} = \\bar{0}.$$</p>
     <p>Вынесем \\(\\lambda_j\\) за знак суммы:</p>
     <p>$$\\lambda_1 \\sum_{i=1}^{n_1} \\alpha_{1i} \\bar{e}_{1i} + \\lambda_2 \\sum_{i=1}^{n_2} \\alpha_{2i} \\bar{e}_{2i} + \\dots + \\lambda_{k+1} \\sum_{i=1}^{n_{k+1}} \\alpha_{k+1,i} \\bar{e}_{k+1,i} = \\bar{0}. \\qquad (1)$$</p>
 
@@ -498,15 +516,15 @@ const CONSPECTS = {
     <p>$$\\lambda_{k+1} \\sum_{i=1}^{n_1} \\alpha_{1i} \\bar{e}_{1i} + \\lambda_{k+1} \\sum_{i=1}^{n_2} \\alpha_{2i} \\bar{e}_{2i} + \\dots + \\lambda_{k+1} \\sum_{i=1}^{n_{k+1}} \\alpha_{k+1,i} \\bar{e}_{k+1,i} = \\bar{0}. \\qquad (2)$$</p>
 
     <p><b>Шаг 3. Вычтем (1) из (2).</b> Заметим, что последние слагаемые (с \\(\\lambda_{k+1}\\)) в (1) и (2) сокращаются. Для каждого \\(j = 1, \\dots, k\\) получаем коэффициент \\((\\lambda_{k+1} - \\lambda_j)\\):</p>
-    <p>$$(\\lambda_{k+1} - \\lambda_1) \\sum_{i=1}^{n_1} \\alpha_{1i} \\bar{e}_{1i} + (\\lambda_{k+1} - \\lambda_2) \\sum_{i=1}^{n_2} \\alpha_{2i} \\bar{e}_{2i} + \\dots + (\\lambda_{k+1} - \\lambda_k) \\sum_{i=1}^{n_k} \\alpha_{ki} \\bar{e}_{ki} = \\bar{0}$</p>
+    <p>$$(\\lambda_{k+1} - \\lambda_1) \\sum_{i=1}^{n_1} \\alpha_{1i} \\bar{e}_{1i} + (\\lambda_{k+1} - \\lambda_2) \\sum_{i=1}^{n_2} \\alpha_{2i} \\bar{e}_{2i} + \\dots + (\\lambda_{k+1} - \\lambda_k) \\sum_{i=1}^{n_k} \\alpha_{ki} \\bar{e}_{ki} = \\bar{0}.$$</p>
 
     <p><b>Шаг 4. Применим предположение индукции.</b> Мы получили линейную комбинацию векторов, соответствующих первым \\(k\\) собственным значениям. По предположению индукции, все эти векторы (объединение по \\(j = 1, \\dots, k\\)) линейно независимы. Следовательно, все коэффициенты в этой комбинации — нули:</p>
-    <p>$$(\\lambda_{k+1} - \\lambda_j) \\cdot \\alpha_{ji} = 0 \\quad \\text{для всех } j = 1, \\dots, k,\\ i = 1, \\dots, n_j$</p>
+    <p>$$(\\lambda_{k+1} - \\lambda_j) \\cdot \\alpha_{ji} = 0 \\quad \\text{для всех } j = 1, \\dots, k,\\ i = 1, \\dots, n_j.$$</p>
 
     <p><b>Шаг 5. Используем различие собственных значений.</b> Так как \\(\\lambda_{k+1}\\) <span style="font-size: 1.2em; font-weight: bold;">≠</span> \\(\\lambda_j\\) (по условию все \\(\\lambda_j\\) попарно различны), то \\(\\lambda_{k+1} - \\lambda_j\\) <span style="font-size: 1.2em; font-weight: bold;">≠</span> \\(0\\). Поэтому из \\((\\lambda_{k+1} - \\lambda_j) \\cdot \\alpha_{ji} = 0\\) следует \\(\\alpha_{ji} = 0\\) для всех \\(j = 1, \\dots, k\\), \\(i = 1, \\dots, n_j\\).</p>
 
     <p><b>Шаг 6. Возвращаемся к исходному равенству.</b> Подставим \\(\\alpha_{ji} = 0\\) (\\(j = 1, \\dots, k\\)) в \\((*)\\). Все слагаемые, кроме последней группы, обнуляются:</p>
-    <p>$$\\sum_{i=1}^{n_{k+1}} \\alpha_{k+1,i} \\bar{e}_{k+1,i} = \\bar{0}$</p>
+    <p>$$\\sum_{i=1}^{n_{k+1}} \\alpha_{k+1,i} \\bar{e}_{k+1,i} = \\bar{0}.$$</p>
 
     <p>Но векторы \\(\\bar{e}_{k+1,1}, \\dots, \\bar{e}_{k+1,n_{k+1}}\\) линейно независимы по условию. Значит, все \\(\\alpha_{k+1,i} = 0\\).</p>
 
@@ -548,12 +566,12 @@ const CONSPECTS = {
 
     <p><b>Следствие 1.</b> \\((\\bar{0}; \\bar{x}) = (\\bar{x}; \\bar{0}) = 0\\).</p>
     <p><b>Доказательство.</b> Представим нулевой вектор как \\(\\bar{0} = 0 \\cdot \\bar{y}\\) для любого \\(\\bar{y} \\in V\\). Тогда по аксиоме 3:</p>
-    <p>$$(\\bar{0}; \\bar{x}) = (0 \\cdot \\bar{y}; \\bar{x}) = 0 \\cdot (\\bar{y}; \\bar{x}) = 0$</p>
+    <p>$$(\\bar{0}; \\bar{x}) = (0 \\cdot \\bar{y}; \\bar{x}) = 0 \\cdot (\\bar{y}; \\bar{x}) = 0.$$</p>
     <p>По коммутативности (аксиома 1): \\((\\bar{x}; \\bar{0}) = 0\\).</p>
 
     <p><b>Следствие 2.</b> \\((\\bar{z}; \\bar{x} + \\bar{y}) = (\\bar{z}; \\bar{x}) + (\\bar{z}; \\bar{y})\\).</p>
     <p><b>Доказательство.</b> Сначала по коммутативности (аксиома 1), затем по дистрибутивности (аксиома 2), и снова по коммутативности:</p>
-    <p>$$(\\bar{z}; \\bar{x} + \\bar{y}) = (\\bar{x} + \\bar{y}; \\bar{z}) = (\\bar{x}; \\bar{z}) + (\\bar{y}; \\bar{z}) = (\\bar{z}; \\bar{x}) + (\\bar{z}; \\bar{y})$</p>
+    <p>$$(\\bar{z}; \\bar{x} + \\bar{y}) = (\\bar{x} + \\bar{y}; \\bar{z}) = (\\bar{x}; \\bar{z}) + (\\bar{y}; \\bar{z}) = (\\bar{z}; \\bar{x}) + (\\bar{z}; \\bar{y}).$$</p>
 
     <p><b>Следствие 3.</b> \\((\\bar{x}; \\alpha \\bar{y}) = \\alpha \\cdot (\\bar{x}; \\bar{y})\\).</p>
     <p><b>Доказательство.</b> Аналогично: коммутативность, затем смешанная ассоциативность (аксиома 3), и снова коммутативность:</p>
@@ -562,45 +580,45 @@ const CONSPECTS = {
     <h4 style="color:#1a3a6e;">4. Норма вектора</h4>
 
     <p><b>Норма</b> вектора \\(\\bar{x}\\) в евклидовом пространстве:</p>
-    <p>$$\\|\\bar{x}\\| = \\sqrt{(\\bar{x}; \\bar{x})}$</p>
+    <p>$$\\|\\bar{x}\\| = \\sqrt{(\\bar{x}; \\bar{x})}.$$</p>
 
     <h4 style="color:#1a3a6e;">5. Теорема (неравенство Коши – Буняковского)</h4>
 
     <p>Для любых векторов \\(\\bar{x}, \\bar{y} \\in V\\):</p>
-    <p>$$|(\\bar{x}; \\bar{y})| \\le \\|\\bar{x}\\| \\cdot \\|\\bar{y}\\|$</p>
+    <p>$$|(\\bar{x}; \\bar{y})| \\le \\|\\bar{x}\\| \\cdot \\|\\bar{y}\\|.$$</p>
 
     <p><b>Доказательство.</b></p>
 
     <p><b>Шаг 1. Вспомогательное неравенство.</b> Для любого \\(\\alpha \\in \\mathbb{R}\\) рассмотрим скалярный квадрат вектора \\(\\bar{x} - \\alpha\\bar{y}\\). По аксиоме 4 он неотрицателен:</p>
-    <p>$$(\\bar{x} - \\alpha\\bar{y}; \\bar{x} - \\alpha\\bar{y}) \\ge 0$</p>
+    <p>$$(\\bar{x} - \\alpha\\bar{y}; \\bar{x} - \\alpha\\bar{y}) \\ge 0.$$</p>
 
     <p><b>Шаг 2. Раскроем по аксиомам.</b> Используя дистрибутивность (аксиома 2 и следствие 2) и смешанную ассоциативность (аксиома 3 и следствие 3), раскрываем скалярное произведение как «квадрат разности»:</p>
-    <p>$$(\\bar{x} - \\alpha\\bar{y}; \\bar{x} - \\alpha\\bar{y}) = (\\bar{x}; \\bar{x}) - \\alpha(\\bar{x}; \\bar{y}) - \\alpha(\\bar{y}; \\bar{x}) + \\alpha^2(\\bar{y}; \\bar{y})$</p>
+    <p>$$(\\bar{x} - \\alpha\\bar{y}; \\bar{x} - \\alpha\\bar{y}) = (\\bar{x}; \\bar{x}) - \\alpha(\\bar{x}; \\bar{y}) - \\alpha(\\bar{y}; \\bar{x}) + \\alpha^2(\\bar{y}; \\bar{y}).$$</p>
     <p>По коммутативности \\((\\bar{x}; \\bar{y}) = (\\bar{y}; \\bar{x})\\), поэтому:</p>
-    <p>$$= (\\bar{y}; \\bar{y}) \\cdot \\alpha^2 - 2(\\bar{x}; \\bar{y}) \\cdot \\alpha + (\\bar{x}; \\bar{x}) \\ge 0$</p>
+    <p>$$= (\\bar{y}; \\bar{y}) \\cdot \\alpha^2 - 2(\\bar{x}; \\bar{y}) \\cdot \\alpha + (\\bar{x}; \\bar{x}) \\ge 0.$$</p>
 
     <p><b>Шаг 3. Квадратный трёхчлен.</b> Обозначим \\(a = (\\bar{y}; \\bar{y})\\), \\(b = -2(\\bar{x}; \\bar{y})\\), \\(c = (\\bar{x}; \\bar{x})\\). Получили квадратный трёхчлен относительно \\(\\alpha\\):</p>
-    <p>$$a\\alpha^2 + b\\alpha + c \\ge 0 \\quad \\text{для всех } \\alpha \\in \\mathbb{R}$</p>
+    <p>$$a\\alpha^2 + b\\alpha + c \\ge 0 \\quad \\text{для всех } \\alpha \\in \\mathbb{R}.$$</p>
 
     <p><b>Шаг 4. Случай \\(\\bar{y}\\) <span style="font-size: 1.2em; font-weight: bold;">≠</span> \\(\\bar{0}\\).</b> Тогда \\(a = (\\bar{y}; \\bar{y}) > 0\\) (по аксиоме 4). Квадратный трёхчлен с положительным старшим коэффициентом неотрицателен при всех \\(\\alpha\\) тогда и только тогда, когда его дискриминант неположителен:</p>
-    <p>$$\\mathcal{D} = b^2 - 4ac \\le 0$</p>
+    <p>$$\\mathcal{D} = b^2 - 4ac \\le 0.$$</p>
     <p>Подставим \\(a, b, c\\):</p>
-    <p>$$\\mathcal{D} = 4(\\bar{x}; \\bar{y})^2 - 4(\\bar{y}; \\bar{y}) \\cdot (\\bar{x}; \\bar{x}) \\le 0$</p>
+    <p>$$\\mathcal{D} = 4(\\bar{x}; \\bar{y})^2 - 4(\\bar{y}; \\bar{y}) \\cdot (\\bar{x}; \\bar{x}) \\le 0.$$</p>
     <p>Делим на 4:</p>
-    <p>$$(\\bar{x}; \\bar{y})^2 \\le (\\bar{y}; \\bar{y}) \\cdot (\\bar{x}; \\bar{x})$</p>
+    <p>$$(\\bar{x}; \\bar{y})^2 \\le (\\bar{y}; \\bar{y}) \\cdot (\\bar{x}; \\bar{x}).$$</p>
     <p>Извлекаем квадратный корень из обеих частей (функция \\(\\sqrt{t}\\) монотонна при \\(t \\ge 0\\)):</p>
-    <p>$$|(\\bar{x}; \\bar{y})| \\le \\sqrt{(\\bar{x}; \\bar{x})} \\cdot \\sqrt{(\\bar{y}; \\bar{y})} = \\|\\bar{x}\\| \\cdot \\|\\bar{y}\\|$</p>
+    <p>$$|(\\bar{x}; \\bar{y})| \\le \\sqrt{(\\bar{x}; \\bar{x})} \\cdot \\sqrt{(\\bar{y}; \\bar{y})} = \\|\\bar{x}\\| \\cdot \\|\\bar{y}\\|.$$</p>
 
     <p><b>Шаг 5. Случай \\(\\bar{y} = \\bar{0}\\).</b> Тогда левая часть неравенства:</p>
-    <p>$$|(\\bar{x}; \\bar{y})| = |(\\bar{x}; \\bar{0})| = 0 \\quad \\text{(по следствию 1)}$</p>
+    <p>$$|(\\bar{x}; \\bar{y})| = |(\\bar{x}; \\bar{0})| = 0 \\quad \\text{(по следствию 1)}.$$</p>
     <p>Правая часть:</p>
-    <p>$$\\|\\bar{x}\\| \\cdot \\|\\bar{y}\\| = \\|\\bar{x}\\| \\cdot \\|\\bar{0}\\| = \\|\\bar{x}\\| \\cdot \\sqrt{(\\bar{0}; \\bar{0})} = \\|\\bar{x}\\| \\cdot 0 = 0$</p>
+    <p>$$\\|\\bar{x}\\| \\cdot \\|\\bar{y}\\| = \\|\\bar{x}\\| \\cdot \\|\\bar{0}\\| = \\|\\bar{x}\\| \\cdot \\sqrt{(\\bar{0}; \\bar{0})} = \\|\\bar{x}\\| \\cdot 0 = 0.$$</p>
     <p>Неравенство \\(0 \\le 0\\) выполнено. \\(\\blacksquare\\)</p>
 
     <h4 style="color:#1a3a6e;">6. Угол между векторами</h4>
 
     <p>Для ненулевых векторов \\(\\bar{x}, \\bar{y} \\in V\\) <b>угол</b> определяется как:</p>
-    <p>$$\\widehat{(\\bar{x}; \\bar{y})} = \\arccos \\frac{(\\bar{x}; \\bar{y})}{\\|\\bar{x}\\| \\cdot \\|\\bar{y}\\|}$</p>
+    <p>$$\\widehat{(\\bar{x}; \\bar{y})} = \\arccos \\frac{(\\bar{x}; \\bar{y})}{\\|\\bar{x}\\| \\cdot \\|\\bar{y}\\|}.$$</p>
     <p>Дробь корректна: из неравенства Коши – Буняковского следует, что \\(\\frac{|(\\bar{x}; \\bar{y})|}{\\|\\bar{x}\\| \\cdot \\|\\bar{y}\\|} \\le 1\\), значит аргумент арккосинуса лежит в \\([-1, 1]\\).</p>
 </div>
 `,
@@ -641,13 +659,13 @@ const CONSPECTS = {
     <p>Если все векторы ортогональной системы ненулевые, то она линейно независима.</p>
 
     <p><b>Доказательство.</b> Пусть \\(\\bar{a}_1, \\dots, \\bar{a}_m\\) — попарно ортогональные векторы, и \\(\\bar{a}_i\\) <span style="font-size: 1.2em; font-weight: bold;">≠</span> \\(\\bar{0}\\) для всех \\(i\\). Рассмотрим произвольную линейную комбинацию, равную нулю:</p>
-    <p>$$\\alpha_1 \\bar{a}_1 + \\alpha_2 \\bar{a}_2 + \\dots + \\alpha_m \\bar{a}_m = \\bar{0}$</p>
+    <p>$$\\alpha_1 \\bar{a}_1 + \\alpha_2 \\bar{a}_2 + \\dots + \\alpha_m \\bar{a}_m = \\bar{0}.$$</p>
 
     <p>Зафиксируем индекс \\(j \\in \\{1, \\dots, m\\}\\) и умножим обе части равенства скалярно на \\(\\bar{a}_j\\). В силу дистрибутивности скалярного произведения:</p>
-    <p>$$\\alpha_1 (\\bar{a}_1; \\bar{a}_j) + \\dots + \\alpha_j (\\bar{a}_j; \\bar{a}_j) + \\dots + \\alpha_m (\\bar{a}_m; \\bar{a}_j) = (\\bar{0}; \\bar{a}_j)$</p>
+    <p>$$\\alpha_1 (\\bar{a}_1; \\bar{a}_j) + \\dots + \\alpha_j (\\bar{a}_j; \\bar{a}_j) + \\dots + \\alpha_m (\\bar{a}_m; \\bar{a}_j) = (\\bar{0}; \\bar{a}_j).$$</p>
 
     <p>Правая часть равна нулю по следствию из аксиом (билет 1). В левой части все скалярные произведения \\((\\bar{a}_i; \\bar{a}_j)\\) при \\(i\\) <span style="font-size: 1.2em; font-weight: bold;">≠</span> \\(j\\) равны нулю в силу ортогональности. Остаётся только слагаемое с \\(i = j\\):</p>
-    <p>$$\\alpha_j (\\bar{a}_j; \\bar{a}_j) = 0$</p>
+    <p>$$\\alpha_j (\\bar{a}_j; \\bar{a}_j) = 0.$$</p>
 
     <p>Так как \\(\\bar{a}_j\\) <span style="font-size: 1.2em; font-weight: bold;">≠</span> \\(\\bar{0}\\), то \\((\\bar{a}_j; \\bar{a}_j) > 0\\) (аксиома 4 скалярного произведения). Следовательно, \\(\\alpha_j = 0\\).</p>
 
@@ -657,7 +675,7 @@ const CONSPECTS = {
 
     <p>Пусть \\(\\bar{f}_1, \\bar{f}_2, \\dots, \\bar{f}_m\\) — линейно независимая система в евклидовом пространстве. Построим систему \\(\\bar{e}_1, \\dots, \\bar{e}_m\\) по следующим формулам:</p>
     <p>$$\\bar{e}_1 = \\bar{f}_1,$$</p>
-    <p>$$\\bar{e}_k = \\bar{f}_k - \\sum_{i=1}^{k-1} \\frac{(\\bar{f}_k; \\bar{e}_i)}{(\\bar{e}_i; \\bar{e}_i)} \\cdot \\bar{e}_i, \\qquad k = 2, 3, \\dots, m$</p>
+    <p>$$\\bar{e}_k = \\bar{f}_k - \\sum_{i=1}^{k-1} \\frac{(\\bar{f}_k; \\bar{e}_i)}{(\\bar{e}_i; \\bar{e}_i)} \\cdot \\bar{e}_i, \\qquad k = 2, 3, \\dots, m.$$</p>
 
     <p>Тогда:</p>
     <p style="padding-left: 1em;">
@@ -668,28 +686,28 @@ const CONSPECTS = {
     <p><b>Доказательство.</b></p>
 
     <p><b>Часть 1 (линейная независимость).</b> Выразим каждый \\(\\bar{e}_k\\) через \\(\\bar{f}_1, \\dots, \\bar{f}_k\\):</p>
-    <p>$$\\bar{e}_k = \\bar{f}_k - \\sum_{i=1}^{k-1} c_{ki} \\bar{e}_i, \\quad \\text{где } c_{ki} = \\frac{(\\bar{f}_k; \\bar{e}_i)}{(\\bar{e}_i; \\bar{e}_i)}$</p>
+    <p>$$\\bar{e}_k = \\bar{f}_k - \\sum_{i=1}^{k-1} c_{ki} \\bar{e}_i, \\quad \\text{где } c_{ki} = \\frac{(\\bar{f}_k; \\bar{e}_i)}{(\\bar{e}_i; \\bar{e}_i)}.$$</p>
 
     <p>Подставляя выражения для \\(\\bar{e}_i\\) через \\(\\bar{f}_j\\) рекурсивно, получаем, что каждый \\(\\bar{e}_k\\) линейно выражается через \\(\\bar{f}_1, \\dots, \\bar{f}_k\\), причём коэффициент при \\(\\bar{f}_k\\) равен 1. Следовательно, матрица перехода от системы \\(\\bar{f}_1, \\dots, \\bar{f}_m\\) к системе \\(\\bar{e}_1, \\dots, \\bar{e}_m\\) — верхнетреугольная с единицами на диагонали:</p>
-    <p>$$\\begin{pmatrix} 1 & * & * & \\dots & * \\\\ 0 & 1 & * & \\dots & * \\\\ 0 & 0 & 1 & \\dots & * \\\\ \\vdots & \\vdots & \\vdots & \\ddots & \\vdots \\\\ 0 & 0 & 0 & \\dots & 1 \\end{pmatrix}$</p>
+    <p>$$\\begin{pmatrix} 1 & * & * & \\dots & * \\\\ 0 & 1 & * & \\dots & * \\\\ 0 & 0 & 1 & \\dots & * \\\\ \\vdots & \\vdots & \\vdots & \\ddots & \\vdots \\\\ 0 & 0 & 0 & \\dots & 1 \\end{pmatrix}.$$</p>
 
     <p>Определитель такой матрицы равен 1 <span style="font-size: 1.2em; font-weight: bold;">≠</span> 0. По свойству определителя, столбцы (т.е. координаты \\(\\bar{e}_i\\) в базисе \\(\\bar{f}_j\\)) линейно независимы. Значит, и сами векторы \\(\\bar{e}_1, \\dots, \\bar{e}_m\\) линейно независимы.</p>
 
     <p><b>Часть 2 (ортогональность).</b> Индукция по \\(k\\) (номеру строящегося вектора).</p>
 
     <p><i>База индукции.</i> Для \\(k = 2\\) проверим, что \\(\\bar{e}_2 \\perp \\bar{e}_1\\):</p>
-    <p>$$(\\bar{e}_2; \\bar{e}_1) = \\left(\\bar{f}_2 - \\frac{(\\bar{f}_2; \\bar{e}_1)}{(\\bar{e}_1; \\bar{e}_1)} \\bar{e}_1; \\ \\bar{e}_1\\right)$</p>
+    <p>$$(\\bar{e}_2; \\bar{e}_1) = \\left(\\bar{f}_2 - \\frac{(\\bar{f}_2; \\bar{e}_1)}{(\\bar{e}_1; \\bar{e}_1)} \\bar{e}_1; \\ \\bar{e}_1\\right).$$</p>
     <p>Раскрываем по дистрибутивности:</p>
-    <p>$$= (\\bar{f}_2; \\bar{e}_1) - \\frac{(\\bar{f}_2; \\bar{e}_1)}{(\\bar{e}_1; \\bar{e}_1)} \\cdot (\\bar{e}_1; \\bar{e}_1) = (\\bar{f}_2; \\bar{e}_1) - (\\bar{f}_2; \\bar{e}_1) = 0$</p>
+    <p>$$= (\\bar{f}_2; \\bar{e}_1) - \\frac{(\\bar{f}_2; \\bar{e}_1)}{(\\bar{e}_1; \\bar{e}_1)} \\cdot (\\bar{e}_1; \\bar{e}_1) = (\\bar{f}_2; \\bar{e}_1) - (\\bar{f}_2; \\bar{e}_1) = 0.$$</p>
     <p>База доказана.</p>
 
     <p><i>Шаг индукции.</i> Предположим, что \\(\\bar{e}_1, \\dots, \\bar{e}_{k-1}\\) попарно ортогональны. Докажем, что \\(\\bar{e}_k \\perp \\bar{e}_j\\) для любого \\(j < k\\).</p>
-    <p>$$(\\bar{e}_k; \\bar{e}_j) = \\left(\\bar{f}_k - \\sum_{i=1}^{k-1} \\frac{(\\bar{f}_k; \\bar{e}_i)}{(\\bar{e}_i; \\bar{e}_i)} \\cdot \\bar{e}_i; \\ \\bar{e}_j\\right)$</p>
+    <p>$$(\\bar{e}_k; \\bar{e}_j) = \\left(\\bar{f}_k - \\sum_{i=1}^{k-1} \\frac{(\\bar{f}_k; \\bar{e}_i)}{(\\bar{e}_i; \\bar{e}_i)} \\cdot \\bar{e}_i; \\ \\bar{e}_j\\right).$$</p>
     <p>По дистрибутивности:</p>
-    <p>$$= (\\bar{f}_k; \\bar{e}_j) - \\sum_{i=1}^{k-1} \\frac{(\\bar{f}_k; \\bar{e}_i)}{(\\bar{e}_i; \\bar{e}_i)} \\cdot (\\bar{e}_i; \\bar{e}_j)$</p>
+    <p>$$= (\\bar{f}_k; \\bar{e}_j) - \\sum_{i=1}^{k-1} \\frac{(\\bar{f}_k; \\bar{e}_i)}{(\\bar{e}_i; \\bar{e}_i)} \\cdot (\\bar{e}_i; \\bar{e}_j).$$</p>
 
     <p>По предположению индукции, \\((\\bar{e}_i; \\bar{e}_j) = 0\\) при \\(i\\) <span style="font-size: 1.2em; font-weight: bold;">≠</span> \\(j\\). В сумме остаётся только слагаемое с \\(i = j\\):</p>
-    <p>$$= (\\bar{f}_k; \\bar{e}_j) - \\frac{(\\bar{f}_k; \\bar{e}_j)}{(\\bar{e}_j; \\bar{e}_j)} \\cdot (\\bar{e}_j; \\bar{e}_j) = (\\bar{f}_k; \\bar{e}_j) - (\\bar{f}_k; \\bar{e}_j) = 0$</p>
+    <p>$$= (\\bar{f}_k; \\bar{e}_j) - \\frac{(\\bar{f}_k; \\bar{e}_j)}{(\\bar{e}_j; \\bar{e}_j)} \\cdot (\\bar{e}_j; \\bar{e}_j) = (\\bar{f}_k; \\bar{e}_j) - (\\bar{f}_k; \\bar{e}_j) = 0.$$</p>
     <p>Итак, \\(\\bar{e}_k \\perp \\bar{e}_j\\) для всех \\(j < k\\). Вместе с предположением индукции это означает, что \\(\\bar{e}_1, \\dots, \\bar{e}_k\\) попарно ортогональны. Шаг индукции завершён. \\(\\blacksquare\\)</p>
 </div>
 `,
@@ -706,7 +724,7 @@ const CONSPECTS = {
     </p>
 
     <p><b>Матрица перехода</b> \\(T_{Б \\to Б'}\\) — матрица, \\(j\\)-й столбец которой равен \\([\\bar{e}'_j]_Б\\). Связь координат:</p>
-    <p>$$[\\bar{x}]_Б = T_{Б \\to Б'} \\cdot [\\bar{x}]_{Б'}, \\qquad T_{Б' \\to Б} = T_{Б \\to Б'}^{-1}$</p>
+    <p>$$[\\bar{x}]_Б = T_{Б \\to Б'} \\cdot [\\bar{x}]_{Б'}, \\qquad T_{Б' \\to Б} = T_{Б \\to Б'}^{-1}.$$</p>
 
     <p><b>Ортогональная матрица</b> — квадратная матрица \\(A\\), для которой \\(A^t \\cdot A = E\\), т.е. \\(A^t = A^{-1}\\).</p>
 
@@ -724,26 +742,26 @@ const CONSPECTS = {
     <p><b>Шаг 2.</b> Применим к нему процесс ортогонализации Грамма – Шмидта (билет 2). Получим ортогональную линейно независимую систему \\((\\bar{g}_1, \\dots, \\bar{g}_n)\\). Поскольку количество векторов равно размерности, это ортогональный базис.</p>
     <p><b>Шаг 3.</b> Пронормируем каждый вектор: \\(\\bar{e}_i = \\frac{\\bar{g}_i}{\\|\\bar{g}_i\\|}\\).</p>
     <p>Проверим ортонормированность. Для любого \\(i\\):</p>
-    <p>$$\\|\\bar{e}_i\\| = \\left\\|\\frac{\\bar{g}_i}{\\|\\bar{g}_i\\|}\\right\\| = \\frac{1}{\\|\\bar{g}_i\\|} \\cdot \\|\\bar{g}_i\\| = 1$</p>
+    <p>$$\\|\\bar{e}_i\\| = \\left\\|\\frac{\\bar{g}_i}{\\|\\bar{g}_i\\|}\\right\\| = \\frac{1}{\\|\\bar{g}_i\\|} \\cdot \\|\\bar{g}_i\\| = 1.$$</p>
     <p>Для \\(i\\) <span style="font-size: 1.2em; font-weight: bold;">≠</span> \\(j\\):</p>
-    <p>$$(\\bar{e}_i; \\bar{e}_j) = \\left(\\frac{\\bar{g}_i}{\\|\\bar{g}_i\\|}; \\frac{\\bar{g}_j}{\\|\\bar{g}_j\\|}\\right) = \\frac{1}{\\|\\bar{g}_i\\| \\cdot \\|\\bar{g}_j\\|} \\cdot \\underbrace{(\\bar{g}_i; \\bar{g}_j)}_{=0} = 0$</p>
+    <p>$$(\\bar{e}_i; \\bar{e}_j) = \\left(\\frac{\\bar{g}_i}{\\|\\bar{g}_i\\|}; \\frac{\\bar{g}_j}{\\|\\bar{g}_j\\|}\\right) = \\frac{1}{\\|\\bar{g}_i\\| \\cdot \\|\\bar{g}_j\\|} \\cdot \\underbrace{(\\bar{g}_i; \\bar{g}_j)}_{=0} = 0.$$</p>
     <p>Нормировка не нарушает линейной независимости, так как умножение на ненулевой скаляр — обратимая операция. Следовательно, \\((\\bar{e}_1, \\dots, \\bar{e}_n)\\) — ортонормированный базис. \\(\\blacksquare\\)</p>
 
     <p><b>Свойство 2 (координаты в ОНБ).</b> Если Б = \\((\\bar{e}_1, \\dots, \\bar{e}_n)\\) — ОНБ, то координаты любого вектора \\(\\bar{x}\\) находятся по формуле:</p>
-    <p>$$[\\bar{x}]_Б = \\begin{pmatrix} (\\bar{x}; \\bar{e}_1) \\\\ (\\bar{x}; \\bar{e}_2) \\\\ \\vdots \\\\ (\\bar{x}; \\bar{e}_n) \\end{pmatrix}$</p>
+    <p>$$[\\bar{x}]_Б = \\begin{pmatrix} (\\bar{x}; \\bar{e}_1) \\\\ (\\bar{x}; \\bar{e}_2) \\\\ \\vdots \\\\ (\\bar{x}; \\bar{e}_n) \\end{pmatrix}.$$</p>
 
     <p><b>Доказательство.</b> Разложим \\(\\bar{x}\\) по базису: \\(\\bar{x} = x_1 \\bar{e}_1 + x_2 \\bar{e}_2 + \\dots + x_n \\bar{e}_n\\).</p>
     <p>Умножим это равенство скалярно на \\(\\bar{e}_j\\). По дистрибутивности:</p>
-    <p>$$(\\bar{x}; \\bar{e}_j) = x_1 (\\bar{e}_1; \\bar{e}_j) + \\dots + x_j (\\bar{e}_j; \\bar{e}_j) + \\dots + x_n (\\bar{e}_n; \\bar{e}_j)$</p>
+    <p>$$(\\bar{x}; \\bar{e}_j) = x_1 (\\bar{e}_1; \\bar{e}_j) + \\dots + x_j (\\bar{e}_j; \\bar{e}_j) + \\dots + x_n (\\bar{e}_n; \\bar{e}_j).$$</p>
     <p>В силу ортонормированности: \\((\\bar{e}_i; \\bar{e}_j) = 0\\) при \\(i\\) <span style="font-size: 1.2em; font-weight: bold;">≠</span> \\(j\\), и \\((\\bar{e}_j; \\bar{e}_j) = 1\\). Все слагаемые, кроме \\(j\\)-го, обнуляются:</p>
-    <p>$$(\\bar{x}; \\bar{e}_j) = x_j \\cdot 1 = x_j$</p>
+    <p>$$(\\bar{x}; \\bar{e}_j) = x_j \\cdot 1 = x_j.$$</p>
     <p>Таким образом, \\(j\\)-я координата вектора \\(\\bar{x}\\) в ОНБ равна \\((\\bar{x}; \\bar{e}_j)\\). \\(\\blacksquare\\)</p>
 
     <p><b>Свойство 3 (скалярное произведение в координатах).</b> Если Б — ОНБ, \\([\\bar{x}]_Б = (x_1, \\dots, x_n)^T\\), \\([\\bar{y}]_Б = (y_1, \\dots, y_n)^T\\), то:</p>
-    <p>$$(\\bar{x}; \\bar{y}) = x_1 y_1 + x_2 y_2 + \\dots + x_n y_n$</p>
+    <p>$$(\\bar{x}; \\bar{y}) = x_1 y_1 + x_2 y_2 + \\dots + x_n y_n.$$</p>
 
     <p><b>Доказательство.</b> Разложим оба вектора по ОНБ и раскроем скалярное произведение по дистрибутивности:</p>
-    <p>$$(\\bar{x}; \\bar{y}) = \\left(\\sum_{i=1}^n x_i \\bar{e}_i; \\sum_{j=1}^n y_j \\bar{e}_j\\right) = \\sum_{i=1}^n \\sum_{j=1}^n x_i y_j (\\bar{e}_i; \\bar{e}_j)$</p>
+    <p>$$(\\bar{x}; \\bar{y}) = \\left(\\sum_{i=1}^n x_i \\bar{e}_i; \\sum_{j=1}^n y_j \\bar{e}_j\\right) = \\sum_{i=1}^n \\sum_{j=1}^n x_i y_j (\\bar{e}_i; \\bar{e}_j).$$</p>
     <p>В двойной сумме ненулевые только слагаемые с \\(i = j\\), где \\((\\bar{e}_i; \\bar{e}_i) = 1\\). Поэтому:</p>
     <p>$$(\\bar{x}; \\bar{y}) = \\sum_{i=1}^n x_i y_i \\cdot 1 = x_1 y_1 + x_2 y_2 + \\dots + x_n y_n. \\quad \\blacksquare$$</p>
 
@@ -752,11 +770,11 @@ const CONSPECTS = {
     <p><b>Доказательство.</b> Пусть Б = \\((\\bar{e}_1, \\dots, \\bar{e}_n)\\) и Б\\('\\) = \\((\\bar{e}'_1, \\dots, \\bar{e}'_n)\\) — два ОНБ. Матрица перехода \\(T = T_{Б \\to Б'}\\) имеет столбцами координаты новых базисных векторов в старом базисе: \\(t_{ij}\\) — \\(i\\)-я координата вектора \\(\\bar{e}'_j\\) в базисе Б.</p>
 
     <p>Рассмотрим произведение \\(T^t \\cdot T\\). Элемент с индексами \\((i, j)\\) этого произведения равен скалярному произведению \\(i\\)-й строки матрицы \\(T^t\\) (т.е. \\(i\\)-го столбца \\(T\\)) на \\(j\\)-й столбец \\(T\\):</p>
-    <p>$$(T^t \\cdot T)_{ij} = \\sum_{k=1}^n t_{ki} t_{kj}$</p>
+    <p>$$(T^t \\cdot T)_{ij} = \\sum_{k=1}^n t_{ki} t_{kj}.$$</p>
     <p>Но \\(t_{ki}\\) — это \\(k\\)-я координата вектора \\(\\bar{e}'_i\\) в базисе Б, а \\(t_{kj}\\) — \\(k\\)-я координата \\(\\bar{e}'_j\\) в том же базисе. По свойству 3, сумма попарных произведений координат в ОНБ равна скалярному произведению самих векторов:</p>
-    <p>$$\\sum_{k=1}^n t_{ki} t_{kj} = (\\bar{e}'_i; \\bar{e}'_j)$</p>
+    <p>$$\\sum_{k=1}^n t_{ki} t_{kj} = (\\bar{e}'_i; \\bar{e}'_j).$$</p>
     <p>Так как Б\\('\\) — ОНБ, \\((\\bar{e}'_i; \\bar{e}'_j) = 1\\) при \\(i = j\\) и \\(0\\) при \\(i\\) <span style="font-size: 1.2em; font-weight: bold;">≠</span> \\(j\\). Следовательно:</p>
-    <p>$$T^t \\cdot T = E$</p>
+    <p>$$T^t \\cdot T = E.$$</p>
     <p>Это и означает, что \\(T^t = T^{-1}\\), т.е. \\(T\\) — ортогональная матрица. \\(\\blacksquare\\)</p>
 </div>
 `,
@@ -785,7 +803,7 @@ const CONSPECTS = {
     (\\bar{f}_2; \\bar{f}_1) & (\\bar{f}_2; \\bar{f}_2) & \\dots & (\\bar{f}_2; \\bar{f}_m) \\\\
     \\dots & \\dots & \\dots & \\dots \\\\
     (\\bar{f}_m; \\bar{f}_1) & (\\bar{f}_m; \\bar{f}_2) & \\dots & (\\bar{f}_m; \\bar{f}_m)
-    \\end{pmatrix}$</p>
+    \\end{pmatrix}.$$</p>
 
     <p>Элемент матрицы \\(\\Gamma_S\\) на позиции \\((i, j)\\) равен \\((\\bar{f}_i; \\bar{f}_j)\\).</p>
 
@@ -802,27 +820,27 @@ const CONSPECTS = {
     <p><b>Доказательство.</b></p>
 
     <p><b>Шаг 1. Выбор базиса и координатная запись.</b> Зафиксируем в \\(V\\) ортонормированный базис Б = \\((\\bar{e}_1, \\dots, \\bar{e}_n)\\). Разложим каждый вектор системы \\(S\\) по этому базису:</p>
-    <p>$$\\bar{f}_j = a_{1j} \\bar{e}_1 + a_{2j} \\bar{e}_2 + \\dots + a_{nj} \\bar{e}_n, \\qquad j = 1, \\dots, n$</p>
+    <p>$$\\bar{f}_j = a_{1j} \\bar{e}_1 + a_{2j} \\bar{e}_2 + \\dots + a_{nj} \\bar{e}_n, \\qquad j = 1, \\dots, n.$$</p>
     <p>Составим матрицу \\(A = (a_{ij})\\) размера \\(n \\times n\\), где \\(j\\)-й столбец — координаты вектора \\(\\bar{f}_j\\) в базисе Б.</p>
 
     <p><b>Шаг 2. Связь матрицы Грама с матрицей \\(A\\).</b> Вычислим скалярное произведение \\((\\bar{f}_i; \\bar{f}_j)\\). Так как Б — ОНБ, скалярное произведение в координатах равно сумме произведений соответствующих координат (свойство 3 ОНБ, билет 3):</p>
-    <p>$$(\\bar{f}_i; \\bar{f}_j) = a_{1i} a_{1j} + a_{2i} a_{2j} + \\dots + a_{ni} a_{nj} = \\sum_{k=1}^n a_{ki} a_{kj}$</p>
+    <p>$$(\\bar{f}_i; \\bar{f}_j) = a_{1i} a_{1j} + a_{2i} a_{2j} + \\dots + a_{ni} a_{nj} = \\sum_{k=1}^n a_{ki} a_{kj}.$$</p>
 
     <p>Заметим, что это в точности элемент матрицы \\(A^t \\cdot A\\) на позиции \\((i, j)\\):</p>
-    <p>$$(A^t \\cdot A)_{ij} = \\sum_{k=1}^n (A^t)_{ik} \\cdot A_{kj} = \\sum_{k=1}^n a_{ki} a_{kj}$</p>
+    <p>$$(A^t \\cdot A)_{ij} = \\sum_{k=1}^n (A^t)_{ik} \\cdot A_{kj} = \\sum_{k=1}^n a_{ki} a_{kj}.$$</p>
 
     <p>Следовательно,</p>
-    <p>$$\\Gamma_S = A^t \\cdot A$</p>
+    <p>$$\\Gamma_S = A^t \\cdot A.$$</p>
 
     <p><b>Шаг 3. Вычисление определителя Грама.</b> Используем свойства определителя:</p>
-    <p>$$|\\Gamma_S| = |A^t \\cdot A| = |A^t| \\cdot |A| = |A| \\cdot |A| = |A|^2$</p>
+    <p>$$|\\Gamma_S| = |A^t \\cdot A| = |A^t| \\cdot |A| = |A| \\cdot |A| = |A|^2.$$</p>
 
     <p>Итак, \\(|\\Gamma_S| = |A|^2 \\ge 0\\).</p>
 
     <p><b>Шаг 4. Анализ случаев.</b></p>
 
     <p><b>Случай 1: \\(S\\) линейно независима.</b> Так как векторы \\(\\bar{f}_1, \\dots, \\bar{f}_n\\) линейно независимы, их координатные столбцы (столбцы матрицы \\(A\\)) также линейно независимы. Следовательно, \\(|A|\\) <span style="font-size: 1.2em; font-weight: bold;">≠</span> 0. Тогда:</p>
-    <p>$$|\\Gamma_S| = |A|^2 > 0$</p>
+    <p>$$|\\Gamma_S| = |A|^2 > 0.$$</p>
 
     <p><b>Случай 2: \\(S\\) линейно зависима.</b> Тогда столбцы матрицы \\(A\\) линейно зависимы, и \\(|A| = 0\\). Следовательно:</p>
     <p>$$|\\Gamma_S| = |A|^2 = 0. \\quad \\blacksquare$$</p>
@@ -853,15 +871,15 @@ const CONSPECTS = {
     <p>Пусть \\(M \\subseteq V\\), \\(M\\) <span style="font-size: 1.2em; font-weight: bold;">≠</span> \\(\\varnothing\\).</p>
 
     <p><b>Ортогональное дополнение</b> к \\(M\\) — множество всех векторов, ортогональных каждому вектору из \\(M\\):</p>
-    <p>$$M^{\\perp} = \\{ \\bar{z} \\in V : \\forall \\bar{y} \\in M,\\ (\\bar{y}; \\bar{z}) = 0 \\}$</p>
+    <p>$$M^{\\perp} = \\{ \\bar{z} \\in V : \\forall \\bar{y} \\in M,\\ (\\bar{y}; \\bar{z}) = 0 \\}.$$</p>
 
     <p><b>Лемма.</b> Для любого непустого \\(M \\subseteq V\\) множество \\(M^{\\perp}\\) является подпространством.</p>
 
     <p><b>Доказательство леммы.</b> Проверим замкнутость относительно линейных операций. Пусть \\(\\bar{z}_1, \\bar{z}_2 \\in M^{\\perp}\\), \\(\\alpha_1, \\alpha_2 \\in \\mathbb{R}\\).</p>
     <p>Возьмём произвольный \\(\\bar{y} \\in M\\) и вычислим скалярное произведение:</p>
-    <p>$$(\\alpha_1 \\bar{z}_1 + \\alpha_2 \\bar{z}_2; \\bar{y}) = \\alpha_1 (\\bar{z}_1; \\bar{y}) + \\alpha_2 (\\bar{z}_2; \\bar{y})$</p>
+    <p>$$(\\alpha_1 \\bar{z}_1 + \\alpha_2 \\bar{z}_2; \\bar{y}) = \\alpha_1 (\\bar{z}_1; \\bar{y}) + \\alpha_2 (\\bar{z}_2; \\bar{y}).$$</p>
     <p>Так как \\(\\bar{z}_1, \\bar{z}_2 \\in M^{\\perp}\\), то \\((\\bar{z}_1; \\bar{y}) = 0\\) и \\((\\bar{z}_2; \\bar{y}) = 0\\) для любого \\(\\bar{y} \\in M\\). Следовательно:</p>
-    <p>$$(\\alpha_1 \\bar{z}_1 + \\alpha_2 \\bar{z}_2; \\bar{y}) = \\alpha_1 \\cdot 0 + \\alpha_2 \\cdot 0 = 0$</p>
+    <p>$$(\\alpha_1 \\bar{z}_1 + \\alpha_2 \\bar{z}_2; \\bar{y}) = \\alpha_1 \\cdot 0 + \\alpha_2 \\cdot 0 = 0.$$</p>
     <p>Это верно для любого \\(\\bar{y} \\in M\\), значит \\(\\alpha_1 \\bar{z}_1 + \\alpha_2 \\bar{z}_2 \\in M^{\\perp}\\). Лемма доказана.</p>
 
     <h4 style="color:#1a3a6e;">3. Теорема (свойства ортогонального дополнения подпространства)</h4>
@@ -882,14 +900,14 @@ const CONSPECTS = {
     <p><b>Случай \\(L\\) <span style="font-size: 1.2em; font-weight: bold;">≠</span> \\(\\{\\bar{0}\\}\\).</b> Выберем в \\(L\\) ортонормированный базис \\((\\bar{e}_1, \\dots, \\bar{e}_m)\\), где \\(m = \\dim(L)\\) (существует по свойству 1 ОНБ, билет 3).</p>
 
     <p>Для произвольного \\(\\bar{x} \\in V\\) определим вектор \\(\\bar{y}\\) как ортогональную проекцию \\(\\bar{x}\\) на \\(L\\):</p>
-    <p>$$\\bar{y} = (\\bar{x}; \\bar{e}_1) \\cdot \\bar{e}_1 + (\\bar{x}; \\bar{e}_2) \\cdot \\bar{e}_2 + \\dots + (\\bar{x}; \\bar{e}_m) \\cdot \\bar{e}_m$</p>
+    <p>$$\\bar{y} = (\\bar{x}; \\bar{e}_1) \\cdot \\bar{e}_1 + (\\bar{x}; \\bar{e}_2) \\cdot \\bar{e}_2 + \\dots + (\\bar{x}; \\bar{e}_m) \\cdot \\bar{e}_m.$$</p>
     <p>Очевидно, \\(\\bar{y} \\in L\\), так как это линейная комбинация базисных векторов \\(L\\).</p>
 
     <p>Положим \\(\\bar{z} = \\bar{x} - \\bar{y}\\). Покажем, что \\(\\bar{z} \\in L^{\\perp}\\). Для этого проверим ортогональность \\(\\bar{z}\\) каждому базисному вектору \\(\\bar{e}_j\\) (а значит, и всем векторам из \\(L\\)):</p>
-    <p>$$(\\bar{z}; \\bar{e}_j) = (\\bar{x} - \\bar{y}; \\bar{e}_j) = (\\bar{x}; \\bar{e}_j) - (\\bar{y}; \\bar{e}_j)$</p>
+    <p>$$(\\bar{z}; \\bar{e}_j) = (\\bar{x} - \\bar{y}; \\bar{e}_j) = (\\bar{x}; \\bar{e}_j) - (\\bar{y}; \\bar{e}_j).$$</p>
 
     <p>Вычислим \\((\\bar{y}; \\bar{e}_j)\\), подставляя выражение для \\(\\bar{y}\\) и пользуясь ортонормированностью базиса \\((\\bar{e}_i; \\bar{e}_j) = 0\\) при \\(i\\) <span style="font-size: 1.2em; font-weight: bold;">≠</span> \\(j\\) и \\((\\bar{e}_j; \\bar{e}_j) = 1\\):</p>
-    <p>$$(\\bar{y}; \\bar{e}_j) = \\left(\\sum_{i=1}^m (\\bar{x}; \\bar{e}_i) \\bar{e}_i; \\bar{e}_j\\right) = \\sum_{i=1}^m (\\bar{x}; \\bar{e}_i) \\cdot (\\bar{e}_i; \\bar{e}_j) = (\\bar{x}; \\bar{e}_j) \\cdot 1 = (\\bar{x}; \\bar{e}_j)$</p>
+    <p>$$(\\bar{y}; \\bar{e}_j) = \\left(\\sum_{i=1}^m (\\bar{x}; \\bar{e}_i) \\bar{e}_i; \\bar{e}_j\\right) = \\sum_{i=1}^m (\\bar{x}; \\bar{e}_i) \\cdot (\\bar{e}_i; \\bar{e}_j) = (\\bar{x}; \\bar{e}_j) \\cdot 1 = (\\bar{x}; \\bar{e}_j).$$</p>
 
     <p>Следовательно, \\((\\bar{z}; \\bar{e}_j) = (\\bar{x}; \\bar{e}_j) - (\\bar{x}; \\bar{e}_j) = 0\\). Итак, \\(\\bar{z} \\perp \\bar{e}_j\\) для всех \\(j\\), значит \\(\\bar{z} \\in L^{\\perp}\\).</p>
 
@@ -899,7 +917,7 @@ const CONSPECTS = {
     <p>Предположим, есть два разложения: \\(\\bar{x} = \\bar{y}_1 + \\bar{z}_1 = \\bar{y}_2 + \\bar{z}_2\\), где \\(\\bar{y}_1, \\bar{y}_2 \\in L\\), \\(\\bar{z}_1, \\bar{z}_2 \\in L^{\\perp}\\).</p>
     <p>Перенесём: \\(\\bar{y}_1 - \\bar{y}_2 = \\bar{z}_2 - \\bar{z}_1\\). Обозначим этот вектор через \\(\\bar{w}\\). Тогда \\(\\bar{w} \\in L\\) (разность векторов из \\(L\\)) и одновременно \\(\\bar{w} \\in L^{\\perp}\\) (разность векторов из \\(L^{\\perp}\\)).</p>
     <p>Так как \\(\\bar{w} \\in L^{\\perp}\\), он ортогонален всем векторам из \\(L\\), в частности, самому себе (ведь \\(\\bar{w} \\in L\\)). Значит:</p>
-    <p>$$(\\bar{w}; \\bar{w}) = 0 \\implies \\bar{w} = \\bar{0}$</p>
+    <p>$$(\\bar{w}; \\bar{w}) = 0 \\implies \\bar{w} = \\bar{0}.$$</p>
     <p>Отсюда \\(\\bar{y}_1 = \\bar{y}_2\\) и \\(\\bar{z}_1 = \\bar{z}_2\\). Единственность доказана.</p>
 
     <p><b>Свойство 2 (размерность).</b></p>
@@ -928,7 +946,7 @@ const CONSPECTS = {
     <h4 style="color:#1a3a6e;">2. Самосопряжённый оператор</h4>
 
     <p>Оператор \\(\\hat{A}\\) в евклидовом пространстве \\(V\\) называется <b>самосопряжённым</b>, если для любых векторов \\(\\bar{x}, \\bar{y} \\in V\\) выполняется:</p>
-    <p>$$(\\hat{A}(\\bar{x}); \\bar{y}) = (\\bar{x}; \\hat{A}(\\bar{y}))$</p>
+    <p>$$(\\hat{A}(\\bar{x}); \\bar{y}) = (\\bar{x}; \\hat{A}(\\bar{y})).$$</p>
     <p>Иными словами, оператор можно «перебрасывать» с одного аргумента скалярного произведения на другой.</p>
 
     <h4 style="color:#1a3a6e;">3. Теорема (свойства самосопряжённого оператора)</h4>
@@ -939,16 +957,16 @@ const CONSPECTS = {
     <p>Пусть Б = \\((\\bar{e}_1, \\dots, \\bar{e}_n)\\) — ортонормированный базис, \\(\\hat{A}\\) — самосопряжённый оператор.</p>
 
     <p>По определению матрицы оператора, \\(j\\)-й столбец матрицы \\([\\hat{A}]_\\text{Б}\\) состоит из координат вектора \\(\\hat{A}(\\bar{e}_j)\\) в базисе Б. По свойству 2 ОНБ (билет 3), координаты вектора в ОНБ — это его скалярные произведения с базисными векторами:</p>
-    <p>$$a_{ij} = i\\text{-я координата } \\hat{A}(\\bar{e}_j) = (\\hat{A}(\\bar{e}_j); \\bar{e}_i)$</p>
+    <p>$$a_{ij} = i\\text{-я координата } \\hat{A}(\\bar{e}_j) = (\\hat{A}(\\bar{e}_j); \\bar{e}_i).$$</p>
 
     <p>Теперь воспользуемся самосопряжённостью \\(\\hat{A}\\) — перебросим оператор на второй аргумент:</p>
-    <p>$$(\\hat{A}(\\bar{e}_j); \\bar{e}_i) = (\\bar{e}_j; \\hat{A}(\\bar{e}_i))$</p>
+    <p>$$(\\hat{A}(\\bar{e}_j); \\bar{e}_i) = (\\bar{e}_j; \\hat{A}(\\bar{e}_i)).$$</p>
 
     <p>По коммутативности скалярного произведения:</p>
-    <p>$$(\\bar{e}_j; \\hat{A}(\\bar{e}_i)) = (\\hat{A}(\\bar{e}_i); \\bar{e}_j)$</p>
+    <p>$$(\\bar{e}_j; \\hat{A}(\\bar{e}_i)) = (\\hat{A}(\\bar{e}_i); \\bar{e}_j).$$</p>
 
     <p>Но \\((\\hat{A}(\\bar{e}_i); \\bar{e}_j)\\) — это в точности \\(a_{ji}\\) (координата с номером \\(j\\) вектора \\(\\hat{A}(\\bar{e}_i)\\)). Итак:</p>
-    <p>$$a_{ij} = a_{ji}$</p>
+    <p>$$a_{ij} = a_{ji}.$$</p>
 
     <p>Это верно для всех \\(i, j\\), значит матрица \\([\\hat{A}]_\\text{Б}\\) симметрична. \\(\\blacksquare\\)</p>
 
@@ -959,30 +977,30 @@ const CONSPECTS = {
     <p><b>Шаг 1. Зафиксируем ОНБ.</b> Выберем ортонормированный базис Б. По свойству 1, матрица \\(A = [\\hat{A}]_\\text{Б}\\) симметрична: \\(A = A^t\\).</p>
 
     <p><b>Шаг 2. Собственное значение и собственный вектор.</b> Пусть \\(\\lambda \\in \\mathbb{C}\\) — корень характеристического уравнения, т.е. \\(|A - \\lambda E| = 0\\). Тогда \\(\\lambda\\) — собственное значение матрицы \\(A\\). Это означает, что существует ненулевой комплексный вектор-столбец \\(\\mathcal{X} = (x_1, \\dots, x_n)^T\\) (координаты \\(x_i \\in \\mathbb{C}\\)) такой, что:</p>
-    <p>$$A \\mathcal{X} = \\lambda \\mathcal{X}$</p>
+    <p>$$A \\mathcal{X} = \\lambda \\mathcal{X}.$$</p>
     <p>Заметим: компоненты \\(x_i\\) могут быть комплексными, даже если элементы \\(A\\) вещественны.</p>
 
     <p><b>Шаг 3. Умножим равенство на \\(\\overline{\\mathcal{X}}^t\\) слева.</b> Здесь \\(\\overline{\\mathcal{X}}\\) — вектор, составленный из комплексно-сопряжённых координат: \\(\\overline{\\mathcal{X}} = (\\bar{x}_1, \\dots, \\bar{x}_n)^T\\), а \\(\\overline{\\mathcal{X}}^t\\) — строка из сопряжённых элементов. Умножаем:</p>
-    <p>$$\\overline{\\mathcal{X}}^t A \\mathcal{X} = \\overline{\\mathcal{X}}^t (\\lambda \\mathcal{X}) = \\lambda \\cdot \\overline{\\mathcal{X}}^t \\mathcal{X}$</p>
+    <p>$$\\overline{\\mathcal{X}}^t A \\mathcal{X} = \\overline{\\mathcal{X}}^t (\\lambda \\mathcal{X}) = \\lambda \\cdot \\overline{\\mathcal{X}}^t \\mathcal{X}.$$</p>
 
     <p><b>Шаг 4. Вычислим \\(\\overline{\\mathcal{X}}^t \\mathcal{X}\\).</b> Это число (матрица \\(1 \\times 1\\)):</p>
-    <p>$$\\overline{\\mathcal{X}}^t \\mathcal{X} = \\bar{x}_1 x_1 + \\bar{x}_2 x_2 + \\dots + \\bar{x}_n x_n = |x_1|^2 + |x_2|^2 + \\dots + |x_n|^2$</p>
+    <p>$$\\overline{\\mathcal{X}}^t \\mathcal{X} = \\bar{x}_1 x_1 + \\bar{x}_2 x_2 + \\dots + \\bar{x}_n x_n = |x_1|^2 + |x_2|^2 + \\dots + |x_n|^2.$$</p>
     <p>Так как \\(\\mathcal{X}\\) <span style="font-size: 1.2em; font-weight: bold;">≠</span> \\(O\\), хотя бы одно \\(x_i\\) <span style="font-size: 1.2em; font-weight: bold;">≠</span> 0, значит \\(\\overline{\\mathcal{X}}^t \\mathcal{X} > 0\\).</p>
 
     <p><b>Шаг 5. Вычислим \\(\\overline{\\mathcal{X}}^t A \\mathcal{X}\\) другим способом.</b> Это число (матрица \\(1 \\times 1\\)) равно своему транспонированию. Транспонируем, учитывая, что \\(A = A^t\\) и что для комплексных чисел транспонирование сопровождается сопряжением (эрмитово сопряжение):</p>
-    <p>$$\\overline{\\mathcal{X}}^t A \\mathcal{X} = \\left( \\overline{\\mathcal{X}}^t A \\mathcal{X} \\right)^t = \\mathcal{X}^t A^t \\overline{\\mathcal{X}} = \\mathcal{X}^t A \\overline{\\mathcal{X}}$</p>
+    <p>$$\\overline{\\mathcal{X}}^t A \\mathcal{X} = \\left( \\overline{\\mathcal{X}}^t A \\mathcal{X} \\right)^t = \\mathcal{X}^t A^t \\overline{\\mathcal{X}} = \\mathcal{X}^t A \\overline{\\mathcal{X}}.$$</p>
 
     <p>Теперь возьмём комплексное сопряжение от обеих частей исходного равенства \\(A \\mathcal{X} = \\lambda \\mathcal{X}\\). Так как элементы \\(A\\) вещественны (\\(\\overline{A} = A\\)), получаем \\(A \\overline{\\mathcal{X}} = \\overline{\\lambda} \\overline{\\mathcal{X}}\\). Тогда:</p>
-    <p>$$\\mathcal{X}^t A \\overline{\\mathcal{X}} = \\mathcal{X}^t (\\overline{\\lambda} \\overline{\\mathcal{X}}) = \\overline{\\lambda} \\cdot \\mathcal{X}^t \\overline{\\mathcal{X}} = \\overline{\\lambda} \\cdot \\overline{\\mathcal{X}}^t \\mathcal{X}$</p>
+    <p>$$\\mathcal{X}^t A \\overline{\\mathcal{X}} = \\mathcal{X}^t (\\overline{\\lambda} \\overline{\\mathcal{X}}) = \\overline{\\lambda} \\cdot \\mathcal{X}^t \\overline{\\mathcal{X}} = \\overline{\\lambda} \\cdot \\overline{\\mathcal{X}}^t \\mathcal{X}.$$</p>
     <p>(Последнее равенство: \\(\\mathcal{X}^t \\overline{\\mathcal{X}} = \\overline{\\mathcal{X}}^t \\mathcal{X}\\), так как это одно и то же число \\(\\sum |x_i|^2\\).)</p>
 
     <p><b>Шаг 6. Сравниваем.</b> Мы получили два выражения для одного и того же числа:</p>
     <p>$$\\overline{\\mathcal{X}}^t A \\mathcal{X} = \\lambda \\cdot \\overline{\\mathcal{X}}^t \\mathcal{X},$$</p>
-    <p>$$\\overline{\\mathcal{X}}^t A \\mathcal{X} = \\overline{\\lambda} \\cdot \\overline{\\mathcal{X}}^t \\mathcal{X}$</p>
+    <p>$$\\overline{\\mathcal{X}}^t A \\mathcal{X} = \\overline{\\lambda} \\cdot \\overline{\\mathcal{X}}^t \\mathcal{X}.$$</p>
     <p>Приравниваем:</p>
-    <p>$$\\lambda \\cdot \\underbrace{\\overline{\\mathcal{X}}^t \\mathcal{X}}_{>0} = \\overline{\\lambda} \\cdot \\underbrace{\\overline{\\mathcal{X}}^t \\mathcal{X}}_{>0}$</p>
+    <p>$$\\lambda \\cdot \\underbrace{\\overline{\\mathcal{X}}^t \\mathcal{X}}_{>0} = \\overline{\\lambda} \\cdot \\underbrace{\\overline{\\mathcal{X}}^t \\mathcal{X}}_{>0}.$$</p>
     <p>Сокращаем на положительное число \\(\\overline{\\mathcal{X}}^t \\mathcal{X}\\):</p>
-    <p>$$\\lambda = \\overline{\\lambda}$</p>
+    <p>$$\\lambda = \\overline{\\lambda}.$$</p>
 
     <p>Равенство числа своему сопряжённому означает, что \\(\\lambda \\in \\mathbb{R}\\). Корень вещественен. \\(\\blacksquare\\)</p>
 </div>
@@ -1010,16 +1028,16 @@ const CONSPECTS = {
     <p>Пусть \\(\\hat{A}\\) — самосопряжённый оператор, \\(\\bar{e}_1\\) — собственный вектор для \\(\\lambda_1\\), \\(\\bar{e}_2\\) — собственный вектор для \\(\\lambda_2\\), причём \\(\\lambda_1\\) <span style="font-size: 1.2em; font-weight: bold;">≠</span> \\(\\lambda_2\\).</p>
 
     <p>Запишем условие самосопряжённости для векторов \\(\\bar{e}_1\\) и \\(\\bar{e}_2\\):</p>
-    <p>$$(\\hat{A}(\\bar{e}_1); \\bar{e}_2) = (\\bar{e}_1; \\hat{A}(\\bar{e}_2))$</p>
+    <p>$$(\\hat{A}(\\bar{e}_1); \\bar{e}_2) = (\\bar{e}_1; \\hat{A}(\\bar{e}_2)).$$</p>
 
     <p>Подставим \\(\\hat{A}(\\bar{e}_1) = \\lambda_1 \\bar{e}_1\\) и \\(\\hat{A}(\\bar{e}_2) = \\lambda_2 \\bar{e}_2\\):</p>
-    <p>$$(\\lambda_1 \\bar{e}_1; \\bar{e}_2) = (\\bar{e}_1; \\lambda_2 \\bar{e}_2)$</p>
+    <p>$$(\\lambda_1 \\bar{e}_1; \\bar{e}_2) = (\\bar{e}_1; \\lambda_2 \\bar{e}_2).$$</p>
 
     <p>По свойствам скалярного произведения выносим скалярные множители:</p>
-    <p>$$\\lambda_1 (\\bar{e}_1; \\bar{e}_2) = \\lambda_2 (\\bar{e}_1; \\bar{e}_2)$</p>
+    <p>$$\\lambda_1 (\\bar{e}_1; \\bar{e}_2) = \\lambda_2 (\\bar{e}_1; \\bar{e}_2).$$</p>
 
     <p>Переносим всё в левую часть:</p>
-    <p>$$(\\lambda_1 - \\lambda_2) \\cdot (\\bar{e}_1; \\bar{e}_2) = 0$</p>
+    <p>$$(\\lambda_1 - \\lambda_2) \\cdot (\\bar{e}_1; \\bar{e}_2) = 0.$$</p>
 
     <p>Так как \\(\\lambda_1\\) <span style="font-size: 1.2em; font-weight: bold;">≠</span> \\(\\lambda_2\\), то \\(\\lambda_1 - \\lambda_2\\) <span style="font-size: 1.2em; font-weight: bold;">≠</span> \\(0\\). Следовательно:</p>
     <p>$$(\\bar{e}_1; \\bar{e}_2) = 0,$$</p>
@@ -1040,13 +1058,13 @@ const CONSPECTS = {
     <p>Так как \\(\\lambda_1\\) — корень характеристического уравнения, он является собственным значением. Пусть \\(\\bar{e}'_1\\) <span style="font-size: 1.2em; font-weight: bold;">≠</span> \\(\\bar{0}\\) — соответствующий собственный вектор: \\(\\hat{A}(\\bar{e}'_1) = \\lambda_1 \\bar{e}'_1\\).</p>
 
     <p><b>Шаг 2. Нормировка.</b> Положим \\(\\bar{e}_1 = \\frac{\\bar{e}'_1}{\\|\\bar{e}'_1\\|}\\). Тогда \\(\\|\\bar{e}_1\\| = 1\\) и:</p>
-    <p>$$\\hat{A}(\\bar{e}_1) = \\hat{A}\\left(\\frac{\\bar{e}'_1}{\\|\\bar{e}'_1\\|}\\right) = \\frac{1}{\\|\\bar{e}'_1\\|} \\hat{A}(\\bar{e}'_1) = \\frac{1}{\\|\\bar{e}'_1\\|} \\lambda_1 \\bar{e}'_1 = \\lambda_1 \\bar{e}_1$</p>
+    <p>$$\\hat{A}(\\bar{e}_1) = \\hat{A}\\left(\\frac{\\bar{e}'_1}{\\|\\bar{e}'_1\\|}\\right) = \\frac{1}{\\|\\bar{e}'_1\\|} \\hat{A}(\\bar{e}'_1) = \\frac{1}{\\|\\bar{e}'_1\\|} \\lambda_1 \\bar{e}'_1 = \\lambda_1 \\bar{e}_1.$$</p>
     <p>Итак, \\(\\bar{e}_1\\) — нормированный собственный вектор для \\(\\lambda_1\\).</p>
 
     <p><b>Шаг 3. Инвариантность ортогонального дополнения.</b> Рассмотрим одномерное подпространство \\(L = \\langle \\bar{e}_1 \\rangle\\) и его ортогональное дополнение \\(L^{\\perp}\\). По свойству из билета 5, \\(\\dim(L^{\\perp}) = \\dim(V) - \\dim(L) = (n+1) - 1 = n\\).</p>
 
     <p>Покажем, что \\(L^{\\perp}\\) инвариантно относительно \\(\\hat{A}\\). Возьмём произвольный \\(\\bar{x} \\in L^{\\perp}\\) (т.е. \\((\\bar{x}; \\bar{e}_1) = 0\\)) и проверим, что \\(\\hat{A}(\\bar{x}) \\in L^{\\perp}\\):</p>
-    <p>$$(\\hat{A}(\\bar{x}); \\bar{e}_1) = (\\bar{x}; \\hat{A}(\\bar{e}_1)) = (\\bar{x}; \\lambda_1 \\bar{e}_1) = \\lambda_1 \\cdot \\underbrace{(\\bar{x}; \\bar{e}_1)}_{=0} = 0$</p>
+    <p>$$(\\hat{A}(\\bar{x}); \\bar{e}_1) = (\\bar{x}; \\hat{A}(\\bar{e}_1)) = (\\bar{x}; \\lambda_1 \\bar{e}_1) = \\lambda_1 \\cdot \\underbrace{(\\bar{x}; \\bar{e}_1)}_{=0} = 0.$$</p>
     <p>Здесь мы воспользовались самосопряжённостью \\(\\hat{A}\\) (первый переход) и тем, что \\(\\bar{e}_1\\) — собственный вектор (второй переход).</p>
     <p>Итак, \\((\\hat{A}(\\bar{x}); \\bar{e}_1) = 0\\), значит \\(\\hat{A}(\\bar{x}) \\in L^{\\perp}\\). Подпространство \\(L^{\\perp}\\) инвариантно относительно \\(\\hat{A}\\).</p>
 
@@ -1134,7 +1152,7 @@ const CONSPECTS = {
     <p><b>Доказательство.</b></p>
     <p><b>1. Сумма $y_{\\text{оо}} + y_{\\text{ч}}$ является решением $(*)$.</b><br>
     Введём линейный оператор</p>
-    <p>$$L[y] = y^{(n)} + a_{n-1}(x) y^{(n-1)} + \\dots + a_1(x) y' + a_0(x) y$</p>
+    <p>$$L[y] = y^{(n)} + a_{n-1}(x) y^{(n-1)} + \\dots + a_1(x) y' + a_0(x) y.$$</p>
     <p>Пусть $y_{\\text{оо}}(x)$ — произвольное решение $(**)$ (т.е. $L[y_{\\text{оо}}] = 0$). Подставим $y(x) = y_{\\text{оо}}(x) + y_{\\text{ч}}(x)$ в $(*)$. В силу линейности $L$:</p>
     <p>$$L[y_{\\text{оо}} + y_{\\text{ч}}] = L[y_{\\text{оо}}] + L[y_{\\text{ч}}] = 0 + f(x) = f(x)$$</p>
     <p>Следовательно, $y_{\\text{оо}}(x) + y_{\\text{ч}}(x)$ удовлетворяет $(*)$.</p>
@@ -1312,7 +1330,7 @@ const CONSPECTS = {
     <p>$$\\frac{\\varphi_1(x)}{\\varphi_2(x)}\\,dx + \\frac{\\psi_2(y)}{\\psi_1(y)}\\,dy = 0 \\quad (**)$$</p>
 
     <p>Обозначим</p>
-    <p>$$\\Phi(x) = \\int \\frac{\\varphi_1(x)}{\\varphi_2(x)}\\,dx, \\qquad \\Psi(y) = \\int \\frac{\\psi_2(y)}{\\psi_1(y)}\\,dy$</p>
+    <p>$$\\Phi(x) = \\int \\frac{\\varphi_1(x)}{\\varphi_2(x)}\\,dx, \\qquad \\Psi(y) = \\int \\frac{\\psi_2(y)}{\\psi_1(y)}\\,dy.$$</p>
 
     <p>Если \\(y(x)\\) — решение ДУ \\((**):\\)</p>
     <p>$$\\frac{\\varphi_1(x)}{\\varphi_2(x)} + \\frac{\\psi_2(y(x))}{\\psi_1(y(x))} \\cdot y'(x) = 0$$</p>
@@ -1331,7 +1349,7 @@ const CONSPECTS = {
     <h4 style="color:#1a3a6e;">2. Однородные ДУ</h4>
 
     <p>$$M(x, y)\\,dx + N(x, y)\\,dy = 0, \\quad M, N \\text{ — однородные функции одной степени.}$$</p>
-    <p>$$M(tx, ty) = t^k M(x, y), \\qquad N(tx, ty) = t^k N(x, y)$</p>
+    <p>$$M(tx, ty) = t^k M(x, y), \\qquad N(tx, ty) = t^k N(x, y).$$</p>
 
     <p><b>Подстановка</b> \\(y = zx\\), \\(dy = z\\,dx + x\\,dz\\):</p>
     <p>$$M(x, zx)\\,dx + N(x, zx)(z\\,dx + x\\,dz) = 0$$</p>
@@ -1448,7 +1466,7 @@ const CONSPECTS = {
 
     <p><b>Если</b> функции \\(y_1(x), y_2(x), \\dots, y_k(x) \\in C^{(k-1)}(I)\\) линейно зависимы, <b>то</b> их вронскиан тождественно равен нулю:</p>
     
-    <p>$$W[y_1, y_2, \\dots, y_k](x) \\equiv 0, \\quad x \\in I$</p>
+    <p>$$W[y_1, y_2, \\dots, y_k](x) \\equiv 0, \\quad x \\in I.$$</p>
 
     <h4 style="color:#1a3a6e;">5. Доказательство</h4>
 
@@ -1481,7 +1499,7 @@ const CONSPECTS = {
 
     <p>Зафиксируем произвольное \\(x \\in I\\). Так как столбцы матрицы линейно зависимы, её определитель (вронскиан) равен нулю. В силу произвольности \\(x\\) получаем:</p>
 
-    <p>$$W[y_1, y_2, \\dots, y_k](x) \\equiv 0, \\quad x \\in I$</p>
+    <p>$$W[y_1, y_2, \\dots, y_k](x) \\equiv 0, \\quad x \\in I.$$</p>
 
     <p style="text-align: right;">\\(\\blacksquare\\)</p>
 
@@ -1534,10 +1552,10 @@ const CONSPECTS = {
     <p><b>4. Вычисление вронскиана.</b></p>
 
     <p>При \\(x \\in (0; 1]\\):</p>
-    <p>$$W[y_1, y_2](x) = \\begin{vmatrix} (x-1)^2 & 0 \\\\ 2(x-1) & 0 \\end{vmatrix} \\equiv 0$</p>
+    <p>$$W[y_1, y_2](x) = \\begin{vmatrix} (x-1)^2 & 0 \\\\ 2(x-1) & 0 \\end{vmatrix} \\equiv 0.$$</p>
 
     <p>При \\(x \\in (1; 2)\\):</p>
-    <p>$$W[y_1, y_2](x) = \\begin{vmatrix} 0 & (x-1)^2 \\\\ 0 & 2(x-1) \\end{vmatrix} \\equiv 0$</p>
+    <p>$$W[y_1, y_2](x) = \\begin{vmatrix} 0 & (x-1)^2 \\\\ 0 & 2(x-1) \\end{vmatrix} \\equiv 0.$$</p>
 
     <p>Таким образом, \\(W[y_1, y_2](x) \\equiv 0\\) на всём интервале \\((0; 2)\\), но функции линейно независимы.</p>
 
