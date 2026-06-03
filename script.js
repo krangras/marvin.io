@@ -3859,7 +3859,12 @@ function normalizeFormula(s) {
 }
 
 function normalizeText(s) {
-    return s.replace(/[\s,.]/g, '').toLowerCase();
+    s = s.replace(/[\s,.]/g, '').toLowerCase();
+    s = s.replace(/·|∕|×/g, '*');
+    s = s.replace(/\\cdot/g, '*');
+    s = s.replace(/10\^?\{?(-?\d+)\}?/g, 'e$1');
+    s = s.replace(/\*e/g, 'e');
+    return s;
 }
 
 function setPhysicsSolvedIfCorrect(sectionId, problemIdx) {
