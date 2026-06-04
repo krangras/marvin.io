@@ -4032,6 +4032,7 @@ function updatePhysicsSectionStats(sectionId) {
     const subtabBtn = document.querySelector(`#physics-ntk-pane .sub-tab-btn[data-subtab="${sectionId}"]`);
     if (subtabBtn) {
         let label = section.title;
+        if (sectionId === 'elektrostatika') label += ' <span style="color:#e74c3c;font-size:0.7rem;">⚠ много ошибок</span>';
         if (total > 0) {
             const pct = Math.round(solved / total * 100);
             label += ` <span class="phys-subtab-stats">${solved}/${total} ${pct}%</span>`;
