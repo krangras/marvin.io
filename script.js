@@ -3942,6 +3942,8 @@ function resetPhysicsProgress() {
             delete physicsAnswers[`${key}_sol`];
             delete physicsAnswers[`${key}_txt`];
         });
+        const container = document.getElementById(`physics-ntk-${section.id}-list`);
+        if (container) container.innerHTML = '';
     }
     savePhysicsProgress();
     savePhysicsAnswers();
