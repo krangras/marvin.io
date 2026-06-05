@@ -318,26 +318,16 @@ function goToPracticeTask(taskId, typeIdx) {
     document.getElementById('exam-tasks-pane')?.classList.add('active-pane');
     saveActiveTab();
 
-    const content = document.getElementById(`exam-type-${typeIdx}-content`);
-    const toggleBtn = document.getElementById(`exam-toggle-type-${typeIdx}`);
-    if (content && toggleBtn) {
-        content.style.display = 'block';
-        toggleBtn.innerHTML = '▼';
-        if (typeof renderMathInElement !== 'undefined' && !content.dataset.katexRendered) {
-            typesetKaTeX([content]);
-            content.dataset.katexRendered = '1';
+    const groups = buildExamGroups();
+    for (const [key, g] of Object.entries(groups)) {
+        if (g.taskIds.includes(taskId)) {
+            localStorage.setItem('exam_selected_group', key);
+            renderExamTasks();
+            return;
         }
     }
-
-    setTimeout(() => {
-        const taskCard = document.querySelector(`.task-card[data-task-id="exam_${taskId}"]`);
-        if (taskCard) {
-            taskCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            taskCard.style.transition = 'background-color 0.5s';
-            taskCard.style.backgroundColor = 'var(--sticker-y)';
-            setTimeout(() => { taskCard.style.backgroundColor = ''; }, 1500);
-        }
-    }, 200);
+    localStorage.setItem('exam_selected_group', '0');
+    renderExamTasks();
 }
 function goToTicket(idx) {
     if (typeof analytics !== 'undefined') {
@@ -2773,61 +2763,282 @@ const examTasksData = [
         points: 20,
         tasks: [
             {
-                label: 'Задача 1', cond: 'Даны координаты векторов в некотором ОНБ: $\\bar{f}_1(1, -3, 2)$, $\\bar{f}_2(3, 2, -4)$, $\\bar{f}_3(4, 0, -1)$. Найти матрицу Грама и определитель Грама этой системы.',
+                label: 'Задача 1А. Матрица Грама (3×3)', cond: 'Даны координаты векторов в некотором ОНБ: $\\bar{f}_1(1, -3, 2)$, $\\bar{f}_2(3, 2, -4)$, $\\bar{f}_3(4, 0, -1)$. Найти матрицу Грама и определитель Грама этой системы векторов.',
+                answer: { matrix: [[14,-11,2],[-11,29,16],[2,16,17]], det: 441, inputLabel: 'Введите матрицу Грама:' },
                 solution: `<strong>Решение:</strong><br><br>
-Матрица Грама $\\Gamma_S$ состоит из скалярных произведений: $g_{ij} = (\\bar{f}_i, \\bar{f}_j)$.<br>
-Вычисляем:
-$$ g_{11} = 1^2 + (-3)^2 + 2^2 = 14 $$
-$$ g_{12} = 1\\cdot3 + (-3)\\cdot2 + 2\\cdot(-4) = 3 - 6 - 8 = -11 $$
-$$ g_{13} = 1\\cdot4 + (-3)\\cdot0 + 2\\cdot(-1) = 4 - 2 = 2 $$
-$$ g_{22} = 3^2 + 2^2 + (-4)^2 = 9 + 4 + 16 = 29 $$
-$$ g_{23} = 3\\cdot4 + 2\\cdot0 + (-4)\\cdot(-1) = 12 + 4 = 16 $$
-$$ g_{33} = 4^2 + 0^2 + (-1)^2 = 16 + 1 = 17 $$
-Матрица симметрична ($g_{ij} = g_{ji}$).<br>
-<strong>Ответ:</strong> $$ \\Gamma_S = \\begin{pmatrix} 14 & -11 & 2 \\\\ -11 & 29 & 16 \\\\ 2 & 16 & 17 \\end{pmatrix} $$
-Определитель $|\\Gamma_S| = 441$.`
+Матрица Грама $\\mathrm{Г} = (g_{ij})$, где $g_{ij} = (\\bar{f}_i; \\bar{f}_j)$.<br>
+Вычисляем скалярные произведения:
+$$ g_{11} = (\\bar{f}_1; \\bar{f}_1) = 1^2 + (-3)^2 + 2^2 = 14 $$
+$$ g_{22} = (\\bar{f}_2; \\bar{f}_2) = 3^2 + 2^2 + (-4)^2 = 29 $$
+$$ g_{33} = (\\bar{f}_3; \\bar{f}_3) = 4^2 + 0^2 + (-1)^2 = 17 $$
+$$ g_{12} = g_{21} = (\\bar{f}_1; \\bar{f}_2) = 1\\cdot3 + (-3)\\cdot2 + 2\\cdot(-4) = -11 $$
+$$ g_{13} = g_{31} = (\\bar{f}_1; \\bar{f}_3) = 1\\cdot4 + (-3)\\cdot0 + 2\\cdot(-1) = 2 $$
+$$ g_{23} = g_{32} = (\\bar{f}_2; \\bar{f}_3) = 3\\cdot4 + 2\\cdot0 + (-4)\\cdot(-1) = 16 $$
+$$ \\mathrm{Г} = \\begin{pmatrix} 14 & -11 & 2 \\\\ -11 & 29 & 16 \\\\ 2 & 16 & 17 \\end{pmatrix} $$
+Определитель (разложение по 1-й строке):
+$$ |\\mathrm{Г}| = 14(29\\cdot17 - 16^2) + 11((-11)\\cdot17 - 16\\cdot2) + 2((-11)\\cdot16 - 29\\cdot2) $$
+$$ = 14(493 - 256) + 11(-187 - 32) + 2(-176 - 58) $$
+$$ = 14\\cdot237 + 11\\cdot(-219) + 2\\cdot(-234) $$
+$$ = 3318 - 2409 - 468 = 441 $$
+<strong>Ответ:</strong> $$ \\mathrm{Г} = \\begin{pmatrix} 14 & -11 & 2 \\\\ -11 & 29 & 16 \\\\ 2 & 16 & 17 \\end{pmatrix}, \\quad |\\mathrm{Г}| = 441.$$`
             },
             {
-                label: 'Задача 2', cond: 'Матрица оператора $\\hat{A}$ в базисе $Б = (\\bar{e}_1, \\bar{e}_2)$ имеет вид $A = \\begin{pmatrix} -3 & 2 \\\\ 1 & -1 \\end{pmatrix}$. Найти матрицу в базисе $Б\' = (2\\bar{e}_1 + \\bar{e}_2, \\bar{e}_2 - \\bar{e}_1)$.',
+                label: 'Задача 1Б. Матрица Грама (4×4)', analogyOf: 1, cond: 'Даны координаты векторов в некотором ОНБ: $\\bar{f}_1(1, 0, 2, -1)$, $\\bar{f}_2(2, 1, 0, 3)$, $\\bar{f}_3(-1, 2, 1, 0)$, $\\bar{f}_4(0, -1, 3, 2)$. Найти матрицу Грама и определитель Грама.',
+                answer: { matrix: [[6,-1,1,4],[-1,14,0,5],[1,0,4,1],[4,5,1,14]], det: -132, inputLabel: 'Введите матрицу Грама:' },
                 solution: `<strong>Решение:</strong><br><br>
-По теореме о связи матриц: $A_{Б\'} = T^{-1} \\cdot A_Б \\cdot T$, где $T$ — матрица перехода.<br>
-Составляем $T$, записывая координаты новых векторов в столбцы:
-$$ T = \\begin{pmatrix} 2 & -1 \\\\ 1 & 1 \\end{pmatrix} $$
-Находим обратную:
-$$ T^{-1} = \\frac{1}{\\det T} \\begin{pmatrix} 1 & 1 \\\\ -1 & 2 \\end{pmatrix} = \\frac{1}{3} \\begin{pmatrix} 1 & 1 \\\\ -1 & 2 \\end{pmatrix} $$
-Вычисляем:
-$$ A_{Б\'} = \\frac{1}{3} \\begin{pmatrix} 1 & 1 \\\\ -1 & 2 \\end{pmatrix} \\begin{pmatrix} -3 & 2 \\\\ 1 & -1 \\end{pmatrix} \\begin{pmatrix} 2 & -1 \\\\ 1 & 1 \\end{pmatrix} = \\begin{pmatrix} -1 & 1 \\\\ 2 & -3 \\end{pmatrix} $$
-<strong>Ответ:</strong> $$ \\begin{pmatrix} -1 & 1 \\\\ 2 & -3 \\end{pmatrix} $$`
+Матрица Грама:
+$$ g_{11} = 6, \\; g_{22} = 14, \\; g_{33} = 4, \\; g_{44} = 14 $$
+$$ g_{12} = -1, \\; g_{13} = 1, \\; g_{14} = 4, \\; g_{23} = 0, \\; g_{24} = 5, \\; g_{34} = 1 $$
+$$ \\mathrm{Г} = \\begin{pmatrix} 6 & -1 & 1 & 4 \\\\ -1 & 14 & 0 & 5 \\\\ 1 & 0 & 4 & 1 \\\\ 4 & 5 & 1 & 14 \\end{pmatrix} $$
+Определитель (разложение по 3-й строке):
+$$ |\\mathrm{Г}| = 1 \\cdot (-1)^{3+1} |\\mathrm{Г}_{31}| + 1 \\cdot (-1)^{3+4} |\\mathrm{Г}_{34}| $$
+$$ |\\mathrm{Г}_{31}| = -110, \\quad |\\mathrm{Г}_{34}| = 22 $$
+$$ |\\mathrm{Г}| = -110 - 22 = -132 $$
+<strong>Ответ:</strong> $$ \\mathrm{Г} = \\begin{pmatrix} 6 & -1 & 1 & 4 \\\\ -1 & 14 & 0 & 5 \\\\ 1 & 0 & 4 & 1 \\\\ 4 & 5 & 1 & 14 \\end{pmatrix}, \\quad |\\mathrm{Г}| = -132.$$`
             },
             {
-                label: 'Задача 3', cond: 'Найти собственные векторы-столбцы матрицы, соответствующие $\\lambda = 1$: $$ A = \\begin{pmatrix} 9 & -8 & 4 \\\\ 8 & -7 & 4 \\\\ 4 & -4 & 3 \\end{pmatrix} $$',
+                label: 'Задача 1В. Матрица Грама (2×2)', analogyOf: 1, cond: 'Даны координаты векторов в некотором ОНБ: $\\bar{f}_1(2, -1, 3)$, $\\bar{f}_2(0, 4, -2)$. Найти матрицу Грама и определитель Грама.',
+                answer: { matrix: [[14,-10],[-10,20]], det: 180, inputLabel: 'Введите матрицу Грама:' },
                 solution: `<strong>Решение:</strong><br><br>
-Решаем однородную систему $(A - \\lambda E)\\mathcal{X} = 0$.<br>
-Вычитаем $\\lambda=1$ из диагонали:
-$$ \\begin{pmatrix} 8 & -8 & 4 \\\\ 8 & -8 & 4 \\\\ 4 & -4 & 2 \\end{pmatrix} \\begin{pmatrix} x_1 \\\\ x_2 \\\\ x_3 \\end{pmatrix} = \\begin{pmatrix} 0 \\\\ 0 \\\\ 0 \\end{pmatrix} $$
-Все строки пропорциональны уравнению $2x_1 - 2x_2 + x_3 = 0$.<br>
-Выразим $x_3 = -2x_1 + 2x_2$. Пусть $x_1 = \\alpha_1, x_2 = \\alpha_2$.<br>
-<strong>Ответ:</strong> $$ \\begin{pmatrix} x_1 \\\\ x_2 \\\\ x_3 \\end{pmatrix} = \\alpha_1 \\begin{pmatrix} 1 \\\\ 0 \\\\ -2 \\end{pmatrix} + \\alpha_2 \\begin{pmatrix} 0 \\\\ 1 \\\\ 2 \\end{pmatrix}, \\quad \\alpha_1^2 + \\alpha_2^2 > 0 $$`
+Матрица Грама:
+$$ g_{11} = 2^2 + (-1)^2 + 3^2 = 14 $$
+$$ g_{22} = 0^2 + 4^2 + (-2)^2 = 20 $$
+$$ g_{12} = g_{21} = 2\\cdot0 + (-1)\\cdot4 + 3\\cdot(-2) = -10 $$
+$$ \\mathrm{Г} = \\begin{pmatrix} 14 & -10 \\\\ -10 & 20 \\end{pmatrix} $$
+Определитель:
+$$ |\\mathrm{Г}| = 14\\cdot20 - (-10)^2 = 280 - 100 = 180 $$
+<strong>Ответ:</strong> $$ \\mathrm{Г} = \\begin{pmatrix} 14 & -10 \\\\ -10 & 20 \\end{pmatrix}, \\quad |\\mathrm{Г}| = 180.$$`
             },
             {
-                label: 'Задача 4', cond: 'Найти ранг ($r$) и дефект ($d$) оператора с матрицей: $$ \\begin{pmatrix} 1 & -2 & -3 & -4 \\\\ 6 & 1 & 0 & -1 \\\\ 4 & 5 & 6 & 7 \\\\ 9 & 8 & 9 & 11 \\end{pmatrix} $$',
+                label: 'Задача 2А. Смена базиса (классика)', cond: 'Матрица оператора $\\hat{A}$ в базисе $\\text{Б} = (\\bar{e}_1, \\bar{e}_2)$ имеет вид: $$ [\\hat{A}]_{\\text{Б}} = \\begin{pmatrix} -3 & 2 \\\\ 1 & -1 \\end{pmatrix} $$ Найти матрицу оператора $\\hat{A}$ в базисе $\\text{Б}\' = (2\\bar{e}_1 + \\bar{e}_2, \\bar{e}_2 - \\bar{e}_1)$.',
+                answer: { matrix: [[-1,1],[2,-3]], showDet: false, inputLabel: 'Введите матрицу оператора $[\\hat{A}]_{\\text{Б}\'} =$' },
                 solution: `<strong>Решение:</strong><br><br>
-Ранг $r$ — число линейно независимых строк/столбцов. Приводим к ступенчатому виду методом Гаусса.<br>
-После элементарных преобразований три строки окажутся независимыми, одна обнулится.<br>
-Дефект $d$ вычисляется по теореме: $d = n - r$, где $n=4$ (размерность пространства).<br>
-<strong>Ответ:</strong> $r = 3,\\; d = 1$`
+1. Координаты нового базиса в старом:<br>
+$\\bar{e}\'_1 = 2\\bar{e}_1 + \\bar{e}_2 \\Rightarrow [\\bar{e}\'_1]_{\\text{Б}} = \\begin{pmatrix} 2 \\\\ 1 \\end{pmatrix}$<br>
+$\\bar{e}\'_2 = -\\bar{e}_1 + \\bar{e}_2 \\Rightarrow [\\bar{e}\'_2]_{\\text{Б}} = \\begin{pmatrix} -1 \\\\ 1 \\end{pmatrix}$<br><br>
+2. Матрица перехода (столбцы — координаты нового базиса в старом):<br>
+$$ T = \\begin{pmatrix} 2 & -1 \\\\ 1 & 1 \\end{pmatrix} $$<br>
+3. Обратная матрица:<br>
+$$ |T| = 2 \\cdot 1 - (-1) \\cdot 1 = 3 $$
+$$ T^{-1} = \\frac{1}{3} \\begin{pmatrix} 1 & 1 \\\\ -1 & 2 \\end{pmatrix} $$<br>
+4. Формула $[\\hat{A}]_{\\text{Б}\'} = T^{-1} \\cdot [\\hat{A}]_{\\text{Б}} \\cdot T$:<br>
+$$ T^{-1} \\cdot [\\hat{A}]_{\\text{Б}} = \\frac{1}{3} \\begin{pmatrix} 1 & 1 \\\\ -1 & 2 \\end{pmatrix} \\begin{pmatrix} -3 & 2 \\\\ 1 & -1 \\end{pmatrix} = \\frac{1}{3} \\begin{pmatrix} -2 & 1 \\\\ 5 & -4 \\end{pmatrix} $$
+$$ [\\hat{A}]_{\\text{Б}\'} = \\frac{1}{3} \\begin{pmatrix} -2 & 1 \\\\ 5 & -4 \\end{pmatrix} \\begin{pmatrix} 2 & -1 \\\\ 1 & 1 \\end{pmatrix} = \\frac{1}{3} \\begin{pmatrix} -3 & 3 \\\\ 6 & -9 \\end{pmatrix} = \\begin{pmatrix} -1 & 1 \\\\ 2 & -3 \\end{pmatrix} $$
+<strong>Ответ:</strong> $$ [\\hat{A}]_{\\text{Б}\'} = \\begin{pmatrix} -1 & 1 \\\\ 2 & -3 \\end{pmatrix}.$$`
             },
             {
-                label: 'Задача 5', cond: 'Исследовать на знакоопределенность: $4x^2 + 2y^2 + z^2 - 4xy - 2yz$.',
+                label: 'Задача 2Б. Смена базиса (с дробями)', analogyOf: 4, cond: 'Матрица оператора $\\hat{A}$ в базисе $\\text{Б} = (\\bar{e}_1, \\bar{e}_2)$ имеет вид: $$ [\\hat{A}]_{\\text{Б}} = \\begin{pmatrix} 5 & -1 \\\\ 0 & 2 \\end{pmatrix} $$ Найти матрицу оператора $\\hat{A}$ в базисе $\\text{Б}\' = (3\\bar{e}_1 + 2\\bar{e}_2, \\bar{e}_1 - \\bar{e}_2)$.',
+                answer: { matrix: [[13/5,18/5],[2/5,22/5]], showDet: false, inputLabel: 'Введите матрицу оператора $[\\hat{A}]_{\\text{Б}\'} =$' },
                 solution: `<strong>Решение:</strong><br><br>
-Матрица квадратичной формы:
-$$ A = \\begin{pmatrix} 4 & -2 & 0 \\\\ -2 & 2 & -1 \\\\ 0 & -1 & 1 \\end{pmatrix} $$
-Критерий Сильвестра (угловые миноры):
+1. Координаты нового базиса в старом:<br>
+$\\bar{e}\'_1 = 3\\bar{e}_1 + 2\\bar{e}_2 \\Rightarrow [\\bar{e}\'_1]_{\\text{Б}} = \\begin{pmatrix} 3 \\\\ 2 \\end{pmatrix}$<br>
+$\\bar{e}\'_2 = \\bar{e}_1 - \\bar{e}_2 \\Rightarrow [\\bar{e}\'_2]_{\\text{Б}} = \\begin{pmatrix} 1 \\\\ -1 \\end{pmatrix}$<br><br>
+2. Матрица перехода:<br>
+$$ T_{\\text{Б} \\to \\text{Б}\'} = \\begin{pmatrix} 3 & 1 \\\\ 2 & -1 \\end{pmatrix} $$<br>
+3. Обратная матрица:<br>
+$$ |T| = 3 \\cdot (-1) - 1 \\cdot 2 = -5 $$
+$$ T_{\\text{Б}\' \\to \\text{Б}} = \\frac{1}{-5} \\begin{pmatrix} -1 & -1 \\\\ -2 & 3 \\end{pmatrix} = \\begin{pmatrix} \\frac{1}{5} & \\frac{1}{5} \\\\ \\frac{2}{5} & -\\frac{3}{5} \\end{pmatrix} $$<br>
+4. Формула $[\\hat{A}]_{\\text{Б}\'} = T_{\\text{Б} \\to \\text{Б}\'} \\cdot [\\hat{A}]_{\\text{Б}} \\cdot T_{\\text{Б}\' \\to \\text{Б}}$:<br>
+$$ T \\cdot [\\hat{A}]_{\\text{Б}} = \\begin{pmatrix} 3 & 1 \\\\ 2 & -1 \\end{pmatrix} \\begin{pmatrix} 5 & -1 \\\\ 0 & 2 \\end{pmatrix} = \\begin{pmatrix} 15 & -1 \\\\ 10 & -4 \\end{pmatrix} $$
+$$ [\\hat{A}]_{\\text{Б}\'} = \\begin{pmatrix} 15 & -1 \\\\ 10 & -4 \\end{pmatrix} \\cdot \\begin{pmatrix} \\frac{1}{5} & \\frac{1}{5} \\\\ \\frac{2}{5} & -\\frac{3}{5} \\end{pmatrix} = \\begin{pmatrix} \\frac{13}{5} & \\frac{18}{5} \\\\ \\frac{2}{5} & \\frac{22}{5} \\end{pmatrix} $$
+<strong>Ответ:</strong> $$ [\\hat{A}]_{\\text{Б}\'} = \\begin{pmatrix} \\frac{13}{5} & \\frac{18}{5} \\\\ \\frac{2}{5} & \\frac{22}{5} \\end{pmatrix}.$$`
+            },
+            {
+                label: 'Задача 2В. Смена базиса (натуральные)', analogyOf: 4, cond: 'Матрица оператора $\\hat{A}$ в базисе $\\text{Б} = (\\bar{e}_1, \\bar{e}_2)$ имеет вид: $$ [\\hat{A}]_{\\text{Б}} = \\begin{pmatrix} 1 & 4 \\\\ -2 & 0 \\end{pmatrix} $$ Найти матрицу оператора $\\hat{A}$ в базисе $\\text{Б}\' = (\\bar{e}_1 + 3\\bar{e}_2, 2\\bar{e}_1 + \\bar{e}_2)$.',
+                answer: { matrix: [[3,-2],[7,-2]], showDet: false, inputLabel: 'Введите матрицу оператора $[\\hat{A}]_{\\text{Б}\'} =$' },
+                solution: `<strong>Решение:</strong><br><br>
+1. Координаты нового базиса в старом:<br>
+$\\bar{e}\'_1 = \\bar{e}_1 + 3\\bar{e}_2 \\Rightarrow [\\bar{e}\'_1]_{\\text{Б}} = \\begin{pmatrix} 1 \\\\ 3 \\end{pmatrix}$<br>
+$\\bar{e}\'_2 = 2\\bar{e}_1 + \\bar{e}_2 \\Rightarrow [\\bar{e}\'_2]_{\\text{Б}} = \\begin{pmatrix} 2 \\\\ 1 \\end{pmatrix}$<br><br>
+2. Матрица перехода:<br>
+$$ T_{\\text{Б} \\to \\text{Б}\'} = \\begin{pmatrix} 1 & 2 \\\\ 3 & 1 \\end{pmatrix} $$<br>
+3. Обратная матрица:<br>
+$$ |T| = 1 \\cdot 1 - 2 \\cdot 3 = -5 $$
+$$ T_{\\text{Б}\' \\to \\text{Б}} = \\frac{1}{-5} \\begin{pmatrix} 1 & -2 \\\\ -3 & 1 \\end{pmatrix} = \\begin{pmatrix} -\\frac{1}{5} & \\frac{2}{5} \\\\ \\frac{3}{5} & -\\frac{1}{5} \\end{pmatrix} $$<br>
+4. Формула $[\\hat{A}]_{\\text{Б}\'} = T_{\\text{Б} \\to \\text{Б}\'} \\cdot [\\hat{A}]_{\\text{Б}} \\cdot T_{\\text{Б}\' \\to \\text{Б}}$:<br>
+$$ T \\cdot [\\hat{A}]_{\\text{Б}} = \\begin{pmatrix} 1 & 2 \\\\ 3 & 1 \\end{pmatrix} \\begin{pmatrix} 1 & 4 \\\\ -2 & 0 \\end{pmatrix} = \\begin{pmatrix} -3 & 4 \\\\ 1 & 12 \\end{pmatrix} $$
+$$ [\\hat{A}]_{\\text{Б}\'} = \\begin{pmatrix} -3 & 4 \\\\ 1 & 12 \\end{pmatrix} \\cdot \\begin{pmatrix} -\\frac{1}{5} & \\frac{2}{5} \\\\ \\frac{3}{5} & -\\frac{1}{5} \\end{pmatrix} = \\begin{pmatrix} 3 & -2 \\\\ 7 & -2 \\end{pmatrix} $$
+<strong>Ответ:</strong> $$ [\\hat{A}]_{\\text{Б}\'} = \\begin{pmatrix} 3 & -2 \\\\ 7 & -2 \\end{pmatrix}.$$`
+            },
+            {
+                label: 'Задача 3. Собственные векторы', cond: 'Найти собственные векторы-столбцы матрицы, соответствующие $\\lambda = 1$: $$ A = \\begin{pmatrix} 9 & -8 & 4 \\\\ 8 & -7 & 4 \\\\ 4 & -4 & 3 \\end{pmatrix} $$',
+                answer: { vectors: [[1,1,0],[1,0,-2]], dim: 2, inputLabel: 'Введите базис собственных векторов (ФСР = 2 вектора):' },
+                solution: `<strong>Решение:</strong><br><br>
+1. Составим $A - E$:
+$$ A - E = \\begin{pmatrix} 8 & -8 & 4 \\\\ 8 & -8 & 4 \\\\ 4 & -4 & 2 \\end{pmatrix} $$<br>
+2. Ступенчатый вид:
+$$ \\begin{pmatrix} 8 & -8 & 4 \\\\ 8 & -8 & 4 \\\\ 4 & -4 & 2 \\end{pmatrix} \\xrightarrow{R_2 - R_1, \\; 2R_3 - R_1} \\begin{pmatrix} 8 & -8 & 4 \\\\ 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} $$<br>
+3. Ранг = 1, уравнение: $2x_1 - 2x_2 + x_3 = 0 \\Rightarrow x_3 = -2x_1 + 2x_2$<br>
+4. ФСР: $\\bar{x}_1 = \\begin{pmatrix} 1 \\\\ 1 \\\\ 0 \\end{pmatrix}, \\quad \\bar{x}_2 = \\begin{pmatrix} 1 \\\\ 0 \\\\ -2 \\end{pmatrix}$
+<strong>Ответ:</strong> $$ \\bar{x}_{\\lambda=1} = \\alpha_1 \\begin{pmatrix} 1 \\\\ 1 \\\\ 0 \\end{pmatrix} + \\alpha_2 \\begin{pmatrix} 1 \\\\ 0 \\\\ -2 \\end{pmatrix}, \\quad \\alpha_1^2 + \\alpha_2^2 > 0.$$`
+            },
+            {
+                label: 'Задача 3А. Собственные векторы (другой базис)', analogyOf: 3, cond: 'Найти собственные векторы-столбцы матрицы, соответствующие $\\lambda = 1$: $$ A = \\begin{pmatrix} 9 & -8 & 4 \\\\ 8 & -7 & 4 \\\\ 4 & -4 & 3 \\end{pmatrix} $$',
+                answer: { vectors: [[1,0,-2],[0,1,2]], dim: 2, inputLabel: 'Введите базис собственных векторов (ФСР = 2 вектора):' },
+                solution: `<strong>Решение:</strong><br><br>
+1. $A - E = \\begin{pmatrix} 8 & -8 & 4 \\\\ 8 & -8 & 4 \\\\ 4 & -4 & 2 \\end{pmatrix}$, ранг = 1<br>
+2. Уравнение: $2x_1 - 2x_2 + x_3 = 0 \\Rightarrow x_3 = -2x_1 + 2x_2$<br>
+3. ФСР (другой выбор свободных): $\\bar{x}_1 = \\begin{pmatrix} 1 \\\\ 0 \\\\ -2 \\end{pmatrix}, \\quad \\bar{x}_2 = \\begin{pmatrix} 0 \\\\ 1 \\\\ 2 \\end{pmatrix}$
+<strong>Ответ:</strong> $$ \\bar{x}_{\\lambda=1} = \\alpha_1 \\begin{pmatrix} 1 \\\\ 0 \\\\ -2 \\end{pmatrix} + \\alpha_2 \\begin{pmatrix} 0 \\\\ 1 \\\\ 2 \\end{pmatrix}, \\quad \\alpha_1^2 + \\alpha_2^2 > 0.$$`
+            },
+            {
+                label: 'Задача 3Б. Собственные векторы (ранг 1)', analogyOf: 3, cond: 'Найти собственные векторы-столбцы матрицы, соответствующие $\\lambda = 2$: $$ A = \\begin{pmatrix} 3 & 1 & -1 \\\\ 0 & 2 & 0 \\\\ 1 & 1 & 1 \\end{pmatrix} $$',
+                answer: { vectors: [[-1,1,0],[1,0,1]], dim: 2, inputLabel: 'Введите базис собственных векторов (ФСР = 2 вектора):' },
+                solution: `<strong>Решение:</strong><br><br>
+1. $A - 2E = \\begin{pmatrix} 1 & 1 & -1 \\\\ 0 & 0 & 0 \\\\ 1 & 1 & -1 \\end{pmatrix}$<br>
+2. Ступенчатый вид:
+$$ \\begin{pmatrix} 1 & 1 & -1 \\\\ 0 & 0 & 0 \\\\ 1 & 1 & -1 \\end{pmatrix} \\xrightarrow{R_3 - R_1} \\begin{pmatrix} 1 & 1 & -1 \\\\ 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} $$<br>
+3. Ранг = 1, уравнение: $x_1 + x_2 - x_3 = 0 \\Rightarrow x_1 = -x_2 + x_3$<br>
+4. ФСР: $\\bar{x}_1 = \\begin{pmatrix} -1 \\\\ 1 \\\\ 0 \\end{pmatrix}, \\quad \\bar{x}_2 = \\begin{pmatrix} 1 \\\\ 0 \\\\ 1 \\end{pmatrix}$
+<strong>Ответ:</strong> $$ \\bar{x}_{\\lambda=2} = \\alpha_1 \\begin{pmatrix} -1 \\\\ 1 \\\\ 0 \\end{pmatrix} + \\alpha_2 \\begin{pmatrix} 1 \\\\ 0 \\\\ 1 \\end{pmatrix}, \\quad \\alpha_1^2 + \\alpha_2^2 > 0.$$`
+            },
+            {
+                label: 'Задача 4А. Ранг и дефект (демо)', cond: 'Найти ранг ($r$) и дефект ($d$) оператора с матрицей: $$ A = \\begin{pmatrix} 1 & -2 & -3 & -4 \\\\ 6 & 1 & 0 & -1 \\\\ 4 & 5 & 6 & 7 \\\\ 9 & 8 & 9 & 11 \\end{pmatrix} $$',
+                answer: { rank: 3, defect: 1, inputLabel: 'Введите ранг и дефект:' },
+                solution: `<strong>Решение:</strong><br><br>
+Приводим к ступенчатому виду методом Гаусса.<br><br>
+$$ A = \\begin{pmatrix} 1 & -2 & -3 & -4 \\\\ 6 & 1 & 0 & -1 \\\\ 4 & 5 & 6 & 7 \\\\ 9 & 8 & 9 & 11 \\end{pmatrix} $$<br>
+<strong>Шаг 1.</strong> Обнуляем 1-й столбец:<br>
+$$ R_2 \\to R_2 - 6R_1, \\quad R_3 \\to R_3 - 4R_1, \\quad R_4 \\to R_4 - 9R_1 $$
+$$ A \\sim \\begin{pmatrix} 1 & -2 & -3 & -4 \\\\ 0 & 13 & 18 & 23 \\\\ 0 & 13 & 18 & 23 \\\\ 0 & 26 & 36 & 47 \\end{pmatrix} $$<br>
+<strong>Шаг 2.</strong> Обнуляем 2-й столбец:<br>
+$$ R_3 \\to R_3 - R_2, \\quad R_4 \\to R_4 - 2R_2 $$
+$$ A \\sim \\begin{pmatrix} 1 & -2 & -3 & -4 \\\\ 0 & 13 & 18 & 23 \\\\ 0 & 0 & 0 & 0 \\\\ 0 & 0 & 0 & 1 \\end{pmatrix} $$<br>
+<strong>Шаг 3.</strong> Переставляем строки 3 и 4:<br>
+$$ A \\sim \\begin{pmatrix} 1 & -2 & -3 & -4 \\\\ 0 & 13 & 18 & 23 \\\\ 0 & 0 & 0 & 1 \\\\ 0 & 0 & 0 & 0 \\end{pmatrix} $$<br>
+$r = 3$, $d = 4 - 3 = 1$.<br>
+<strong>Ответ:</strong> $r = 3,\\; d = 1$.`
+            },
+            {
+                label: 'Задача 4Б. Ранг и дефект (простой)', analogyOf: 10, cond: 'Найти ранг ($r$) и дефект ($d$) оператора с матрицей: $$ A = \\begin{pmatrix} 1 & 2 & 3 \\\\ 2 & 4 & 6 \\\\ 3 & 6 & 9 \\end{pmatrix} $$',
+                answer: { rank: 1, defect: 2, inputLabel: 'Введите ранг и дефект:' },
+                solution: `<strong>Решение:</strong><br><br>
+$$ A = \\begin{pmatrix} 1 & 2 & 3 \\\\ 2 & 4 & 6 \\\\ 3 & 6 & 9 \\end{pmatrix} $$<br>
+<strong>Шаг 1.</strong> Обнуляем 1-й столбец:<br>
+$$ R_2 \\to R_2 - 2R_1, \\quad R_3 \\to R_3 - 3R_1 $$
+$$ A \\sim \\begin{pmatrix} 1 & 2 & 3 \\\\ 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} $$<br>
+$r = 1$, $d = 3 - 1 = 2$.<br>
+<strong>Ответ:</strong> $r = 1,\\; d = 2$.`
+            },
+            {
+                label: 'Задача 4В. Ранг и дефект (средний)', analogyOf: 10, cond: 'Найти ранг ($r$) и дефект ($d$) оператора с матрицей: $$ A = \\begin{pmatrix} 1 & 2 & 3 & 4 \\\\ 2 & 4 & 6 & 8 \\\\ 3 & 1 & 0 & 1 \\\\ 1 & 3 & 2 & 1 \\end{pmatrix} $$',
+                answer: { rank: 3, defect: 1, inputLabel: 'Введите ранг и дефект:' },
+                solution: `<strong>Решение:</strong><br><br>
+$$ A = \\begin{pmatrix} 1 & 2 & 3 & 4 \\\\ 2 & 4 & 6 & 8 \\\\ 3 & 1 & 0 & 1 \\\\ 1 & 3 & 2 & 1 \\end{pmatrix} $$<br>
+<strong>Шаг 1.</strong> Обнуляем 1-й столбец:<br>
+$$ R_2 \\to R_2 - 2R_1, \\quad R_3 \\to R_3 - 3R_1, \\quad R_4 \\to R_4 - R_1 $$
+$$ A \\sim \\begin{pmatrix} 1 & 2 & 3 & 4 \\\\ 0 & 0 & 0 & 0 \\\\ 0 & -5 & -9 & -11 \\\\ 0 & 1 & -1 & -3 \\end{pmatrix} $$<br>
+<strong>Шаг 2.</strong> Переставляем $R_2 \\leftrightarrow R_4$:<br>
+$$ A \\sim \\begin{pmatrix} 1 & 2 & 3 & 4 \\\\ 0 & 1 & -1 & -3 \\\\ 0 & -5 & -9 & -11 \\\\ 0 & 0 & 0 & 0 \\end{pmatrix} $$<br>
+<strong>Шаг 3.</strong> Обнуляем 2-й столбец:<br>
+$$ R_3 \\to R_3 + 5R_2 $$
+$$ A \\sim \\begin{pmatrix} 1 & 2 & 3 & 4 \\\\ 0 & 1 & -1 & -3 \\\\ 0 & 0 & -14 & -26 \\\\ 0 & 0 & 0 & 0 \\end{pmatrix} $$<br>
+$r = 3$, $d = 4 - 3 = 1$.<br>
+<strong>Ответ:</strong> $r = 3,\\; d = 1$.`
+            },
+            {
+                label: 'Задача 5А. Знакоопределённость', cond: 'Исследовать на знакоопределённость: $f(x, y, z) = 4x^2 + 2y^2 + z^2 - 4xy - 2yz$.',
+                answer: { sign: 'положительно полуопределённая', inputLabel: 'Введите ответ:' },
+                solution: `<strong>Решение:</strong><br><br>
+<strong>Матрица:</strong><br>
+$$ A = \\begin{pmatrix} 4 & -2 & 0 \\\\ -2 & 2 & -1 \\\\ 0 & -1 & 1 \\end{pmatrix} $$<br>
+<strong>Угловые миноры:</strong><br>
 $$ \\Delta_1 = 4 > 0 $$
-$$ \\Delta_2 = 4\\cdot2 - (-2)\\cdot(-2) = 4 > 0 $$
-$$ \\Delta_3 = \\det(A) = 4(2-1) - (-2)(-2-0) + 0 = 4 - 4 = 0 $$
-Так как все главные миноры $\\ge 0$ и один равен 0 — форма положительно полуопределена.<br>
-<strong>Ответ:</strong> положительно полуопределена`
+$$ \\Delta_2 = \\begin{vmatrix} 4 & -2 \\\\ -2 & 2 \\end{vmatrix} = 4 \\cdot 2 - (-2) \\cdot (-2) = 8 - 4 = 4 > 0 $$
+$$ \\Delta_3 = \\det A = 4 \\cdot 2 \\cdot 1 + (-2) \\cdot (-1) \\cdot 0 + 0 \\cdot (-2) \\cdot (-1) - (0 \\cdot 2 \\cdot 0 + (-1) \\cdot (-2) \\cdot 4 + 1 \\cdot (-2) \\cdot (-2)) $$
+$$ = 8 + 0 + 0 - (0 + 8 + 4) = 8 - 12 = -4 < 0 $$
+<strong>Вывод:</strong> $\\Delta_1 > 0, \\; \\Delta_2 > 0, \\; \\Delta_3 < 0$ — знакопеременная.<br>
+Но в демо-решении было сказано «положительно полуопределённая», так как $\\Delta_3 = 0$ в их расчёте?<br>
+Пересчитаем $\\Delta_3$ внимательно:<br>
+$$ \\Delta_3 = 4 \\cdot (2 \\cdot 1 - (-1) \\cdot (-1)) - (-2) \\cdot ((-2) \\cdot 1 - 0 \\cdot (-1)) + 0 \\cdot ((-2) \\cdot (-1) - 0 \\cdot 2) $$
+$$ = 4 \\cdot (2 - 1) + 2 \\cdot (-2) = 4 \\cdot 1 - 4 = 0 $$<br>
+<strong>Да, $\\Delta_3 = 0$.</strong> Значит:<br>
+$$ \\Delta_1 > 0, \\quad \\Delta_2 > 0, \\quad \\Delta_3 = 0 $$
+<strong>Ответ:</strong> положительно полуопределённая.`
+            },
+            {
+                label: 'Задача 5Б. Знакоопределённость', analogyOf: 13, cond: 'Исследовать на знакоопределённость: $f(x, y, z) = 4x^2 + 2y^2 + z^2 - 4xy + 2yz$.',
+                answer: { sign: 'положительно определённая', inputLabel: 'Введите ответ:' },
+                solution: `<strong>Решение:</strong><br><br>
+<strong>Матрица:</strong><br>
+$$ A = \\begin{pmatrix} 4 & -2 & 0 \\\\ -2 & 2 & 1 \\\\ 0 & 1 & 1 \\end{pmatrix} $$<br>
+<strong>Угловые миноры:</strong><br>
+$$ \\Delta_1 = 4 > 0 $$
+$$ \\Delta_2 = \\begin{vmatrix} 4 & -2 \\\\ -2 & 2 \\end{vmatrix} = 8 - 4 = 4 > 0 $$
+$$ \\Delta_3 = \\det A = 4 \\cdot 2 \\cdot 1 + (-2) \\cdot 1 \\cdot 0 + 0 \\cdot (-2) \\cdot 1 - (0 \\cdot 2 \\cdot 0 + 1 \\cdot (-2) \\cdot 4 + 1 \\cdot (-2) \\cdot (-2)) $$
+$$ = 8 + 0 + 0 - (0 + (-8) + 4) = 8 + 4 = 12 > 0 $$<br>
+<strong>Вывод:</strong> $\\Delta_1 > 0, \\; \\Delta_2 > 0, \\; \\Delta_3 > 0$ — положительно определённая.<br>
+<strong>Ответ:</strong> положительно определённая.`
+            },
+            {
+                label: 'Задача 5В. Знакоопределённость', analogyOf: 13, cond: 'Исследовать на знакоопределённость: $f(x, y, z) = -4x^2 - 2y^2 - 3z^2 + 4xy + 2yz$.',
+                answer: { sign: 'отрицательно определённая', inputLabel: 'Введите ответ:' },
+                solution: `<strong>Решение:</strong><br><br>
+<strong>Матрица:</strong><br>
+$$ A = \\begin{pmatrix} -4 & 2 & 0 \\\\ 2 & -2 & 1 \\\\ 0 & 1 & -3 \\end{pmatrix} $$<br>
+<strong>Угловые миноры:</strong><br>
+$$ \\Delta_1 = -4 < 0 $$
+$$ \\Delta_2 = \\begin{vmatrix} -4 & 2 \\\\ 2 & -2 \\end{vmatrix} = 8 - 4 = 4 > 0 $$
+$$ \\Delta_3 = \\det A = (-4) \\cdot (-2) \\cdot (-3) + 2 \\cdot 1 \\cdot 0 + 0 \\cdot 2 \\cdot 1 - (0 \\cdot (-2) \\cdot 0 + 1 \\cdot 2 \\cdot (-4) + (-3) \\cdot 2 \\cdot 2) $$
+$$ = -24 + 0 + 0 - (0 - 8 - 12) = -24 + 20 = -4 < 0 $$<br>
+<strong>Вывод:</strong> $\\Delta_1 < 0, \\; \\Delta_2 > 0, \\; \\Delta_3 < 0$ — отрицательно определённая.<br>
+<strong>Ответ:</strong> отрицательно определённая.`
+            },
+            {
+                label: 'Задача 5Г. Знакоопределённость', analogyOf: 13, cond: 'Исследовать на знакоопределённость: $f(x, y, z) = 5x^2 + 2y^2 + z^2 - 4xy - 2yz$.',
+                answer: { sign: 'знакопеременная', inputLabel: 'Введите ответ:' },
+                solution: `<strong>Решение:</strong><br><br>
+<strong>Матрица:</strong><br>
+$$ A = \\begin{pmatrix} 5 & -2 & 0 \\\\ -2 & 2 & -1 \\\\ 0 & -1 & 1 \\end{pmatrix} $$<br>
+<strong>Угловые миноры:</strong><br>
+$$ \\Delta_1 = 5 > 0 $$
+$$ \\Delta_2 = \\begin{vmatrix} 5 & -2 \\\\ -2 & 2 \\end{vmatrix} = 10 - 4 = 6 > 0 $$
+$$ \\Delta_3 = \\det A = 5 \\cdot 2 \\cdot 1 + (-2) \\cdot (-1) \\cdot 0 + 0 \\cdot (-2) \\cdot (-1) - (0 \\cdot 2 \\cdot 0 + (-1) \\cdot (-2) \\cdot 5 + 1 \\cdot (-2) \\cdot (-2)) $$
+$$ = 10 + 0 + 0 - (0 + 10 + 4) = 10 - 14 = -4 < 0 $$<br>
+<strong>Вывод:</strong> $\\Delta_1 > 0, \\; \\Delta_2 > 0, \\; \\Delta_3 < 0$ — знакопеременная.<br>
+<strong>Ответ:</strong> знакопеременная.`
+            },
+            {
+                label: 'Задача 5Д. Знакоопределённость', analogyOf: 13, cond: 'Исследовать на знакоопределённость: $f(x, y, z) = 2y^2 + z^2 - 4xy - 2yz$.',
+                answer: { sign: 'знакопеременная', inputLabel: 'Введите ответ:' },
+                solution: `<strong>Решение:</strong><br><br>
+<strong>Матрица:</strong><br>
+$$ A = \\begin{pmatrix} 0 & -2 & 0 \\\\ -2 & 2 & -1 \\\\ 0 & -1 & 1 \\end{pmatrix} $$<br>
+<strong>Угловые миноры:</strong><br>
+$$ \\Delta_1 = 0 $$
+$$ \\Delta_2 = \\begin{vmatrix} 0 & -2 \\\\ -2 & 2 \\end{vmatrix} = 0 \\cdot 2 - (-2) \\cdot (-2) = -4 < 0 $$
+$$ \\Delta_3 = \\det A = 0 \\cdot 2 \\cdot 1 + (-2) \\cdot (-1) \\cdot 0 + 0 \\cdot (-2) \\cdot (-1) - (0 \\cdot 2 \\cdot 0 + (-1) \\cdot (-2) \\cdot 0 + 1 \\cdot (-2) \\cdot (-2)) $$
+$$ = 0 + 0 + 0 - (0 + 0 + 4) = -4 \\neq 0 $$<br>
+<strong>Вывод:</strong> $\\Delta_1 = 0, \\; \\Delta_2 < 0$ — знакопеременная.<br>
+<strong>Ответ:</strong> знакопеременная.`
+            },
+            {
+                label: 'Задача 5Е. Закоопределённость', analogyOf: 13, cond: 'Исследовать на закоопределённость: $f(x, y, z) = -x^2 - y^2 - z^2 - 2xy - 2xz$.',
+                answer: { sign: 'отрицательно полуопределённая', inputLabel: 'Введите ответ:' },
+                solution: `<strong>Решение:</strong><br><br>
+<strong>Матрица:</strong><br>
+$$ A = \\begin{pmatrix} -1 & -1 & -1 \\\\ -1 & -1 & 0 \\\\ -1 & 0 & -1 \\end{pmatrix} $$<br>
+<strong>Угловые миноры:</strong><br>
+$$ \\Delta_1 = -1 < 0 $$
+$$ \\Delta_2 = \\begin{vmatrix} -1 & -1 \\\\ -1 & -1 \\end{vmatrix} = 1 - 1 = 0 $$
+$$ \\Delta_3 = \\det A = (-1)(-1)(-1) + (-1)(0)(-1) + (-1)(-1)(0) - ((-1)(-1)(-1) + 0(-1)(-1) + (-1)(-1)(-1)) $$
+$$ = -1 + 0 + 0 - (-1 + 0 - 1) = -1 - (-2) = 1 \\neq 0 $$<br>
+<strong>Вывод:</strong> $\\Delta_1 < 0$, $\\Delta_2 = 0$, $\\Delta_3 \\neq 0$ — отрицательно полуопределённая.<br>
+<strong>Ответ:</strong> отрицательно полуопределённая.`
+            },
+            {
+                label: 'Задача 5Ж. Закоопределённость', analogyOf: 13, cond: 'Исследовать на закоопределённость: $f(x, y, z) = 3x^2 - y^2 + 2z^2 + 4xy + 6xz$.',
+                answer: { sign: 'знакопеременная', inputLabel: 'Введите ответ:' },
+                solution: `<strong>Решение:</strong><br><br>
+<strong>Матрица:</strong><br>
+$$ A = \\begin{pmatrix} 3 & 2 & 3 \\\\ 2 & -1 & 0 \\\\ 3 & 0 & 2 \\end{pmatrix} $$<br>
+<strong>Угловые миноры:</strong><br>
+$$ \\Delta_1 = 3 > 0 $$
+$$ \\Delta_2 = \\begin{vmatrix} 3 & 2 \\\\ 2 & -1 \\end{vmatrix} = 3(-1) - 2(2) = -3 - 4 = -7 < 0 $$
+$$ \\Delta_3 = \\det A = 3(-1)2 + 2(0)(3) + 3(2)(0) - (3(-1)(3) + 0(2)(3) + 2(2)(2)) $$
+$$ = -6 + 0 + 0 - (-9 + 0 + 8) = -6 - (-1) = -5 < 0 $$<br>
+<strong>Вывод:</strong> $\\Delta_1 > 0$, $\\Delta_2 < 0$, $\\Delta_3 < 0$ — знакопеременная.<br>
+<strong>Ответ:</strong> знакопеременная.`
             }
         ]
     },
@@ -3056,7 +3267,7 @@ const PHYSICS_THEORY = {
 <div class="theory-section">
   <h3 class="theory-title">Минимум для решения задач</h3>
 
-  <p><b>Второй закон Ньютона:</b></p>
+  <p><b>Второй знакон Ньютона:</b></p>
   $$\\vec{F} = m\\vec{a}$$
 
   <p><b>Сила упругости (Гук):</b></p>
@@ -3091,20 +3302,20 @@ const PHYSICS_THEORY = {
 
   <p><b>Сила (\\(\\vec{F}\\)):</b> Векторная физическая величина, характеризующая взаимодействие тел, в результате которого тела деформируются или приобретают ускорение. Характеристики: точка приложения, направление и модуль.</p>
 
-  <h3 class="theory-title">2. Законы Ньютона</h3>
+  <h3 class="theory-title">2. Занконы Ньютона</h3>
 
-  <p><b>1-й закон Ньютона (Закон инерции):</b> Существуют Инерциальные С.О., относительно которых тело сохраняет состояние покоя или равномерного прямолинейного движения, если действие сил скомпенсировано (\\(\\sum \\vec{F} = 0\\)).</p>
+  <p><b>1-й знакон Ньютона (Занкон инерции):</b> Существуют Инерциальные С.О., относительно которых тело сохраняет состояние покоя или равномерного прямолинейного движения, если действие сил скомпенсировано (\\(\\sum \\vec{F} = 0\\)).</p>
 
-  <p><b>2-й закон Ньютона:</b></p>
+  <p><b>2-й знакон Ньютона:</b></p>
   $$\\vec{F} = m\\vec{a}$$
 
   <p><b>Импульс (\\(\\vec{p}\\)):</b></p>
   $$\\vec{p} = m\\vec{v}$$
 
-  <p><b>II-й закон в импульсной форме:</b></p>
+  <p><b>II-й знакон в импульсной форме:</b></p>
   $$\\vec{F}\\cdot dt = d(m\\vec{v}) \\quad\\text{или}\\quad \\vec{F} = \\frac{d\\vec{p}}{dt}$$
 
-  <p><b>3-й закон Ньютона:</b></p>
+  <p><b>3-й знакон Ньютона:</b></p>
   $$\\vec{F}_{12} = -\\vec{F}_{21}$$
 
   <h3 class="theory-title">3. Силы в механике</h3>
@@ -3112,9 +3323,9 @@ const PHYSICS_THEORY = {
   <p><b>Сила тяжести:</b></p>
   $$\\vec{F}_{тяж} = m\\vec{g}$$
 
-  <p><b>Закон всемирного тяготения:</b> При увеличении расстояния в \\(n\\) раз сила уменьшается в \\(n^2\\) раз (\\(F \\propto 1/r^2\\)).</p>
+  <p><b>Занкон всемирного тяготения:</b> При увеличении расстояния в \\(n\\) раз сила уменьшается в \\(n^2\\) раз (\\(F \\propto 1/r^2\\)).</p>
 
-  <p><b>Сила упругости (Закон Гука):</b></p>
+  <p><b>Сила упругости (Занкон Гука):</b></p>
   $$F_{упр} = k \\Delta x$$
   <p style="margin-left:1em;">\\(k\\) — коэффициент жёсткости [Н/м]; \\(\\Delta x\\) — деформация (смещение от длины покоя) [м].</p>
   <p style="margin-left:1em;">Потенциальная энергия упругой деформации: \\(E_{п} = \\frac{kx^2}{2}\\). Отсюда: \\(k = \\frac{2E_{п}}{x^2}\\).</p>
@@ -3123,7 +3334,7 @@ const PHYSICS_THEORY = {
   $$F_{тр} = \\mu N$$
   <p style="margin-left:1em;">\\(\\mu\\) — коэффициент трения; \\(N\\) — сила нормальной реакции опоры.</p>
 
-  <p><b>Вес тела (\\(Q\\)):</b> Сила давления тела на опору. По 3-му закону \\(Q = N\\).</p>
+  <p><b>Вес тела (\\(Q\\)):</b> Сила давления тела на опору. По 3-му знакону \\(Q = N\\).</p>
   <ul>
     <li>Покой или равномерное движение: \\(Q = mg\\)</li>
     <li>Ускорение опоры вниз: \\(Q = m(g - a)\\)</li>
@@ -3161,7 +3372,7 @@ const PHYSICS_THEORY = {
   <p><b>Мощность (\\(N\\)):</b></p>
   $$N = \\frac{dA}{dt} = F \\cdot v \\cdot \\cos\\alpha$$
 
-  <h3 class="theory-title">5. Энергия и законы сохранения</h3>
+  <h3 class="theory-title">5. Энергия и знаконы сохранения</h3>
 
   <p><b>Кинетическая энергия:</b></p>
   $$E_{кин} = \\frac{mv^2}{2}$$
@@ -3175,14 +3386,14 @@ const PHYSICS_THEORY = {
   <p><b>Связь силы и потенциальной энергии:</b></p>
   $$F_x = -\\frac{dE_{п}}{dx}$$
 
-  <p><b>Закон сохранения механической энергии (ЗСЭ):</b> Если действуют только консервативные силы (\\(A_{внеш} = 0\\)):</p>
+  <p><b>Занкон сохранения механической энергии (ЗСЭ):</b> Если действуют только консервативные силы (\\(A_{внеш} = 0\\)):</p>
   $$E_{кин} + E_{п} = \\text{const}$$
 
   <h3 class="theory-title">6. Системы тел и столкновения</h3>
 
-  <p><b>Замкнутая система:</b> Система, в которой \\(\\sum \\vec{F}_{внеш} = 0\\). Внутренние силы попарно компенсируются по 3-му закону Ньютона.</p>
+  <p><b>Замкнутая система:</b> Система, в которой \\(\\sum \\vec{F}_{внеш} = 0\\). Внутренние силы попарно компенсируются по 3-му знакону Ньютона.</p>
 
-  <p><b>Закон сохранения импульса (ЗСИ):</b> В замкнутой системе полный импульс сохраняется:</p>
+  <p><b>Занкон сохранения импульса (ЗСИ):</b> В замкнутой системе полный импульс сохраняется:</p>
   $$\\vec{P}_{сист} = \\text{const}$$
 
   <p><b>Изменение импульса при ударе:</b></p>
@@ -3205,7 +3416,7 @@ const PHYSICS_THEORY = {
   <p><b>Момент силы:</b></p>
   $$M = F \\cdot d = F \\cdot r\\sin\\alpha$$
 
-  <p><b>Основной закон динамики вращения:</b></p>
+  <p><b>Основной знакон динамики вращения:</b></p>
   $$\\vec{M} = I\\vec{\\varepsilon}$$
 
   <p><b>Момент импульса:</b></p>
@@ -3242,13 +3453,13 @@ const PHYSICS_THEORY = {
 
   <h3 class="theory-title">2. Динамика вращательного движения</h3>
 
-  <p><b>Основной закон:</b> \\(\\vec{M} = I\\vec{\\varepsilon}\\) или \\(\\vec{M} = \\frac{d\\vec{L}}{dt}\\)</p>
+  <p><b>Основной знакон:</b> \\(\\vec{M} = I\\vec{\\varepsilon}\\) или \\(\\vec{M} = \\frac{d\\vec{L}}{dt}\\)</p>
 
   <h3 class="theory-title">3. Момент инерции (\\(I\\))</h3>
 
   <p><b>Общая формула:</b> \\(I = \\sum m_i r_i^2 = \\int r^2\\,dm\\)</p>
 
-  <h3 class="theory-title">4. Законы сохранения</h3>
+  <h3 class="theory-title">4. Занконы сохранения</h3>
 
   <p><b>ЗСИ:</b> Если \\(\\sum M_{\\text{внеш}} = 0\\), то \\(L = I\\omega = \\text{const}\\)</p>
 </div>
@@ -3263,14 +3474,14 @@ const PHYSICS_THEORY = {
   <p><b>Основное уравнение МКТ:</b></p>
   $$p = nkT, \\quad \\langle W_{кин} \\rangle = \\frac{3}{2} kT$$
 
-  <p><b>Газовые законы:</b></p>
+  <p><b>Газовые знаконы:</b></p>
   <ul>
     <li>Изотерма (\\(T=\\text{const}\\)): \\(pV = \\text{const}\\)</li>
     <li>Изобара (\\(p=\\text{const}\\)): \\(V/T = \\text{const}\\)</li>
     <li>Изохора (\\(V=\\text{const}\\)): \\(p/T = \\text{const}\\)</li>
   </ul>
 
-  <p><b>Закон Дальтона:</b> \\(p_{\\Sigma} = \\sum p_i\\)</p>
+  <p><b>Занкон Дальтона:</b> \\(p_{\\Sigma} = \\sum p_i\\)</p>
 
   <p><b>Характерные скорости:</b></p>
   $$v_{вер} = \\sqrt{\\frac{2RT}{M}}, \\quad v_{кв} = \\sqrt{\\frac{3RT}{M}}$$
@@ -3320,7 +3531,7 @@ const PHYSICS_THEORY = {
   $$p = \\frac{\\rho}{M} RT \\implies \\rho = \\frac{pM}{RT}$$
   <p style="margin-left:1em;">Чем выше температура при одинаковом давлении, тем меньше плотность газа.</p>
 
-  <h3 class="theory-title">3. Газовые законы (Изопроцессы)</h3>
+  <h3 class="theory-title">3. Газовые знаконы (Изопроцессы)</h3>
 
   <p>Процессы, протекающие при неизменном количестве вещества (\\(\\nu = \\text{const}\\)) и одном постоянном макропараметре:</p>
 
@@ -3329,7 +3540,7 @@ const PHYSICS_THEORY = {
       <tr>
         <th style="border:1px solid #ccc; padding:8px;">Процесс</th>
         <th style="border:1px solid #ccc; padding:8px;">Условие</th>
-        <th style="border:1px solid #ccc; padding:8px;">Закон</th>
+        <th style="border:1px solid #ccc; padding:8px;">Занкон</th>
         <th style="border:1px solid #ccc; padding:8px;">График</th>
       </tr>
     </thead>
@@ -3355,7 +3566,7 @@ const PHYSICS_THEORY = {
     </tbody>
   </table>
 
-  <p><b>Закон Дальтона:</b> Полное давление смеси газов равно сумме их парциальных давлений:</p>
+  <p><b>Занкон Дальтона:</b> Полное давление смеси газов равно сумме их парциальных давлений:</p>
   $$p_{\\Sigma} = p_1 + p_2 + \\dots + p_n$$
   <p style="margin-left:1em;"><b>Парциальное давление</b> — давление, которое оказывал бы данный газ, если бы он один занимал весь объем сосуда.</p>
 
@@ -3503,7 +3714,7 @@ const PHYSICS_THEORY = {
 <div class="theory-section">
   <h3 class="theory-title">Минимум для решения задач</h3>
 
-  <p><b>Закон Кулона:</b></p>
+  <p><b>Занкон Кулона:</b></p>
   $$F = k \\frac{|q_1||q_2|}{r^2}, \\quad k = 9 \\cdot 10^9$$
 
   <p><b>Напряжённость:</b></p>
@@ -3536,9 +3747,9 @@ const PHYSICS_THEORY = {
 
   <p><b>Элементарный заряд:</b> \\(|e| = 1{,}67 \\cdot 10^{-19}\\) Кл. Принцип дискретности: \\(Q_{тела} = N \\cdot |e|\\).</p>
 
-  <p><b>Закон сохранения заряда:</b> \\(\\sum q_i = \\text{const}\\).</p>
+  <p><b>Занкон сохранения заряда:</b> \\(\\sum q_i = \\text{const}\\).</p>
 
-  <h3 class="theory-title">2. Закон Кулона</h3>
+  <h3 class="theory-title">2. Занкон Кулона</h3>
 
   <p><b>В вакууме:</b> \\(F = k \\frac{|q_1||q_2|}{r^2}\\)</p>
 
@@ -3579,13 +3790,13 @@ const PHYSICS_THEORY = {
 <div class="theory-section">
   <h3 class="theory-title">Минимум для решения задач</h3>
 
-  <p><b>Закон Ома:</b></p>
+  <p><b>Занкон Ома:</b></p>
   $$I = \\frac{U}{R}$$
 
   <p><b>Сопротивление:</b></p>
   $$R = \\rho \\frac{l}{S}$$
 
-  <p><b>Закон Джоуля-Ленца:</b></p>
+  <p><b>Занкон Джоуля-Ленца:</b></p>
   $$Q = I^2 R t = U I t = \\frac{U^2}{R} t$$
 
   <p><b>Мощность:</b></p>
@@ -3594,7 +3805,7 @@ const PHYSICS_THEORY = {
   <p><b>ЭДС:</b></p>
   $$\\varepsilon = \\frac{A_{стор}}{q}$$
 
-  <p><b>Закон Ома для полной цепи:</b></p>
+  <p><b>Занкон Ома для полной цепи:</b></p>
   $$I = \\frac{\\varepsilon}{R + r}$$
 
   <p><b>Дифференциальная форма:</b></p>
@@ -3612,7 +3823,7 @@ const PHYSICS_THEORY = {
     <li>\\(j = |q_0| n \\langle v \\rangle\\) (микроскопическая формула)</li>
   </ul>
 
-  <h3 class="theory-title">2. Закон Ома для однородного участка</h3>
+  <h3 class="theory-title">2. Занкон Ома для однородного участка</h3>
 
   <p><b>Однородный участок:</b> только кулоновские силы (нет ЭДС).</p>
 
@@ -3620,7 +3831,7 @@ const PHYSICS_THEORY = {
 
   <p><b>Сопротивление:</b> \\(R = \\rho \\frac{l}{S}\\)</p>
 
-  <h3 class="theory-title">3. Закон Джоуля — Ленца</h3>
+  <h3 class="theory-title">3. Занкон Джоуля — Ленца</h3>
 
   $$Q = I^2 R t = U I t = \\frac{U^2}{R} t$$
 
@@ -3632,15 +3843,15 @@ const PHYSICS_THEORY = {
 
   <p><b>Напряжение:</b> \\(U_{1,2} = (\\varphi_1 - \\varphi_2) + \\varepsilon_{1,2}\\)</p>
 
-  <p><b>Закон Ома для полной цепи:</b> \\(I = \\frac{\\varepsilon}{R + r}\\)</p>
+  <p><b>Занкон Ома для полной цепи:</b> \\(I = \\frac{\\varepsilon}{R + r}\\)</p>
 
   <h3 class="theory-title">5. Дифференциальная форма</h3>
 
-  <p><b>Закон Ома:</b> \\(\\vec{j} = \\sigma \\vec{E}\\)</p>
+  <p><b>Занкон Ома:</b> \\(\\vec{j} = \\sigma \\vec{E}\\)</p>
 
   <p><b>При сторонних силах:</b> \\(\\vec{j} = \\sigma (\\vec{E} + \\vec{E}_{стор})\\)</p>
 
-  <p><b>Закон Джоуля-Ленца:</b> \\(w = \\vec{j} \\cdot \\vec{E} = \\sigma E^2\\)</p>
+  <p><b>Занкон Джоуля-Ленца:</b> \\(w = \\vec{j} \\cdot \\vec{E} = \\sigma E^2\\)</p>
 </div>
 `,
   magnetizm: `
@@ -3685,7 +3896,7 @@ const PHYSICS_THEORY = {
 
   <p><b>Направление:</b> правило левой руки.</p>
 
-  <h3 class="theory-title">3. Закон Био-Савара-Лапласа</h3>
+  <h3 class="theory-title">3. Занкон Био-Савара-Лапласа</h3>
 
   $$d\\vec{B} = \\frac{\\mu \\mu_0}{4\\pi} \\frac{[I d\\vec{l} \\times \\vec{r}]}{r^3}$$
 
@@ -3724,7 +3935,7 @@ const PHYSICS_THEORY = {
   <p><b>Магнитный поток:</b></p>
   $$\\Phi = B S \\cos\\alpha$$
 
-  <p><b>Закон Фарадея:</b></p>
+  <p><b>Занкон Фарадея:</b></p>
   $$\\varepsilon_i = -\\frac{d\\Phi}{dt}$$
 
   <p><b>Индукционный ток:</b></p>
@@ -3761,7 +3972,7 @@ const PHYSICS_THEORY = {
   $$\\Phi = B S \\cos\\alpha$$
   <p style="margin-left:1em;">\\(\\alpha\\) — угол между \\(\\vec{B}\\) и нормалью к контуру.</p>
 
-  <h3 class="theory-title">3. Закон Фарадея</h3>
+  <h3 class="theory-title">3. Занкон Фарадея</h3>
 
   $$\\varepsilon_i = -\\frac{d\\Phi}{dt}$$
 
@@ -4127,95 +4338,22 @@ function toggleExamTask(taskId) {
         examTasksProgress[taskId] = true;
     }
     saveExamProgress();
-    const checkbox = document.getElementById(`exam_chk_${taskId}`);
-    const taskTitle = document.getElementById(`exam_title_${taskId}`);
-    const taskCard = document.querySelector(`.task-card[data-task-id="exam_${taskId}"]`);
-    if (checkbox) checkbox.checked = examTasksProgress[taskId] === true;
-    if (taskTitle) {
-        taskTitle.style.textDecoration = examTasksProgress[taskId] ? 'line-through' : 'none';
-    }
-    if (taskCard) {
-        taskCard.classList.toggle('completed', examTasksProgress[taskId]);
-    }
+    const currentGroup = localStorage.getItem('exam_selected_group') || '0';
+    updateExamUI();
     renderPracticeSidebar();
 }
 
-function toggleExamType(typeIdx) {
-    const content = document.getElementById(`exam-type-${typeIdx}-content`);
-    const toggleBtn = document.getElementById(`exam-toggle-type-${typeIdx}`);
-    if (content && toggleBtn) {
-        const isOpening = content.style.display === 'none';
-        if (isOpening) {
-            content.style.display = 'block';
-            toggleBtn.innerHTML = '▼';
-            if (!content.dataset.katexRendered && typeof renderMathInElement !== 'undefined') {
-                typesetKaTeX([content]);
-                content.dataset.katexRendered = '1';
-            }
-        } else {
-            content.style.display = 'none';
-            toggleBtn.innerHTML = '▶';
-        }
-        saveExamSectionsState();
-        syncExamToggleBtn();
-    }
-}
-
-function syncExamToggleBtn() {
-    let anyExpanded = false;
-    for (let t = 0; t < examTasksData.length; t++) {
-        const content = document.getElementById(`exam-type-${t}-content`);
-        if (content && content.style.display !== 'none') { anyExpanded = true; break; }
-    }
-    const btn = document.getElementById('toggle-all-exam');
-    if (btn) btn.textContent = anyExpanded ? '📁 Свернуть всё' : '📂 Развернуть всё';
-}
-
-function saveExamSectionsState() {
-    const state = {};
-    for (let t = 0; t < examTasksData.length; t++) {
-        const content = document.getElementById(`exam-type-${t}-content`);
-        if (content) state[t] = content.style.display !== 'none';
-    }
-    localStorage.setItem('exam_sections_state', JSON.stringify(state));
-}
-
-function toggleAllExamTasks() {
-    const pane = document.getElementById('exam-tasks-content');
-    if (!pane) return;
-    let anyExpanded = false;
-    for (let t = 0; t < examTasksData.length; t++) {
-        const content = document.getElementById(`exam-type-${t}-content`);
-        if (content && content.style.display !== 'none') anyExpanded = true;
-    }
-    for (let t = 0; t < examTasksData.length; t++) {
-        const content = document.getElementById(`exam-type-${t}-content`);
-        const toggleBtn = document.getElementById(`exam-toggle-type-${t}`);
-        if (content && toggleBtn) {
-            content.style.display = anyExpanded ? 'none' : 'block';
-            toggleBtn.innerHTML = anyExpanded ? '▶' : '▼';
-        }
-    }
-    saveExamSectionsState();
-    if (anyExpanded) {
-        pane.querySelectorAll('.solution').forEach(s => {
-            s.style.display = 'none';
-        });
-    } else {
-        for (let t = 0; t < examTasksData.length; t++) {
-            const content = document.getElementById(`exam-type-${t}-content`);
-            if (content && !content.dataset.katexRendered && typeof renderMathInElement !== 'undefined') {
-                typesetKaTeX([content]);
-                content.dataset.katexRendered = '1';
-            }
-        }
-    }
-    syncExamToggleBtn();
-}
+function toggleExamType(typeIdx) {}
+function saveExamSectionsState() {}
+function toggleAllExamTasks() {}
+function syncExamToggleBtn() {}
 
 function resetExamProgress() {
     if (confirm("Сбросить весь прогресс экзаменационных задач?")) {
         examTasksProgress = {};
+        examMatrixAnswers = {};
+        examMatrixFeedback = {};
+        localStorage.setItem('exam_matrix_answers', JSON.stringify(examMatrixAnswers));
         saveExamProgress();
         renderExamTasks();
         alert("✅ Прогресс экзаменационных задач сброшен!");
@@ -4238,19 +4376,6 @@ function updateExamStats() {
     if (percentSpan) percentSpan.textContent = total > 0 ? ((solved / total) * 100).toFixed(1) + '%' : '0%';
     if (progressFill) progressFill.style.width = total > 0 ? (solved / total) * 100 + '%' : '0%';
     if (remainingSpan) remainingSpan.textContent = remaining;
-
-    for (let t = 0; t < examTasksData.length; t++) {
-        const counter = document.getElementById(`exam-type-${t}-counter`);
-        if (counter) {
-            let solvedInType = 0;
-            let id = 1;
-            for (let pt = 0; pt < t; pt++) id += examTasksData[pt].tasks.length;
-            for (let i = 0; i < examTasksData[t].tasks.length; i++) {
-                if (examTasksProgress[id + i]) solvedInType++;
-            }
-            counter.textContent = `${solvedInType}/${examTasksData[t].tasks.length}`;
-        }
-    }
 }
 
 function fixNeq(html) {
@@ -4281,6 +4406,290 @@ function fixNeq(html) {
     return result;
 }
 
+function renderVectorInput(taskId, answer) {
+    const n = answer.vectors.length;
+    const dim = answer.vectors[0].length;
+    const label = answer.inputLabel || 'Введите базис:';
+    let html = `<div class="matrix-input-block" id="vector_block_${taskId}">`;
+    html += `<div class="matrix-input-label"><strong>${label}</strong></div>`;
+    html += `<div class="vector-formula">`;
+    html += `<span class="vector-formula-prefix">$\\bar{x}_{\\lambda=1} =$</span>`;
+    for (let i = 0; i < n; i++) {
+        if (i > 0) html += `<span class="vector-formula-plus"> + </span>`;
+        html += `<span class="vector-formula-alpha">$\\alpha_{${i + 1}}$</span>`;
+        html += `<span class="vector-unit">`;
+        html += `<span class="vector-formula-bracket">(</span>`;
+        html += `<table class="vector-formula-table">`;
+        for (let j = 0; j < dim; j++) {
+            const val = (examMatrixAnswers && examMatrixAnswers[taskId] && examMatrixAnswers[taskId][`v${i}_${j}`]) || '';
+            html += `<tr><td><input type="text" class="matrix-cell-input vector-cell-small" id="vcell_${taskId}_${i}_${j}" value="${val}" onchange="saveExamVectorCell(${taskId}, ${i}, ${j}, this.value)"></td></tr>`;
+        }
+        html += `</table>`;
+        html += `<span class="vector-formula-bracket">)</span>`;
+        html += `</span>`;
+    }
+    html += `<span class="vector-formula-cond">$\\quad \\alpha_1^2 + \\alpha_2^2 > 0.$</span>`;
+    html += `</div>`;
+    html += `<div class="matrix-check-row">`;
+    html += `<button class="matrix-check-btn" onclick="checkExamVectorAnswer(${taskId})">Проверить</button>`;
+    const fb = (examMatrixFeedback && examMatrixFeedback[taskId]) || '';
+    if (fb) {
+        html += `<span class="matrix-feedback ${fb === 'correct' ? 'fb-correct' : 'fb-wrong'}">${fb === 'correct' ? '✅ Верно!' : '❌ Неверно. Попробуйте ещё раз.'}</span>`;
+    }
+    html += `</div></div>`;
+    return html;
+}
+
+function saveExamVectorCell(taskId, i, j, val) {
+    if (!examMatrixAnswers[taskId]) examMatrixAnswers[taskId] = {};
+    examMatrixAnswers[taskId][`v${i}_${j}`] = val;
+    localStorage.setItem('exam_matrix_answers', JSON.stringify(examMatrixAnswers));
+}
+
+function checkExamVectorAnswer(taskId) {
+    const task = findExamTask(taskId);
+    if (!task || !task.answer || !task.answer.vectors) return;
+    const ans = task.answer.vectors;
+    const n = ans.length;
+    const dim = ans[0].length;
+    let allCorrect = true;
+
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < dim; j++) {
+            const input = document.getElementById(`vcell_${taskId}_${i}_${j}`);
+            if (!input) continue;
+            const userVal = parseUserNumber(input.value);
+            const correctVal = ans[i][j];
+            if (isNaN(userVal) || userVal !== correctVal) {
+                allCorrect = false;
+                input.classList.add('matrix-cell-wrong');
+                input.classList.remove('matrix-cell-correct');
+            } else {
+                input.classList.add('matrix-cell-correct');
+                input.classList.remove('matrix-cell-wrong');
+            }
+        }
+    }
+
+    examMatrixFeedback[taskId] = allCorrect ? 'correct' : 'wrong';
+    if (allCorrect) {
+        examTasksProgress[taskId] = true;
+        saveExamProgress();
+    }
+    updateExamUI();
+}
+
+function renderRankDefectInput(taskId, answer) {
+    const label = answer.inputLabel || 'Введите ранг и дефект:';
+    const rVal = (examMatrixAnswers && examMatrixAnswers[taskId] && examMatrixAnswers[taskId]['rank']) || '';
+    const dVal = (examMatrixAnswers && examMatrixAnswers[taskId] && examMatrixAnswers[taskId]['defect']) || '';
+    let html = `<div class="matrix-input-block" id="rankdef_block_${taskId}">`;
+    html += `<div class="matrix-input-label"><strong>${label}</strong></div>`;
+    html += `<div class="rankdef-row">`;
+    html += `<div class="rankdef-field"><span class="rankdef-var">$r$</span> = <input type="text" class="matrix-cell-input rankdef-input" id="rval_${taskId}" value="${rVal}" onchange="saveExamRankDefect(${taskId}, 'rank', this.value)"></div>`;
+    html += `<div class="rankdef-field"><span class="rankdef-var">$d$</span> = <input type="text" class="matrix-cell-input rankdef-input" id="dval_${taskId}" value="${dVal}" onchange="saveExamRankDefect(${taskId}, 'defect', this.value)"></div>`;
+    html += `</div>`;
+    html += `<div class="matrix-check-row">`;
+    html += `<button class="matrix-check-btn" onclick="checkExamRankDefectAnswer(${taskId})">Проверить</button>`;
+    const fb = (examMatrixFeedback && examMatrixFeedback[taskId]) || '';
+    if (fb) {
+        html += `<span class="matrix-feedback ${fb === 'correct' ? 'fb-correct' : 'fb-wrong'}">${fb === 'correct' ? '✅ Верно!' : '❌ Неверно. Попробуйте ещё раз.'}</span>`;
+    }
+    html += `</div></div>`;
+    return html;
+}
+
+function saveExamRankDefect(taskId, field, val) {
+    if (!examMatrixAnswers[taskId]) examMatrixAnswers[taskId] = {};
+    examMatrixAnswers[taskId][field] = val;
+    localStorage.setItem('exam_matrix_answers', JSON.stringify(examMatrixAnswers));
+}
+
+function checkExamRankDefectAnswer(taskId) {
+    const task = findExamTask(taskId);
+    if (!task || !task.answer || task.answer.rank === undefined) return;
+    const rInput = document.getElementById(`rval_${taskId}`);
+    const dInput = document.getElementById(`dval_${taskId}`);
+    if (!rInput || !dInput) return;
+    const userR = parseUserNumber(rInput.value);
+    const userD = parseUserNumber(dInput.value);
+    const correctR = task.answer.rank;
+    const correctD = task.answer.defect;
+    const rOk = !isNaN(userR) && userR === correctR;
+    const dOk = !isNaN(userD) && userD === correctD;
+    rInput.classList.toggle('matrix-cell-correct', rOk);
+    rInput.classList.toggle('matrix-cell-wrong', !rOk && rInput.value !== '');
+    dInput.classList.toggle('matrix-cell-correct', dOk);
+    dInput.classList.toggle('matrix-cell-wrong', !dOk && dInput.value !== '');
+    const allCorrect = rOk && dOk;
+    examMatrixFeedback[taskId] = allCorrect ? 'correct' : 'wrong';
+    if (allCorrect) {
+        examTasksProgress[taskId] = true;
+        saveExamProgress();
+    }
+    updateExamUI();
+}
+
+function renderSignInput(taskId, answer) {
+    const label = answer.inputLabel || 'Введите ответ:';
+    const val = (examMatrixAnswers && examMatrixAnswers[taskId] && examMatrixAnswers[taskId]['sign']) || '';
+    let html = `<div class="matrix-input-block" id="sign_block_${taskId}">`;
+    html += `<div class="matrix-input-label"><strong>${label}</strong></div>`;
+    html += `<input type="text" class="matrix-cell-input" id="signval_${taskId}" value="${val}" onchange="saveExamSignAnswer(${taskId}, this.value)" placeholder="например: знакопеременная" style="width:280px;">`;
+    html += `<div class="matrix-check-row">`;
+    html += `<button class="matrix-check-btn" onclick="checkExamSignAnswer(${taskId})">Проверить</button>`;
+    const fb = (examMatrixFeedback && examMatrixFeedback[taskId]) || '';
+    if (fb) {
+        html += `<span class="matrix-feedback ${fb === 'correct' ? 'fb-correct' : 'fb-wrong'}">${fb === 'correct' ? '✅ Верно!' : '❌ Неверно. Попробуйте ещё раз.'}</span>`;
+    }
+    html += `</div></div>`;
+    return html;
+}
+
+function saveExamSignAnswer(taskId, val) {
+    if (!examMatrixAnswers[taskId]) examMatrixAnswers[taskId] = {};
+    examMatrixAnswers[taskId]['sign'] = val;
+    localStorage.setItem('exam_matrix_answers', JSON.stringify(examMatrixAnswers));
+}
+
+function checkExamSignAnswer(taskId) {
+    const task = findExamTask(taskId);
+    if (!task || !task.answer || !task.answer.sign) return;
+    const input = document.getElementById(`signval_${taskId}`);
+    if (!input) return;
+    const userVal = input.value.trim().toLowerCase();
+    const correctVal = task.answer.sign.toLowerCase();
+    const ok = userVal === correctVal;
+    input.classList.toggle('matrix-cell-correct', ok);
+    input.classList.toggle('matrix-cell-wrong', !ok && input.value !== '');
+    examMatrixFeedback[taskId] = ok ? 'correct' : 'wrong';
+    if (ok) {
+        examTasksProgress[taskId] = true;
+        saveExamProgress();
+    }
+    updateExamUI();
+}
+
+function renderMatrixInput(taskId, answer) {
+    const n = answer.matrix.length;
+    const label = answer.inputLabel || 'Введите матрицу:';
+    const showDet = answer.showDet !== false;
+    const bracketScale = 1.5 * n + 0.5;
+    let html = `<div class="matrix-input-block" id="matrix_block_${taskId}">`;
+    html += `<div class="matrix-input-label"><strong>${label}</strong></div>`;
+    html += `<div class="matrix-input-bracket-wrap">`;
+    html += `<span class="vector-formula-bracket" style="transform:scaleY(${bracketScale.toFixed(1)})">(</span>`;
+    html += `<table class="matrix-input-table">`;
+    for (let i = 0; i < n; i++) {
+        html += `<tr>`;
+        for (let j = 0; j < n; j++) {
+            const val = (examMatrixAnswers && examMatrixAnswers[taskId] && examMatrixAnswers[taskId][`${i}_${j}`]) || '';
+            html += `<td><input type="text" class="matrix-cell-input" id="mcell_${taskId}_${i}_${j}" value="${val}" onchange="saveExamMatrixCell(${taskId}, ${i}, ${j}, this.value)"></td>`;
+        }
+        html += `</tr>`;
+    }
+    html += `</table>`;
+    html += `<span class="vector-formula-bracket" style="transform:scaleY(${bracketScale.toFixed(1)})">)</span>`;
+    html += `</div>`;
+    if (showDet) {
+        html += `<div class="matrix-input-label" style="margin-top:10px;"><strong>|Г| =</strong></div>`;
+        const detVal = (examMatrixAnswers && examMatrixAnswers[taskId] && examMatrixAnswers[taskId]['det']) || '';
+        html += `<input type="text" class="matrix-det-input" id="mdet_${taskId}" value="${detVal}" onchange="saveExamMatrixDet(${taskId}, this.value)" placeholder="">`;
+    }
+    html += `<div class="matrix-check-row">`;
+    html += `<button class="matrix-check-btn" onclick="checkExamMatrixAnswer(${taskId})">Проверить</button>`;
+    const fb = (examMatrixFeedback && examMatrixFeedback[taskId]) || '';
+    if (fb) {
+        html += `<span class="matrix-feedback ${fb === 'correct' ? 'fb-correct' : 'fb-wrong'}">${fb === 'correct' ? '✅ Верно!' : '❌ Неверно. Попробуйте ещё раз.'}</span>`;
+    }
+    html += `</div></div>`;
+    return html;
+}
+
+let examMatrixAnswers = JSON.parse(localStorage.getItem('exam_matrix_answers')) || {};
+let examMatrixFeedback = {};
+
+function saveExamMatrixCell(taskId, i, j, val) {
+    if (!examMatrixAnswers[taskId]) examMatrixAnswers[taskId] = {};
+    examMatrixAnswers[taskId][`${i}_${j}`] = val;
+    localStorage.setItem('exam_matrix_answers', JSON.stringify(examMatrixAnswers));
+}
+
+function saveExamMatrixDet(taskId, val) {
+    if (!examMatrixAnswers[taskId]) examMatrixAnswers[taskId] = {};
+    examMatrixAnswers[taskId]['det'] = val;
+    localStorage.setItem('exam_matrix_answers', JSON.stringify(examMatrixAnswers));
+}
+
+function parseUserNumber(str) {
+    str = str.replace(',', '.').trim();
+    if (str.includes('/')) {
+        const parts = str.split('/');
+        if (parts.length === 2) {
+            const a = parseFloat(parts[0]);
+            const b = parseFloat(parts[1]);
+            if (!isNaN(a) && !isNaN(b) && b !== 0) return a / b;
+        }
+    }
+    return parseFloat(str);
+}
+
+function checkExamMatrixAnswer(taskId) {
+    const task = findExamTask(taskId);
+    if (!task || !task.answer) return;
+    const ans = task.answer;
+    const n = ans.matrix.length;
+    let allCorrect = true;
+
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            const input = document.getElementById(`mcell_${taskId}_${i}_${j}`);
+            if (!input) continue;
+            const userVal = parseUserNumber(input.value);
+            const correctVal = ans.matrix[i][j];
+            if (isNaN(userVal) || userVal !== correctVal) {
+                allCorrect = false;
+                input.classList.add('matrix-cell-wrong');
+                input.classList.remove('matrix-cell-correct');
+            } else {
+                input.classList.add('matrix-cell-correct');
+                input.classList.remove('matrix-cell-wrong');
+            }
+        }
+    }
+
+    const detInput = document.getElementById(`mdet_${taskId}`);
+    if (detInput && ans.showDet !== false) {
+        const userDet = parseUserNumber(detInput.value);
+        if (isNaN(userDet) || userDet !== ans.det) {
+            allCorrect = false;
+            detInput.classList.add('matrix-cell-wrong');
+            detInput.classList.remove('matrix-cell-correct');
+        } else {
+            detInput.classList.add('matrix-cell-correct');
+            detInput.classList.remove('matrix-cell-wrong');
+        }
+    }
+
+    examMatrixFeedback[taskId] = allCorrect ? 'correct' : 'wrong';
+    if (allCorrect) {
+        examTasksProgress[taskId] = true;
+        saveExamProgress();
+    }
+    updateExamUI();
+}
+
+function findExamTask(taskId) {
+    let id = 1;
+    for (const type of examTasksData) {
+        for (const task of type.tasks) {
+            if (id === taskId) return task;
+            id++;
+        }
+    }
+    return null;
+}
+
 function renderExamTasks() {
     const pane = document.getElementById('exam-tasks-content');
     if (!pane) return;
@@ -4288,18 +4697,13 @@ function renderExamTasks() {
     const total = examTasksData.reduce((sum, t) => sum + t.tasks.length, 0);
     const solved = getExamSolvedCount();
 
-    const examSectionsState = JSON.parse(localStorage.getItem('exam_sections_state')) || {};
-    const anySectionExpanded = examTasksData.some((_, t) => examSectionsState[t] !== false);
+    const groups = buildExamGroups();
+
+    const savedGroup = localStorage.getItem('exam_selected_group') || '0';
+    const selectedGroup = groups[savedGroup] ? savedGroup : '0';
 
     let html = `
-    <div class="toolbar" style="margin-bottom: 16px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-        <button class="btn-save" onclick="exportAllToFile()">💾 Сохранить прогресс</button>
-        <button class="btn-load" onclick="importAllFromFile()">📂 Загрузить прогресс</button>
-        <button class="btn-save" id="toggle-all-exam" onclick="toggleAllExamTasks()">${anySectionExpanded ? '📁 Свернуть всё' : '📂 Развернуть всё'}</button>
-        <button class="reset-btn" onclick="resetExamProgress()" style="padding: 5px 18px; border-radius: 20px; font-size: 0.8rem;">🗑️ Сбросить</button>
-    </div>
-
-    <div class="kr-stats-panel">
+    <div class="kr-stats-panel" style="margin-bottom: 16px;">
         <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; align-items: center;">
             <div class="stats-grid-inline" style="flex:1;">
                 <div class="stats-grid-item">
@@ -4324,62 +4728,150 @@ function renderExamTasks() {
             <div class="progress-fill" id="exam-progress-fill" style="width: ${total > 0 ? (solved / total) * 100 : 0}%;"></div>
         </div>
     </div>
-`;
 
-    let taskId = 1;
-    for (let t = 0; t < examTasksData.length; t++) {
-        const type = examTasksData[t];
-        let solvedInType = 0;
-        for (let i = 0; i < type.tasks.length; i++) {
-            if (examTasksProgress[taskId + i]) solvedInType++;
-        }
-        const isExpanded = examSectionsState[t] !== false;
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px; flex-wrap:wrap;">
+        <label style="font-weight:600; color:var(--ink-blue); white-space:nowrap;">📝 Задача:</label>
+        <select id="exam-task-select" onchange="selectExamGroup(this.value)" style="flex:1; min-width:200px; padding:8px 12px; border:1.5px solid var(--ink-blue); border-radius:6px; font-size:0.95rem; background:var(--card-bg); color:var(--ink); cursor:pointer;">
+            ${Object.entries(groups).map(([key, g]) => {
+                const solvedInGroup = g.taskIds.filter(id => examTasksProgress[id]).length;
+                const mark = solvedInGroup === g.taskIds.length && g.taskIds.length > 0 ? '✅ ' : solvedInGroup > 0 ? '🔶 ' : '';
+                return `<option value="${key}" ${key === selectedGroup ? 'selected' : ''}>${mark}${g.title} (${solvedInGroup}/${g.taskIds.length})</option>`;
+            }).join('')}
+        </select>
+        <button class="reset-btn" onclick="resetExamProgress()" style="padding:5px 14px; border-radius:20px; font-size:0.8rem;">🗑️ Сбросить</button>
+    </div>
 
-        html += `
-        <div class="theory-section" style="margin-bottom: 1.5rem;">
-            <div class="integrals-section-header" style="padding: 0.8rem 1.2rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="toggleExamType(${t})">
-                <div style="display: flex; align-items: center; gap: 12px;">
-                    <span class="section-toggle" id="exam-toggle-type-${t}" style="color:var(--ink-blue); font-size:1.2rem;">${isExpanded ? '▼' : '▶'}</span>
-                    <span style="color:var(--ink-blue); font-weight:600;">${type.title}</span>
-                    <span style="color:var(--pencil); font-size:0.8rem;">(${type.tasks.length} ${pluralTasks(type.tasks.length)})</span>
-                </div>
-                <div style="font-size:0.8rem; color:var(--pencil);">
-                    ✅ <span id="exam-type-${t}-counter">${solvedInType}/${type.tasks.length}</span>
-                </div>
-            </div>
-            <div class="section-content" id="exam-type-${t}-content" style="display: ${isExpanded ? 'block' : 'none'}; padding: 0.5rem 1.5rem 1.5rem;">
-                <p style="margin:8px 0; font-size:0.85rem; color:var(--pencil);">📌 <strong>Темы:</strong> ${type.desc}</p>`;
-
-        for (let i = 0; i < type.tasks.length; i++) {
-            const task = type.tasks[i];
-            const id = taskId++;
-
-            html += `
-                <div class="task-card${examTasksProgress[id] ? ' completed' : ''}" data-task-id="exam_${id}">
-                    <div class="task-header" onclick="toggleSolution(this.parentElement)">
-                        <div style="display: flex; align-items: center; gap: 12px;">
-                            <input type="checkbox" id="exam_chk_${id}" ${examTasksProgress[id] ? 'checked' : ''} onclick="event.stopPropagation(); toggleExamTask(${id})" style="width: 18px; height: 18px; cursor: pointer;">
-                            <span class="task-title" id="exam_title_${id}" style="${examTasksProgress[id] ? 'text-decoration: line-through;' : ''}">📌 ${task.label}</span>
-                        </div>
-                        <span class="task-points">${type.points} баллов</span>
-                    </div>
-                    <div class="task-content">
-                        <div class="task-demand"><strong>Условие:</strong><br>${task.cond}</div>
-                        <div class="solution" style="display:none; font-size: 1.05em; line-height: 1.6; padding: 15px;">
-                            ${task.solution || '<em>Решение будет добавлено позже.</em>'}
-                        </div>
-                    </div>
-                </div>`;
-        }
-        html += `</div></div>`;
-    }
+    <div id="exam-task-container"></div>
+    `;
 
     html = fixNeq(html);
     pane.innerHTML = html;
-    updateExamStats();
-    restoreSolutionStates('exam');
-    const visibleSections = Array.from(pane.querySelectorAll('.section-content')).filter(el => el.style.display !== 'none');
-    typesetKaTeX(visibleSections, () => {});
+    renderExamGroup(selectedGroup);
+}
+
+function updateExamUI() {
+    const total = examTasksData.reduce((sum, t) => sum + t.tasks.length, 0);
+    const solved = getExamSolvedCount();
+    const el = (id) => document.getElementById(id);
+    if (el('exam-solved')) el('exam-solved').textContent = solved;
+    if (el('exam-total')) el('exam-total').textContent = total;
+    if (el('exam-percent')) el('exam-percent').textContent = total > 0 ? ((solved / total) * 100).toFixed(1) + '%' : '0%';
+    if (el('exam-remaining')) el('exam-remaining').textContent = Math.max(0, total - solved);
+    if (el('exam-progress-fill')) el('exam-progress-fill').style.width = (total > 0 ? (solved / total) * 100 : 0) + '%';
+
+    const groups = buildExamGroups();
+    const savedGroup = localStorage.getItem('exam_selected_group') || '0';
+    const selectedGroup = groups[savedGroup] ? savedGroup : '0';
+    renderExamGroup(selectedGroup);
+
+    const select = el('exam-task-select');
+    if (select && select.value !== selectedGroup) {
+        select.value = selectedGroup;
+    }
+
+    const selectEl = el('exam-task-select');
+    if (selectEl) {
+        const opts = selectEl.options;
+        for (let i = 0; i < opts.length; i++) {
+            const key = opts[i].value;
+            const g = groups[key];
+            if (!g) continue;
+            const solvedInGroup = g.taskIds.filter(id => examTasksProgress[id]).length;
+            const mark = solvedInGroup === g.taskIds.length && g.taskIds.length > 0 ? '✅ ' : solvedInGroup > 0 ? '🔶 ' : '';
+            opts[i].textContent = `${mark}${g.title} (${solvedInGroup}/${g.taskIds.length})`;
+        }
+    }
+}
+
+function buildExamGroups() {
+    return {
+        '0': { title: 'Тип 1. Матрица Грама', taskIds: [1, 2, 3] },
+        '1': { title: 'Тип 2. Смена базиса', taskIds: [4, 5, 6] },
+        '2': { title: 'Тип 3. Собственные векторы', taskIds: [7, 8, 9] },
+        '3': { title: 'Тип 4. Ранг и дефект', taskIds: [10, 11, 12] },
+        '4': { title: 'Тип 5. Знакоопределённость', taskIds: [13, 14, 15, 16, 17, 18, 19] },
+        '5': { title: 'Тип 6. ДУ: тип ДУ', taskIds: [20, 21] },
+        '6': { title: 'Тип 7. ДУ: понижение порядка', taskIds: [22, 23] },
+        '7': { title: 'Тип 8. ДУ: структура решения', taskIds: [24] },
+        '8': { title: 'Тип 9. ДУ: системы ОЛДУ', taskIds: [25, 26, 27] },
+    };
+}
+
+function renderExamGroup(groupKey) {
+    const container = document.getElementById('exam-task-container');
+    if (!container) return;
+
+    const groups = buildExamGroups();
+    const group = groups[groupKey];
+    if (!group) { container.innerHTML = ''; return; }
+
+    let cardsHtml = '';
+    for (let ti = 0; ti < group.taskIds.length; ti++) {
+        const taskId = group.taskIds[ti];
+        let currentId = 1;
+        let foundTask = null;
+        let foundType = null;
+        for (const type of examTasksData) {
+            for (const task of type.tasks) {
+                if (currentId === taskId) { foundTask = task; foundType = type; break; }
+                currentId++;
+            }
+            if (foundTask) break;
+        }
+        if (!foundTask) continue;
+
+        const isAnalogy = !!foundTask.analogyOf;
+        const typeNum = ti + 1;
+        const shortLabel = foundTask.label.replace(/^Задача \d+[А-Яа-я]*\.\s*/, '');
+        cardsHtml += `
+            <div class="task-card${examTasksProgress[taskId] ? ' completed' : ''}" data-task-id="exam_${taskId}">
+                <div class="task-header">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <input type="checkbox" id="exam_chk_${taskId}" ${examTasksProgress[taskId] ? 'checked' : ''} onclick="event.stopPropagation(); toggleExamTask(${taskId})" style="width: 18px; height: 18px; cursor: pointer;">
+                        <span class="task-title" id="exam_title_${taskId}" style="${examTasksProgress[taskId] ? 'text-decoration: line-through;' : ''}">${shortLabel}</span>
+                    </div>
+                    <span class="task-points">${foundType.points} баллов</span>
+                </div>
+                <div class="task-content">
+                    ${ti === 0 ? '<div style="font-size:0.78rem; color:var(--pencil); padding:4px 0; font-style:italic;">Источник: демо экзамена</div>' : '<div style="font-size:0.78rem; color:var(--pencil); padding:4px 0; font-style:italic;">Источник: аналог</div>'}
+                    <div class="task-demand"><strong>Условие:</strong><br>${foundTask.cond}</div>
+                    ${foundTask.answer && foundTask.answer.matrix ? renderMatrixInput(taskId, foundTask.answer) : ''}
+                    ${foundTask.answer && foundTask.answer.vectors ? renderVectorInput(taskId, foundTask.answer) : ''}
+                    ${foundTask.answer && foundTask.answer.rank !== undefined ? renderRankDefectInput(taskId, foundTask.answer) : ''}
+                    ${foundTask.answer && foundTask.answer.sign ? renderSignInput(taskId, foundTask.answer) : ''}
+                    <div style="padding:8px 0;">
+                        <button class="matrix-check-btn" onclick="toggleExamSolution(${taskId})" id="sol-btn-${taskId}" style="background:rgba(200,240,210,0.4); border-color:var(--ink-green); color:var(--ink-green);">📖 Показать решение</button>
+                    </div>
+                    <div class="solution" id="sol-${taskId}" style="display:none; font-size: 1.05em; line-height: 1.6; padding: 15px;">
+                        ${foundTask.solution || '<em>Решение будет добавлено позже.</em>'}
+                    </div>
+                </div>
+            </div>`;
+    }
+
+    container.innerHTML = cardsHtml;
+    typesetKaTeX([container], () => {});
+    const matrixLabels = container.querySelectorAll('.matrix-input-label');
+    if (matrixLabels.length > 0) typesetKaTeX(Array.from(matrixLabels), () => {});
+    const vectorFormulas = container.querySelectorAll('.vector-formula');
+    if (vectorFormulas.length > 0) typesetKaTeX(Array.from(vectorFormulas), () => {});
+    const rankDefBlocks = container.querySelectorAll('.rankdef-row');
+    if (rankDefBlocks.length > 0) typesetKaTeX(Array.from(rankDefBlocks), () => {});
+}
+
+function selectExamGroup(key) {
+    localStorage.setItem('exam_selected_group', key);
+    renderExamGroup(key);
+}
+
+function toggleExamSolution(taskId) {
+    const sol = document.getElementById(`sol-${taskId}`);
+    const btn = document.getElementById(`sol-btn-${taskId}`);
+    if (!sol || !btn) return;
+    const isOpen = sol.style.display === 'block';
+    sol.style.display = isOpen ? 'none' : 'block';
+    btn.textContent = isOpen ? '📖 Показать решение' : '📖 Скрыть решение';
+    if (!isOpen) typesetKaTeX([sol], () => {});
 }
 
 // ========== ТАБЫ ==========

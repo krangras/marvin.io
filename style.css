@@ -1988,6 +1988,106 @@ body {
     margin-bottom: 0.8rem;
 }
 
+.matrix-input-block {
+    background: rgba(220,235,255,0.3);
+    border: 1.5px dashed rgba(26,58,110,0.3);
+    border-radius: 6px;
+    padding: 1rem 1.2rem;
+    margin: 0.8rem 0;
+}
+.matrix-input-label {
+    font-size: 0.9rem;
+    color: var(--ink-blue);
+    margin-bottom: 6px;
+}
+.matrix-input-table {
+    border-collapse: collapse;
+    margin: 6px auto;
+}
+.matrix-input-table td {
+    padding: 2px;
+}
+.matrix-cell-input, .matrix-det-input {
+    width: 52px;
+    padding: 6px 8px;
+    border: 1.5px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    background: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.matrix-cell-input:focus, .matrix-det-input:focus {
+    border-color: var(--ink-blue);
+    box-shadow: 0 0 0 2px rgba(26,58,110,0.15);
+    outline: none;
+}
+.matrix-cell-correct {
+    border-color: var(--ink-green) !important;
+    background: rgba(200,240,210,0.3);
+}
+.matrix-cell-wrong {
+    border-color: #e74c3c !important;
+    background: rgba(231,76,60,0.08);
+}
+.matrix-det-input {
+    width: 100px;
+}
+.matrix-check-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+}
+.matrix-check-btn {
+    padding: 7px 18px;
+    border: 1.5px solid var(--ink-blue);
+    border-radius: 6px;
+    background: rgba(26,58,110,0.08);
+    color: var(--ink-blue);
+    font-family: var(--font-hand);
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.matrix-check-btn:hover {
+    background: rgba(26,58,110,0.18);
+}
+.matrix-feedback {
+    font-family: var(--font-hand);
+    font-size: 0.95rem;
+}
+.fb-correct { color: var(--ink-green); }
+.fb-wrong { color: #e74c3c; }
+[data-theme="dark"] .matrix-input-block {
+    background: rgba(40,55,80,0.3);
+    border-color: rgba(100,140,200,0.3);
+}
+[data-theme="dark"] .matrix-cell-input,
+[data-theme="dark"] .matrix-det-input {
+    background: #1e2a3a;
+    color: #e0e0e0;
+    border-color: #4a5568;
+}
+[data-theme="dark"] .matrix-cell-input:focus,
+[data-theme="dark"] .matrix-det-input:focus {
+    border-color: #6da0d8;
+}
+[data-theme="dark"] .matrix-cell-correct {
+    background: rgba(46,125,50,0.2);
+    border-color: #4caf50 !important;
+}
+[data-theme="dark"] .matrix-cell-wrong {
+    background: rgba(231,76,60,0.15);
+    border-color: #e74c3c !important;
+}
+[data-theme="dark"] .matrix-check-btn {
+    background: rgba(100,140,200,0.15);
+    border-color: #6da0d8;
+    color: #8ab4e8;
+}
+
 .math {
     font-family: var(--font-mono);
     overflow-x: auto;
@@ -2937,4 +3037,102 @@ body {
 }
 [data-theme="dark"] .physics-theory-ok {
     background: #4a6fa5;
+}
+
+/* ===== Vector formula input ===== */
+.vector-formula {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-wrap: wrap;
+    padding: 12px 0;
+    font-size: 1.15em;
+}
+.vector-formula-prefix {
+    margin-right: 8px;
+    font-style: italic;
+}
+.vector-formula-alpha {
+    margin-right: 4px;
+    font-style: italic;
+    color: var(--ink);
+}
+.vector-formula-plus {
+    margin: 0 8px;
+    font-weight: 600;
+    color: var(--ink);
+}
+.vector-unit {
+    display: inline-flex;
+    align-items: stretch;
+    vertical-align: middle;
+}
+.vector-formula-bracket {
+    font-size: 1.4em;
+    font-weight: 300;
+    color: var(--ink);
+    font-family: 'Times New Roman', serif;
+    display: flex;
+    align-items: center;
+    transform: scaleY(2.5);
+    transform-origin: center;
+}
+.vector-formula-table {
+    display: inline-table;
+    border-collapse: collapse;
+    margin: 0 2px;
+    vertical-align: middle;
+}
+.vector-formula-table td {
+    padding: 1px 2px;
+    border: none;
+}
+.vector-cell-small {
+    width: 40px !important;
+    height: 32px !important;
+    text-align: center;
+    font-size: 1em;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Times New Roman', serif;
+}
+.vector-formula-cond {
+    margin-left: 12px;
+    font-style: italic;
+    color: var(--ink);
+}
+
+/* ===== Matrix input with brackets ===== */
+.matrix-input-bracket-wrap {
+    display: inline-flex;
+    align-items: stretch;
+    vertical-align: middle;
+}
+.matrix-input-bracket-wrap .matrix-input-table {
+    margin: 0 2px;
+}
+
+/* ===== Rank/Defect input ===== */
+.rankdef-row {
+    display: flex;
+    gap: 24px;
+    padding: 10px 0;
+    align-items: center;
+}
+.rankdef-field {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 1.15em;
+}
+.rankdef-var {
+    font-style: italic;
+}
+.rankdef-input {
+    width: 60px !important;
+    height: 36px !important;
+    text-align: center;
+    font-size: 1.1em;
 }

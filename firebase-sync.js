@@ -1,7 +1,8 @@
 const SYNC_KEYS = [
   'exam_manager_v9', 'semester1_progress',
   'kr_progress', 'exam_tasks_progress', 'integrals_progress',
-  'physics_progress', 'physics_answers'
+  'physics_progress', 'physics_answers',
+  'exam_matrix_answers'
 ];
 
 let syncTimer = null;
