@@ -1476,6 +1476,12 @@ body {
     overflow-x: hidden;
 }
 
+.conspect-content .katex-display {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
 .cheatsheet > div {
     max-width: 100%;
     overflow-x: hidden;
