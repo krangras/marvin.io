@@ -1,4 +1,4 @@
-const CACHE = 'marvin-v7'
+const CACHE = 'marvin-v8'
 const FILES = [
   '/',
   '/index.html',
@@ -31,17 +31,18 @@ self.addEventListener('activate', e => {
 })
 
 self.addEventListener('fetch', e => {
-  const isSelf = e.request.method === 'GET' && new URL(e.request.url).origin === self.location.origin;
-  if (!isSelf) return;
+  const isSelf = e.request.method === 'GET' && new URL(e.request.url).origin === self.location.origin
+  if (!isSelf) return
   e.respondWith(
-    fetch(e.request)
-      .then(res => {
+    caches.match(e.request).then(cached => {
+      const networkFetch = fetch(e.request).then(res => {
         if (res && res.ok) {
           const clone = res.clone()
           caches.open(CACHE).then(c => c.put(e.request, clone)).catch(() => {})
         }
         return res
-      })
-      .catch(() => caches.match(e.request).then(r => r || new Response('', { status: 503 })))
+      }).catch(() => cached || new Response('Offline', { status: 503 }))
+      return cached || networkFetch
+    })
   )
 })

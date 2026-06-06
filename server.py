@@ -3,6 +3,7 @@ import logging
 import sys
 import os
 import signal
+import mimetypes
 
 logging.basicConfig(
     stream=sys.stdout,
@@ -11,9 +12,24 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S",
 )
 
+EXTRA_MIME = {
+    '.js': 'application/javascript',
+    '.json': 'application/json',
+    '.svg': 'image/svg+xml',
+    '.woff2': 'font/woff2',
+    '.woff': 'font/woff',
+}
+for ext, mime in EXTRA_MIME.items():
+    mimetypes.add_type(mime, ext, strict=True)
+
 class LoggingHandler(http.server.SimpleHTTPRequestHandler):
     def log_message(self, format, *args):
         logging.info("%s - %s", self.client_address[0], format % args)
+
+    def end_headers(self):
+        self.send_header('Connection', 'keep-alive')
+        self.send_header('Cache-Control', 'no-cache')
+        super().end_headers()
 
     def do_GET(self):
         try:
