@@ -2874,15 +2874,18 @@ $$ \\begin{pmatrix} 8 & -8 & 4 \\\\ 8 & -8 & 4 \\\\ 4 & -4 & 2 \\end{pmatrix} \\
             },
             {
                 label: 'Собственные векторы (ранг 2)', analogyOf: 3, cond: 'Найти собственные векторы-столбцы матрицы, соответствующие $\\lambda = 3$: $$ A = \\begin{pmatrix} 5 & 2 & 0 \\\\ 2 & 2 & 0 \\\\ 0 & 0 & 3 \\end{pmatrix} $$',
-                answer: { vectors: [[-1,1,0]], dim: 1, checkSubspace: true, inputLabel: 'Введите базис собственных векторов (ФСР = 1 вектор):' },
+                answer: { vectors: [[0,0,1]], dim: 1, checkSubspace: true, inputLabel: 'Введите базис собственных векторов (ФСР = 1 вектор):' },
                 solution: `<strong>Решение:</strong><br><br>
 1. Составим $A - 3E$:<br>
 $$ A - 3E = \\begin{pmatrix} 2 & 2 & 0 \\\\ 2 & -1 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} $$<br>
 2. Ступенчатый вид:<br>
 $$ \\begin{pmatrix} 2 & 2 & 0 \\\\ 2 & -1 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} \\xrightarrow{R_2 - R_1} \\begin{pmatrix} 2 & 2 & 0 \\\\ 0 & -3 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} $$<br>
-3. Ранг = 2, уравнения: $2x_1 + 2x_2 = 0 \\Rightarrow x_1 = -x_2$, $x_3 = 0$<br>
-4. ФСР: $\\bar{x} = \\begin{pmatrix} -1 \\\\ 1 \\\\ 0 \\end{pmatrix}$
-<strong>Ответ:</strong> $$ \\bar{x}_{\\lambda=3} = \\alpha \\begin{pmatrix} -1 \\\\ 1 \\\\ 0 \\end{pmatrix}, \\quad \\alpha \\neq 0.$$`
+3. Обратный ход метода Гаусса:<br>
+$$ R_2 \\to -\\tfrac{1}{3}R_2: \\quad \\begin{pmatrix} 2 & 2 & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} $$
+$$ R_1 \\to R_1 - 2R_2: \\quad \\begin{pmatrix} 2 & 0 & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} $$<br>
+4. $\\begin{cases} 2x_1 = 0 \\\\ x_2 = 0 \\end{cases} \\Rightarrow x_1 = 0, \\; x_2 = 0$. Переменная $x_3$ — свободная.<br>
+5. ФСР: $\\bar{x} = \\begin{pmatrix} 0 \\\\ 0 \\\\ 1 \\end{pmatrix}$
+<strong>Ответ:</strong> $$ \\bar{x}_{\\lambda=3} = \\alpha \\begin{pmatrix} 0 \\\\ 0 \\\\ 1 \\end{pmatrix}, \\quad \\alpha \\neq 0.$$`
             },
             {
                 label: 'Собственные векторы (ранг 1)', analogyOf: 3, cond: 'Найти собственные векторы-столбцы матрицы, соответствующие $\\lambda = 2$: $$ A = \\begin{pmatrix} 3 & 1 & -1 \\\\ 0 & 2 & 0 \\\\ 1 & 1 & 1 \\end{pmatrix} $$',
