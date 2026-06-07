@@ -2862,31 +2862,35 @@ $$ [\\hat{A}]_{\\text{Б}\'} = \\begin{pmatrix} -3 & 4 \\\\ 1 & 12 \\end{pmatrix
             },
             {
                 label: 'Собственные векторы', cond: 'Найти собственные векторы-столбцы матрицы, соответствующие $\\lambda = 1$: $$ A = \\begin{pmatrix} 9 & -8 & 4 \\\\ 8 & -7 & 4 \\\\ 4 & -4 & 3 \\end{pmatrix} $$',
-                answer: { vectors: [[1,1,0],[1,0,-2]], dim: 2, inputLabel: 'Введите базис собственных векторов (ФСР = 2 вектора):' },
+                answer: { vectors: [[1,1,0],[1,0,-2]], dim: 2, checkSubspace: true, inputLabel: 'Введите базис собственных векторов (ФСР = 2 вектора):' },
                 solution: `<strong>Решение:</strong><br><br>
-1. Составим $A - E$:
+1. Составим $A - E$:<br>
 $$ A - E = \\begin{pmatrix} 8 & -8 & 4 \\\\ 8 & -8 & 4 \\\\ 4 & -4 & 2 \\end{pmatrix} $$<br>
-2. Ступенчатый вид:
-$$ \\begin{pmatrix} 8 & -8 & 4 \\\\ 8 & -8 & 4 \\\\ 4 & -4 & 2 \\end{pmatrix} \\xrightarrow{R_2 - R_1, \\; 2R_3 - R_1} \\begin{pmatrix} 8 & -8 & 4 \\\\ 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} $$<br>
+2. Ступенчатый вид:<br>
+$$ \\begin{pmatrix} 8 & -8 & 4 \\\\ 8 & -8 & 4 \\\\ 4 & -4 & 2 \\end{pmatrix} \\xrightarrow[R_2 - R_1]{2R_3 - R_1} \\begin{pmatrix} 8 & -8 & 4 \\\\ 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} $$<br>
 3. Ранг = 1, уравнение: $2x_1 - 2x_2 + x_3 = 0 \\Rightarrow x_3 = -2x_1 + 2x_2$<br>
 4. ФСР: $\\bar{x}_1 = \\begin{pmatrix} 1 \\\\ 1 \\\\ 0 \\end{pmatrix}, \\quad \\bar{x}_2 = \\begin{pmatrix} 1 \\\\ 0 \\\\ -2 \\end{pmatrix}$
 <strong>Ответ:</strong> $$ \\bar{x}_{\\lambda=1} = \\alpha_1 \\begin{pmatrix} 1 \\\\ 1 \\\\ 0 \\end{pmatrix} + \\alpha_2 \\begin{pmatrix} 1 \\\\ 0 \\\\ -2 \\end{pmatrix}, \\quad \\alpha_1^2 + \\alpha_2^2 > 0.$$`
             },
             {
-                label: 'Собственные векторы (другой базис)', analogyOf: 3, cond: 'Найти собственные векторы-столбцы матрицы, соответствующие $\\lambda = 1$: $$ A = \\begin{pmatrix} 9 & -8 & 4 \\\\ 8 & -7 & 4 \\\\ 4 & -4 & 3 \\end{pmatrix} $$',
-                answer: { vectors: [[1,0,-2],[0,1,2]], dim: 2, inputLabel: 'Введите базис собственных векторов (ФСР = 2 вектора):' },
+                label: 'Собственные векторы (ранг 2)', analogyOf: 3, cond: 'Найти собственные векторы-столбцы матрицы, соответствующие $\\lambda = 3$: $$ A = \\begin{pmatrix} 5 & 2 & 0 \\\\ 2 & 2 & 0 \\\\ 0 & 0 & 3 \\end{pmatrix} $$',
+                answer: { vectors: [[-1,1,0]], dim: 1, checkSubspace: true, inputLabel: 'Введите базис собственных векторов (ФСР = 1 вектор):' },
                 solution: `<strong>Решение:</strong><br><br>
-1. $A - E = \\begin{pmatrix} 8 & -8 & 4 \\\\ 8 & -8 & 4 \\\\ 4 & -4 & 2 \\end{pmatrix}$, ранг = 1<br>
-2. Уравнение: $2x_1 - 2x_2 + x_3 = 0 \\Rightarrow x_3 = -2x_1 + 2x_2$<br>
-3. ФСР (другой выбор свободных): $\\bar{x}_1 = \\begin{pmatrix} 1 \\\\ 0 \\\\ -2 \\end{pmatrix}, \\quad \\bar{x}_2 = \\begin{pmatrix} 0 \\\\ 1 \\\\ 2 \\end{pmatrix}$
-<strong>Ответ:</strong> $$ \\bar{x}_{\\lambda=1} = \\alpha_1 \\begin{pmatrix} 1 \\\\ 0 \\\\ -2 \\end{pmatrix} + \\alpha_2 \\begin{pmatrix} 0 \\\\ 1 \\\\ 2 \\end{pmatrix}, \\quad \\alpha_1^2 + \\alpha_2^2 > 0.$$`
+1. Составим $A - 3E$:<br>
+$$ A - 3E = \\begin{pmatrix} 2 & 2 & 0 \\\\ 2 & -1 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} $$<br>
+2. Ступенчатый вид:<br>
+$$ \\begin{pmatrix} 2 & 2 & 0 \\\\ 2 & -1 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} \\xrightarrow{R_2 - R_1} \\begin{pmatrix} 2 & 2 & 0 \\\\ 0 & -3 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} $$<br>
+3. Ранг = 2, уравнения: $2x_1 + 2x_2 = 0 \\Rightarrow x_1 = -x_2$, $x_3 = 0$<br>
+4. ФСР: $\\bar{x} = \\begin{pmatrix} -1 \\\\ 1 \\\\ 0 \\end{pmatrix}$
+<strong>Ответ:</strong> $$ \\bar{x}_{\\lambda=3} = \\alpha \\begin{pmatrix} -1 \\\\ 1 \\\\ 0 \\end{pmatrix}, \\quad \\alpha \\neq 0.$$`
             },
             {
                 label: 'Собственные векторы (ранг 1)', analogyOf: 3, cond: 'Найти собственные векторы-столбцы матрицы, соответствующие $\\lambda = 2$: $$ A = \\begin{pmatrix} 3 & 1 & -1 \\\\ 0 & 2 & 0 \\\\ 1 & 1 & 1 \\end{pmatrix} $$',
-                answer: { vectors: [[-1,1,0],[1,0,1]], dim: 2, inputLabel: 'Введите базис собственных векторов (ФСР = 2 вектора):' },
+                answer: { vectors: [[-1,1,0],[1,0,1]], dim: 2, checkSubspace: true, inputLabel: 'Введите базис собственных векторов (ФСР = 2 вектора):' },
                 solution: `<strong>Решение:</strong><br><br>
-1. $A - 2E = \\begin{pmatrix} 1 & 1 & -1 \\\\ 0 & 0 & 0 \\\\ 1 & 1 & -1 \\end{pmatrix}$<br>
-2. Ступенчатый вид:
+1. Составим $A - 2E$:<br>
+$$ A - 2E = \\begin{pmatrix} 1 & 1 & -1 \\\\ 0 & 0 & 0 \\\\ 1 & 1 & -1 \\end{pmatrix} $$<br>
+2. Ступенчатый вид:<br>
 $$ \\begin{pmatrix} 1 & 1 & -1 \\\\ 0 & 0 & 0 \\\\ 1 & 1 & -1 \\end{pmatrix} \\xrightarrow{R_3 - R_1} \\begin{pmatrix} 1 & 1 & -1 \\\\ 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} $$<br>
 3. Ранг = 1, уравнение: $x_1 + x_2 - x_3 = 0 \\Rightarrow x_1 = -x_2 + x_3$<br>
 4. ФСР: $\\bar{x}_1 = \\begin{pmatrix} -1 \\\\ 1 \\\\ 0 \\end{pmatrix}, \\quad \\bar{x}_2 = \\begin{pmatrix} 1 \\\\ 0 \\\\ 1 \\end{pmatrix}$
@@ -4573,10 +4577,16 @@ function renderVectorInput(taskId, answer) {
     const n = answer.vectors.length;
     const dim = answer.vectors[0].length;
     const label = answer.inputLabel || 'Введите базис:';
+    const task = findExamTask(taskId);
+    let lambdaLabel = '1';
+    if (task && task.cond) {
+        const m = task.cond.match(/\\lambda\s*=\s*(\d+)/);
+        if (m) lambdaLabel = m[1];
+    }
     let html = `<div class="matrix-input-block" id="vector_block_${taskId}">`;
     html += `<div class="matrix-input-label"><strong>${label}</strong></div>`;
     html += `<div class="vector-formula">`;
-    html += `<span class="vector-formula-prefix">$\\bar{x}_{\\lambda=1} =$</span>`;
+    html += `<span class="vector-formula-prefix">$\\bar{x}_{\\lambda=${lambdaLabel}} =$</span>`;
     for (let i = 0; i < n; i++) {
         if (i > 0) html += `<span class="vector-formula-plus"> + </span>`;
         html += `<span class="vector-formula-alpha">$\\alpha_{${i + 1}}$</span>`;
@@ -4591,7 +4601,11 @@ function renderVectorInput(taskId, answer) {
         html += `<span class="vector-formula-bracket">)</span>`;
         html += `</span>`;
     }
-    html += `<span class="vector-formula-cond">$\\quad \\alpha_1^2 + \\alpha_2^2 > 0.$</span>`;
+    if (n === 1) {
+        html += `<span class="vector-formula-cond">$\\quad \\alpha \\neq 0.$</span>`;
+    } else {
+        html += `<span class="vector-formula-cond">$\\quad \\alpha_1^2 + \\alpha_2^2 > 0.$</span>`;
+    }
     html += `</div>`;
     html += `<div class="matrix-check-row">`;
     html += `<button class="matrix-check-btn" onclick="checkExamVectorAnswer(${taskId})">Проверить</button>`;
@@ -4609,6 +4623,56 @@ function saveExamVectorCell(taskId, i, j, val) {
     localStorage.setItem('exam_matrix_answers', JSON.stringify(examMatrixAnswers));
 }
 
+function gaussRank(matrix) {
+    const m = matrix.length;
+    if (m === 0) return 0;
+    const n = matrix[0].length;
+    const eps = 1e-9;
+    const mat = matrix.map(r => [...r]);
+    let rank = 0;
+    for (let col = 0; col < n && rank < m; col++) {
+        let pivot = -1;
+        for (let row = rank; row < m; row++) {
+            if (Math.abs(mat[row][col]) > eps) { pivot = row; break; }
+        }
+        if (pivot === -1) continue;
+        [mat[rank], mat[pivot]] = [mat[pivot], mat[rank]];
+        const div = mat[rank][col];
+        for (let j = col; j < n; j++) mat[rank][j] /= div;
+        for (let row = 0; row < m; row++) {
+            if (row === rank) continue;
+            const f = mat[row][col];
+            if (Math.abs(f) < eps) continue;
+            for (let j = col; j < n; j++) mat[row][j] -= f * mat[rank][j];
+        }
+        rank++;
+    }
+    return rank;
+}
+
+function isInSpan(basis, vec) {
+    if (basis.length === 0) return vec.every(v => Math.abs(v) < 1e-9);
+    const dim = basis[0].length;
+    const m = dim;
+    const n = basis.length;
+    const matrix = [];
+    for (let i = 0; i < m; i++) {
+        const row = [];
+        for (let j = 0; j < n; j++) row.push(basis[j][i]);
+        row.push(vec[i]);
+        matrix.push(row);
+    }
+    const r1 = gaussRank(matrix);
+    const matNoAug = [];
+    for (let i = 0; i < m; i++) {
+        const row = [];
+        for (let j = 0; j < n; j++) row.push(basis[j][i]);
+        matNoAug.push(row);
+    }
+    const r2 = gaussRank(matNoAug);
+    return r1 === r2;
+}
+
 function checkExamVectorAnswer(taskId) {
     const task = findExamTask(taskId);
     if (!task || !task.answer || !task.answer.vectors) return;
@@ -4617,19 +4681,66 @@ function checkExamVectorAnswer(taskId) {
     const dim = ans[0].length;
     let allCorrect = true;
 
+    const userVecs = [];
     for (let i = 0; i < n; i++) {
+        const vec = [];
         for (let j = 0; j < dim; j++) {
             const input = document.getElementById(`vcell_${taskId}_${i}_${j}`);
-            if (!input) continue;
-            const userVal = parseUserNumber(input.value);
-            const correctVal = ans[i][j];
-            if (isNaN(userVal) || userVal !== correctVal) {
-                allCorrect = false;
-                input.classList.add('matrix-cell-wrong');
-                input.classList.remove('matrix-cell-correct');
-            } else {
-                input.classList.add('matrix-cell-correct');
-                input.classList.remove('matrix-cell-wrong');
+            const val = parseUserNumber(input ? input.value : '');
+            vec.push(val);
+        }
+        userVecs.push(vec);
+    }
+
+    if (task.answer.checkSubspace) {
+        let userRank = 0;
+        const userMat = [];
+        for (let i = 0; i < n; i++) {
+            const vec = userVecs[i];
+            if (vec.some(v => isNaN(v))) { allCorrect = false; break; }
+            userMat.push(vec);
+        }
+        if (allCorrect) {
+            userRank = gaussRank(userMat);
+            if (userRank !== n) { allCorrect = false; }
+        }
+        if (allCorrect) {
+            for (let i = 0; i < n; i++) {
+                if (!isInSpan(ans, userVecs[i])) { allCorrect = false; break; }
+            }
+        }
+        for (let i = 0; i < n; i++) {
+            for (let j = 0; j < dim; j++) {
+                const input = document.getElementById(`vcell_${taskId}_${i}_${j}`);
+                if (!input) continue;
+                const userVal = parseUserNumber(input.value);
+                if (isNaN(userVal)) {
+                    input.classList.add('matrix-cell-wrong');
+                    input.classList.remove('matrix-cell-correct');
+                } else if (allCorrect) {
+                    input.classList.add('matrix-cell-correct');
+                    input.classList.remove('matrix-cell-wrong');
+                } else {
+                    input.classList.add('matrix-cell-wrong');
+                    input.classList.remove('matrix-cell-correct');
+                }
+            }
+        }
+    } else {
+        for (let i = 0; i < n; i++) {
+            for (let j = 0; j < dim; j++) {
+                const input = document.getElementById(`vcell_${taskId}_${i}_${j}`);
+                if (!input) continue;
+                const userVal = parseUserNumber(input.value);
+                const correctVal = ans[i][j];
+                if (isNaN(userVal) || userVal !== correctVal) {
+                    allCorrect = false;
+                    input.classList.add('matrix-cell-wrong');
+                    input.classList.remove('matrix-cell-correct');
+                } else {
+                    input.classList.add('matrix-cell-correct');
+                    input.classList.remove('matrix-cell-wrong');
+                }
             }
         }
     }
