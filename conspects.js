@@ -1411,8 +1411,8 @@
     <p>$$\\begin{cases} \\dot{X}_1(t) = A(t) X_1(t) + F_1(t) \\\\ \\dot{X}_2(t) = A(t) X_2(t) + F_2(t) \\end{cases} \\implies$$</p>
     <p>$$\\implies (\\alpha_1 X_1(t) + \\alpha_2 X_2(t))' \\equiv \\alpha_1 \\dot{X}_1(t) + \\alpha_2 \\dot{X}_2(t) =$$</p>
     <p>$$= \\alpha_1 A(t) X_1(t) + \\alpha_1 F_1(t) + \\alpha_2 A(t) X_2(t) + \\alpha_2 F_2(t) =$$</p>
-    <p>$$= \\alpha_1 (A(t) X_1(t) + F_1(t)) + \\alpha_2 (A(t) X_2(t) + F_2(t)) \\equiv$$</p>
-    <p>$$\\equiv \\alpha_1 \\dot{X}_1(t) + \\alpha_2 \\dot{X}_2(t) \\equiv (\\alpha_1 X_1(t) + \\alpha_2 X_2(t))' \\quad \\blacksquare$$</p>
+    <p>$$= A(t)(\\alpha_1 X_1(t) + \\alpha_2 X_2(t)) + (\\alpha_1 F_1(t) + \\alpha_2 F_2(t))$$</p>
+    <p>Т.е. \\(X = \\alpha_1 X_1(t) + \\alpha_2 X_2(t)\\) — решение СЛДУ \\((**)\\) при \\(F = \\alpha_1 F_1(t) + \\alpha_2 F_2(t)\\). \\(\\quad \\blacksquare\\)</p>
 
     <h4 style="color:#1a3a6e;">Теорема 2 (структура общего решения СЛНДУ)</h4>
     <p>Пусть \\(X = X_1(t)\\) — какое-либо решение СЛНДУ \\((**)\\). Тогда:</p>
