@@ -1023,8 +1023,10 @@ body {
 }
 
 .hero-warn {
-    max-width: 80px;
+    max-width: 60px;
+    width: 60px;
     height: auto;
+    flex-shrink: 0;
 }
 
 .hero-subtitle {
@@ -2557,7 +2559,7 @@ body {
     .hero { padding: 0 0 8px 0; margin-bottom: 12px; }
     .hero-subtitle { font-size: 0.6rem; padding-top: 6px; }
     .hero-logo { max-width: 170px; }
-    .hero-warn { max-width: 60px; }
+    .hero-warn { max-width: 50px; width: 50px; }
 
     .tab-btn { padding: 8px 14px 12px; font-size: 0.9rem; margin-right: 2px; }
     .tab-btn .notification-count {
@@ -2647,7 +2649,7 @@ body {
     .hero { padding: 0 0 6px 0; margin-bottom: 8px; }
     .hero-logo { max-width: 150px; }
     .hero-subtitle { font-size: 0.5rem; padding-top: 4px; }
-    .hero-warn { max-width: 50px; }
+    .hero-warn { max-width: 40px; width: 40px; }
 
     .tab-btn { padding: 5px 8px 8px; font-size: 0.75rem; margin-right: 1px; }
     .tab-btn::before { width: 6px; height: 6px; top: 4px; right: 4px; }
@@ -2736,7 +2738,7 @@ body {
 
     .hero-logo { max-width: 120px; }
     .hero-subtitle { font-size: 0.45rem; }
-    .hero-warn { max-width: 40px; }
+    .hero-warn { max-width: 35px; width: 35px; }
 
     .tab-btn { padding: 4px 6px 6px; font-size: 0.65rem; }
 
