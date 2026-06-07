@@ -3136,3 +3136,22 @@ body {
     text-align: center;
     font-size: 1.1em;
 }
+
+/* ============================================================
+   ДИСКЛЕЙМЕР
+   ============================================================ */
+.disclaimer {
+    margin: 2rem auto 1rem;
+    max-width: 600px;
+    padding: 0.8rem 1rem;
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--pencil);
+    background: var(--panel-bg);
+    border: 1px dashed var(--ring);
+    border-radius: 8px;
+    line-height: 1.5;
+}
+.disclaimer strong {
+    color: var(--ink-red);
+}
