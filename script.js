@@ -2832,37 +2832,37 @@ $$ [\\hat{A}]_{\\text{Б}\'} = \\frac{1}{3} \\begin{pmatrix} -2 & 1 \\\\ 5 & -4 
             },
             {
                 label: 'Смена базиса (с дробями)', analogyOf: 4, cond: 'Матрица оператора $\\hat{A}$ в базисе $\\text{Б} = (\\bar{e}_1, \\bar{e}_2)$ имеет вид: $$ [\\hat{A}]_{\\text{Б}} = \\begin{pmatrix} 5 & -1 \\\\ 0 & 2 \\end{pmatrix} $$ Найти матрицу оператора $\\hat{A}$ в базисе $\\text{Б}\' = (3\\bar{e}_1 + 2\\bar{e}_2, \\bar{e}_1 - \\bar{e}_2)$.',
-                answer: { matrix: [[13/5,18/5],[2/5,22/5]], showDet: false, inputLabel: 'Введите матрицу оператора $[\\hat{A}]_{\\text{Б}\'} =$' },
+                answer: { matrix: [[17/5,4/5],[14/5,18/5]], showDet: false, inputLabel: 'Введите матрицу оператора $[\\hat{A}]_{\\text{Б}\'} =$' },
                 solution: `<strong>Решение:</strong><br><br>
 1. Координаты нового базиса в старом:<br>
 $\\bar{e}\'_1 = 3\\bar{e}_1 + 2\\bar{e}_2 \\Rightarrow [\\bar{e}\'_1]_{\\text{Б}} = \\begin{pmatrix} 3 \\\\ 2 \\end{pmatrix}$<br>
 $\\bar{e}\'_2 = \\bar{e}_1 - \\bar{e}_2 \\Rightarrow [\\bar{e}\'_2]_{\\text{Б}} = \\begin{pmatrix} 1 \\\\ -1 \\end{pmatrix}$<br><br>
-2. Матрица перехода:<br>
-$$ T_{\\text{Б} \\to \\text{Б}\'} = \\begin{pmatrix} 3 & 1 \\\\ 2 & -1 \\end{pmatrix} $$<br>
-3. Обратная матрица:<br>
+2. Матрица перехода $T_{\\text{Б}\' \\to \\text{Б}}$ (столбцы — координаты нового базиса в старом):<br>
+$$ T_{\\text{Б}\' \\to \\text{Б}} = \\begin{pmatrix} 3 & 1 \\\\ 2 & -1 \\end{pmatrix} $$<br>
+3. Обратная матрица $T_{\\text{Б} \\to \\text{Б}\'}$:<br>
 $$ |T| = 3 \\cdot (-1) - 1 \\cdot 2 = -5 $$
-$$ T_{\\text{Б}\' \\to \\text{Б}} = \\frac{1}{-5} \\begin{pmatrix} -1 & -1 \\\\ -2 & 3 \\end{pmatrix} = \\begin{pmatrix} \\frac{1}{5} & \\frac{1}{5} \\\\ \\frac{2}{5} & -\\frac{3}{5} \\end{pmatrix} $$<br>
+$$ T_{\\text{Б} \\to \\text{Б}\'} = \\frac{1}{-5} \\begin{pmatrix} -1 & -1 \\\\ -2 & 3 \\end{pmatrix} = \\begin{pmatrix} \\frac{1}{5} & \\frac{1}{5} \\\\ \\frac{2}{5} & -\\frac{3}{5} \\end{pmatrix} $$<br>
 4. Формула $[\\hat{A}]_{\\text{Б}\'} = T_{\\text{Б} \\to \\text{Б}\'} \\cdot [\\hat{A}]_{\\text{Б}} \\cdot T_{\\text{Б}\' \\to \\text{Б}}$:<br>
-$$ T \\cdot [\\hat{A}]_{\\text{Б}} = \\begin{pmatrix} 3 & 1 \\\\ 2 & -1 \\end{pmatrix} \\begin{pmatrix} 5 & -1 \\\\ 0 & 2 \\end{pmatrix} = \\begin{pmatrix} 15 & -1 \\\\ 10 & -4 \\end{pmatrix} $$
-$$ [\\hat{A}]_{\\text{Б}\'} = \\begin{pmatrix} 15 & -1 \\\\ 10 & -4 \\end{pmatrix} \\cdot \\begin{pmatrix} \\frac{1}{5} & \\frac{1}{5} \\\\ \\frac{2}{5} & -\\frac{3}{5} \\end{pmatrix} = \\begin{pmatrix} \\frac{13}{5} & \\frac{18}{5} \\\\ \\frac{2}{5} & \\frac{22}{5} \\end{pmatrix} $$
-<strong>Ответ:</strong> $$ [\\hat{A}]_{\\text{Б}\'} = \\begin{pmatrix} \\frac{13}{5} & \\frac{18}{5} \\\\ \\frac{2}{5} & \\frac{22}{5} \\end{pmatrix}.$$`
+$$ T_{\\text{Б} \\to \\text{Б}\'} \\cdot [\\hat{A}]_{\\text{Б}} = \\begin{pmatrix} \\frac{1}{5} & \\frac{1}{5} \\\\ \\frac{2}{5} & -\\frac{3}{5} \\end{pmatrix} \\begin{pmatrix} 5 & -1 \\\\ 0 & 2 \\end{pmatrix} = \\begin{pmatrix} 1 & \\frac{1}{5} \\\\ 2 & -\\frac{8}{5} \\end{pmatrix} $$
+$$ [\\hat{A}]_{\\text{Б}\'} = \\begin{pmatrix} 1 & \\frac{1}{5} \\\\ 2 & -\\frac{8}{5} \\end{pmatrix} \\cdot \\begin{pmatrix} 3 & 1 \\\\ 2 & -1 \\end{pmatrix} = \\begin{pmatrix} \\frac{17}{5} & \\frac{4}{5} \\\\ \\frac{14}{5} & \\frac{18}{5} \\end{pmatrix} $$
+<strong>Ответ:</strong> $$ [\\hat{A}]_{\\text{Б}\'} = \\begin{pmatrix} \\frac{17}{5} & \\frac{4}{5} \\\\ \\frac{14}{5} & \\frac{18}{5} \\end{pmatrix}.$$`
             },
             {
                 label: 'Смена базиса (натуральные)', analogyOf: 4, cond: 'Матрица оператора $\\hat{A}$ в базисе $\\text{Б} = (\\bar{e}_1, \\bar{e}_2)$ имеет вид: $$ [\\hat{A}]_{\\text{Б}} = \\begin{pmatrix} 1 & 4 \\\\ -2 & 0 \\end{pmatrix} $$ Найти матрицу оператора $\\hat{A}$ в базисе $\\text{Б}\' = (\\bar{e}_1 + 3\\bar{e}_2, 2\\bar{e}_1 + \\bar{e}_2)$.',
-                answer: { matrix: [[3,-2],[7,-2]], showDet: false, inputLabel: 'Введите матрицу оператора $[\\hat{A}]_{\\text{Б}\'} =$' },
+                answer: { matrix: [[-17/5,-14/5],[41/5,22/5]], showDet: false, inputLabel: 'Введите матрицу оператора $[\\hat{A}]_{\\text{Б}\'} =$' },
                 solution: `<strong>Решение:</strong><br><br>
 1. Координаты нового базиса в старом:<br>
 $\\bar{e}\'_1 = \\bar{e}_1 + 3\\bar{e}_2 \\Rightarrow [\\bar{e}\'_1]_{\\text{Б}} = \\begin{pmatrix} 1 \\\\ 3 \\end{pmatrix}$<br>
 $\\bar{e}\'_2 = 2\\bar{e}_1 + \\bar{e}_2 \\Rightarrow [\\bar{e}\'_2]_{\\text{Б}} = \\begin{pmatrix} 2 \\\\ 1 \\end{pmatrix}$<br><br>
-2. Матрица перехода:<br>
-$$ T_{\\text{Б} \\to \\text{Б}\'} = \\begin{pmatrix} 1 & 2 \\\\ 3 & 1 \\end{pmatrix} $$<br>
-3. Обратная матрица:<br>
+2. Матрица перехода $T_{\\text{Б}\' \\to \\text{Б}}$ (столбцы — координаты нового базиса в старом):<br>
+$$ T_{\\text{Б}\' \\to \\text{Б}} = \\begin{pmatrix} 1 & 2 \\\\ 3 & 1 \\end{pmatrix} $$<br>
+3. Обратная матрица $T_{\\text{Б} \\to \\text{Б}\'}$:<br>
 $$ |T| = 1 \\cdot 1 - 2 \\cdot 3 = -5 $$
-$$ T_{\\text{Б}\' \\to \\text{Б}} = \\frac{1}{-5} \\begin{pmatrix} 1 & -2 \\\\ -3 & 1 \\end{pmatrix} = \\begin{pmatrix} -\\frac{1}{5} & \\frac{2}{5} \\\\ \\frac{3}{5} & -\\frac{1}{5} \\end{pmatrix} $$<br>
+$$ T_{\\text{Б} \\to \\text{Б}\'} = \\frac{1}{-5} \\begin{pmatrix} 1 & -2 \\\\ -3 & 1 \\end{pmatrix} = \\begin{pmatrix} -\\frac{1}{5} & \\frac{2}{5} \\\\ \\frac{3}{5} & -\\frac{1}{5} \\end{pmatrix} $$<br>
 4. Формула $[\\hat{A}]_{\\text{Б}\'} = T_{\\text{Б} \\to \\text{Б}\'} \\cdot [\\hat{A}]_{\\text{Б}} \\cdot T_{\\text{Б}\' \\to \\text{Б}}$:<br>
-$$ T \\cdot [\\hat{A}]_{\\text{Б}} = \\begin{pmatrix} 1 & 2 \\\\ 3 & 1 \\end{pmatrix} \\begin{pmatrix} 1 & 4 \\\\ -2 & 0 \\end{pmatrix} = \\begin{pmatrix} -3 & 4 \\\\ 1 & 12 \\end{pmatrix} $$
-$$ [\\hat{A}]_{\\text{Б}\'} = \\begin{pmatrix} -3 & 4 \\\\ 1 & 12 \\end{pmatrix} \\cdot \\begin{pmatrix} -\\frac{1}{5} & \\frac{2}{5} \\\\ \\frac{3}{5} & -\\frac{1}{5} \\end{pmatrix} = \\begin{pmatrix} 3 & -2 \\\\ 7 & -2 \\end{pmatrix} $$
-<strong>Ответ:</strong> $$ [\\hat{A}]_{\\text{Б}\'} = \\begin{pmatrix} 3 & -2 \\\\ 7 & -2 \\end{pmatrix}.$$`
+$$ T_{\\text{Б} \\to \\text{Б}\'} \\cdot [\\hat{A}]_{\\text{Б}} = \\begin{pmatrix} -\\frac{1}{5} & \\frac{2}{5} \\\\ \\frac{3}{5} & -\\frac{1}{5} \\end{pmatrix} \\begin{pmatrix} 1 & 4 \\\\ -2 & 0 \\end{pmatrix} = \\begin{pmatrix} -1 & -\\frac{4}{5} \\\\ 1 & \\frac{12}{5} \\end{pmatrix} $$
+$$ [\\hat{A}]_{\\text{Б}\'} = \\begin{pmatrix} -1 & -\\frac{4}{5} \\\\ 1 & \\frac{12}{5} \\end{pmatrix} \\cdot \\begin{pmatrix} 1 & 2 \\\\ 3 & 1 \\end{pmatrix} = \\begin{pmatrix} -\\frac{17}{5} & -\\frac{14}{5} \\\\ \\frac{41}{5} & \\frac{22}{5} \\end{pmatrix} $$
+<strong>Ответ:</strong> $$ [\\hat{A}]_{\\text{Б}\'} = \\begin{pmatrix} -\\frac{17}{5} & -\\frac{14}{5} \\\\ \\frac{41}{5} & \\frac{22}{5} \\end{pmatrix}.$$`
             },
             {
                 label: 'Собственные векторы', cond: 'Найти собственные векторы-столбцы матрицы, соответствующие $\\lambda = 1$: $$ A = \\begin{pmatrix} 9 & -8 & 4 \\\\ 8 & -7 & 4 \\\\ 4 & -4 & 3 \\end{pmatrix} $$',
