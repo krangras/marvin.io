@@ -3270,32 +3270,6 @@ $$ z\' + 3z^2 - 3z = 0 $$<br>
 <strong>Ответ:</strong> $z\' + 3z^2 - 3z = 0$ — ДУ первого порядка.`
             },
             {
-                label: '9.2', cond: 'Решить систему: $\\begin{cases} \\dot{x} = 6x + y \\\\ \\dot{y} = 5x + 2y \\end{cases}$.',
-                solution: `<strong>Решение:</strong><br><br>
-<strong>1. Матрица системы</strong><br>
-$$ A = \\begin{pmatrix} 6 & 1 \\\\ 5 & 2 \\end{pmatrix} $$<br>
-<strong>2. Собственные значения</strong><br>
-$$ |A - \\lambda E| = \\begin{vmatrix} 6 - \\lambda & 1 \\\\ 5 & 2 - \\lambda \\end{vmatrix} = 0 $$<br>
-$$ (6 - \\lambda)(2 - \\lambda) - 5 = 0 $$<br>
-$$ \\lambda^2 - 8\\lambda + 7 = 0 $$<br>
-$$ (\\lambda - 1)(\\lambda - 7) = 0 $$<br>
-$$ \\lambda_1 = 1,\\; \\lambda_2 = 7 $$<br>
-<strong>3. Собственный вектор для $\\lambda_1 = 1$</strong><br>
-$$ \\begin{pmatrix} 5 & 1 \\\\ 5 & 1 \\end{pmatrix} \\begin{pmatrix} x_1 \\\\ x_2 \\end{pmatrix} = \\begin{pmatrix} 0 \\\\ 0 \\end{pmatrix} $$<br>
-$$ 5x_1 + x_2 = 0 \\implies x_2 = -5x_1 $$<br>
-Выберем $x_1 = -1$:<br>
-$$ \\bar{v}_1 = \\begin{pmatrix} -1 \\\\ 5 \\end{pmatrix} $$<br>
-<strong>4. Собственный вектор для $\\lambda_2 = 7$</strong><br>
-$$ \\begin{pmatrix} -1 & 1 \\\\ 5 & -5 \\end{pmatrix} \\begin{pmatrix} x_1 \\\\ x_2 \\end{pmatrix} = \\begin{pmatrix} 0 \\\\ 0 \\end{pmatrix} $$<br>
-$$ -x_1 + x_2 = 0 \\implies x_1 = x_2 $$<br>
-Выберем $x_1 = 1$:<br>
-$$ \\bar{v}_2 = \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix} $$<br>
-<strong>5. Общее решение</strong><br>
-$$ \\begin{pmatrix} x \\\\ y \\end{pmatrix}_{\\text{о.о.}} = C_1 \\begin{pmatrix} -1 \\\\ 5 \\end{pmatrix} e^{t} + C_2 \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix} e^{7t} $$<br>
-<strong>Ответ:</strong><br>
-$$ \\begin{pmatrix} x \\\\ y \\end{pmatrix}_{\\text{о.о.}} = C_1 \\begin{pmatrix} -1 \\\\ 5 \\end{pmatrix} e^{t} + C_2 \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix} e^{7t} $$`
-            },
-            {
                 label: '6.3', cond: 'Определить тип ДУ и свести к ДУ с разделяющимися переменными: $(y^2 - 2x^2)dx + 2xy \\ln(y/x)dy = 0$.',
                 solution: `<strong>Решение:</strong><br><br>
 <strong>1. Определяем тип.</strong><br>
