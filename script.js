@@ -1,5 +1,5 @@
 ﻿// ========== ДАННЫЕ БИЛЕТОВ (19 ШТУК) ==========
-const CACHE_VERSION = 'v22';
+const CACHE_VERSION = 'v23';
 if (localStorage.getItem('cache_version') !== CACHE_VERSION) {
     // Очищаем старые кеши с отрендеренным HTML (экономия памяти)
     localStorage.removeItem('kr_rendered_cache');
@@ -2763,39 +2763,52 @@ const examTasksData = [
         points: 20,
         tasks: [
             {
-                label: '1.1', cond: 'Даны координаты векторов в некотором ОНБ: $\\bar{f}_1(1, -3, 2)$, $\\bar{f}_2(3, 2, -4)$, $\\bar{f}_3(4, 0, -1)$. Найти матрицу Грама и определитель Грама этой системы векторов.',
+                label: '1.1', cond: 'Даны векторы: $\\bar{f}_1(1, -3, 2)$, $\\bar{f}_2(3, 2, -4)$, $\\bar{f}_3(4, 0, -1)$. Найти матрицу Грама и определитель Грама этой системы векторов.',
                 answer: { matrix: [[14,-11,2],[-11,29,16],[2,16,17]], det: 441, inputLabel: 'Введите матрицу Грама:' },
                 solution: `<strong>Решение:</strong><br><br>
 $$ \\overline{f}_1(1, -3, 2),\\quad \\overline{f}_2(3, 2, -4),\\quad \\overline{f}_3(4, 0, -1) $$
 
-$$ (\\overline{f}_1, \\overline{f}_1) = 1^2 + (-3)^2 + 2^2 = 14 $$
-$$ (\\overline{f}_2, \\overline{f}_2) = 3^2 + 2^2 + (-4)^2 = 29 $$
-$$ (\\overline{f}_3, \\overline{f}_3) = 4^2 + 0^2 + (-1)^2 = 17 $$
-$$ (\\overline{f}_1, \\overline{f}_2) = 1 \\cdot 3 + (-3) \\cdot 2 + 2 \\cdot (-4) = -11 $$
-$$ (\\overline{f}_1, \\overline{f}_3) = 1 \\cdot 4 + (-3) \\cdot 0 + 2 \\cdot (-1) = 2 $$
-$$ (\\overline{f}_2, \\overline{f}_3) = 3 \\cdot 4 + 2 \\cdot 0 + (-4) \\cdot (-1) = 16 $$
+<strong>Вычисляем скалярные произведения:</strong><br>
+$$ (\\overline{f}_1; \\overline{f}_1) = 1^2 + (-3)^2 + 2^2 = 1 + 9 + 4 = 14 $$
+$$ (\\overline{f}_1; \\overline{f}_2) = 1 \\cdot 3 + (-3) \\cdot 2 + 2 \\cdot (-4) = 3 - 6 - 8 = -11 $$
+$$ (\\overline{f}_1; \\overline{f}_3) = 1 \\cdot 4 + (-3) \\cdot 0 + 2 \\cdot (-1) = 4 - 2 = 2 $$
+$$ (\\overline{f}_2; \\overline{f}_2) = 3^2 + 2^2 + (-4)^2 = 9 + 4 + 16 = 29 $$
+$$ (\\overline{f}_2; \\overline{f}_3) = 3 \\cdot 4 + 2 \\cdot 0 + (-4) \\cdot (-1) = 12 + 4 = 16 $$
+$$ (\\overline{f}_3; \\overline{f}_3) = 4^2 + 0^2 + (-1)^2 = 16 + 1 = 17 $$
+
+<strong>Матрица Грама:</strong><br>
 $$ \\Gamma = \\begin{pmatrix} 14 & -11 & 2 \\\\ -11 & 29 & 16 \\\\ 2 & 16 & 17 \\end{pmatrix} $$
-$$ |\\Gamma| = 14 \\cdot 29 \\cdot 17 + (-11) \\cdot 16 \\cdot 2 + 2 \\cdot (-11) \\cdot 16 - 2 \\cdot 29 \\cdot 2 - 16 \\cdot 16 \\cdot 14 - 17 \\cdot (-11) \\cdot (-11) = 441 $$
+
+<strong>Определитель:</strong><br>
+$$ |\\Gamma| = 14 \\cdot 29 \\cdot 17 - 22 \\cdot 16 - 32 \\cdot 11 - 29 \\cdot 4 - 256 \\cdot 14 - 121 \\cdot 17 = 441 $$
+
 <br><strong>Ответ:</strong> $$ \\Gamma = \\begin{pmatrix} 14 & -11 & 2 \\\\ -11 & 29 & 16 \\\\ 2 & 16 & 17 \\end{pmatrix}, \\quad |\\Gamma| = 441.$$`
             },
             {
-                label: '1.2', analogyOf: 1, cond: 'Даны координаты векторов в некотором ОНБ: $\\overline{f}_1(1, 0, 2, -1)$, $\\overline{f}_2(2, 1, 0, 3)$, $\\overline{f}_3(-1, 3, 2, 0)$, $\\overline{f}_4(0, -1, 3, 2)$. Найти матрицу Грама и определитель Грама.',
-                answer: { matrix: [[6,-1,3,4],[-1,14,1,5],[3,1,14,3],[4,5,3,14]], det: 4356, inputLabel: 'Введите матрицу Грама:' },
+                label: '1.2', analogyOf: 1, cond: 'Даны координаты векторов в некотором ОНБ: $\\overline{f}_1(1, 0, 2, -1)$, $\\overline{f}_2(2, 1, 0, 3)$, $\\overline{f}_3(-1, 3, 2, 1)$, $\\overline{f}_4(0, -1, 3, 2)$. Найти матрицу Грама и определитель Грама.',
+                answer: { matrix: [[6,-1,2,4],[-1,14,4,5],[2,4,15,5],[4,5,5,14]], det: 4356, inputLabel: 'Введите матрицу Грама:' },
                 solution: `<strong>Решение:</strong><br><br>
-$$ \\overline{f}_1(1, 0, 2, -1),\\quad \\overline{f}_2(2, 1, 0, 3),\\quad \\overline{f}_3(-1, 3, 2, 0),\\quad \\overline{f}_4(0, -1, 3, 2) $$
+$$ \\overline{f}_1(1, 0, 2, -1),\\quad \\overline{f}_2(2, 1, 0, 3),\\quad \\overline{f}_3(-1, 3, 2, 1),\\quad \\overline{f}_4(0, -1, 3, 2) $$
 
-$$ (\\overline{f}_1, \\overline{f}_1) = 1^2 + 0^2 + 2^2 + (-1)^2 = 6 $$
-$$ (\\overline{f}_2, \\overline{f}_2) = 2^2 + 1^2 + 0^2 + 3^2 = 14 $$
-$$ (\\overline{f}_3, \\overline{f}_3) = (-1)^2 + 3^2 + 2^2 + 0^2 = 14 $$
-$$ (\\overline{f}_4, \\overline{f}_4) = 0^2 + (-1)^2 + 3^2 + 2^2 = 14 $$
-$$ (\\overline{f}_1, \\overline{f}_2) = 1 \\cdot 2 + 0 \\cdot 1 + 2 \\cdot 0 + (-1) \\cdot 3 = -1 $$
-$$ (\\overline{f}_1, \\overline{f}_3) = 1 \\cdot (-1) + 0 \\cdot 3 + 2 \\cdot 2 + (-1) \\cdot 0 = 3 $$
-$$ (\\overline{f}_1, \\overline{f}_4) = 1 \\cdot 0 + 0 \\cdot (-1) + 2 \\cdot 3 + (-1) \\cdot 2 = 4 $$
-$$ (\\overline{f}_2, \\overline{f}_3) = 2 \\cdot (-1) + 1 \\cdot 3 + 0 \\cdot 2 + 3 \\cdot 0 = 1 $$
-$$ (\\overline{f}_2, \\overline{f}_4) = 2 \\cdot 0 + 1 \\cdot (-1) + 0 \\cdot 3 + 3 \\cdot 2 = 5 $$
-$$ (\\overline{f}_3, \\overline{f}_4) = (-1) \\cdot 0 + 3 \\cdot (-1) + 2 \\cdot 3 + 0 \\cdot 2 = 3 $$
-$$ \\Gamma = \\begin{pmatrix} 6 & -1 & 3 & 4 \\\\ -1 & 14 & 1 & 5 \\\\ 3 & 1 & 14 & 3 \\\\ 4 & 5 & 3 & 14 \\end{pmatrix} $$
-<br><strong>Ответ:</strong> $$ \\Gamma = \\begin{pmatrix} 6 & -1 & 3 & 4 \\\\ -1 & 14 & 1 & 5 \\\\ 3 & 1 & 14 & 3 \\\\ 4 & 5 & 3 & 14 \\end{pmatrix}, \\quad |\\Gamma| = 4356.$$`
+<strong>Вычисляем скалярные произведения:</strong><br>
+$$ (f_1; f_1) = 1^2 + 0^2 + 2^2 + (-1)^2 = 1 + 4 + 1 = 6 $$
+$$ (f_1; f_2) = 1 \\cdot 2 + 0 \\cdot 1 + 2 \\cdot 0 + (-1) \\cdot 3 = 2 - 3 = -1 $$
+$$ (f_1; f_3) = 1 \\cdot (-1) + 0 \\cdot 3 + 2 \\cdot 2 + (-1) \\cdot 1 = -1 + 4 - 1 = 2 $$
+$$ (f_1; f_4) = 1 \\cdot 0 + 0 \\cdot (-1) + 2 \\cdot 3 + (-1) \\cdot 2 = 6 - 2 = 4 $$
+$$ (f_2; f_2) = 2^2 + 1^2 + 0^2 + 3^2 = 4 + 1 + 9 = 14 $$
+$$ (f_2; f_3) = 2 \\cdot (-1) + 1 \\cdot 3 + 0 \\cdot 2 + 3 \\cdot 1 = -2 + 3 + 3 = 4 $$
+$$ (f_2; f_4) = 2 \\cdot 0 + 1 \\cdot (-1) + 0 \\cdot 3 + 3 \\cdot 2 = -1 + 6 = 5 $$
+$$ (f_3; f_3) = (-1)^2 + 3^2 + 2^2 + 1^2 = 1 + 9 + 4 + 1 = 15 $$
+$$ (f_3; f_4) = -1 \\cdot 0 + 3 \\cdot (-1) + 2 \\cdot 3 + 1 \\cdot 2 = -3 + 6 + 2 = 5 $$
+$$ (f_4; f_4) = 0^2 + (-1)^2 + 3^2 + 2^2 = 1 + 9 + 4 = 14 $$
+
+<strong>Матрица Грама:</strong><br>
+$$ \\Gamma = \\begin{pmatrix} 6 & -1 & 2 & 4 \\\\ -1 & 14 & 4 & 5 \\\\ 2 & 4 & 15 & 5 \\\\ 4 & 5 & 5 & 14 \\end{pmatrix} $$
+
+<strong>Определитель:</strong><br>
+$$ |\\Gamma| = 4356 $$
+
+<br><strong>Ответ:</strong> $$ \\Gamma = \\begin{pmatrix} 6 & -1 & 2 & 4 \\\\ -1 & 14 & 4 & 5 \\\\ 2 & 4 & 15 & 5 \\\\ 4 & 5 & 5 & 14 \\end{pmatrix}, \\quad |\\Gamma| = 4356.$$`
             },
             {
                 label: '1.3', analogyOf: 1, cond: 'Даны координаты векторов в некотором ОНБ: $\\bar{f}_1(2, -1, 3)$, $\\bar{f}_2(0, 4, -2)$. Найти матрицу Грама и определитель Грама.',
@@ -2803,11 +2816,17 @@ $$ \\Gamma = \\begin{pmatrix} 6 & -1 & 3 & 4 \\\\ -1 & 14 & 1 & 5 \\\\ 3 & 1 & 1
                 solution: `<strong>Решение:</strong><br><br>
 $$ \\overline{f}_1(2, -1, 3),\\quad \\overline{f}_2(0, 4, -2) $$
 
-$$ (\\overline{f}_1, \\overline{f}_1) = 2^2 + (-1)^2 + 3^2 = 14 $$
-$$ (\\overline{f}_2, \\overline{f}_2) = 0^2 + 4^2 + (-2)^2 = 20 $$
-$$ (\\overline{f}_1, \\overline{f}_2) = 2 \\cdot 0 + (-1) \\cdot 4 + 3 \\cdot (-2) = -10 $$
+<strong>Вычисляем скалярные произведения:</strong><br>
+$$ (f_1; f_1) = 2^2 + (-1)^2 + 3^2 = 4 + 1 + 9 = 14 $$
+$$ (f_2; f_2) = 0^2 + 4^2 + (-2)^2 = 16 + 4 = 20 $$
+$$ (f_1; f_2) = 2 \\cdot 0 + (-1) \\cdot 4 + 3 \\cdot (-2) = -4 - 6 = -10 $$
+
+<strong>Матрица Грама:</strong><br>
 $$ \\Gamma = \\begin{pmatrix} 14 & -10 \\\\ -10 & 20 \\end{pmatrix} $$
-$$ |\\Gamma| = 14 \\cdot 20 - (-10)^2 = 280 - 100 = 180 $$
+
+<strong>Определитель:</strong><br>
+$$ |\\Gamma| = 14 \\cdot 20 - (-10) \\cdot (-10) = 280 - 100 = 180 $$
+
 <br><strong>Ответ:</strong> $$ \\Gamma = \\begin{pmatrix} 14 & -10 \\\\ -10 & 20 \\end{pmatrix}, \\quad |\\Gamma| = 180.$$`
             },
             {
@@ -3227,6 +3246,60 @@ $$ \\begin{pmatrix} x \\\\ y \\end{pmatrix}_{\\text{о.о.}} = C_1 \\begin{pmatr
 $$ \\begin{pmatrix} x \\\\ y \\end{pmatrix}_{\\text{о.о.}} = C_1 \\begin{pmatrix} -1 \\\\ 5 \\end{pmatrix} e^{t} + C_2 \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix} e^{7t} $$`
             },
             {
+                label: '9.3', cond: 'Решить СОЛДУ, воспользовавшись алгоритмом поиска СЗ и СВ. Ответ представить в векторной форме.\n$$\\begin{cases} \\dot{x} = 2x - 5y \\\\ \\dot{y} = x - 2y \\end{cases}$$',
+                solution: `<strong>Решение:</strong><br><br>
+<strong>1. Матрица коэффициентов</strong><br>
+$$ A = \\begin{pmatrix} 2 & -5 \\\\ 1 & -2 \\end{pmatrix} $$<br>
+<strong>2. Характеристическое уравнение</strong><br>
+$$ |A - \\lambda E| = \\begin{vmatrix} 2 - \\lambda & -5 \\\\ 1 & -2 - \\lambda \\end{vmatrix} = 0 $$<br>
+$$ (2 - \\lambda)(-2 - \\lambda) + 5 = 0 $$<br>
+$$ \\lambda^2 + 1 = 0 $$<br>
+$$ \\lambda_{1,2} = \\pm i $$<br>
+<strong>3. Собственный вектор для $\\lambda = i$</strong><br>
+$$ \\begin{pmatrix} 2 - i & -5 \\\\ 1 & -2 - i \\end{pmatrix} \\begin{pmatrix} x_1 \\\\ x_2 \\end{pmatrix} = \\begin{pmatrix} 0 \\\\ 0 \\end{pmatrix} $$<br>
+$$ x_1 + (-2 - i)x_2 = 0 \\implies x_1 = (2 + i)x_2 $$<br>
+Выберем $x_2 = 1$:<br>
+$$ \\bar{v} = \\begin{pmatrix} 2 + i \\\\ 1 \\end{pmatrix} $$<br>
+<strong>4. Комплексное решение</strong><br>
+$$ \\bar{z}(t) = \\begin{pmatrix} 2 + i \\\\ 1 \\end{pmatrix} e^{it} = \\begin{pmatrix} 2 + i \\\\ 1 \\end{pmatrix} (\\cos t + i \\sin t) $$<br>
+$$ \\bar{z}(t) = \\begin{pmatrix} (2 + i)(\\cos t + i \\sin t) \\\\ \\cos t + i \\sin t \\end{pmatrix} = \\begin{pmatrix} 2\\cos t - \\sin t + i(2\\sin t + \\cos t) \\\\ \\cos t + i \\sin t \\end{pmatrix} $$<br>
+<strong>5. ФСР СОЛДУ</strong><br>
+$$ \\bar{x}_1(t) = \\begin{pmatrix} 2\\cos t - \\sin t \\\\ \\cos t \\end{pmatrix} $$<br>
+$$ \\bar{x}_2(t) = \\begin{pmatrix} 2\\sin t + \\cos t \\\\ \\sin t \\end{pmatrix} $$<br>
+<strong>6. Общее решение</strong><br>
+$$ \\begin{pmatrix} x \\\\ y \\end{pmatrix}_{\\text{о.о.}} = C_1 \\begin{pmatrix} 2\\cos t - \\sin t \\\\ \\cos t \\end{pmatrix} + C_2 \\begin{pmatrix} 2\\sin t + \\cos t \\\\ \\sin t \\end{pmatrix} $$<br>
+<strong>Ответ:</strong><br>
+$$ \\begin{pmatrix} x \\\\ y \\end{pmatrix}_{\\text{о.о.}} = C_1 \\begin{pmatrix} 2\\cos t - \\sin t \\\\ \\cos t \\end{pmatrix} + C_2 \\begin{pmatrix} 2\\sin t + \\cos t \\\\ \\sin t \\end{pmatrix} $$`,
+                analogyOf: 26
+            },
+            {
+                label: '9.4', cond: 'Решить СОЛДУ, воспользовавшись алгоритмом поиска СЗ и СВ. Ответ представить в векторной форме.\n$$\\begin{cases} \\dot{x} = x + 3y \\\\ \\dot{y} = 2x + 2y \\end{cases}$$',
+                solution: `<strong>Решение:</strong><br><br>
+<strong>1. Матрица коэффициентов</strong><br>
+$$ A = \\begin{pmatrix} 1 & 3 \\\\ 2 & 2 \\end{pmatrix} $$<br>
+<strong>2. Характеристическое уравнение</strong><br>
+$$ |A - \\lambda E| = \\begin{vmatrix} 1 - \\lambda & 3 \\\\ 2 & 2 - \\lambda \\end{vmatrix} = 0 $$<br>
+$$ (1 - \\lambda)(2 - \\lambda) - 6 = 0 $$<br>
+$$ \\lambda^2 - 3\\lambda - 4 = 0 $$<br>
+$$ (\\lambda - 4)(\\lambda + 1) = 0 $$<br>
+$$ \\lambda_1 = 4,\\; \\lambda_2 = -1 $$<br>
+<strong>3. Собственный вектор для $\\lambda_1 = 4$</strong><br>
+$$ \\begin{pmatrix} -3 & 3 \\\\ 2 & -2 \\end{pmatrix} \\begin{pmatrix} x_1 \\\\ x_2 \\end{pmatrix} = \\begin{pmatrix} 0 \\\\ 0 \\end{pmatrix} $$<br>
+$$ -3x_1 + 3x_2 = 0 \\implies x_1 = x_2 $$<br>
+Выберем $x_1 = 1$:<br>
+$$ \\bar{v}_1 = \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix} $$<br>
+<strong>4. Собственный вектор для $\\lambda_2 = -1$</strong><br>
+$$ \\begin{pmatrix} 2 & 3 \\\\ 2 & 3 \\end{pmatrix} \\begin{pmatrix} x_1 \\\\ x_2 \\end{pmatrix} = \\begin{pmatrix} 0 \\\\ 0 \\end{pmatrix} $$<br>
+$$ 2x_1 + 3x_2 = 0 \\implies x_2 = -\\frac{2}{3}x_1 $$<br>
+Выберем $x_1 = 3$:<br>
+$$ \\bar{v}_2 = \\begin{pmatrix} 3 \\\\ -2 \\end{pmatrix} $$<br>
+<strong>5. Общее решение</strong><br>
+$$ \\begin{pmatrix} x \\\\ y \\end{pmatrix}_{\\text{о.о.}} = C_1 \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix} e^{4t} + C_2 \\begin{pmatrix} 3 \\\\ -2 \\end{pmatrix} e^{-t} $$<br>
+<strong>Ответ:</strong><br>
+$$ \\begin{pmatrix} x \\\\ y \\end{pmatrix}_{\\text{о.о.}} = C_1 \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix} e^{4t} + C_2 \\begin{pmatrix} 3 \\\\ -2 \\end{pmatrix} e^{-t} $$`,
+                analogyOf: 27
+            },
+            {
                 label: '10.1', cond: 'Решить систему сведением к одному ДУ: $\\begin{cases} \\dot{x} = 2x - y \\\\ \\dot{y} = 4x + 6y \\end{cases}$',
                 solution: `<strong>Решение:</strong><br><br>
 <strong>1. Выражаем $y$ из первого уравнения</strong><br>
@@ -3380,6 +3453,155 @@ $xv\' = x^2 v^2 \\ln x$<br>
 $v\' = xv^2 \\ln x$<br><br>
 <strong>Ответ:</strong> уравнение сведено к разделяющимся переменным:<br>
 $$ x \\ln x\\,dx - v^{-2}\\,dv = 0 $$`
+            },
+            {
+                label: '9.5', analogyOf: 26,
+                cond: 'Решить СОЛДУ, воспользовавшись алгоритмом поиска СЗ и СВ. Ответ представить в векторной форме.\n$$\\begin{cases} \\dot{x} = 8y - x \\\\ \\dot{y} = -x - y \\end{cases}$$',
+                solution: `<strong>Решение:</strong><br><br>
+<strong>1. Матрица коэффициентов</strong><br>
+$$ A = \\begin{pmatrix} -1 & 8 \\\\ -1 & -1 \\end{pmatrix} $$<br>
+<strong>2. Характеристическое уравнение</strong><br>
+$$ |A - \\lambda E| = \\begin{vmatrix} -1 - \\lambda & 8 \\\\ -1 & -1 - \\lambda \\end{vmatrix} = 0 $$<br>
+$$ (-1 - \\lambda)^2 + 8 = 0 $$<br>
+$$ \\lambda^2 + 2\\lambda + 9 = 0 $$<br>
+$$ \\mathcal{D} = 4 - 36 = -32 $$<br>
+$$ \\lambda_{1,2} = \\frac{-2 \\pm 4\\sqrt{2}i}{2} = -1 \\pm 2\\sqrt{2}i $$<br>
+<strong>3. Собственный вектор для $\\lambda = -1 + 2\\sqrt{2}i$</strong><br>
+$$ \\begin{pmatrix} -2\\sqrt{2}i & 8 \\\\ -1 & -2\\sqrt{2}i \\end{pmatrix} \\begin{pmatrix} x_1 \\\\ x_2 \\end{pmatrix} = \\begin{pmatrix} 0 \\\\ 0 \\end{pmatrix} $$<br>
+$$ -x_1 - 2\\sqrt{2}i \\cdot x_2 = 0 \\implies x_1 = -2\\sqrt{2}i \\cdot x_2 $$<br>
+Выберем $x_2 = 1$:<br>
+$$ \\bar{v} = \\begin{pmatrix} -2\\sqrt{2}i \\\\ 1 \\end{pmatrix} $$<br>
+<strong>4. Комплексное решение</strong><br>
+$$ \\bar{z}(t) = \\begin{pmatrix} -2\\sqrt{2}i \\\\ 1 \\end{pmatrix} e^{(-1 + 2\\sqrt{2}i)t} = e^{-t} \\begin{pmatrix} -2\\sqrt{2}i \\\\ 1 \\end{pmatrix} (\\cos(2\\sqrt{2}t) + i\\sin(2\\sqrt{2}t)) $$<br>
+$$ \\bar{z}(t) = e^{-t} \\begin{pmatrix} 2\\sqrt{2}\\sin(2\\sqrt{2}t) - 2\\sqrt{2}i\\cos(2\\sqrt{2}t) \\\\ \\cos(2\\sqrt{2}t) + i\\sin(2\\sqrt{2}t) \\end{pmatrix} $$<br>
+<strong>5. ФСР СОЛДУ</strong><br>
+$$ \\bar{x}_1(t) = e^{-t} \\begin{pmatrix} \\sqrt{8}\\cos(\\sqrt{8}t) \\\\ -\\sin(\\sqrt{8}t) \\end{pmatrix} $$<br>
+$$ \\bar{x}_2(t) = e^{-t} \\begin{pmatrix} \\sqrt{8}\\sin(\\sqrt{8}t) \\\\ \\cos(\\sqrt{8}t) \\end{pmatrix} $$<br>
+<strong>6. Общее решение</strong><br>
+$$ \\begin{pmatrix} x \\\\ y \\end{pmatrix}_{\\text{о.о.}} = C_1 e^{-t} \\begin{pmatrix} \\sqrt{8}\\cos(\\sqrt{8}t) \\\\ -\\sin(\\sqrt{8}t) \\end{pmatrix} + C_2 e^{-t} \\begin{pmatrix} \\sqrt{8}\\sin(\\sqrt{8}t) \\\\ \\cos(\\sqrt{8}t) \\end{pmatrix} $$<br>
+<strong>Ответ:</strong><br>
+$$ \\begin{pmatrix} x \\\\ y \\end{pmatrix}_{\\text{о.о.}} = C_1 e^{-t} \\begin{pmatrix} \\sqrt{8}\\cos(\\sqrt{8}t) \\\\ -\\sin(\\sqrt{8}t) \\end{pmatrix} + C_2 e^{-t} \\begin{pmatrix} \\sqrt{8}\\sin(\\sqrt{8}t) \\\\ \\cos(\\sqrt{8}t) \\end{pmatrix} $$`
+            },
+            {
+                label: '9.6', analogyOf: 27,
+                cond: 'Решить СОЛДУ, воспользовавшись алгоритмом поиска СЗ и СВ. Ответ представить в векторной форме.\n$$\\begin{cases} \\dot{x} = x - 8y \\\\ \\dot{y} = -x - y \\end{cases}$$',
+                solution: `<strong>Решение:</strong><br><br>
+<strong>1. Матрица коэффициентов</strong><br>
+$$ A = \\begin{pmatrix} 1 & -8 \\\\ -1 & -1 \\end{pmatrix} $$<br>
+<strong>2. Характеристическое уравнение</strong><br>
+$$ |A - \\lambda E| = \\begin{vmatrix} 1 - \\lambda & -8 \\\\ -1 & -1 - \\lambda \\end{vmatrix} = 0 $$<br>
+$$ (1 - \\lambda)(-1 - \\lambda) - 8 = 0 $$<br>
+$$ \\lambda^2 - 9 = 0 $$<br>
+$$ \\lambda_1 = 3,\\; \\lambda_2 = -3 $$<br>
+<strong>3. Собственный вектор для $\\lambda_1 = 3$</strong><br>
+$$ \\begin{pmatrix} -2 & -8 \\\\ -1 & -4 \\end{pmatrix} \\begin{pmatrix} x_1 \\\\ x_2 \\end{pmatrix} = \\begin{pmatrix} 0 \\\\ 0 \\end{pmatrix} $$<br>
+$$ -2x_1 - 8x_2 = 0 \\implies x_1 = -4x_2 $$<br>
+Выберем $x_2 = 1$:<br>
+$$ \\bar{v}_1 = \\begin{pmatrix} -4 \\\\ 1 \\end{pmatrix} $$<br>
+<strong>4. Собственный вектор для $\\lambda_2 = -3$</strong><br>
+$$ \\begin{pmatrix} 4 & -8 \\\\ -1 & 2 \\end{pmatrix} \\begin{pmatrix} x_1 \\\\ x_2 \\end{pmatrix} = \\begin{pmatrix} 0 \\\\ 0 \\end{pmatrix} $$<br>
+$$ 4x_1 - 8x_2 = 0 \\implies x_1 = 2x_2 $$<br>
+Выберем $x_2 = 1$:<br>
+$$ \\bar{v}_2 = \\begin{pmatrix} 2 \\\\ 1 \\end{pmatrix} $$<br>
+<strong>5. Общее решение</strong><br>
+$$ \\begin{pmatrix} x \\\\ y \\end{pmatrix}_{\\text{о.о.}} = C_1 \\begin{pmatrix} -4 \\\\ 1 \\end{pmatrix} e^{3t} + C_2 \\begin{pmatrix} 2 \\\\ 1 \\end{pmatrix} e^{-3t} $$<br>
+<strong>Ответ:</strong><br>
+$$ \\begin{pmatrix} x \\\\ y \\end{pmatrix}_{\\text{о.о.}} = C_1 \\begin{pmatrix} -4 \\\\ 1 \\end{pmatrix} e^{3t} + C_2 \\begin{pmatrix} 2 \\\\ 1 \\end{pmatrix} e^{-3t} $$`
+            },
+            {
+                label: '10.2',
+                cond: 'Решить систему сведением к одному ДУ: $\\begin{cases} \\dot{x} = 5x - y \\\\ \\dot{y} = x + 3y \\end{cases}$',
+                analogyOf: 30,
+                solution: `<strong>Решение:</strong><br><br>
+<strong>1. Выражаем $y$ из первого уравнения</strong><br>
+$$ y = 5x - \\dot{x} $$<br>
+<strong>2. Дифференцируем</strong><br>
+$$ \\dot{y} = 5\\dot{x} - \\ddot{x} $$<br>
+<strong>3. Подставляем во второе уравнение</strong><br>
+$$ x + 3(5x - \\dot{x}) = 5\\dot{x} - \\ddot{x} $$<br>
+$$ x + 15x - 3\\dot{x} = 5\\dot{x} - \\ddot{x} $$<br>
+$$ \\ddot{x} - 8\\dot{x} + 16x = 0 $$<br>
+<strong>4. Характеристическое уравнение</strong><br>
+$$ r^2 - 8r + 16 = 0 $$<br>
+$$ (r - 4)^2 = 0 $$<br>
+$$ r_1 = r_2 = 4 $$<br>
+<strong>5. Общее решение для $x(t)$</strong><br>
+$$ x(t) = (C_1 + C_2 t)e^{4t} $$<br>
+<strong>6. Находим $y(t)$</strong><br>
+$$ y = 5x - \\dot{x} $$<br>
+$$ \\dot{x} = C_2 e^{4t} + 4(C_1 + C_2 t)e^{4t} = (4C_1 + C_2 + 4C_2 t)e^{4t} $$<br>
+$$ y = 5(C_1 + C_2 t)e^{4t} - (4C_1 + C_2 + 4C_2 t)e^{4t} $$<br>
+$$ y = (C_1 - C_2 + C_2 t)e^{4t} $$<br>
+<strong>7. Общее решение системы</strong><br>
+$$ \\begin{pmatrix} x \\\\ y \\end{pmatrix}_{\\text{о.о.}} = C_1 \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix} e^{4t} + C_2 \\begin{pmatrix} t \\\\ -1 + t \\end{pmatrix} e^{4t} $$<br>
+<strong>Ответ:</strong><br>
+$$ \\begin{pmatrix} x \\\\ y \\end{pmatrix}_{\\text{о.о.}} = C_1 \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix} e^{4t} + C_2 \\begin{pmatrix} t \\\\ -1 + t \\end{pmatrix} e^{4t} $$`
+            },
+            {
+                label: '10.3',
+                cond: 'Решить систему сведением к одному ДУ: $\\begin{cases} \\dot{x} = -2x - 5y \\\\ \\dot{y} = 2x + 2y \\end{cases}$',
+                analogyOf: 30,
+                solution: `<strong>Решение:</strong><br><br>
+<strong>1. Выражаем $y$ из первого уравнения</strong><br>
+$$ y = \\frac{-2x - \\dot{x}}{5} $$<br>
+<strong>2. Дифференцируем</strong><br>
+$$ \\dot{y} = \\frac{-2\\dot{x} - \\ddot{x}}{5} $$<br>
+<strong>3. Подставляем во второе уравнение</strong><br>
+$$ 2x + 2 \\cdot \\frac{-2x - \\dot{x}}{5} = \\frac{-2\\dot{x} - \\ddot{x}}{5} $$<br>
+$$ 10x + 2(-2x - \\dot{x}) = -2\\dot{x} - \\ddot{x} $$<br>
+$$ 10x - 4x - 2\\dot{x} = -2\\dot{x} - \\ddot{x} $$<br>
+$$ \\ddot{x} + 6x = 0 $$<br>
+<strong>4. Характеристическое уравнение</strong><br>
+$$ r^2 + 6 = 0 $$<br>
+$$ r_{1,2} = \\pm \\sqrt{6}i $$<br>
+<strong>5. Общее решение для $x(t)$</strong><br>
+$$ x(t) = C_1 \\cos(\\sqrt{6}t) + C_2 \\sin(\\sqrt{6}t) $$<br>
+<strong>6. Находим $y(t)$</strong><br>
+$$ \\dot{x} = -\\sqrt{6}C_1 \\sin(\\sqrt{6}t) + \\sqrt{6}C_2 \\cos(\\sqrt{6}t) $$<br>
+$$ y = \\frac{-2x - \\dot{x}}{5} = \\frac{-2(C_1 \\cos(\\sqrt{6}t) + C_2 \\sin(\\sqrt{6}t)) - (-\\sqrt{6}C_1 \\sin(\\sqrt{6}t) + \\sqrt{6}C_2 \\cos(\\sqrt{6}t))}{5} $$<br>
+$$ y = \\frac{(-2C_1 - \\sqrt{6}C_2)\\cos(\\sqrt{6}t) + (-2C_2 + \\sqrt{6}C_1)\\sin(\\sqrt{6}t)}{5} $$<br>
+$$ y = \\left(-\\frac{2}{5}C_1 - \\frac{\\sqrt{6}}{5}C_2\\right)\\cos(\\sqrt{6}t) + \\left(\\frac{\\sqrt{6}}{5}C_1 - \\frac{2}{5}C_2\\right)\\sin(\\sqrt{6}t) $$<br>
+<strong>7. Общее решение системы</strong><br>
+$$ \\begin{pmatrix} x \\\\ y \\end{pmatrix}_{\\text{о.о.}} = C_1 \\begin{pmatrix} \\cos(\\sqrt{6}t) \\\\ -\\frac{2}{5}\\cos(\\sqrt{6}t) + \\frac{\\sqrt{6}}{5}\\sin(\\sqrt{6}t) \\end{pmatrix} + C_2 \\begin{pmatrix} \\sin(\\sqrt{6}t) \\\\ -\\frac{\\sqrt{6}}{5}\\cos(\\sqrt{6}t) - \\frac{2}{5}\\sin(\\sqrt{6}t) \\end{pmatrix} $$<br>
+<strong>Ответ:</strong><br>
+$$ \\begin{pmatrix} x \\\\ y \\end{pmatrix}_{\\text{о.о.}} = C_1 \\begin{pmatrix} \\cos(\\sqrt{6}t) \\\\ -\\frac{2}{5}\\cos(\\sqrt{6}t) + \\frac{\\sqrt{6}}{5}\\sin(\\sqrt{6}t) \\end{pmatrix} + C_2 \\begin{pmatrix} \\sin(\\sqrt{6}t) \\\\ -\\frac{\\sqrt{6}}{5}\\cos(\\sqrt{6}t) - \\frac{2}{5}\\sin(\\sqrt{6}t) \\end{pmatrix} $$`
+            },
+            {
+                label: '11.2',
+                cond: 'Указать вид частного решения СНЛДУ: $\\begin{cases} \\dot{x} = x + y + 4e^{2t}\\cos t \\\\ \\dot{y} = 3y - 2x - 5e^{2t}\\sin t \\end{cases}$.',
+                analogyOf: 31,
+                solution: `<strong>Решение:</strong><br><br>
+<strong>1. Однородная система</strong><br>
+$$ A = \\begin{pmatrix} 1 & 1 \\\\ -2 & 3 \\end{pmatrix} $$<br>
+<strong>2. Характеристическое уравнение</strong><br>
+$$ |A - \\lambda E| = \\begin{vmatrix} 1 - \\lambda & 1 \\\\ -2 & 3 - \\lambda \\end{vmatrix} = 0 $$<br>
+$$ (1 - \\lambda)(3 - \\lambda) + 2 = 0 $$<br>
+$$ \\lambda^2 - 4\\lambda + 5 = 0 $$<br>
+$$ \\lambda_{1,2} = 2 \\pm i $$<br>
+<strong>3. Правая часть</strong><br>
+$$ \\bar{f}(t) = e^{2t} \\begin{pmatrix} 4\\cos t \\\\ -5\\sin t \\end{pmatrix} $$<br>
+Частота $\\alpha + i\\beta = 2 + i$ является корнем характеристического уравнения с кратностью 1.<br>
+<strong>4. Вид частного решения</strong><br>
+$$ \\bar{x}_p(t) = t e^{2t} \\begin{pmatrix} (A + Bt)\\cos t + (C + Dt)\\sin t \\\\ (F + Gt)\\cos t + (H + Jt)\\sin t \\end{pmatrix} $$`
+            },
+            {
+                label: '11.3',
+                cond: 'Указать вид частного решения СНЛДУ: $\\begin{cases} \\dot{x} = 2x - 3y \\\\ \\dot{y} = x - 2y + 2\\sin t \\end{cases}$.',
+                analogyOf: 31,
+                solution: `<strong>Решение:</strong><br><br>
+<strong>1. Однородная система</strong><br>
+$$ A = \\begin{pmatrix} 2 & -3 \\\\ 1 & -2 \\end{pmatrix} $$<br>
+<strong>2. Характеристическое уравнение</strong><br>
+$$ |A - \\lambda E| = \\begin{vmatrix} 2 - \\lambda & -3 \\\\ 1 & -2 - \\lambda \\end{vmatrix} = 0 $$<br>
+$$ (2 - \\lambda)(-2 - \\lambda) + 3 = 0 $$<br>
+$$ \\lambda^2 - 4 + 3 = 0 $$<br>
+$$ \\lambda^2 - 1 = 0 $$<br>
+$$ \\lambda_{1,2} = \\pm 1 $$<br>
+<strong>3. Правая часть</strong><br>
+$$ \\bar{f}(t) = \\begin{pmatrix} 0 \\\\ 2\\sin t \\end{pmatrix} $$<br>
+Частота $\\alpha + i\\beta = 0 + i = i$ не является корнем характеристического уравнения.<br>
+<strong>4. Вид частного решения</strong><br>
+$$ \\bar{x}_p(t) = \\begin{pmatrix} A\\cos t + B\\sin t \\\\ C\\cos t + D\\sin t \\end{pmatrix} $$`
             }
         ]
     }
@@ -5179,12 +5401,12 @@ function buildExamGroups() {
         '2': { title: 'Тип 3. Собственные векторы', taskIds: [7, 8, 9] },
         '3': { title: 'Тип 4. Ранг и дефект', taskIds: [10, 11, 12] },
         '4': { title: 'Тип 5. Знакоопределённость', taskIds: [13, 14, 15, 16, 17, 18, 19] },
-        '5': { title: 'Тип 6. ДУ: тип ДУ', taskIds: [20, 21, 32, 33, 34, 35] },
-        '6': { title: 'Тип 7. ДУ: понижение порядка', taskIds: [22, 23, 30, 31] },
+        '5': { title: 'Тип 6. ДУ: тип ДУ', taskIds: [20, 21, 34, 35, 36, 37] },
+        '6': { title: 'Тип 7. ДУ: понижение порядка', taskIds: [22, 23, 32, 33] },
         '7': { title: 'Тип 8. ДУ: структура решения', taskIds: [24, 25] },
-        '8': { title: 'Тип 9. ДУ: системы ОЛДУ', taskIds: [26, 27] },
-        '9': { title: 'Тип 10. ДУ: сведение к одному ДУ', taskIds: [28] },
-        '10': { title: 'Тип 11. ДУ: частное решение СНЛДУ', taskIds: [29] },
+        '8': { title: 'Тип 9. ДУ: системы ОЛДУ', taskIds: [26, 27, 28, 29, 38, 39] },
+        '9': { title: 'Тип 10. ДУ: сведение к одному ДУ', taskIds: [30, 40, 41] },
+        '10': { title: 'Тип 11. ДУ: частное решение СНЛДУ', taskIds: [31, 42, 43] },
     };
 }
 
