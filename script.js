@@ -3008,7 +3008,7 @@ $$ = 0 + 0 + 0 - (0 + 0 + 4) = -4 \\neq 0 $$<br>
 <strong>Ответ:</strong> знакопеременная.`
             },
             {
-                label: 'Закоопределённость', analogyOf: 13, cond: 'Исследовать на закоопределённость: $f(x, y, z) = -x^2 - y^2 - z^2 - 2xy - 2xz - 2yz$.',
+                label: 'Знакоопределённость', analogyOf: 13, cond: 'Исследовать на знакоопределённость: $f(x, y, z) = -x^2 - y^2 - z^2 - 2xy - 2xz - 2yz$.',
                 answer: { sign: 'отрицательно полуопределена, но не отрицательно определена', inputLabel: 'Введите ответ:' },
                 solution: `<strong>Решение:</strong><br><br>
 <strong>Матрица:</strong><br>
@@ -3026,7 +3026,7 @@ $$ \\Delta_1 < 0, \\quad \\Delta_2 = 0, \\quad \\Delta_3 = 0 $$
 <strong>Ответ:</strong> отрицательно полуопределена, но не отрицательно определена.`
             },
             {
-                label: 'Закоопределённость', analogyOf: 13, cond: 'Исследовать на закоопределённость: $f(x, y, z) = 3x^2 - y^2 + 2z^2 + 4xy + 6xz$.',
+                label: 'Знакоопределённость', analogyOf: 13, cond: 'Исследовать на знакоопределённость: $f(x, y, z) = 3x^2 - y^2 + 2z^2 + 4xy + 6xz$.',
                 answer: { sign: 'знакопеременная', inputLabel: 'Введите ответ:' },
                 solution: `<strong>Решение:</strong><br><br>
 <strong>Матрица:</strong><br>
@@ -3174,7 +3174,7 @@ $$ y_{\\text{о.н.}} = y_{\\text{о.о.}} + y_{\\text{ч.н.}} $$<br>
 $$ y_{\\text{о.н.}} = C_1 \\cos 2x + C_2 \\sin 2x + x\\big[(A + Bx)\\cos 2x + (C + Dx)\\sin 2x\\big] $$`
             },
             {
-                label: '9.1', cond: 'Решить систему: $\\begin{cases} \\dot{x} = x + y \\\\ \\dot{y} = 3y - 2x \\end{cases}$.',
+                label: '9.1', cond: 'Решить СОЛДУ, воспользовавшись алгоритмом поиска СЗ и СВ: $\\begin{cases} \\dot{x} = x + y \\\\ \\dot{y} = 3y - 2x \\end{cases}$. Ответ представить в векторной форме.',
                 solution: `<strong>Решение:</strong><br><br>
 <strong>1. Матрица системы</strong><br>
 $$ A = \\begin{pmatrix} 1 & 1 \\\\ -2 & 3 \\end{pmatrix} $$<br>
@@ -3199,6 +3199,32 @@ $$ \\bar{x}_2(t) = e^{2t} \\begin{pmatrix} \\sin t \\\\ \\cos t + \\sin t \\end{
 $$ \\begin{pmatrix} x \\\\ y \\end{pmatrix}_{\\text{о.о.}} = C_1 e^{2t} \\begin{pmatrix} \\cos t \\\\ \\cos t - \\sin t \\end{pmatrix} + C_2 e^{2t} \\begin{pmatrix} \\sin t \\\\ \\cos t + \\sin t \\end{pmatrix} $$<br>
 <strong>Ответ:</strong><br>
 $$ \\begin{pmatrix} x \\\\ y \\end{pmatrix}_{\\text{о.о.}} = C_1 \\begin{pmatrix} \\cos t \\\\ \\cos t - \\sin t \\end{pmatrix} e^{2t} + C_2 \\begin{pmatrix} \\sin t \\\\ \\cos t + \\sin t \\end{pmatrix} e^{2t} $$`
+            },
+            {
+                label: '9.2', cond: 'Решить СОЛДУ, воспользовавшись алгоритмом поиска СЗ и СВ: $\\begin{cases} \\dot{x} = 6x + y \\\\ \\dot{y} = 5x + 2y \\end{cases}$. Ответ представить в векторной форме.',
+                solution: `<strong>Решение:</strong><br><br>
+<strong>1. Матрица системы</strong><br>
+$$ A = \\begin{pmatrix} 6 & 1 \\\\ 5 & 2 \\end{pmatrix} $$<br>
+<strong>2. Собственные значения</strong><br>
+$$ |A - \\lambda E| = \\begin{vmatrix} 6 - \\lambda & 1 \\\\ 5 & 2 - \\lambda \\end{vmatrix} = 0 $$<br>
+$$ (6 - \\lambda)(2 - \\lambda) - 5 = 0 $$<br>
+$$ \\lambda^2 - 8\\lambda + 7 = 0 $$<br>
+$$ (\\lambda - 1)(\\lambda - 7) = 0 $$<br>
+$$ \\lambda_1 = 1,\\; \\lambda_2 = 7 $$<br>
+<strong>3. Собственный вектор для $\\lambda_1 = 1$</strong><br>
+$$ \\begin{pmatrix} 5 & 1 \\\\ 5 & 1 \\end{pmatrix} \\begin{pmatrix} x_1 \\\\ x_2 \\end{pmatrix} = \\begin{pmatrix} 0 \\\\ 0 \\end{pmatrix} $$<br>
+$$ 5x_1 + x_2 = 0 \\implies x_2 = -5x_1 $$<br>
+Выберем $x_1 = -1$:<br>
+$$ \\bar{v}_1 = \\begin{pmatrix} -1 \\\\ 5 \\end{pmatrix} $$<br>
+<strong>4. Собственный вектор для $\\lambda_2 = 7$</strong><br>
+$$ \\begin{pmatrix} -1 & 1 \\\\ 5 & -5 \\end{pmatrix} \\begin{pmatrix} x_1 \\\\ x_2 \\end{pmatrix} = \\begin{pmatrix} 0 \\\\ 0 \\end{pmatrix} $$<br>
+$$ -x_1 + x_2 = 0 \\implies x_1 = x_2 $$<br>
+Выберем $x_1 = 1$:<br>
+$$ \\bar{v}_2 = \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix} $$<br>
+<strong>5. Общее решение</strong><br>
+$$ \\begin{pmatrix} x \\\\ y \\end{pmatrix}_{\\text{о.о.}} = C_1 \\begin{pmatrix} -1 \\\\ 5 \\end{pmatrix} e^{t} + C_2 \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix} e^{7t} $$<br>
+<strong>Ответ:</strong><br>
+$$ \\begin{pmatrix} x \\\\ y \\end{pmatrix}_{\\text{о.о.}} = C_1 \\begin{pmatrix} -1 \\\\ 5 \\end{pmatrix} e^{t} + C_2 \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix} e^{7t} $$`
             },
             {
                 label: 'Сведение к одному ДУ', cond: 'Решить систему сведением к одному ДУ: $\\begin{cases} \\dot{x} = 2x - y \\\\ \\dot{y} = 4x + 6y \\end{cases}$',
@@ -5153,12 +5179,12 @@ function buildExamGroups() {
         '2': { title: 'Тип 3. Собственные векторы', taskIds: [7, 8, 9] },
         '3': { title: 'Тип 4. Ранг и дефект', taskIds: [10, 11, 12] },
         '4': { title: 'Тип 5. Знакоопределённость', taskIds: [13, 14, 15, 16, 17, 18, 19] },
-        '5': { title: 'Тип 6. ДУ: тип ДУ', taskIds: [20, 21, 31, 32, 33, 34] },
-        '6': { title: 'Тип 7. ДУ: понижение порядка', taskIds: [22, 23, 28, 29] },
-        '7': { title: 'Тип 8. ДУ: структура решения', taskIds: [24, 35] },
-        '8': { title: 'Тип 9. ДУ: системы ОЛДУ', taskIds: [25, 30] },
-        '9': { title: 'Тип 10. ДУ: сведение к одному ДУ', taskIds: [26] },
-        '10': { title: 'Тип 11. ДУ: частное решение СНЛДУ', taskIds: [27] },
+        '5': { title: 'Тип 6. ДУ: тип ДУ', taskIds: [20, 21, 32, 33, 34, 35] },
+        '6': { title: 'Тип 7. ДУ: понижение порядка', taskIds: [22, 23, 30, 31] },
+        '7': { title: 'Тип 8. ДУ: структура решения', taskIds: [24, 25] },
+        '8': { title: 'Тип 9. ДУ: системы ОЛДУ', taskIds: [26, 27] },
+        '9': { title: 'Тип 10. ДУ: сведение к одному ДУ', taskIds: [28] },
+        '10': { title: 'Тип 11. ДУ: частное решение СНЛДУ', taskIds: [29] },
     };
 }
 
