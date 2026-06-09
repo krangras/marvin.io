@@ -2766,52 +2766,49 @@ const examTasksData = [
                 label: 'Матрица Грама (3×3)', cond: 'Даны координаты векторов в некотором ОНБ: $\\bar{f}_1(1, -3, 2)$, $\\bar{f}_2(3, 2, -4)$, $\\bar{f}_3(4, 0, -1)$. Найти матрицу Грама и определитель Грама этой системы векторов.',
                 answer: { matrix: [[14,-11,2],[-11,29,16],[2,16,17]], det: 441, inputLabel: 'Введите матрицу Грама:' },
                 solution: `<strong>Решение:</strong><br><br>
-Матрица Грама $\\mathrm{Г} = (g_{ij})$, где $g_{ij} = (\\bar{f}_i; \\bar{f}_j)$.<br>
-Вычисляем скалярные произведения:
-$$ g_{11} = (\\bar{f}_1; \\bar{f}_1) = 1^2 + (-3)^2 + 2^2 = 14 $$
-$$ g_{22} = (\\bar{f}_2; \\bar{f}_2) = 3^2 + 2^2 + (-4)^2 = 29 $$
-$$ g_{33} = (\\bar{f}_3; \\bar{f}_3) = 4^2 + 0^2 + (-1)^2 = 17 $$
-$$ g_{12} = g_{21} = (\\bar{f}_1; \\bar{f}_2) = 1\\cdot3 + (-3)\\cdot2 + 2\\cdot(-4) = -11 $$
-$$ g_{13} = g_{31} = (\\bar{f}_1; \\bar{f}_3) = 1\\cdot4 + (-3)\\cdot0 + 2\\cdot(-1) = 2 $$
-$$ g_{23} = g_{32} = (\\bar{f}_2; \\bar{f}_3) = 3\\cdot4 + 2\\cdot0 + (-4)\\cdot(-1) = 16 $$
-$$ \\mathrm{Г} = \\begin{pmatrix} 14 & -11 & 2 \\\\ -11 & 29 & 16 \\\\ 2 & 16 & 17 \\end{pmatrix} $$
-Определитель (разложение по 1-й строке):
-$$ |\\mathrm{Г}| = 14(29\\cdot17 - 16^2) + 11((-11)\\cdot17 - 16\\cdot2) + 2((-11)\\cdot16 - 29\\cdot2) $$
-$$ = 14(493 - 256) + 11(-187 - 32) + 2(-176 - 58) $$
-$$ = 14\\cdot237 + 11\\cdot(-219) + 2\\cdot(-234) $$
-$$ = 3318 - 2409 - 468 = 441 $$
-<strong>Ответ:</strong> $$ \\mathrm{Г} = \\begin{pmatrix} 14 & -11 & 2 \\\\ -11 & 29 & 16 \\\\ 2 & 16 & 17 \\end{pmatrix}, \\quad |\\mathrm{Г}| = 441.$$`
+$$ \\overline{f}_1(1, -3, 2),\\quad \\overline{f}_2(3, 2, -4),\\quad \\overline{f}_3(4, 0, -1) $$
+
+$$ (\\overline{f}_1, \\overline{f}_1) = 1^2 + (-3)^2 + 2^2 = 14 $$
+$$ (\\overline{f}_2, \\overline{f}_2) = 3^2 + 2^2 + (-4)^2 = 29 $$
+$$ (\\overline{f}_3, \\overline{f}_3) = 4^2 + 0^2 + (-1)^2 = 17 $$
+$$ (\\overline{f}_1, \\overline{f}_2) = 1 \\cdot 3 + (-3) \\cdot 2 + 2 \\cdot (-4) = -11 $$
+$$ (\\overline{f}_1, \\overline{f}_3) = 1 \\cdot 4 + (-3) \\cdot 0 + 2 \\cdot (-1) = 2 $$
+$$ (\\overline{f}_2, \\overline{f}_3) = 3 \\cdot 4 + 2 \\cdot 0 + (-4) \\cdot (-1) = 16 $$
+$$ \\Gamma = \\begin{pmatrix} 14 & -11 & 2 \\\\ -11 & 29 & 16 \\\\ 2 & 16 & 17 \\end{pmatrix} $$
+$$ |\\Gamma| = 14 \\cdot 29 \\cdot 17 + (-11) \\cdot 16 \\cdot 2 + 2 \\cdot (-11) \\cdot 16 - 2 \\cdot 29 \\cdot 2 - 16 \\cdot 16 \\cdot 14 - 17 \\cdot (-11) \\cdot (-11) = 441 $$
+<br><strong>Ответ:</strong> $$ \\Gamma = \\begin{pmatrix} 14 & -11 & 2 \\\\ -11 & 29 & 16 \\\\ 2 & 16 & 17 \\end{pmatrix}, \\quad |\\Gamma| = 441.$$`
             },
             {
-                label: 'Матрица Грама (4×4)', analogyOf: 1, cond: 'Даны координаты векторов в некотором ОНБ: $\\bar{f}_1(1, 0, 2, -1)$, $\\bar{f}_2(2, 1, 0, 3)$, $\\bar{f}_3(-1, 2, 1, 0)$, $\\bar{f}_4(0, -1, 3, 2)$. Найти матрицу Грама и определитель Грама.',
-                answer: { matrix: [[6,-1,1,4],[-1,14,0,5],[1,0,6,1],[4,5,1,14]], det: 4356, inputLabel: 'Введите матрицу Грама:' },
+                label: 'Матрица Грама (4×4)', analogyOf: 1, cond: 'Даны координаты векторов в некотором ОНБ: $\\overline{f}_1(1, 0, 2, -1)$, $\\overline{f}_2(2, 1, 0, 3)$, $\\overline{f}_3(-1, 3, 2, 0)$, $\\overline{f}_4(0, -1, 3, 2)$. Найти матрицу Грама и определитель Грама.',
+                answer: { matrix: [[6,-1,3,4],[-1,14,1,5],[3,1,14,3],[4,5,3,14]], det: 4356, inputLabel: 'Введите матрицу Грама:' },
                 solution: `<strong>Решение:</strong><br><br>
-Матрица Грама:
-$$ g_{11} = 1^2+0^2+2^2+(-1)^2 = 6, \\quad g_{22} = 2^2+1^2+0^2+3^2 = 14 $$
-$$ g_{33} = (-1)^2+2^2+1^2+0^2 = 6, \\quad g_{44} = 0^2+(-1)^2+3^2+2^2 = 14 $$
-$$ g_{12} = 2+0+0-3 = -1, \\quad g_{13} = -1+0+2+0 = 1, \\quad g_{14} = 0+0+6-2 = 4 $$
-$$ g_{23} = -2+2+0+0 = 0, \\quad g_{24} = 0-1+0+6 = 5, \\quad g_{34} = 0-2+3+0 = 1 $$
-$$ \\mathrm{Г} = \\begin{pmatrix} 6 & -1 & 1 & 4 \\\\ -1 & 14 & 0 & 5 \\\\ 1 & 0 & 6 & 1 \\\\ 4 & 5 & 1 & 14 \\end{pmatrix} $$
-Определитель (разложение по 3-й строке):
-$$ |\\mathrm{Г}| = 1 \\cdot M_{31} + 6 \\cdot M_{33} - 1 \\cdot M_{34} $$
-$$ M_{31} = \\begin{vmatrix}-1&1&4\\\\14&0&5\\\\5&1&14\\end{vmatrix} = -110 $$
-$$ M_{33} = \\begin{vmatrix}6&-1&4\\\\-1&14&5\\\\4&5&14\\end{vmatrix} = 748 $$
-$$ M_{34} = \\begin{vmatrix}6&-1&1\\\\-1&14&0\\\\4&5&1\\end{vmatrix} = 22 $$
-$$ |\\mathrm{Г}| = -110 + 6 \\cdot 748 - 22 = 4356 $$
-<strong>Ответ:</strong> $$ \\mathrm{Г} = \\begin{pmatrix} 6 & -1 & 1 & 4 \\\\ -1 & 14 & 0 & 5 \\\\ 1 & 0 & 6 & 1 \\\\ 4 & 5 & 1 & 14 \\end{pmatrix}, \\quad |\\mathrm{Г}| = 4356.$$`
+$$ \\overline{f}_1(1, 0, 2, -1),\\quad \\overline{f}_2(2, 1, 0, 3),\\quad \\overline{f}_3(-1, 3, 2, 0),\\quad \\overline{f}_4(0, -1, 3, 2) $$
+
+$$ (\\overline{f}_1, \\overline{f}_1) = 1^2 + 0^2 + 2^2 + (-1)^2 = 6 $$
+$$ (\\overline{f}_2, \\overline{f}_2) = 2^2 + 1^2 + 0^2 + 3^2 = 14 $$
+$$ (\\overline{f}_3, \\overline{f}_3) = (-1)^2 + 3^2 + 2^2 + 0^2 = 14 $$
+$$ (\\overline{f}_4, \\overline{f}_4) = 0^2 + (-1)^2 + 3^2 + 2^2 = 14 $$
+$$ (\\overline{f}_1, \\overline{f}_2) = 1 \\cdot 2 + 0 \\cdot 1 + 2 \\cdot 0 + (-1) \\cdot 3 = -1 $$
+$$ (\\overline{f}_1, \\overline{f}_3) = 1 \\cdot (-1) + 0 \\cdot 3 + 2 \\cdot 2 + (-1) \\cdot 0 = 3 $$
+$$ (\\overline{f}_1, \\overline{f}_4) = 1 \\cdot 0 + 0 \\cdot (-1) + 2 \\cdot 3 + (-1) \\cdot 2 = 4 $$
+$$ (\\overline{f}_2, \\overline{f}_3) = 2 \\cdot (-1) + 1 \\cdot 3 + 0 \\cdot 2 + 3 \\cdot 0 = 1 $$
+$$ (\\overline{f}_2, \\overline{f}_4) = 2 \\cdot 0 + 1 \\cdot (-1) + 0 \\cdot 3 + 3 \\cdot 2 = 5 $$
+$$ (\\overline{f}_3, \\overline{f}_4) = (-1) \\cdot 0 + 3 \\cdot (-1) + 2 \\cdot 3 + 0 \\cdot 2 = 3 $$
+$$ \\Gamma = \\begin{pmatrix} 6 & -1 & 3 & 4 \\\\ -1 & 14 & 1 & 5 \\\\ 3 & 1 & 14 & 3 \\\\ 4 & 5 & 3 & 14 \\end{pmatrix} $$
+<br><strong>Ответ:</strong> $$ \\Gamma = \\begin{pmatrix} 6 & -1 & 3 & 4 \\\\ -1 & 14 & 1 & 5 \\\\ 3 & 1 & 14 & 3 \\\\ 4 & 5 & 3 & 14 \\end{pmatrix}, \\quad |\\Gamma| = 4356.$$`
             },
             {
                 label: 'Матрица Грама (2×2)', analogyOf: 1, cond: 'Даны координаты векторов в некотором ОНБ: $\\bar{f}_1(2, -1, 3)$, $\\bar{f}_2(0, 4, -2)$. Найти матрицу Грама и определитель Грама.',
                 answer: { matrix: [[14,-10],[-10,20]], det: 180, inputLabel: 'Введите матрицу Грама:' },
                 solution: `<strong>Решение:</strong><br><br>
-Матрица Грама:
-$$ g_{11} = 2^2 + (-1)^2 + 3^2 = 14 $$
-$$ g_{22} = 0^2 + 4^2 + (-2)^2 = 20 $$
-$$ g_{12} = g_{21} = 2\\cdot0 + (-1)\\cdot4 + 3\\cdot(-2) = -10 $$
-$$ \\mathrm{Г} = \\begin{pmatrix} 14 & -10 \\\\ -10 & 20 \\end{pmatrix} $$
-Определитель:
-$$ |\\mathrm{Г}| = 14\\cdot20 - (-10)^2 = 280 - 100 = 180 $$
-<strong>Ответ:</strong> $$ \\mathrm{Г} = \\begin{pmatrix} 14 & -10 \\\\ -10 & 20 \\end{pmatrix}, \\quad |\\mathrm{Г}| = 180.$$`
+$$ \\overline{f}_1(2, -1, 3),\\quad \\overline{f}_2(0, 4, -2) $$
+
+$$ (\\overline{f}_1, \\overline{f}_1) = 2^2 + (-1)^2 + 3^2 = 14 $$
+$$ (\\overline{f}_2, \\overline{f}_2) = 0^2 + 4^2 + (-2)^2 = 20 $$
+$$ (\\overline{f}_1, \\overline{f}_2) = 2 \\cdot 0 + (-1) \\cdot 4 + 3 \\cdot (-2) = -10 $$
+$$ \\Gamma = \\begin{pmatrix} 14 & -10 \\\\ -10 & 20 \\end{pmatrix} $$
+$$ |\\Gamma| = 14 \\cdot 20 - (-10)^2 = 280 - 100 = 180 $$
+<br><strong>Ответ:</strong> $$ \\Gamma = \\begin{pmatrix} 14 & -10 \\\\ -10 & 20 \\end{pmatrix}, \\quad |\\Gamma| = 180.$$`
             },
             {
                 label: 'Смена базиса (классика)', cond: 'Матрица оператора $\\hat{A}$ в базисе $\\text{Б} = (\\bar{e}_1, \\bar{e}_2)$ имеет вид: $$ [\\hat{A}]_{\\text{Б}} = \\begin{pmatrix} -3 & 2 \\\\ 1 & -1 \\end{pmatrix} $$ Найти матрицу оператора $\\hat{A}$ в базисе $\\text{Б}\' = (2\\bar{e}_1 + \\bar{e}_2, \\bar{e}_2 - \\bar{e}_1)$.',
@@ -2820,15 +2817,15 @@ $$ |\\mathrm{Г}| = 14\\cdot20 - (-10)^2 = 280 - 100 = 180 $$
 1. Координаты нового базиса в старом:<br>
 $\\bar{e}\'_1 = 2\\bar{e}_1 + \\bar{e}_2 \\Rightarrow [\\bar{e}\'_1]_{\\text{Б}} = \\begin{pmatrix} 2 \\\\ 1 \\end{pmatrix}$<br>
 $\\bar{e}\'_2 = -\\bar{e}_1 + \\bar{e}_2 \\Rightarrow [\\bar{e}\'_2]_{\\text{Б}} = \\begin{pmatrix} -1 \\\\ 1 \\end{pmatrix}$<br><br>
-2. Матрица перехода (столбцы — координаты нового базиса в старом):<br>
-$$ T = \\begin{pmatrix} 2 & -1 \\\\ 1 & 1 \\end{pmatrix} $$<br>
-3. Обратная матрица:<br>
+2. Матрица перехода $T_{\\text{Б}\' \\to \\text{Б}}$ (столбцы — координаты нового базиса в старом):<br>
+$$ T_{\\text{Б}\' \\to \\text{Б}} = \\begin{pmatrix} 2 & -1 \\\\ 1 & 1 \\end{pmatrix} $$<br>
+3. Обратная матрица $T_{\\text{Б} \\to \\text{Б}\'}$:<br>
 $$ |T| = 2 \\cdot 1 - (-1) \\cdot 1 = 3 $$
-$$ T^{-1} = \\frac{1}{3} \\begin{pmatrix} 1 & 1 \\\\ -1 & 2 \\end{pmatrix} $$<br>
-4. Формула $[\\hat{A}]_{\\text{Б}\'} = T^{-1} \\cdot [\\hat{A}]_{\\text{Б}} \\cdot T$:<br>
-$$ T^{-1} \\cdot [\\hat{A}]_{\\text{Б}} = \\frac{1}{3} \\begin{pmatrix} 1 & 1 \\\\ -1 & 2 \\end{pmatrix} \\begin{pmatrix} -3 & 2 \\\\ 1 & -1 \\end{pmatrix} = \\frac{1}{3} \\begin{pmatrix} -2 & 1 \\\\ 5 & -4 \\end{pmatrix} $$
+$$ T_{\\text{Б} \\to \\text{Б}\'} = \\frac{1}{3} \\begin{pmatrix} 1 & 1 \\\\ -1 & 2 \\end{pmatrix} $$<br>
+4. Формула $[\\hat{A}]_{\\text{Б}\'} = T_{\\text{Б} \\to \\text{Б}\'} \\cdot [\\hat{A}]_{\\text{Б}} \\cdot T_{\\text{Б}\' \\to \\text{Б}}$:<br>
+$$ T_{\\text{Б} \\to \\text{Б}\'} \\cdot [\\hat{A}]_{\\text{Б}} = \\frac{1}{3} \\begin{pmatrix} 1 & 1 \\\\ -1 & 2 \\end{pmatrix} \\begin{pmatrix} -3 & 2 \\\\ 1 & -1 \\end{pmatrix} = \\frac{1}{3} \\begin{pmatrix} -2 & 1 \\\\ 5 & -4 \\end{pmatrix} $$
 $$ [\\hat{A}]_{\\text{Б}\'} = \\frac{1}{3} \\begin{pmatrix} -2 & 1 \\\\ 5 & -4 \\end{pmatrix} \\begin{pmatrix} 2 & -1 \\\\ 1 & 1 \\end{pmatrix} = \\frac{1}{3} \\begin{pmatrix} -3 & 3 \\\\ 6 & -9 \\end{pmatrix} = \\begin{pmatrix} -1 & 1 \\\\ 2 & -3 \\end{pmatrix} $$
-<strong>Ответ:</strong> $$ [\\hat{A}]_{\\text{Б}\'} = \\begin{pmatrix} -1 & 1 \\\\ 2 & -3 \\end{pmatrix}.$$`
+<br><strong>Ответ:</strong> $$ [\\hat{A}]_{\\text{Б}\'} = \\begin{pmatrix} -1 & 1 \\\\ 2 & -3 \\end{pmatrix}.$$`
             },
             {
                 label: 'Смена базиса (с дробями)', analogyOf: 4, cond: 'Матрица оператора $\\hat{A}$ в базисе $\\text{Б} = (\\bar{e}_1, \\bar{e}_2)$ имеет вид: $$ [\\hat{A}]_{\\text{Б}} = \\begin{pmatrix} 5 & -1 \\\\ 0 & 2 \\end{pmatrix} $$ Найти матрицу оператора $\\hat{A}$ в базисе $\\text{Б}\' = (3\\bar{e}_1 + 2\\bar{e}_2, \\bar{e}_1 - \\bar{e}_2)$.',
@@ -2868,40 +2865,28 @@ $$ [\\hat{A}]_{\\text{Б}\'} = \\begin{pmatrix} -1 & -\\frac{4}{5} \\\\ 1 & \\fr
                 label: 'Собственные векторы', cond: 'Найти собственные векторы-столбцы матрицы, соответствующие $\\lambda = 1$: $$ A = \\begin{pmatrix} 9 & -8 & 4 \\\\ 8 & -7 & 4 \\\\ 4 & -4 & 3 \\end{pmatrix} $$',
                 answer: { vectors: [[1,1,0],[1,0,-2]], dim: 2, checkSubspace: true, inputLabel: 'Введите базис собственных векторов (ФСР = 2 вектора):' },
                 solution: `<strong>Решение:</strong><br><br>
-1. Составим $A - E$:<br>
-$$ A - E = \\begin{pmatrix} 8 & -8 & 4 \\\\ 8 & -8 & 4 \\\\ 4 & -4 & 2 \\end{pmatrix} $$<br>
-2. Ступенчатый вид:<br>
-$$ \\begin{pmatrix} 8 & -8 & 4 \\\\ 8 & -8 & 4 \\\\ 4 & -4 & 2 \\end{pmatrix} \\xrightarrow[R_2 - R_1]{2R_3 - R_1} \\begin{pmatrix} 8 & -8 & 4 \\\\ 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} $$<br>
-3. Ранг = 1, уравнение: $2x_1 - 2x_2 + x_3 = 0 \\Rightarrow x_3 = -2x_1 + 2x_2$<br>
-4. ФСР: $\\bar{x}_1 = \\begin{pmatrix} 1 \\\\ 1 \\\\ 0 \\end{pmatrix}, \\quad \\bar{x}_2 = \\begin{pmatrix} 1 \\\\ 0 \\\\ -2 \\end{pmatrix}$
-<strong>Ответ:</strong> $$ \\bar{x}_{\\lambda=1} = \\alpha_1 \\begin{pmatrix} 1 \\\\ 1 \\\\ 0 \\end{pmatrix} + \\alpha_2 \\begin{pmatrix} 1 \\\\ 0 \\\\ -2 \\end{pmatrix}, \\quad \\alpha_1^2 + \\alpha_2^2 > 0.$$`
+$$ A - E = \\begin{pmatrix} 8 & -8 & 4 \\\\ 8 & -8 & 4 \\\\ 4 & -4 & 2 \\end{pmatrix} \\sim \\begin{pmatrix} 8 & -8 & 4 \\\\ 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} $$
+$$ x_1 - x_2 + \\frac{1}{2}x_3 = 0 $$
+$$ x_1 = x_2 - \\frac{1}{2}x_3 $$
+ФСР: $\\begin{pmatrix} -1 \\\\ 0 \\\\ 2 \\end{pmatrix},\\quad \\begin{pmatrix} 1 \\\\ 1 \\\\ 0 \\end{pmatrix}$
+<br><strong>Ответ:</strong> $$ \\begin{pmatrix} x_1 \\\\ x_2 \\\\ x_3 \\end{pmatrix}_{\\lambda=1} = \\alpha_1 \\cdot \\begin{pmatrix} -1 \\\\ 0 \\\\ 2 \\end{pmatrix} + \\alpha_2 \\cdot \\begin{pmatrix} 1 \\\\ 1 \\\\ 0 \\end{pmatrix},\\quad \\alpha_1^2 + \\alpha_2^2 > 0.$$`
             },
             {
                 label: 'Собственные векторы (ранг 2)', analogyOf: 3, cond: 'Найти собственные векторы-столбцы матрицы, соответствующие $\\lambda = 3$: $$ A = \\begin{pmatrix} 5 & 2 & 0 \\\\ 2 & 2 & 0 \\\\ 0 & 0 & 3 \\end{pmatrix} $$',
                 answer: { vectors: [[0,0,1]], dim: 1, checkSubspace: true, inputLabel: 'Введите базис собственных векторов (ФСР = 1 вектор):' },
                 solution: `<strong>Решение:</strong><br><br>
-1. Составим $A - 3E$:<br>
-$$ A - 3E = \\begin{pmatrix} 2 & 2 & 0 \\\\ 2 & -1 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} $$<br>
-2. Ступенчатый вид:<br>
-$$ \\begin{pmatrix} 2 & 2 & 0 \\\\ 2 & -1 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} \\xrightarrow{R_2 - R_1} \\begin{pmatrix} 2 & 2 & 0 \\\\ 0 & -3 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} $$<br>
-3. Обратный ход метода Гаусса:<br>
-$$ R_2 \\to -\\tfrac{1}{3}R_2: \\quad \\begin{pmatrix} 2 & 2 & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} $$
-$$ R_1 \\to R_1 - 2R_2: \\quad \\begin{pmatrix} 2 & 0 & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} $$<br>
-4. $\\begin{cases} 2x_1 = 0 \\\\ x_2 = 0 \\end{cases} \\Rightarrow x_1 = 0, \\; x_2 = 0$. Переменная $x_3$ — свободная.<br>
-5. ФСР: $\\bar{x} = \\begin{pmatrix} 0 \\\\ 0 \\\\ 1 \\end{pmatrix}$
-<strong>Ответ:</strong> $$ \\bar{x}_{\\lambda=3} = \\alpha \\begin{pmatrix} 0 \\\\ 0 \\\\ 1 \\end{pmatrix}, \\quad \\alpha \\neq 0.$$`
+$$ A - 3E = \\begin{pmatrix} 2 & 2 & 0 \\\\ 2 & -1 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} \\sim \\begin{pmatrix} 2 & 2 & 0 \\\\ 0 & -3 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} \\sim \\begin{pmatrix} 2 & 0 & 0 \\\\ 0 & 2 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} \\sim \\begin{pmatrix} 1 & 0 & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} $$
+ФСР: $\\begin{pmatrix} 0 \\\\ 0 \\\\ 1 \\end{pmatrix}$
+<br><strong>Ответ:</strong> $$ \\begin{pmatrix} x_1 \\\\ x_2 \\\\ x_3 \\end{pmatrix}_{\\lambda=3} = \\alpha \\cdot \\begin{pmatrix} 0 \\\\ 0 \\\\ 1 \\end{pmatrix},\\quad \\alpha \\neq 0.$$`
             },
             {
                 label: 'Собственные векторы (ранг 1)', analogyOf: 3, cond: 'Найти собственные векторы-столбцы матрицы, соответствующие $\\lambda = 2$: $$ A = \\begin{pmatrix} 3 & 1 & -1 \\\\ 0 & 2 & 0 \\\\ 1 & 1 & 1 \\end{pmatrix} $$',
                 answer: { vectors: [[-1,1,0],[1,0,1]], dim: 2, checkSubspace: true, inputLabel: 'Введите базис собственных векторов (ФСР = 2 вектора):' },
                 solution: `<strong>Решение:</strong><br><br>
-1. Составим $A - 2E$:<br>
-$$ A - 2E = \\begin{pmatrix} 1 & 1 & -1 \\\\ 0 & 0 & 0 \\\\ 1 & 1 & -1 \\end{pmatrix} $$<br>
-2. Ступенчатый вид:<br>
-$$ \\begin{pmatrix} 1 & 1 & -1 \\\\ 0 & 0 & 0 \\\\ 1 & 1 & -1 \\end{pmatrix} \\xrightarrow{R_3 - R_1} \\begin{pmatrix} 1 & 1 & -1 \\\\ 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} $$<br>
-3. Ранг = 1, уравнение: $x_1 + x_2 - x_3 = 0 \\Rightarrow x_1 = -x_2 + x_3$<br>
-4. ФСР: $\\bar{x}_1 = \\begin{pmatrix} -1 \\\\ 1 \\\\ 0 \\end{pmatrix}, \\quad \\bar{x}_2 = \\begin{pmatrix} 1 \\\\ 0 \\\\ 1 \\end{pmatrix}$
-<strong>Ответ:</strong> $$ \\bar{x}_{\\lambda=2} = \\alpha_1 \\begin{pmatrix} -1 \\\\ 1 \\\\ 0 \\end{pmatrix} + \\alpha_2 \\begin{pmatrix} 1 \\\\ 0 \\\\ 1 \\end{pmatrix}, \\quad \\alpha_1^2 + \\alpha_2^2 > 0.$$`
+$$ A - 2E = \\begin{pmatrix} 1 & 1 & -1 \\\\ 0 & 0 & 0 \\\\ 1 & 1 & -1 \\end{pmatrix} \\sim \\begin{pmatrix} 1 & 1 & -1 \\\\ 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} $$
+$$ x_1 = x_3 - x_2 $$
+ФСР: $\\begin{pmatrix} 1 \\\\ 0 \\\\ 1 \\end{pmatrix},\\quad \\begin{pmatrix} -1 \\\\ 1 \\\\ 0 \\end{pmatrix}$
+<br><strong>Ответ:</strong> $$ \\begin{pmatrix} x_1 \\\\ x_2 \\\\ x_3 \\end{pmatrix}_{\\lambda=2} = \\alpha_1 \\cdot \\begin{pmatrix} 1 \\\\ 0 \\\\ 1 \\end{pmatrix} + \\alpha_2 \\cdot \\begin{pmatrix} -1 \\\\ 1 \\\\ 0 \\end{pmatrix},\\quad \\alpha_1^2 + \\alpha_2^2 > 0.$$`
             },
             {
                 label: 'Ранг и дефект (демо)', cond: 'Найти ранг ($r$) и дефект ($d$) оператора с матрицей: $$ A = \\begin{pmatrix} 1 & -2 & -3 & -4 \\\\ 6 & 1 & 0 & -1 \\\\ 4 & 5 & 6 & 7 \\\\ 9 & 8 & 9 & 11 \\end{pmatrix} $$',
@@ -2949,23 +2934,22 @@ $r = 3$, $d = 4 - 3 = 1$.<br>
             },
             {
                 label: 'Знакоопределённость', cond: 'Исследовать на знакоопределённость: $f(x, y, z) = 4x^2 + 2y^2 + z^2 - 4xy - 2yz$.',
-                answer: { sign: 'положительно полуопределённая', inputLabel: 'Введите ответ:' },
+                answer: { sign: 'положительно полуопределена, но не положительно определена', inputLabel: 'Введите ответ:' },
                 solution: `<strong>Решение:</strong><br><br>
 <strong>Матрица:</strong><br>
 $$ A = \\begin{pmatrix} 4 & -2 & 0 \\\\ -2 & 2 & -1 \\\\ 0 & -1 & 1 \\end{pmatrix} $$<br>
 <strong>Угловые миноры:</strong><br>
 $$ \\Delta_1 = 4 > 0 $$
 $$ \\Delta_2 = \\begin{vmatrix} 4 & -2 \\\\ -2 & 2 \\end{vmatrix} = 4 \\cdot 2 - (-2) \\cdot (-2) = 8 - 4 = 4 > 0 $$
-$$ \\Delta_3 = \\det A = 4 \\cdot 2 \\cdot 1 + (-2) \\cdot (-1) \\cdot 0 + 0 \\cdot (-2) \\cdot (-1) - (0 \\cdot 2 \\cdot 0 + (-1) \\cdot (-2) \\cdot 4 + 1 \\cdot (-2) \\cdot (-2)) $$
-$$ = 8 + 0 + 0 - (0 + 8 + 4) = 8 - 12 = -4 < 0 $$
-<strong>Вывод:</strong> $\\Delta_1 > 0, \\; \\Delta_2 > 0, \\; \\Delta_3 < 0$ — знакопеременная.<br>
-Но в демо-решении было сказано «положительно полуопределённая», так как $\\Delta_3 = 0$ в их расчёте?<br>
-Пересчитаем $\\Delta_3$ внимательно:<br>
-$$ \\Delta_3 = 4 \\cdot (2 \\cdot 1 - (-1) \\cdot (-1)) - (-2) \\cdot ((-2) \\cdot 1 - 0 \\cdot (-1)) + 0 \\cdot ((-2) \\cdot (-1) - 0 \\cdot 2) $$
-$$ = 4 \\cdot (2 - 1) + 2 \\cdot (-2) = 4 \\cdot 1 - 4 = 0 $$<br>
-<strong>Да, $\\Delta_3 = 0$.</strong> Значит:<br>
+$$ \\Delta_3 = \\det A = 4 \\cdot (2 \\cdot 1 - (-1) \\cdot (-1)) - (-2) \\cdot ((-2) \\cdot 1 - 0 \\cdot (-1)) + 0 $$
+$$ = 4 \\cdot (2 - 1) + 2 \\cdot (-2) = 4 - 4 = 0 $$<br>
+<strong>Все главные миноры:</strong><br>
+$$ M_{11} = 4 > 0, \\quad M_{22} = 2 > 0, \\quad M_{33} = 1 > 0 $$
+$$ M_{12} = \\begin{vmatrix} 4 & -2 \\\\ -2 & 2 \\end{vmatrix} = 4 > 0, \\quad M_{13} = \\begin{vmatrix} 4 & 0 \\\\ 0 & 1 \\end{vmatrix} = 4 > 0, \\quad M_{23} = \\begin{vmatrix} 2 & -1 \\\\ -1 & 1 \\end{vmatrix} = 1 > 0 $$
+$$ \\Delta_3 = 0 $$<br>
+<strong>Вывод:</strong> Все главные миноры $\\geq 0$, причём $\\Delta_3 = 0$ — форма не знакоопределённая.<br>
 $$ \\Delta_1 > 0, \\quad \\Delta_2 > 0, \\quad \\Delta_3 = 0 $$
-<strong>Ответ:</strong> положительно полуопределённая.`
+<strong>Ответ:</strong> положительно полуопределена, но не положительно определена.`
             },
             {
                 label: 'Знакоопределённость', analogyOf: 13, cond: 'Исследовать на знакоопределённость: $f(x, y, z) = 3x^2 + 5y^2 + 2z^2 + 2xy + 4xz$.',
@@ -3025,7 +3009,7 @@ $$ = 0 + 0 + 0 - (0 + 0 + 4) = -4 \\neq 0 $$<br>
             },
             {
                 label: 'Закоопределённость', analogyOf: 13, cond: 'Исследовать на закоопределённость: $f(x, y, z) = -x^2 - y^2 - z^2 - 2xy - 2xz - 2yz$.',
-                answer: { sign: 'отрицательно полуопределённая', inputLabel: 'Введите ответ:' },
+                answer: { sign: 'отрицательно полуопределена, но не отрицательно определена', inputLabel: 'Введите ответ:' },
                 solution: `<strong>Решение:</strong><br><br>
 <strong>Матрица:</strong><br>
 $$ A = \\begin{pmatrix} -1 & -1 & -1 \\\\ -1 & -1 & -1 \\\\ -1 & -1 & -1 \\end{pmatrix} $$<br>
@@ -3033,9 +3017,13 @@ $$ A = \\begin{pmatrix} -1 & -1 & -1 \\\\ -1 & -1 & -1 \\\\ -1 & -1 & -1 \\end{p
 $$ \\Delta_1 = -1 < 0 $$
 $$ \\Delta_2 = \\begin{vmatrix} -1 & -1 \\\\ -1 & -1 \\end{vmatrix} = 1 - 1 = 0 $$
 $$ \\Delta_3 = \\det A = 0 $$<br>
-<strong>Проверка:</strong> $f = -(x + y + z)^2 \\leq 0$ для всех $(x,y,z)$, причём $f = 0$, например, при $(1, -1, 0)$.<br>
-Все собственные значения $\\leq 0$ (одно из них равно $0$).<br>
-<strong>Ответ:</strong> отрицательно полуопределённая.`
+<strong>Все главные миноры:</strong><br>
+$$ M_{11} = -1 < 0, \\quad M_{22} = -1 < 0, \\quad M_{33} = -1 < 0 $$
+$$ M_{12} = \\begin{vmatrix} -1 & -1 \\\\ -1 & -1 \\end{vmatrix} = 0, \\quad M_{13} = \\begin{vmatrix} -1 & -1 \\\\ -1 & -1 \\end{vmatrix} = 0, \\quad M_{23} = \\begin{vmatrix} -1 & -1 \\\\ -1 & -1 \\end{vmatrix} = 0 $$
+$$ \\Delta_3 = 0 $$<br>
+<strong>Вывод:</strong> Все главные миноры $\\leq 0$, причём $\\Delta_3 = 0$ — форма не знакоопределённая.<br>
+$$ \\Delta_1 < 0, \\quad \\Delta_2 = 0, \\quad \\Delta_3 = 0 $$
+<strong>Ответ:</strong> отрицательно полуопределена, но не отрицательно определена.`
             },
             {
                 label: 'Закоопределённость', analogyOf: 13, cond: 'Исследовать на закоопределённость: $f(x, y, z) = 3x^2 - y^2 + 2z^2 + 4xy + 6xz$.',
@@ -3162,6 +3150,30 @@ $$ y_{\\text{о.н.}} = y_{\\text{о.о.}} + y_{\\text{ч.н.}} $$<br>
 $$ y_{\\text{о.н.}} = C_1 e^{2x} + C_2 xe^{2x} + (A + Bx)\\cos 2x + (C + Dx)\\sin 2x $$`
             },
             {
+                label: 'Структура решения НЛДУ (аналог)', analogyOf: 24, cond: 'Для данного НЛДУ записать общее решение с неопределёнными коэффициентами: $y\'\' + 4y = 3x\\cos 2x$.',
+                solution: `<strong>Решение:</strong><br><br>
+<strong>1. Соответствующее ОЛДУ</strong><br>
+$$ y\'\' + 4y = 0 $$<br>
+<strong>2. Характеристическое уравнение</strong><br>
+$$ \\lambda^2 + 4 = 0 $$<br>
+$$ \\lambda_{1,2} = \\pm 2i $$<br>
+<strong>3. ФСР ОЛДУ</strong><br>
+$$ \\text{ФСР: } \\cos 2x,\\; \\sin 2x $$<br>
+$$ y_{\\text{о.о.}} = C_1 \\cos 2x + C_2 \\sin 2x $$<br>
+<strong>4. Правая часть НЛДУ</strong><br>
+$$ f(x) = 3x\\cos 2x $$<br>
+<strong>5. Вид частного решения</strong><br>
+Правая часть имеет вид $e^{\\alpha x}(P_n(x)\\cos\\beta x + Q_m(x)\\sin\\beta x)$,<br>
+где $\\alpha = 0$, $\\beta = 2$, $P_1(x) = 3x$, $Q_0(x) = 0$.<br>
+Сравниваем $\\alpha \\pm \\beta i = \\pm 2i$ с корнями ХУ $\\lambda = \\pm 2i$:<br>
+$$ \\alpha \\pm \\beta i = \\pm 2i \\implies s = 1 $$<br>
+$$ y_{\\text{ч.н.}} = x\\big[(A + Bx)\\cos 2x + (C + Dx)\\sin 2x\\big] $$<br>
+<strong>6. Общее решение НЛДУ</strong><br>
+$$ y_{\\text{о.н.}} = y_{\\text{о.о.}} + y_{\\text{ч.н.}} $$<br>
+<strong>Ответ:</strong><br>
+$$ y_{\\text{о.н.}} = C_1 \\cos 2x + C_2 \\sin 2x + x\\big[(A + Bx)\\cos 2x + (C + Dx)\\sin 2x\\big] $$`
+            },
+            {
                 label: '9.1', cond: 'Решить систему: $\\begin{cases} \\dot{x} = x + y \\\\ \\dot{y} = 3y - 2x \\end{cases}$.',
                 solution: `<strong>Решение:</strong><br><br>
 <strong>1. Матрица системы</strong><br>
@@ -3282,6 +3294,92 @@ $$ \\bar{v}_2 = \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix} $$<br>
 $$ \\begin{pmatrix} x \\\\ y \\end{pmatrix}_{\\text{о.о.}} = C_1 \\begin{pmatrix} -1 \\\\ 5 \\end{pmatrix} e^{t} + C_2 \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix} e^{7t} $$<br>
 <strong>Ответ:</strong><br>
 $$ \\begin{pmatrix} x \\\\ y \\end{pmatrix}_{\\text{о.о.}} = C_1 \\begin{pmatrix} -1 \\\\ 5 \\end{pmatrix} e^{t} + C_2 \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix} e^{7t} $$`
+            },
+            {
+                label: '6.3', cond: 'Определить тип ДУ и свести к ДУ с разделяющимися переменными: $(y^2 - 2x^2)dx + 2xy \\ln(y/x)dy = 0$.',
+                solution: `<strong>Решение:</strong><br><br>
+<strong>1. Определяем тип.</strong><br>
+$M(x,y) = y^2 - 2x^2$, $N(x,y) = 2xy \\ln(y/x)$<br>
+$M(tx,ty) = t^2 y^2 - 2t^2 x^2 = t^2(y^2 - 2x^2) = t^2 M(x,y)$<br>
+$N(tx,ty) = 2(tx)(ty) \\ln\\left(\\frac{ty}{tx}\\right) = t^2 \\cdot 2xy \\ln(y/x) = t^2 N(x,y)$<br>
+<strong>Тип:</strong> однородное ДУ-I (степень однородности $k = 2$).<br><br>
+<strong>2. Замена.</strong><br>
+$y = zx$<br>
+$dy = z\\,dx + x\\,dz$<br><br>
+<strong>3. Подставляем.</strong><br>
+$(z^2 x^2 - 2x^2)dx + 2x(zx) \\ln z \\cdot (z\\,dx + x\\,dz) = 0$<br>
+$x^2(z^2 - 2)dx + 2x^2 z \\ln z \\cdot z\\,dx + 2x^2 z \\ln z \\cdot x\\,dz = 0$<br>
+$x^2(z^2 - 2)dx + 2x^2 z^2 \\ln z\\,dx + 2x^3 z \\ln z\\,dz = 0$<br>
+$x^2(z^2 - 2 + 2z^2 \\ln z)dx + 2x^3 z \\ln z\\,dz = 0$<br><br>
+<strong>Ответ:</strong> уравнение сведено к разделяющимся переменным:<br>
+$$ x^2(z^2 - 2 + 2z^2 \\ln z)\\,dx + 2x^3 z \\ln z\\,dz = 0 $$`
+            },
+            {
+                label: '6.4', cond: 'Определить тип ДУ и свести к ДУ с разделяющимися переменными: $(x^2 + y^2)dx - xy \\sin(y/x)dy = 0$.',
+                solution: `<strong>Решение:</strong><br><br>
+<strong>1. Определяем тип.</strong><br>
+$M(x,y) = x^2 + y^2$, $N(x,y) = -xy \\sin(y/x)$<br>
+$M(tx,ty) = t^2 x^2 + t^2 y^2 = t^2(x^2 + y^2) = t^2 M(x,y)$<br>
+$N(tx,ty) = -(tx)(ty) \\sin\\left(\\frac{ty}{tx}\\right) = t^2 \\cdot (-xy) \\sin(y/x) = t^2 N(x,y)$<br>
+<strong>Тип:</strong> однородное ДУ-I (степень однородности $k = 2$).<br><br>
+<strong>2. Замена.</strong><br>
+$y = zx$<br>
+$dy = z\\,dx + x\\,dz$<br><br>
+<strong>3. Подставляем.</strong><br>
+$(x^2 + z^2 x^2)dx - x(zx) \\sin z \\cdot (z\\,dx + x\\,dz) = 0$<br>
+$x^2(1 + z^2)dx - x^2 z \\sin z \\cdot z\\,dx - x^2 z \\sin z \\cdot x\\,dz = 0$<br>
+$x^2(1 + z^2)dx - x^2 z^2 \\sin z\\,dx - x^3 z \\sin z\\,dz = 0$<br>
+$x^2(1 + z^2 - z^2 \\sin z)dx - x^3 z \\sin z\\,dz = 0$<br><br>
+<strong>Ответ:</strong> уравнение сведено к разделяющимся переменным:<br>
+$$ x^2(1 + z^2 - z^2 \\sin z)\\,dx - x^3 z \\sin z\\,dz = 0 $$`
+            },
+            {
+                label: '6.5', cond: 'Определить тип ДУ и привести к ДУ с разделяющимися переменными: $y\' + 3x^2 y = y^3 \\cos x$.',
+                solution: `<strong>Решение:</strong><br><br>
+<strong>1. Определяем тип.</strong><br>
+$y\' + a(x)y = f(x)y^\\alpha$<br>
+$a(x) = 3x^2$, $f(x) = \\cos x$, $\\alpha = 3$<br>
+<strong>Тип:</strong> уравнение Бернулли ($\\alpha = 3$, $\\alpha \\neq 0,1$).<br><br>
+<strong>2. Замена Бернулли.</strong><br>
+$y = uv$<br>
+$y\' = u\'v + uv\'$<br><br>
+<strong>3. Подставляем.</strong><br>
+$u\'v + uv\' + 3x^2 \\cdot uv = u^3 v^3 \\cos x$<br>
+$(u\' + 3x^2 u)v + uv\' = u^3 v^3 \\cos x$<br><br>
+<strong>4. Находим $u$.</strong><br>
+Положим $u\' + 3x^2 u = 0$:<br>
+$\\frac{du}{u} = -3x^2\\,dx$<br>
+$\\ln|u| = -x^3$<br>
+$u = e^{-x^3}$<br><br>
+                <strong>5. Подставляем $u$.</strong><br>
+$e^{-x^3} v\' = e^{-3x^3} v^3 \\cos x$<br>
+$v\' = e^{-2x^3} v^3 \\cos x$<br><br>
+<strong>Ответ:</strong> уравнение сведено к разделяющимся переменным:<br>
+$$ e^{-2x^3} \\cos x\\,dx - v^{-3}\\,dv = 0 $$`
+            },
+            {
+                label: '6.6', cond: 'Определить тип ДУ и привести к ДУ с разделяющимися переменными: $y\' - \\frac{y}{x} = y^2 \\ln x$.',
+                solution: `<strong>Решение:</strong><br><br>
+<strong>1. Определяем тип.</strong><br>
+$y\' + a(x)y = f(x)y^\\alpha$<br>
+$a(x) = -\\frac{1}{x}$, $f(x) = \\ln x$, $\\alpha = 2$<br>
+<strong>Тип:</strong> уравнение Бернулли ($\\alpha = 2$, $\\alpha \\neq 0,1$).<br><br>
+<strong>2. Замена Бернулли.</strong><br>
+$y = uv$<br>
+$y\' = u\'v + uv\'$<br><br>
+<strong>3. Подставляем.</strong><br>
+$u\'v + uv\' - \\frac{uv}{x} = u^2 v^2 \\ln x$<br>
+$(u\' - \\frac{u}{x})v + uv\' = u^2 v^2 \\ln x$<br><br>
+<strong>4. Находим $u$.</strong><br>
+Положим $u\' - \\frac{u}{x} = 0$:<br>
+$\\frac{du}{u} = \\frac{dx}{x}$<br>
+$\\ln|u| = \\ln|x|$<br>
+$u = x$<br><br>
+                <strong>5. Подставляем $u$.</strong><br>
+$xv\' = x^2 v^2 \\ln x$<br>
+$v\' = xv^2 \\ln x$<br><br>
+<strong>Ответ:</strong> уравнение сведено к разделяющимся переменным:<br>
+$$ x \\ln x\\,dx - v^{-2}\\,dv = 0 $$`
             }
         ]
     }
@@ -4840,7 +4938,17 @@ function checkExamSignAnswer(taskId) {
     if (!input) return;
     const userVal = input.value.trim().toLowerCase();
     const correctVal = task.answer.sign.toLowerCase();
-    const ok = userVal === correctVal;
+
+    function normalizeSign(s) {
+        return s
+            .replace(/,.*/g, '')
+            .replace(/полу/g, '')
+            .replace(/определённая/g, 'определена')
+            .replace(/[,\s]+/g, ' ')
+            .trim();
+    }
+
+    const ok = normalizeSign(userVal) === normalizeSign(correctVal) || userVal === correctVal;
     input.classList.toggle('matrix-cell-correct', ok);
     input.classList.toggle('matrix-cell-wrong', !ok && input.value !== '');
     examMatrixFeedback[taskId] = ok ? 'correct' : 'wrong';
@@ -5071,9 +5179,9 @@ function buildExamGroups() {
         '2': { title: 'Тип 3. Собственные векторы', taskIds: [7, 8, 9] },
         '3': { title: 'Тип 4. Ранг и дефект', taskIds: [10, 11, 12] },
         '4': { title: 'Тип 5. Знакоопределённость', taskIds: [13, 14, 15, 16, 17, 18, 19] },
-        '5': { title: 'Тип 6. ДУ: тип ДУ', taskIds: [20, 21] },
+        '5': { title: 'Тип 6. ДУ: тип ДУ', taskIds: [20, 21, 31, 32, 33, 34] },
         '6': { title: 'Тип 7. ДУ: понижение порядка', taskIds: [22, 23, 28, 29] },
-        '7': { title: 'Тип 8. ДУ: структура решения', taskIds: [24] },
+        '7': { title: 'Тип 8. ДУ: структура решения', taskIds: [24, 35] },
         '8': { title: 'Тип 9. ДУ: системы ОЛДУ', taskIds: [25, 30] },
         '9': { title: 'Тип 10. ДУ: сведение к одному ДУ', taskIds: [26] },
         '10': { title: 'Тип 11. ДУ: частное решение СНЛДУ', taskIds: [27] },
