@@ -2763,7 +2763,7 @@ const examTasksData = [
         points: 20,
         tasks: [
             {
-                label: 'Матрица Грама (3×3)', cond: 'Даны координаты векторов в некотором ОНБ: $\\bar{f}_1(1, -3, 2)$, $\\bar{f}_2(3, 2, -4)$, $\\bar{f}_3(4, 0, -1)$. Найти матрицу Грама и определитель Грама этой системы векторов.',
+                label: '1.1', cond: 'Даны координаты векторов в некотором ОНБ: $\\bar{f}_1(1, -3, 2)$, $\\bar{f}_2(3, 2, -4)$, $\\bar{f}_3(4, 0, -1)$. Найти матрицу Грама и определитель Грама этой системы векторов.',
                 answer: { matrix: [[14,-11,2],[-11,29,16],[2,16,17]], det: 441, inputLabel: 'Введите матрицу Грама:' },
                 solution: `<strong>Решение:</strong><br><br>
 $$ \\overline{f}_1(1, -3, 2),\\quad \\overline{f}_2(3, 2, -4),\\quad \\overline{f}_3(4, 0, -1) $$
@@ -2779,7 +2779,7 @@ $$ |\\Gamma| = 14 \\cdot 29 \\cdot 17 + (-11) \\cdot 16 \\cdot 2 + 2 \\cdot (-11
 <br><strong>Ответ:</strong> $$ \\Gamma = \\begin{pmatrix} 14 & -11 & 2 \\\\ -11 & 29 & 16 \\\\ 2 & 16 & 17 \\end{pmatrix}, \\quad |\\Gamma| = 441.$$`
             },
             {
-                label: 'Матрица Грама (4×4)', analogyOf: 1, cond: 'Даны координаты векторов в некотором ОНБ: $\\overline{f}_1(1, 0, 2, -1)$, $\\overline{f}_2(2, 1, 0, 3)$, $\\overline{f}_3(-1, 3, 2, 0)$, $\\overline{f}_4(0, -1, 3, 2)$. Найти матрицу Грама и определитель Грама.',
+                label: '1.2', analogyOf: 1, cond: 'Даны координаты векторов в некотором ОНБ: $\\overline{f}_1(1, 0, 2, -1)$, $\\overline{f}_2(2, 1, 0, 3)$, $\\overline{f}_3(-1, 3, 2, 0)$, $\\overline{f}_4(0, -1, 3, 2)$. Найти матрицу Грама и определитель Грама.',
                 answer: { matrix: [[6,-1,3,4],[-1,14,1,5],[3,1,14,3],[4,5,3,14]], det: 4356, inputLabel: 'Введите матрицу Грама:' },
                 solution: `<strong>Решение:</strong><br><br>
 $$ \\overline{f}_1(1, 0, 2, -1),\\quad \\overline{f}_2(2, 1, 0, 3),\\quad \\overline{f}_3(-1, 3, 2, 0),\\quad \\overline{f}_4(0, -1, 3, 2) $$
@@ -2798,7 +2798,7 @@ $$ \\Gamma = \\begin{pmatrix} 6 & -1 & 3 & 4 \\\\ -1 & 14 & 1 & 5 \\\\ 3 & 1 & 1
 <br><strong>Ответ:</strong> $$ \\Gamma = \\begin{pmatrix} 6 & -1 & 3 & 4 \\\\ -1 & 14 & 1 & 5 \\\\ 3 & 1 & 14 & 3 \\\\ 4 & 5 & 3 & 14 \\end{pmatrix}, \\quad |\\Gamma| = 4356.$$`
             },
             {
-                label: 'Матрица Грама (2×2)', analogyOf: 1, cond: 'Даны координаты векторов в некотором ОНБ: $\\bar{f}_1(2, -1, 3)$, $\\bar{f}_2(0, 4, -2)$. Найти матрицу Грама и определитель Грама.',
+                label: '1.3', analogyOf: 1, cond: 'Даны координаты векторов в некотором ОНБ: $\\bar{f}_1(2, -1, 3)$, $\\bar{f}_2(0, 4, -2)$. Найти матрицу Грама и определитель Грама.',
                 answer: { matrix: [[14,-10],[-10,20]], det: 180, inputLabel: 'Введите матрицу Грама:' },
                 solution: `<strong>Решение:</strong><br><br>
 $$ \\overline{f}_1(2, -1, 3),\\quad \\overline{f}_2(0, 4, -2) $$
@@ -2811,7 +2811,7 @@ $$ |\\Gamma| = 14 \\cdot 20 - (-10)^2 = 280 - 100 = 180 $$
 <br><strong>Ответ:</strong> $$ \\Gamma = \\begin{pmatrix} 14 & -10 \\\\ -10 & 20 \\end{pmatrix}, \\quad |\\Gamma| = 180.$$`
             },
             {
-                label: 'Смена базиса (классика)', cond: 'Матрица оператора $\\hat{A}$ в базисе $\\text{Б} = (\\bar{e}_1, \\bar{e}_2)$ имеет вид: $$ [\\hat{A}]_{\\text{Б}} = \\begin{pmatrix} -3 & 2 \\\\ 1 & -1 \\end{pmatrix} $$ Найти матрицу оператора $\\hat{A}$ в базисе $\\text{Б}\' = (2\\bar{e}_1 + \\bar{e}_2, \\bar{e}_2 - \\bar{e}_1)$.',
+                label: '2.1', cond: 'Матрица оператора $\\hat{A}$ в базисе $\\text{Б} = (\\bar{e}_1, \\bar{e}_2)$ имеет вид: $$ [\\hat{A}]_{\\text{Б}} = \\begin{pmatrix} -3 & 2 \\\\ 1 & -1 \\end{pmatrix} $$ Найти матрицу оператора $\\hat{A}$ в базисе $\\text{Б}\' = (2\\bar{e}_1 + \\bar{e}_2, \\bar{e}_2 - \\bar{e}_1)$.',
                 answer: { matrix: [[-1,1],[2,-3]], showDet: false, inputLabel: 'Введите матрицу оператора $[\\hat{A}]_{\\text{Б}\'} =$' },
                 solution: `<strong>Решение:</strong><br><br>
 1. Координаты нового базиса в старом:<br>
@@ -2828,7 +2828,7 @@ $$ [\\hat{A}]_{\\text{Б}\'} = \\frac{1}{3} \\begin{pmatrix} -2 & 1 \\\\ 5 & -4 
 <br><strong>Ответ:</strong> $$ [\\hat{A}]_{\\text{Б}\'} = \\begin{pmatrix} -1 & 1 \\\\ 2 & -3 \\end{pmatrix}.$$`
             },
             {
-                label: 'Смена базиса (с дробями)', analogyOf: 4, cond: 'Матрица оператора $\\hat{A}$ в базисе $\\text{Б} = (\\bar{e}_1, \\bar{e}_2)$ имеет вид: $$ [\\hat{A}]_{\\text{Б}} = \\begin{pmatrix} 5 & -1 \\\\ 0 & 2 \\end{pmatrix} $$ Найти матрицу оператора $\\hat{A}$ в базисе $\\text{Б}\' = (3\\bar{e}_1 + 2\\bar{e}_2, \\bar{e}_1 - \\bar{e}_2)$.',
+                label: '2.2', analogyOf: 4, cond: 'Матрица оператора $\\hat{A}$ в базисе $\\text{Б} = (\\bar{e}_1, \\bar{e}_2)$ имеет вид: $$ [\\hat{A}]_{\\text{Б}} = \\begin{pmatrix} 5 & -1 \\\\ 0 & 2 \\end{pmatrix} $$ Найти матрицу оператора $\\hat{A}$ в базисе $\\text{Б}\' = (3\\bar{e}_1 + 2\\bar{e}_2, \\bar{e}_1 - \\bar{e}_2)$.',
                 answer: { matrix: [[17/5,4/5],[14/5,18/5]], showDet: false, inputLabel: 'Введите матрицу оператора $[\\hat{A}]_{\\text{Б}\'} =$' },
                 solution: `<strong>Решение:</strong><br><br>
 1. Координаты нового базиса в старом:<br>
@@ -2845,7 +2845,7 @@ $$ [\\hat{A}]_{\\text{Б}\'} = \\begin{pmatrix} 1 & \\frac{1}{5} \\\\ 2 & -\\fra
 <strong>Ответ:</strong> $$ [\\hat{A}]_{\\text{Б}\'} = \\begin{pmatrix} \\frac{17}{5} & \\frac{4}{5} \\\\ \\frac{14}{5} & \\frac{18}{5} \\end{pmatrix}.$$`
             },
             {
-                label: 'Смена базиса (натуральные)', analogyOf: 4, cond: 'Матрица оператора $\\hat{A}$ в базисе $\\text{Б} = (\\bar{e}_1, \\bar{e}_2)$ имеет вид: $$ [\\hat{A}]_{\\text{Б}} = \\begin{pmatrix} 1 & 4 \\\\ -2 & 0 \\end{pmatrix} $$ Найти матрицу оператора $\\hat{A}$ в базисе $\\text{Б}\' = (\\bar{e}_1 + 3\\bar{e}_2, 2\\bar{e}_1 + \\bar{e}_2)$.',
+                label: '2.3', analogyOf: 4, cond: 'Матрица оператора $\\hat{A}$ в базисе $\\text{Б} = (\\bar{e}_1, \\bar{e}_2)$ имеет вид: $$ [\\hat{A}]_{\\text{Б}} = \\begin{pmatrix} 1 & 4 \\\\ -2 & 0 \\end{pmatrix} $$ Найти матрицу оператора $\\hat{A}$ в базисе $\\text{Б}\' = (\\bar{e}_1 + 3\\bar{e}_2, 2\\bar{e}_1 + \\bar{e}_2)$.',
                 answer: { matrix: [[-17/5,-14/5],[41/5,22/5]], showDet: false, inputLabel: 'Введите матрицу оператора $[\\hat{A}]_{\\text{Б}\'} =$' },
                 solution: `<strong>Решение:</strong><br><br>
 1. Координаты нового базиса в старом:<br>
@@ -2862,7 +2862,7 @@ $$ [\\hat{A}]_{\\text{Б}\'} = \\begin{pmatrix} -1 & -\\frac{4}{5} \\\\ 1 & \\fr
 <strong>Ответ:</strong> $$ [\\hat{A}]_{\\text{Б}\'} = \\begin{pmatrix} -\\frac{17}{5} & -\\frac{14}{5} \\\\ \\frac{41}{5} & \\frac{22}{5} \\end{pmatrix}.$$`
             },
             {
-                label: 'Собственные векторы', cond: 'Найти собственные векторы-столбцы матрицы, соответствующие $\\lambda = 1$: $$ A = \\begin{pmatrix} 9 & -8 & 4 \\\\ 8 & -7 & 4 \\\\ 4 & -4 & 3 \\end{pmatrix} $$',
+                label: '3.1', cond: 'Найти собственные векторы-столбцы матрицы, соответствующие $\\lambda = 1$: $$ A = \\begin{pmatrix} 9 & -8 & 4 \\\\ 8 & -7 & 4 \\\\ 4 & -4 & 3 \\end{pmatrix} $$',
                 answer: { vectors: [[1,1,0],[1,0,-2]], dim: 2, checkSubspace: true, inputLabel: 'Введите базис собственных векторов (ФСР = 2 вектора):' },
                 solution: `<strong>Решение:</strong><br><br>
 $$ A - E = \\begin{pmatrix} 8 & -8 & 4 \\\\ 8 & -8 & 4 \\\\ 4 & -4 & 2 \\end{pmatrix} \\sim \\begin{pmatrix} 8 & -8 & 4 \\\\ 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} $$
@@ -2872,7 +2872,7 @@ $$ x_1 = x_2 - \\frac{1}{2}x_3 $$
 <br><strong>Ответ:</strong> $$ \\begin{pmatrix} x_1 \\\\ x_2 \\\\ x_3 \\end{pmatrix}_{\\lambda=1} = \\alpha_1 \\cdot \\begin{pmatrix} -1 \\\\ 0 \\\\ 2 \\end{pmatrix} + \\alpha_2 \\cdot \\begin{pmatrix} 1 \\\\ 1 \\\\ 0 \\end{pmatrix},\\quad \\alpha_1^2 + \\alpha_2^2 > 0.$$`
             },
             {
-                label: 'Собственные векторы (ранг 2)', analogyOf: 3, cond: 'Найти собственные векторы-столбцы матрицы, соответствующие $\\lambda = 3$: $$ A = \\begin{pmatrix} 5 & 2 & 0 \\\\ 2 & 2 & 0 \\\\ 0 & 0 & 3 \\end{pmatrix} $$',
+                label: '3.2', analogyOf: 3, cond: 'Найти собственные векторы-столбцы матрицы, соответствующие $\\lambda = 3$: $$ A = \\begin{pmatrix} 5 & 2 & 0 \\\\ 2 & 2 & 0 \\\\ 0 & 0 & 3 \\end{pmatrix} $$',
                 answer: { vectors: [[0,0,1]], dim: 1, checkSubspace: true, inputLabel: 'Введите базис собственных векторов (ФСР = 1 вектор):' },
                 solution: `<strong>Решение:</strong><br><br>
 $$ A - 3E = \\begin{pmatrix} 2 & 2 & 0 \\\\ 2 & -1 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} \\sim \\begin{pmatrix} 2 & 2 & 0 \\\\ 0 & -3 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} \\sim \\begin{pmatrix} 2 & 0 & 0 \\\\ 0 & 2 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} \\sim \\begin{pmatrix} 1 & 0 & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} $$
@@ -2880,7 +2880,7 @@ $$ A - 3E = \\begin{pmatrix} 2 & 2 & 0 \\\\ 2 & -1 & 0 \\\\ 0 & 0 & 0 \\end{pmat
 <br><strong>Ответ:</strong> $$ \\begin{pmatrix} x_1 \\\\ x_2 \\\\ x_3 \\end{pmatrix}_{\\lambda=3} = \\alpha \\cdot \\begin{pmatrix} 0 \\\\ 0 \\\\ 1 \\end{pmatrix},\\quad \\alpha \\neq 0.$$`
             },
             {
-                label: 'Собственные векторы (ранг 1)', analogyOf: 3, cond: 'Найти собственные векторы-столбцы матрицы, соответствующие $\\lambda = 2$: $$ A = \\begin{pmatrix} 3 & 1 & -1 \\\\ 0 & 2 & 0 \\\\ 1 & 1 & 1 \\end{pmatrix} $$',
+                label: '3.3', analogyOf: 3, cond: 'Найти собственные векторы-столбцы матрицы, соответствующие $\\lambda = 2$: $$ A = \\begin{pmatrix} 3 & 1 & -1 \\\\ 0 & 2 & 0 \\\\ 1 & 1 & 1 \\end{pmatrix} $$',
                 answer: { vectors: [[-1,1,0],[1,0,1]], dim: 2, checkSubspace: true, inputLabel: 'Введите базис собственных векторов (ФСР = 2 вектора):' },
                 solution: `<strong>Решение:</strong><br><br>
 $$ A - 2E = \\begin{pmatrix} 1 & 1 & -1 \\\\ 0 & 0 & 0 \\\\ 1 & 1 & -1 \\end{pmatrix} \\sim \\begin{pmatrix} 1 & 1 & -1 \\\\ 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} $$
@@ -2889,7 +2889,7 @@ $$ x_1 = x_3 - x_2 $$
 <br><strong>Ответ:</strong> $$ \\begin{pmatrix} x_1 \\\\ x_2 \\\\ x_3 \\end{pmatrix}_{\\lambda=2} = \\alpha_1 \\cdot \\begin{pmatrix} 1 \\\\ 0 \\\\ 1 \\end{pmatrix} + \\alpha_2 \\cdot \\begin{pmatrix} -1 \\\\ 1 \\\\ 0 \\end{pmatrix},\\quad \\alpha_1^2 + \\alpha_2^2 > 0.$$`
             },
             {
-                label: 'Ранг и дефект (демо)', cond: 'Найти ранг ($r$) и дефект ($d$) оператора с матрицей: $$ A = \\begin{pmatrix} 1 & -2 & -3 & -4 \\\\ 6 & 1 & 0 & -1 \\\\ 4 & 5 & 6 & 7 \\\\ 9 & 8 & 9 & 11 \\end{pmatrix} $$',
+                label: '4.1', cond: 'Найти ранг ($r$) и дефект ($d$) оператора с матрицей: $$ A = \\begin{pmatrix} 1 & -2 & -3 & -4 \\\\ 6 & 1 & 0 & -1 \\\\ 4 & 5 & 6 & 7 \\\\ 9 & 8 & 9 & 11 \\end{pmatrix} $$',
                 answer: { rank: 3, defect: 1, inputLabel: 'Введите ранг и дефект:' },
                 solution: `<strong>Решение:</strong><br><br>
 Приводим к ступенчатому виду методом Гаусса.<br><br>
@@ -2906,7 +2906,7 @@ $r = 3$, $d = 4 - 3 = 1$.<br>
 <strong>Ответ:</strong> $r = 3,\\; d = 1$.`
             },
             {
-                label: 'Ранг и дефект (простой)', analogyOf: 10, cond: 'Найти ранг ($r$) и дефект ($d$) оператора с матрицей: $$ A = \\begin{pmatrix} 1 & 2 & 3 \\\\ 2 & 4 & 6 \\\\ 3 & 6 & 9 \\end{pmatrix} $$',
+                label: '4.2', analogyOf: 10, cond: 'Найти ранг ($r$) и дефект ($d$) оператора с матрицей: $$ A = \\begin{pmatrix} 1 & 2 & 3 \\\\ 2 & 4 & 6 \\\\ 3 & 6 & 9 \\end{pmatrix} $$',
                 answer: { rank: 1, defect: 2, inputLabel: 'Введите ранг и дефект:' },
                 solution: `<strong>Решение:</strong><br><br>
 $$ A = \\begin{pmatrix} 1 & 2 & 3 \\\\ 2 & 4 & 6 \\\\ 3 & 6 & 9 \\end{pmatrix} $$<br>
@@ -2917,7 +2917,7 @@ $r = 1$, $d = 3 - 1 = 2$.<br>
 <strong>Ответ:</strong> $r = 1,\\; d = 2$.`
             },
             {
-                label: 'Ранг и дефект (средний)', analogyOf: 10, cond: 'Найти ранг ($r$) и дефект ($d$) оператора с матрицей: $$ A = \\begin{pmatrix} 1 & 2 & 3 & 4 \\\\ 2 & 4 & 6 & 8 \\\\ 3 & 1 & 0 & 1 \\\\ 1 & 3 & 2 & 1 \\end{pmatrix} $$',
+                label: '4.3', analogyOf: 10, cond: 'Найти ранг ($r$) и дефект ($d$) оператора с матрицей: $$ A = \\begin{pmatrix} 1 & 2 & 3 & 4 \\\\ 2 & 4 & 6 & 8 \\\\ 3 & 1 & 0 & 1 \\\\ 1 & 3 & 2 & 1 \\end{pmatrix} $$',
                 answer: { rank: 3, defect: 1, inputLabel: 'Введите ранг и дефект:' },
                 solution: `<strong>Решение:</strong><br><br>
 $$ A = \\begin{pmatrix} 1 & 2 & 3 & 4 \\\\ 2 & 4 & 6 & 8 \\\\ 3 & 1 & 0 & 1 \\\\ 1 & 3 & 2 & 1 \\end{pmatrix} $$<br>
@@ -2933,7 +2933,7 @@ $r = 3$, $d = 4 - 3 = 1$.<br>
 <strong>Ответ:</strong> $r = 3,\\; d = 1$.`
             },
             {
-                label: 'Знакоопределённость', cond: 'Исследовать на знакоопределённость: $f(x, y, z) = 4x^2 + 2y^2 + z^2 - 4xy - 2yz$.',
+                label: '5.1', cond: 'Исследовать на знакоопределённость: $f(x, y, z) = 4x^2 + 2y^2 + z^2 - 4xy - 2yz$.',
                 answer: { sign: 'положительно полуопределена, но не положительно определена', inputLabel: 'Введите ответ:' },
                 solution: `<strong>Решение:</strong><br><br>
 <strong>Матрица:</strong><br>
@@ -2952,7 +2952,7 @@ $$ \\Delta_1 > 0, \\quad \\Delta_2 > 0, \\quad \\Delta_3 = 0 $$
 <strong>Ответ:</strong> положительно полуопределена, но не положительно определена.`
             },
             {
-                label: 'Знакоопределённость', analogyOf: 13, cond: 'Исследовать на знакоопределённость: $f(x, y, z) = 3x^2 + 5y^2 + 2z^2 + 2xy + 4xz$.',
+                label: '5.2', analogyOf: 13, cond: 'Исследовать на знакоопределённость: $f(x, y, z) = 3x^2 + 5y^2 + 2z^2 + 2xy + 4xz$.',
                 answer: { sign: 'положительно определённая', inputLabel: 'Введите ответ:' },
                 solution: `<strong>Решение:</strong><br><br>
 <strong>Матрица:</strong><br>
@@ -2966,7 +2966,7 @@ $$ = 30 + 0 + 0 - (20 + 0 + 2) = 30 - 22 = 8 > 0 $$<br>
 <strong>Ответ:</strong> положительно определённая.`
             },
             {
-                label: 'Знакоопределённость', analogyOf: 13, cond: 'Исследовать на знакоопределённость: $f(x, y, z) = -2x^2 - 4y^2 - 5z^2 + 2xy + 4xz + 2yz$.',
+                label: '5.3', analogyOf: 13, cond: 'Исследовать на знакоопределённость: $f(x, y, z) = -2x^2 - 4y^2 - 5z^2 + 2xy + 4xz + 2yz$.',
                 answer: { sign: 'отрицательно определённая', inputLabel: 'Введите ответ:' },
                 solution: `<strong>Решение:</strong><br><br>
 <strong>Матрица:</strong><br>
@@ -2980,7 +2980,7 @@ $$ = -40 + 2 + 2 - (-16 - 2 - 5) = -36 + 23 = -13 < 0 $$<br>
 <strong>Ответ:</strong> отрицательно определённая.`
             },
             {
-                label: 'Знакоопределённость', analogyOf: 13, cond: 'Исследовать на знакоопределённость: $f(x, y, z) = 5x^2 + 2y^2 - z^2 - 4xy - 2yz$.',
+                label: '5.4', analogyOf: 13, cond: 'Исследовать на знакоопределённость: $f(x, y, z) = 5x^2 + 2y^2 - z^2 - 4xy - 2yz$.',
                 answer: { sign: 'знакопеременная', inputLabel: 'Введите ответ:' },
                 solution: `<strong>Решение:</strong><br><br>
 <strong>Матрица:</strong><br>
@@ -2994,7 +2994,7 @@ $$ = 5(-2 - 1) + 2(2) = -15 + 4 = -11 < 0 $$<br>
 <strong>Ответ:</strong> знакопеременная.`
             },
             {
-                label: 'Знакоопределённость', analogyOf: 13, cond: 'Исследовать на знакоопределённость: $f(x, y, z) = 2y^2 + z^2 - 4xy - 2yz$.',
+                label: '5.5', analogyOf: 13, cond: 'Исследовать на знакоопределённость: $f(x, y, z) = 2y^2 + z^2 - 4xy - 2yz$.',
                 answer: { sign: 'знакопеременная', inputLabel: 'Введите ответ:' },
                 solution: `<strong>Решение:</strong><br><br>
 <strong>Матрица:</strong><br>
@@ -3008,7 +3008,7 @@ $$ = 0 + 0 + 0 - (0 + 0 + 4) = -4 \\neq 0 $$<br>
 <strong>Ответ:</strong> знакопеременная.`
             },
             {
-                label: 'Знакоопределённость', analogyOf: 13, cond: 'Исследовать на знакоопределённость: $f(x, y, z) = -x^2 - y^2 - z^2 - 2xy - 2xz - 2yz$.',
+                label: '5.6', analogyOf: 13, cond: 'Исследовать на знакоопределённость: $f(x, y, z) = -x^2 - y^2 - z^2 - 2xy - 2xz - 2yz$.',
                 answer: { sign: 'отрицательно полуопределена, но не отрицательно определена', inputLabel: 'Введите ответ:' },
                 solution: `<strong>Решение:</strong><br><br>
 <strong>Матрица:</strong><br>
@@ -3026,7 +3026,7 @@ $$ \\Delta_1 < 0, \\quad \\Delta_2 = 0, \\quad \\Delta_3 = 0 $$
 <strong>Ответ:</strong> отрицательно полуопределена, но не отрицательно определена.`
             },
             {
-                label: 'Знакоопределённость', analogyOf: 13, cond: 'Исследовать на знакоопределённость: $f(x, y, z) = 3x^2 - y^2 + 2z^2 + 4xy + 6xz$.',
+                label: '5.7', analogyOf: 13, cond: 'Исследовать на знакоопределённость: $f(x, y, z) = 3x^2 - y^2 + 2z^2 + 4xy + 6xz$.',
                 answer: { sign: 'знакопеременная', inputLabel: 'Введите ответ:' },
                 solution: `<strong>Решение:</strong><br><br>
 <strong>Матрица:</strong><br>
@@ -3125,7 +3125,7 @@ $$ z\' \\ln x + z + z^2(\\ln x - x) = 0 $$<br>
 $$ z\' \\ln x + z + (\\ln x - x) z^2 = 0 $$`
             },
             {
-                label: 'Структура решения НЛДУ', cond: 'Для данного НЛДУ записать общее решение с неопределёнными коэффициентами: $y\'\' - 4y\' + 4y = (4x + 1)\\cos 2x + 5\\sin 2x$.',
+                label: '8.1', cond: 'Для данного НЛДУ записать общее решение с неопределёнными коэффициентами: $y\'\' - 4y\' + 4y = (4x + 1)\\cos 2x + 5\\sin 2x$.',
                 solution: `<strong>Решение:</strong><br><br>
 <strong>1. Соответствующее ОЛДУ</strong><br>
 $$ y\'\' - 4y\' + 4y = 0 $$<br>
@@ -3150,7 +3150,7 @@ $$ y_{\\text{о.н.}} = y_{\\text{о.о.}} + y_{\\text{ч.н.}} $$<br>
 $$ y_{\\text{о.н.}} = C_1 e^{2x} + C_2 xe^{2x} + (A + Bx)\\cos 2x + (C + Dx)\\sin 2x $$`
             },
             {
-                label: 'Структура решения НЛДУ (аналог)', analogyOf: 24, cond: 'Для данного НЛДУ записать общее решение с неопределёнными коэффициентами: $y\'\' + 4y = 3x\\cos 2x$.',
+                label: '8.2', analogyOf: 24, cond: 'Для данного НЛДУ записать общее решение с неопределёнными коэффициентами: $y\'\' + 4y = 3x\\cos 2x$.',
                 solution: `<strong>Решение:</strong><br><br>
 <strong>1. Соответствующее ОЛДУ</strong><br>
 $$ y\'\' + 4y = 0 $$<br>
@@ -3227,7 +3227,7 @@ $$ \\begin{pmatrix} x \\\\ y \\end{pmatrix}_{\\text{о.о.}} = C_1 \\begin{pmatr
 $$ \\begin{pmatrix} x \\\\ y \\end{pmatrix}_{\\text{о.о.}} = C_1 \\begin{pmatrix} -1 \\\\ 5 \\end{pmatrix} e^{t} + C_2 \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix} e^{7t} $$`
             },
             {
-                label: 'Сведение к одному ДУ', cond: 'Решить систему сведением к одному ДУ: $\\begin{cases} \\dot{x} = 2x - y \\\\ \\dot{y} = 4x + 6y \\end{cases}$',
+                label: '10.1', cond: 'Решить систему сведением к одному ДУ: $\\begin{cases} \\dot{x} = 2x - y \\\\ \\dot{y} = 4x + 6y \\end{cases}$',
                 solution: `<strong>Решение:</strong><br><br>
 <strong>1. Выражаем $y$ из первого уравнения</strong><br>
 $$ y = 2x - \\dot{x} $$<br>
@@ -3253,7 +3253,7 @@ $$ \\begin{pmatrix} x \\\\ y \\end{pmatrix}_{\\text{о.о.}} = C_1 \\begin{pmatr
 $$ \\begin{pmatrix} x \\\\ y \\end{pmatrix}_{\\text{о.о.}} = C_1 \\begin{pmatrix} 1 \\\\ -2 \\end{pmatrix} e^{4t} + C_2 \\begin{pmatrix} t \\\\ -1 - 2t \\end{pmatrix} e^{4t} $$`
             },
             {
-                label: 'Частное решение СНЛДУ', cond: 'Указать вид частного решения СНЛДУ: $\\begin{cases} \\dot{x} = 3x - y + 5e^t \\\\ \\dot{y} = 4x - y \\end{cases}$.',
+                label: '11.1', cond: 'Указать вид частного решения СНЛДУ: $\\begin{cases} \\dot{x} = 3x - y + 5e^t \\\\ \\dot{y} = 4x - y \\end{cases}$.',
                 solution: `<strong>Решение:</strong><br><br>
 <strong>1. Соответствующая СОЛДУ</strong><br>
 $$ \\begin{cases} \\dot{x} = 3x - y \\\\ \\dot{y} = 4x - y \\end{cases} $$<br>
@@ -3274,7 +3274,7 @@ $$ \\bar{x}_{\\text{ч.н.}} = t^s \\cdot \\vec{Q}(t) e^{\\alpha t} = t^2 \\begi
 $$ \\begin{pmatrix} x \\\\ y \\end{pmatrix}_{\\text{ч.н.}} = \\begin{pmatrix} A + Bt + Ct^2 \\\\ D + Et + Ft^2 \\end{pmatrix} e^t $$`
             },
             {
-                label: '7.3', cond: 'Определить тип ДУ, допускающих понижение порядка, и привести к ДУ первого порядка: $2xy\' + x^2 y\'\' = 0$.',
+                label: '7.3', analogyOf: 22, cond: 'Определить тип ДУ, допускающих понижение порядка, и привести к ДУ первого порядка: $2xy\' + x^2 y\'\' = 0$.',
                 solution: `<strong>Решение:</strong><br><br>
 Замечаем полную производную:<br>
 $$ (x^2 y\')\' = 2x y\' + x^2 y\'\' $$<br>
@@ -3284,7 +3284,7 @@ $$ x^2 y\' = C $$<br>
 <strong>Ответ:</strong> $x^2 y\' = C$ — ДУ первого порядка.`
             },
             {
-                label: '7.4', cond: 'Определить тип ДУ, допускающих понижение порядка, и привести к ДУ первого порядка: $y^2 y\'\' + 2(y\')^2 y - 3y^2 y\' = 0$.',
+                label: '7.4', analogyOf: 23, cond: 'Определить тип ДУ, допускающих понижение порядка, и привести к ДУ первого порядка: $y^2 y\'\' + 2(y\')^2 y - 3y^2 y\' = 0$.',
                 solution: `<strong>Решение:</strong><br><br>
 ДУ однородно относительно $y, y\', y\'\'$ — замена $y\' = z \\cdot y$:<br>
 $$ y\'\' = (z\' + z^2) y $$<br>
@@ -3296,7 +3296,7 @@ $$ z\' + 3z^2 - 3z = 0 $$<br>
 <strong>Ответ:</strong> $z\' + 3z^2 - 3z = 0$ — ДУ первого порядка.`
             },
             {
-                label: '6.3', cond: 'Определить тип ДУ и свести к ДУ с разделяющимися переменными: $(y^2 - 2x^2)dx + 2xy \\ln(y/x)dy = 0$.',
+                label: '6.3', analogyOf: 20, cond: 'Определить тип ДУ и свести к ДУ с разделяющимися переменными: $(y^2 - 2x^2)dx + 2xy \\ln(y/x)dy = 0$.',
                 solution: `<strong>Решение:</strong><br><br>
 <strong>1. Определяем тип.</strong><br>
 $M(x,y) = y^2 - 2x^2$, $N(x,y) = 2xy \\ln(y/x)$<br>
@@ -3315,7 +3315,7 @@ $x^2(z^2 - 2 + 2z^2 \\ln z)dx + 2x^3 z \\ln z\\,dz = 0$<br><br>
 $$ x^2(z^2 - 2 + 2z^2 \\ln z)\\,dx + 2x^3 z \\ln z\\,dz = 0 $$`
             },
             {
-                label: '6.4', cond: 'Определить тип ДУ и свести к ДУ с разделяющимися переменными: $(x^2 + y^2)dx - xy \\sin(y/x)dy = 0$.',
+                label: '6.4', analogyOf: 20, cond: 'Определить тип ДУ и свести к ДУ с разделяющимися переменными: $(x^2 + y^2)dx - xy \\sin(y/x)dy = 0$.',
                 solution: `<strong>Решение:</strong><br><br>
 <strong>1. Определяем тип.</strong><br>
 $M(x,y) = x^2 + y^2$, $N(x,y) = -xy \\sin(y/x)$<br>
@@ -3334,7 +3334,7 @@ $x^2(1 + z^2 - z^2 \\sin z)dx - x^3 z \\sin z\\,dz = 0$<br><br>
 $$ x^2(1 + z^2 - z^2 \\sin z)\\,dx - x^3 z \\sin z\\,dz = 0 $$`
             },
             {
-                label: '6.5', cond: 'Определить тип ДУ и привести к ДУ с разделяющимися переменными: $y\' + 3x^2 y = y^3 \\cos x$.',
+                label: '6.5', analogyOf: 21, cond: 'Определить тип ДУ и привести к ДУ с разделяющимися переменными: $y\' + 3x^2 y = y^3 \\cos x$.',
                 solution: `<strong>Решение:</strong><br><br>
 <strong>1. Определяем тип.</strong><br>
 $y\' + a(x)y = f(x)y^\\alpha$<br>
@@ -3358,7 +3358,7 @@ $v\' = e^{-2x^3} v^3 \\cos x$<br><br>
 $$ e^{-2x^3} \\cos x\\,dx - v^{-3}\\,dv = 0 $$`
             },
             {
-                label: '6.6', cond: 'Определить тип ДУ и привести к ДУ с разделяющимися переменными: $y\' - \\frac{y}{x} = y^2 \\ln x$.',
+                label: '6.6', analogyOf: 21, cond: 'Определить тип ДУ и привести к ДУ с разделяющимися переменными: $y\' - \\frac{y}{x} = y^2 \\ln x$.',
                 solution: `<strong>Решение:</strong><br><br>
 <strong>1. Определяем тип.</strong><br>
 $y\' + a(x)y = f(x)y^\\alpha$<br>
