@@ -3070,7 +3070,8 @@ $$ = -6 + 0 + 0 - (-9 + 0 + 8) = -6 - (-1) = -5 < 0 $$<br>
 <strong>Ответ:</strong> знакопеременная.`
             },
             {
-                label: '5.8', cond: 'Исследовать на знакоопределённость: $f(x, y, z) = x^2 + z^2 + 4xz$.',
+                label: '5.8', analogyOf: 13, cond: 'Исследовать на знакоопределённость: $f(x, y, z) = x^2 + z^2 + 4xz$.',
+                answer: { sign: 'знакопеременная', inputLabel: 'Введите ответ:' },
                 solution: `<strong>Решение:</strong><br><br>
 <strong>Матрица:</strong><br>
 $$ A = \\begin{pmatrix} 1 & 0 & 2 \\\\ 0 & 0 & 0 \\\\ 2 & 0 & 1 \\end{pmatrix} $$<br>
