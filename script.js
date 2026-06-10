@@ -1050,6 +1050,7 @@ function exportAllToFile() {
         integrals: integralsProgress || {},
         kr: krProgress || {},
         examTasks: examTasksProgress || {},
+
         physics: physicsProgress || {},
         physicsAnswers: physicsAnswers || {},
         semester1: semester1State ? semester1State.map(({ id, name, step, nextReview, history }) => ({
@@ -3084,7 +3085,114 @@ $$ \\Delta_2 = 0 $$ — критерий Сильвестра не даёт от
 $$ M = \\begin{vmatrix} 1 & 2 \\\\ 2 & 1 \\end{vmatrix} = 1 - 4 = -3 < 0 $$
 Так как $\\Delta_1 > 0$, но есть минор 2-го порядка $< 0$ — форма знакопеременная.<br>
 <strong>Ответ:</strong> знакопеременная.`
-            }
+            },
+            {
+                label: '1.4', source: 'Основная волна', analogyOf: 1, cond: 'Даны координаты векторов в некотором ОНБ: $\\bar{f}_1(4, -1, 2)$, $\\bar{f}_2(1, 0, 4)$, $\\bar{f}_3(-3, -2, -1)$. Найти матрицу Грама и определитель Грама.',
+                answer: { matrix: [[21,12,-12],[12,17,-7],[-12,-7,14]], det: 1521, inputLabel: 'Введите матрицу Грама:' },
+                solution: `<strong>Решение:</strong><br><br>
+<strong>1. Вычисляем скалярные произведения:</strong><br>
+$$ g_{11} = \\bar{f}_1 \\cdot \\bar{f}_1 = 4 \\cdot 4 + (-1) \\cdot (-1) + 2 \\cdot 2 = 16 + 1 + 4 = 21 $$
+$$ g_{22} = \\bar{f}_2 \\cdot \\bar{f}_2 = 1 \\cdot 1 + 0 \\cdot 0 + 4 \\cdot 4 = 1 + 0 + 16 = 17 $$
+$$ g_{33} = \\bar{f}_3 \\cdot \\bar{f}_3 = (-3) \\cdot (-3) + (-2) \\cdot (-2) + (-1) \\cdot (-1) = 9 + 4 + 1 = 14 $$
+$$ g_{12} = \\bar{f}_1 \\cdot \\bar{f}_2 = 4 \\cdot 1 + (-1) \\cdot 0 + 2 \\cdot 4 = 4 + 0 + 8 = 12 $$
+$$ g_{13} = \\bar{f}_1 \\cdot \\bar{f}_3 = 4 \\cdot (-3) + (-1) \\cdot (-2) + 2 \\cdot (-1) = -12 + 2 - 2 = -12 $$
+$$ g_{23} = \\bar{f}_2 \\cdot \\bar{f}_3 = 1 \\cdot (-3) + 0 \\cdot (-2) + 4 \\cdot (-1) = -3 + 0 - 4 = -7 $$<br>
+<strong>2. Матрица Грама:</strong><br>
+$$ \\Gamma = \\begin{pmatrix} 21 & 12 & -12 \\\\ 12 & 17 & -7 \\\\ -12 & -7 & 14 \\end{pmatrix} $$<br>
+<strong>3. Определитель Грама:</strong><br>
+$$ \\det\\Gamma = 21 \\cdot 17 \\cdot 14 + 12 \\cdot (-7) \\cdot (-12) + (-12) \\cdot 12 \\cdot (-7) - ((-12) \\cdot 17 \\cdot (-12) + 21 \\cdot (-7) \\cdot (-7) + 12 \\cdot 12 \\cdot 14) $$
+$$ = 4998 + 1008 + 1008 - (2448 + 1029 + 2016) = 7014 - 5493 = 1521 $$<br>
+<strong>Ответ:</strong> матрица Грама $\\Gamma = \\begin{pmatrix} 21 & 12 & -12 \\\\ 12 & 17 & -7 \\\\ -12 & -7 & 14 \\end{pmatrix}$, $\\det\\Gamma = 1521$.`
+            },
+            {
+                label: '2.4', source: 'Основная волна', analogyOf: 4, cond: 'Матрица оператора $\\hat{A}$ в базисе $\\text{Б} = (\\bar{e}_1, \\bar{e}_2)$ имеет вид: $$ [\\hat{A}]_{\\text{Б}} = \\begin{pmatrix} 1 & 5 \\\\ -1 & 2 \\end{pmatrix} $$ Найти матрицу оператора $\\hat{A}$ в базисе $\\text{Б}\' = (\\bar{e}_1 + 3\\bar{e}_2, 3\\bar{e}_2 - \\bar{e}_1)$.',
+                answer: { matrix: [[53/6,49/6],[-43/6,-35/6]], showDet: false, inputLabel: 'Введите матрицу оператора $[\\hat{A}]_{\\text{Б}\'} =$' },
+                solution: `<strong>Решение:</strong><br><br>
+<strong>1. Записываем векторы нового базиса:</strong><br>
+$$ \\bar{e}\'_1 = \\bar{e}_1 + 3\\bar{e}_2 \\rightarrow (1, 3)^T $$
+$$ \\bar{e}\'_2 = -\\bar{e}_1 + 3\\bar{e}_2 \\rightarrow (-1, 3)^T $$<br>
+<strong>2. Матрица перехода:</strong><br>
+$$ T = \\begin{pmatrix} 1 & -1 \\\\ 3 & 3 \\end{pmatrix}, \\quad \\det T = 1 \\cdot 3 - (-1) \\cdot 3 = 3 + 3 = 6 $$<br>
+<strong>3. Обратная матрица:</strong><br>
+$$ T^{-1} = \\frac{1}{6} \\begin{pmatrix} 3 & 1 \\\\ -3 & 1 \\end{pmatrix} $$<br>
+<strong>4. Формула преобразования:</strong><br>
+$$ [\\hat{A}]_{\\text{Б}\'} = T^{-1} \\cdot [\\hat{A}]_{\\text{Б}} \\cdot T $$<br>
+<strong>5. Вычисляем:</strong><br>
+$$ T^{-1} \\cdot [\\hat{A}]_{\\text{Б}} = \\frac{1}{6} \\begin{pmatrix} 3 & 1 \\\\ -3 & 1 \\end{pmatrix} \\begin{pmatrix} 1 & 5 \\\\ -1 & 2 \\end{pmatrix} = \\frac{1}{6} \\begin{pmatrix} 2 & 17 \\\\ -4 & -13 \\end{pmatrix} $$<br>
+$$ [\\hat{A}]_{\\text{Б}\'} = \\frac{1}{6} \\begin{pmatrix} 2 & 17 \\\\ -4 & -13 \\end{pmatrix} \\begin{pmatrix} 1 & -1 \\\\ 3 & 3 \\end{pmatrix} = \\frac{1}{6} \\begin{pmatrix} 53 & 49 \\\\ -43 & -35 \\end{pmatrix} $$<br>
+<strong>Ответ:</strong> $$ [\\hat{A}]_{\\text{Б}\'} = \\begin{pmatrix} \\frac{53}{6} & \\frac{49}{6} \\\\ -\\frac{43}{6} & -\\frac{35}{6} \\end{pmatrix} $$`
+            },
+            {
+                label: '2.5', source: 'Основная волна', analogyOf: 4, cond: 'Матрица оператора $\\hat{A}$ в базисе $\\text{Б} = (\\bar{e}_1, \\bar{e}_2)$ имеет вид: $$ [\\hat{A}]_{\\text{Б}} = \\begin{pmatrix} 5 & 1 \\\\ 2 & 4 \\end{pmatrix} $$ Найти матрицу оператора $\\hat{A}$ в базисе $\\text{Б}\' = (3\\bar{e}_1 + \\bar{e}_2, 2\\bar{e}_2 - 3\\bar{e}_1)$.',
+                answer: { matrix: [[62/9,-20/9],[14/9,19/9]], showDet: false, inputLabel: 'Введите матрицу оператора $[\\hat{A}]_{\\text{Б}\'} =$' },
+                solution: `<strong>Решение:</strong><br><br>
+<strong>1. Записываем векторы нового базиса:</strong><br>
+$$ \\bar{e}\'_1 = 3\\bar{e}_1 + \\bar{e}_2 \\rightarrow (3, 1)^T $$
+$$ \\bar{e}\'_2 = -3\\bar{e}_1 + 2\\bar{e}_2 \\rightarrow (-3, 2)^T $$<br>
+<strong>2. Матрица перехода:</strong><br>
+$$ T = \\begin{pmatrix} 3 & -3 \\\\ 1 & 2 \\end{pmatrix}, \\quad \\det T = 3 \\cdot 2 - (-3) \\cdot 1 = 6 + 3 = 9 $$<br>
+<strong>3. Обратная матрица:</strong><br>
+$$ T^{-1} = \\frac{1}{9} \\begin{pmatrix} 2 & 3 \\\\ -1 & 3 \\end{pmatrix} $$<br>
+<strong>4. Формула преобразования:</strong><br>
+$$ [\\hat{A}]_{\\text{Б}\'} = T^{-1} \\cdot [\\hat{A}]_{\\text{Б}} \\cdot T $$<br>
+<strong>5. Вычисляем:</strong><br>
+$$ T^{-1} \\cdot [\\hat{A}]_{\\text{Б}} = \\frac{1}{9} \\begin{pmatrix} 2 & 3 \\\\ -1 & 3 \\end{pmatrix} \\begin{pmatrix} 5 & 1 \\\\ 2 & 4 \\end{pmatrix} = \\frac{1}{9} \\begin{pmatrix} 16 & 14 \\\\ 1 & 11 \\end{pmatrix} $$<br>
+$$ [\\hat{A}]_{\\text{Б}\'} = \\frac{1}{9} \\begin{pmatrix} 16 & 14 \\\\ 1 & 11 \\end{pmatrix} \\begin{pmatrix} 3 & -3 \\\\ 1 & 2 \\end{pmatrix} = \\frac{1}{9} \\begin{pmatrix} 62 & -20 \\\\ 14 & 19 \\end{pmatrix} $$<br>
+<strong>Ответ:</strong> $$ [\\hat{A}]_{\\text{Б}\'} = \\begin{pmatrix} \\frac{62}{9} & -\\frac{20}{9} \\\\ \\frac{14}{9} & \\frac{19}{9} \\end{pmatrix} $$`
+            },
+            {
+                label: '3.4', source: 'Основная волна', analogyOf: 7, cond: 'Найти собственные векторы-столбцы матрицы, соответствующие $\\lambda = 5$: $$ A = \\begin{pmatrix} 11 & 8 & 4 \\\\ -8 & -5 & -4 \\\\ 4 & 4 & 5 \\end{pmatrix} $$',
+                answer: { vectors: [[2,-2,1]], dim: 1, checkSubspace: true, inputLabel: 'Введите базис собственных векторов (ФСР = 1 вектор):' },
+                solution: `<strong>Решение:</strong><br><br>
+<strong>1. Находим $A - 5E$:</strong><br>
+$$ A - 5E = \\begin{pmatrix} 11-5 & 8 & 4 \\\\ -8 & -5-5 & -4 \\\\ 4 & 4 & 5-5 \\end{pmatrix} = \\begin{pmatrix} 6 & 8 & 4 \\\\ -8 & -10 & -4 \\\\ 4 & 4 & 0 \\end{pmatrix} $$<br>
+<strong>2. Решаем $(A - 5E)\\bar{x} = 0$ методом Гаусса:</strong><br>
+$$ \\begin{pmatrix} 6 & 8 & 4 \\\\ -8 & -10 & -4 \\\\ 4 & 4 & 0 \\end{pmatrix} \\rightarrow \\begin{pmatrix} 1 & 1 & 0 \\\\ 0 & 1 & 2 \\\\ 0 & 0 & 0 \\end{pmatrix} $$<br>
+<strong>3. Выражаем переменные:</strong><br>
+$$ x_1 + x_2 = 0 \\Rightarrow x_1 = -x_2 $$
+$$ x_2 + 2x_3 = 0 \\Rightarrow x_2 = -2x_3 $$
+Пусть $x_3 = \\alpha$ (свободная переменная):<br>
+$$ x_2 = -2\\alpha, \\quad x_1 = 2\\alpha $$<br>
+<strong>Ответ:</strong> $$ \\bar{x} = \\alpha \\begin{pmatrix} 2 \\\\ -2 \\\\ 1 \\end{pmatrix},\\; \\alpha \\neq 0 $$`
+            },
+            {
+                label: '4.4', source: 'Основная волна', analogyOf: 10, cond: 'Найти ранг ($r$) и дефект ($d$) оператора с матрицей: $$ A = \\begin{pmatrix} -4 & 5 & -6 & 8 \\\\ -6 & 1 & 0 & -1 \\\\ -1 & -2 & 3 & -4 \\\\ -9 & 8 & -9 & 11 \\end{pmatrix} $$',
+                answer: { rank: 3, defect: 1, inputLabel: 'Введите ранг и дефект:' },
+                solution: `<strong>Решение:</strong><br><br>
+<strong>1. Приводим матрицу к ступенчатому виду:</strong><br>
+$$ A = \\begin{pmatrix} -4 & 5 & -6 & 8 \\\\ -6 & 1 & 0 & -1 \\\\ -1 & -2 & 3 & -4 \\\\ -9 & 8 & -9 & 11 \\end{pmatrix} $$<br>
+<strong>2. Шаг 1:</strong> меняем строки местами:<br>
+$$ \\rightarrow \\begin{pmatrix} 1 & 2 & -3 & 4 \\\\ -6 & 1 & 0 & -1 \\\\ -4 & 5 & -6 & 8 \\\\ -9 & 8 & -9 & 11 \\end{pmatrix} $$<br>
+<strong>3. Шаг 2:</strong> обнуляем первый столбец:<br>
+$$ \\rightarrow \\begin{pmatrix} 1 & 2 & -3 & 4 \\\\ 0 & 13 & -18 & 23 \\\\ 0 & 13 & -18 & 24 \\\\ 0 & 26 & -36 & 47 \\end{pmatrix} $$<br>
+<strong>4. Шаг 3:</strong> вычитаем строки:<br>
+$$ \\rightarrow \\begin{pmatrix} 1 & 2 & -3 & 4 \\\\ 0 & 13 & -18 & 23 \\\\ 0 & 0 & 0 & 1 \\\\ 0 & 0 & 0 & 0 \\end{pmatrix} $$<br>
+<strong>5. Ранг — количество ненулевых строк:</strong><br>
+$$ r = 3 $$<br>
+<strong>6. Дефект:</strong><br>
+$$ d = n - r = 4 - 3 = 1 $$<br>
+<strong>Ответ:</strong> $r = 3$, $d = 1$.`
+            },
+            {
+                label: '5.9', source: 'Основная волна', analogyOf: 13, cond: 'Исследовать на знакоопределённость: $f(x, y, z) = 2xy + 0xz - 4yz - 2x^2 - 3y^2 - 5z^2$.',
+                answer: { sign: 'отрицательно определённая', inputLabel: 'Введите ответ:' },
+                solution: `<strong>Решение:</strong><br><br>
+<strong>Переписываем в стандартном порядке:</strong><br>
+$$ f(x, y, z) = -2x^2 - 3y^2 - 5z^2 + 2xy - 4yz $$
+<strong>Матрица:</strong><br>
+Коэффициенты при квадратах: $a_{11} = -2$, $a_{22} = -3$, $a_{33} = -5$.<br>
+Коэффициент при $xy$: $2a_{12} = 2 \\Rightarrow a_{12} = 1$.<br>
+Коэффициент при $xz$: $2a_{13} = 0 \\Rightarrow a_{13} = 0$.<br>
+Коэффициент при $yz$: $2a_{23} = -4 \\Rightarrow a_{23} = -2$.<br>
+$$ A = \\begin{pmatrix} -2 & 1 & 0 \\\\ 1 & -3 & -2 \\\\ 0 & -2 & -5 \\end{pmatrix} $$<br>
+<strong>Угловые миноры:</strong><br>
+$$ \\Delta_1 = -2 < 0 $$
+$$ \\Delta_2 = \\begin{vmatrix} -2 & 1 \\\\ 1 & -3 \\end{vmatrix} = (-2)(-3) - 1 \\cdot 1 = 6 - 1 = 5 > 0 $$
+$$ \\Delta_3 = \\det A = (-2)((-3)(-5) - (-2)(-2)) - 1(1\\cdot(-5) - 0\\cdot(-2)) + 0 $$
+$$ = (-2)(15 - 4) - 1(-5) = (-2)(11) + 5 = -22 + 5 = -17 < 0 $$<br>
+<strong>Вывод:</strong> $\\Delta_1 < 0$, $\\Delta_2 > 0$, $\\Delta_3 < 0$ — знаки чередуются, начиная с минуса.<br>
+<strong>Ответ:</strong> отрицательно определённая.`
+            },
         ]
     },
     {
@@ -3629,12 +3737,172 @@ $$ \\bar{f}(t) = \\begin{pmatrix} 0 \\\\ 2\\sin t \\end{pmatrix} $$<br>
 Частота $\\alpha + i\\beta = 0 + i = i$ не является корнем характеристического уравнения.<br>
 <strong>4. Вид частного решения</strong><br>
 $$ \\bar{x}_p(t) = \\begin{pmatrix} A\\cos t + B\\sin t \\\\ C\\cos t + D\\sin t \\end{pmatrix} $$`
-            }
+            },
+            {
+                label: '6.7', source: 'Основная волна', analogyOf: 21, cond: 'Определить тип ДУ и привести к ДУ с разделяющимися переменными: $y\' - 2x^2 y = y^3 \\sin x$.',
+                solution: `<strong>Решение:</strong><br><br>
+<strong>1. Определяем тип.</strong><br>
+$y\' + a(x)y = f(x)y^\\alpha$<br>
+$a(x) = -2x^2$, $f(x) = \\sin x$, $\\alpha = 3$<br>
+<strong>Тип:</strong> уравнение Бернулли ($\\alpha = 3$, $\\alpha \\neq 0,1$).<br><br>
+<strong>2. Замена Бернулли.</strong><br>
+$y = uv$<br>
+$y\' = u\'v + uv\'$<br><br>
+<strong>3. Подставляем.</strong><br>
+$u\'v + uv\' - 2x^2 \\cdot uv = u^3 v^3 \\sin x$<br>
+$(u\' - 2x^2 u)v + uv\' = u^3 v^3 \\sin x$<br><br>
+<strong>4. Находим $u$.</strong><br>
+Положим $u\' - 2x^2 u = 0$:<br>
+$\\frac{du}{u} = 2x^2\\,dx$<br>
+$\\ln|u| = \\frac{2x^3}{3}$<br>
+$u = e^{2x^3/3}$<br><br>
+<strong>5. Подставляем $u$.</strong><br>
+$e^{2x^3/3} v\' = e^{2x^3} v^3 \\sin x$<br>
+$v\' = e^{4x^3/3} v^3 \\sin x$<br><br>
+<strong>6. Разделяем переменные.</strong><br>
+$\\frac{dv}{v^3} = e^{4x^3/3} \\sin x\\,dx$<br>
+<strong>Ответ:</strong> $v^{-3}dv - e^{4x^3/3} \\sin x\\,dx = 0$`
+            },
+            {
+                label: '7.5', source: 'Основная волна', analogyOf: 23, cond: 'Определить тип ДУ, допускающих понижение порядка, и привести к ДУ первого порядка: $(yy\')^3 + y^5 y\'\' \\ln x = x(y\')^6$.',
+                solution: `<strong>Решение:</strong><br><br>
+<strong>1. Замена $y\' = z \\cdot y$.</strong><br>
+Тогда $y\'\' = z\'y + z^2 y$.<br><br>
+<strong>2. Подставляем:</strong><br>
+$$ (y \\cdot zy)^3 + y^5 (z\'y + z^2 y) \\ln x = x(zy)^6 $$
+$$ y^6 z^3 + y^6 (z\' + z^2) \\ln x = x y^6 z^6 $$<br>
+<strong>3. Делим на $y^6$ (считаем $y \\neq 0$):</strong><br>
+$$ z^3 + (z\' + z^2) \\ln x = x z^6 $$<br>
+<strong>Ответ:</strong> $z^3 + (z\' + z^2) \\ln x - x z^6 = 0$`
+            },
+            {
+                label: '7.6', source: 'Основная волна', analogyOf: 23, cond: 'Определить тип ДУ, допускающих понижение порядка, и привести к ДУ первого порядка: $y^3 y\' + y^2 y\' y\'\' \\ln x = x^2 y (y\')^3$.',
+                solution: `<strong>Решение:</strong><br><br>
+<strong>1. Замена $y\' = z \\cdot y$.</strong><br>
+Тогда $y\'\' = z\'y + z^2 y$.<br><br>
+<strong>2. Подставляем:</strong><br>
+$$ y^3 \\cdot zy + y^2 \\cdot zy \\cdot (z\'y + z^2 y) \\ln x = x^2 y \\cdot (zy)^3 $$
+$$ y^4 z + y^4 z (z\' + z^2) \\ln x = x^2 y^4 z^3 $$<br>
+<strong>3. Делим на $y^4$ (считаем $y \\neq 0$):</strong><br>
+$$ z + z(z\' + z^2) \\ln x = x^2 z^3 $$<br>
+<strong>4. Если $z \\neq 0$, делим на $z$:</strong><br>
+$$ 1 + (z\' + z^2) \\ln x = x^2 z^2 $$<br>
+<strong>Ответ:</strong> $1 + (z\' + z^2) \\ln x - x^2 z^2 = 0$`
+            },
+            {
+                label: '7.7', source: 'Основная волна', cond: 'Определить тип ДУ, допускающих понижение порядка, и привести к ДУ первого порядка: $yy\'\' + (y\')^2 = 9x^2 + 6y^2 y\'$.',
+                solution: `<strong>Решение:</strong><br><br>
+<strong>1. Замечаем, что левая часть — производная:</strong><br>
+$$ (yy\')\' = y\'y\' + yy\'\' = (y\')^2 + yy\'\' $$<br>
+<strong>2. Правая часть:</strong><br>
+$$ (2y^3)\' = 6y^2 y\' $$<br>
+<strong>3. Переписываем уравнение:</strong><br>
+$$ (yy\')\' = 9x^2 + (2y^3)\' $$<br>
+<strong>4. Интегрируем:</strong><br>
+$$ yy\' = 3x^3 + 2y^3 + C $$<br>
+<strong>Ответ:</strong> $yy\' = 3x^3 + 2y^3 + C$ — ДУ первого порядка.`
+            },
+            {
+                label: '8.3', source: 'Основная волна', analogyOf: 25, cond: 'Для данного НЛДУ записать общее решение с неопределёнными коэффициентами: $y\'\' - 4y\' + 13y = 4\\cos 4x + 7x\\sin 4x$.',
+                solution: `<strong>Решение:</strong><br><br>
+<strong>1. Соответствующее ОЛДУ</strong><br>
+$$ y\'\' - 4y\' + 13y = 0 $$<br>
+<strong>2. Характеристическое уравнение</strong><br>
+$$ \\lambda^2 - 4\\lambda + 13 = 0 $$
+$$ \\mathcal{D} = 16 - 52 = -36 $$
+$$ \\lambda_{1,2} = \\frac{4 \\pm 6i}{2} = 2 \\pm 3i $$<br>
+<strong>3. ФСР ОЛДУ</strong><br>
+$$ \\text{ФСР: } e^{2x}\\cos 3x,\\; e^{2x}\\sin 3x $$
+$$ y_{\\text{о.о.}} = e^{2x}(C_1\\cos 3x + C_2\\sin 3x) $$<br>
+<strong>4. Правая часть НЛДУ</strong><br>
+$$ f(x) = 4\\cos 4x + 7x\\sin 4x $$<br>
+<strong>5. Вид частного решения</strong><br>
+Правая часть имеет вид $e^{\\alpha x}(P_n(x)\\cos\\beta x + Q_m(x)\\sin\\beta x)$,<br>
+где $\\alpha = 0$, $\\beta = 4$, $P_0(x) = 4$, $Q_1(x) = 7x$.<br>
+Сравниваем $\\alpha \\pm \\beta i = \\pm 4i$ с корнями ХУ $\\lambda = 2 \\pm 3i$:<br>
+$$ \\pm 4i \\neq 2 \\pm 3i \\implies s = 0 $$<br>
+$$ y_{\\text{ч.н.}} = (A + Bx)\\cos 4x + (C + Dx)\\sin 4x $$<br>
+<strong>6. Общее решение НЛДУ</strong><br>
+$$ y_{\\text{о.н.}} = e^{2x}(C_1\\cos 3x + C_2\\sin 3x) + (A + Bx)\\cos 4x + (C + Dx)\\sin 4x $$`
+            },
+            {
+                label: '9.7', source: 'Основная волна', analogyOf: 27, cond: 'Решить СОЛДУ, воспользовавшись алгоритмом поиска СЗ и СВ. Ответ представить в векторной форме.\n$$\\begin{cases} \\dot{x} = 2y - 4x \\\\ \\dot{y} = 2x - 4y \\end{cases}$$',
+                solution: `<strong>Решение:</strong><br><br>
+<strong>1. Матрица системы</strong><br>
+$$ A = \\begin{pmatrix} -4 & 2 \\\\ 2 & -4 \\end{pmatrix} $$<br>
+<strong>2. Характеристическое уравнение</strong><br>
+$$ |A - \\lambda E| = \\begin{vmatrix} -4 - \\lambda & 2 \\\\ 2 & -4 - \\lambda \\end{vmatrix} = 0 $$
+$$ (-4 - \\lambda)^2 - 4 = 0 $$
+$$ \\lambda^2 + 8\\lambda + 12 = 0 $$
+$$ \\lambda_1 = -2,\\; \\lambda_2 = -6 $$<br>
+<strong>3. Собственный вектор для $\\lambda_1 = -2$</strong><br>
+$$ (A + 2E)v_1 = 0,\\; \\begin{pmatrix} -2 & 2 \\\\ 2 & -2 \\end{pmatrix} \\rightarrow v_1 = \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix} $$<br>
+<strong>4. Собственный вектор для $\\lambda_2 = -6$</strong><br>
+$$ (A + 6E)v_2 = 0,\\; \\begin{pmatrix} 2 & 2 \\\\ 2 & 2 \\end{pmatrix} \\rightarrow v_2 = \\begin{pmatrix} 1 \\\\ -1 \\end{pmatrix} $$<br>
+<strong>5. Общее решение</strong><br>
+$$ \\bar{x}(t) = C_1 \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix} e^{-2t} + C_2 \\begin{pmatrix} 1 \\\\ -1 \\end{pmatrix} e^{-6t} $$`
+            },
+            {
+                label: '10.4', source: 'Основная волна', analogyOf: 31, cond: 'Решить систему сведением к одному ДУ: $\\begin{cases} \\dot{x} = 4x - 2y \\\\ \\dot{y} = 8x + 12y \\end{cases}$',
+                solution: `<strong>Решение:</strong><br><br>
+<strong>1. Выражаем $y$ из первого уравнения:</strong><br>
+$$ \\dot{x} = 4x - 2y \\Rightarrow y = \\frac{4x - \\dot{x}}{2} $$<br>
+<strong>2. Дифференцируем:</strong><br>
+$$ \\dot{y} = \\frac{4\\dot{x} - \\ddot{x}}{2} $$<br>
+<strong>3. Подставляем во второе уравнение:</strong><br>
+$$ \\frac{4\\dot{x} - \\ddot{x}}{2} = 8x + 12 \\cdot \\frac{4x - \\dot{x}}{2} $$
+$$ 4\\dot{x} - \\ddot{x} = 16x + 48x - 12\\dot{x} $$
+$$ \\ddot{x} - 16\\dot{x} + 64x = 0 $$<br>
+<strong>4. Характеристическое уравнение:</strong><br>
+$$ \\lambda^2 - 16\\lambda + 64 = 0 $$
+$$ (\\lambda - 8)^2 = 0 \\Rightarrow \\lambda = 8 \\text{ (кратности 2)} $$<br>
+<strong>5. Решение для $x$:</strong><br>
+$$ x = C_1 e^{8t} + C_2 t e^{8t} $$<br>
+<strong>6. Находим $y$:</strong><br>
+$$ y = \\frac{4x - \\dot{x}}{2} = \\frac{4(C_1 e^{8t} + C_2 t e^{8t}) - (8C_1 e^{8t} + C_2 e^{8t} + 8C_2 t e^{8t})}{2} $$
+$$ y = \\left(-2C_1 - \\frac{C_2}{2}\\right)e^{8t} - 2C_2 t e^{8t} $$<br>
+<strong>7. Общее решение в векторной форме:</strong><br>
+$$ \\bar{x}(t) = C_1 \\begin{pmatrix} 1 \\\\ -2 \\end{pmatrix} e^{8t} + C_2 \\begin{pmatrix} t \\\\ \\frac{1}{2} - 2t \\end{pmatrix} e^{8t} $$`
+            },
+            {
+                label: '11.4', source: 'Основная волна', cond: 'Найти общее решение неоднородной системы: $\\begin{cases} \\dot{x} = 2y - 6x + 9e^t \\\\ \\dot{y} = 2y - 8x \\end{cases}$',
+                solution: `<strong>Решение:</strong><br><br>
+<strong>1. Однородная система</strong><br>
+$$ A = \\begin{pmatrix} -6 & 2 \\\\ -8 & 2 \\end{pmatrix} $$<br>
+<strong>2. Характеристическое уравнение</strong><br>
+$$ |A - \\lambda E| = \\begin{vmatrix} -6 - \\lambda & 2 \\\\ -8 & 2 - \\lambda \\end{vmatrix} = 0 $$
+$$ (-6 - \\lambda)(2 - \\lambda) + 16 = 0 $$
+$$ \\lambda^2 + 4\\lambda + 4 = 0 $$
+$$ (\\lambda + 2)^2 = 0,\\; \\lambda = -2 \\text{ (кратности 2)} $$<br>
+<strong>3. Собственный вектор</strong><br>
+$$ (A + 2E)v = 0,\\; \\begin{pmatrix} -4 & 2 \\\\ -8 & 4 \\end{pmatrix} \\rightarrow v = \\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix} $$<br>
+<strong>4. Присоединённый вектор</strong><br>
+$$ (A + 2E)w = v,\\; \\begin{pmatrix} -4 & 2 \\\\ -8 & 4 \\end{pmatrix} w = \\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix} $$
+$$ w = \\begin{pmatrix} t \\\\ 2t + \\frac{1}{2} \\end{pmatrix} $$<br>
+<strong>5. Фундаментальная система решений ОЛДУ</strong><br>
+$$ \\bar{x}_{\\text{о.о.}} = C_1 \\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix} e^{-2t} + C_2 \\begin{pmatrix} t \\\\ 2t + \\frac{1}{2} \\end{pmatrix} e^{-2t} $$<br>
+<strong>6. Правая часть</strong><br>
+$$ \\bar{f}(t) = \\begin{pmatrix} 9e^t \\\\ 0 \\end{pmatrix} $$<br>
+Частота $\\alpha = 1$ не является корнем характеристического уравнения $\\lambda = -2$, поэтому $s = 0$.<br>
+<strong>7. Вид частного решения</strong><br>
+$$ \\bar{x}_{\\text{ч.н.}} = \\begin{pmatrix} A \\\\ B \\end{pmatrix} e^t $$<br>
+<strong>8. Подставляем в систему:</strong><br>
+$$ \\begin{cases} A e^t = 2B e^t - 6A e^t + 9e^t \\\\ B e^t = 2B e^t - 8A e^t \\end{cases} $$
+$$ \\begin{cases} 7A - 2B = 9 \\\\ -B + 8A = 0 \\Rightarrow B = 8A \\end{cases} $$
+$$ 7A - 16A = 9 \\Rightarrow A = -1,\\; B = -8 $$<br>
+<strong>9. Частное решение:</strong><br>
+$$ \\bar{x}_{\\text{ч.н.}} = \\begin{pmatrix} -1 \\\\ -8 \\end{pmatrix} e^t $$<br>
+<strong>10. Общее решение неоднородной системы:</strong><br>
+$$ \\bar{x}_{\\text{о.н.}} = C_1 \\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix} e^{-2t} + C_2 \\begin{pmatrix} t \\\\ 2t + \\frac{1}{2} \\end{pmatrix} e^{-2t} + \\begin{pmatrix} -1 \\\\ -8 \\end{pmatrix} e^t $$`
+            },
         ]
     }
 ];
 
+
+
 let examTasksProgress = JSON.parse(localStorage.getItem('exam_tasks_progress')) || {};
+
 
 let physicsProgress = JSON.parse(localStorage.getItem('physics_progress')) || {};
 let physicsAnswers = JSON.parse(localStorage.getItem('physics_answers')) || {};
@@ -5431,17 +5699,17 @@ function updateExamUI() {
 
 function buildExamGroups() {
     return {
-        '0': { title: 'Тип 1. Матрица Грама', taskIds: [1, 2, 3] },
-        '1': { title: 'Тип 2. Смена базиса', taskIds: [4, 5, 6] },
-        '2': { title: 'Тип 3. Собственные векторы', taskIds: [7, 8, 9] },
-        '3': { title: 'Тип 4. Ранг и дефект', taskIds: [10, 11, 12] },
-        '4': { title: 'Тип 5. Знакоопределённость', taskIds: [13, 14, 15, 16, 17, 18, 19, 20] },
-        '5': { title: 'Тип 6. ДУ: тип ДУ', taskIds: [21, 22, 35, 36, 37, 38] },
-        '6': { title: 'Тип 7. ДУ: понижение порядка', taskIds: [23, 24, 33, 34] },
-        '7': { title: 'Тип 8. ДУ: структура решения', taskIds: [25, 26] },
-        '8': { title: 'Тип 9. ДУ: системы ОЛДУ', taskIds: [27, 28, 29, 30, 39, 40] },
-        '9': { title: 'Тип 10. ДУ: сведение к одному ДУ', taskIds: [31, 41, 42] },
-        '10': { title: 'Тип 11. ДУ: частное решение СНЛДУ', taskIds: [32, 43, 44] },
+        '0': { title: 'Тип 1. Матрица Грама', taskIds: [1, 2, 3, 21] },
+        '1': { title: 'Тип 2. Смена базиса', taskIds: [4, 5, 6, 22, 23] },
+        '2': { title: 'Тип 3. Собственные векторы', taskIds: [7, 8, 9, 24] },
+        '3': { title: 'Тип 4. Ранг и дефект', taskIds: [10, 11, 12, 25] },
+        '4': { title: 'Тип 5. Знакоопределённость', taskIds: [13, 14, 15, 16, 17, 18, 19, 20, 26] },
+        '5': { title: 'Тип 6. ДУ: тип ДУ', taskIds: [27, 28, 41, 42, 43, 44, 51] },
+        '6': { title: 'Тип 7. ДУ: понижение порядка', taskIds: [29, 30, 39, 40, 52, 53, 54] },
+        '7': { title: 'Тип 8. ДУ: структура решения', taskIds: [31, 32, 55] },
+        '8': { title: 'Тип 9. ДУ: системы ОЛДУ', taskIds: [33, 34, 35, 36, 45, 46, 56] },
+        '9': { title: 'Тип 10. ДУ: сведение к одному ДУ', taskIds: [37, 47, 48, 57] },
+        '10': { title: 'Тип 11. ДУ: частное решение СНЛДУ', taskIds: [38, 49, 50, 58] },
     };
 }
 
@@ -5481,7 +5749,7 @@ function renderExamGroup(groupKey) {
                     <span class="task-points">${foundType.points} баллов</span>
                 </div>
                 <div class="task-content">
-                    ${!foundTask.analogyOf ? '<div style="font-size:0.78rem; color:var(--pencil); padding:4px 0; font-style:italic;">Источник: демо экзамена</div>' : '<div style="font-size:0.78rem; color:var(--pencil); padding:4px 0; font-style:italic;">Источник: аналог</div>'}
+                    ${foundTask.source ? '<div style="font-size:0.78rem; color:var(--pencil); padding:4px 0; font-style:italic;">Источник: ' + foundTask.source + '</div>' : !foundTask.analogyOf ? '<div style="font-size:0.78rem; color:var(--pencil); padding:4px 0; font-style:italic;">Источник: демо экзамена</div>' : '<div style="font-size:0.78rem; color:var(--pencil); padding:4px 0; font-style:italic;">Источник: аналог</div>'}
                     <div class="task-demand"><strong>Условие:</strong><br>${foundTask.cond}</div>
                     ${foundTask.answer && foundTask.answer.matrix ? renderMatrixInput(taskId, foundTask.answer) : ''}
                     ${foundTask.answer && foundTask.answer.vectors ? renderVectorInput(taskId, foundTask.answer) : ''}
@@ -5521,6 +5789,8 @@ function toggleExamSolution(taskId) {
     btn.textContent = isOpen ? '📖 Показать решение' : '📖 Скрыть решение';
     if (!isOpen) typesetKaTeX([sol], () => {});
 }
+
+
 
 // ========== ТАБЫ ==========
 async function initTabs() {

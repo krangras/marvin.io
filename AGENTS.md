@@ -14,7 +14,6 @@
 - Старая подмена `html.replace(/\\neq|\\not=/g, '≠')` в `renderExamTasks()` и `renderIntegrals()` делала только хуже — конвертировала LaTeX-команду `\neq` обратно в неподдерживаемый Unicode.
 
 **Фикс:**
-
 - Функция `fixNeq(html)` создана в `script.js` (выше `renderExamTasks()`). На лету правит HTML перед KaTeX:
   - Если `≠` внутри `\(...\)`, `\[...\]`, `$$...$$` или `$...$` → заменяет на `\neq` (LaTeX-команда, KaTeX умеет)
   - Если `≠` вне математического режима → оставляет как есть
@@ -69,6 +68,50 @@
 - В `FILES` добавлены: `semester1_data.js`, `firebase-init.js`, `firebase-auth.js`, `firebase-sync.js`
 - Версия кэша: `marvin-v2`
 
+### 7. Google Drive иконка в PDF-баннере
+
+- Заменён сломанный SVG иконки Google Drive на правильный Material Design SVG
+- Добавлен PDF-баннер Google Drive во вкладку теории (`render()`)
+- Обновлена ссылка на practice PDF с `151DLa24...` на `1iYfp-uj25JXeAld4DUqNrEO4rVlMGdoQ`
+
+### 8. Новые задачи (демо экзамена)
+
+- **5.8**: знакоопределённость `f(x,y,z)=x²+z²+4xz` — особый случай с ∆₂=0, знакопеременная
+- Обновлён `buildExamGroups()`: группа 4 (знакоопределённость) теперь содержит 8 задач (IDs 13-20)
+
+### 9. Новая вкладка «Основная волна»
+
+Создана отдельная вкладка `📝 Основная волна` с 14 задачами из этого источника:
+
+**Линейная алгебра (6 задач):**
+- 1.4: матрица Грама (ОНБ, 3 вектора)
+- 2.4: смена базиса (матрица [[1,5],[-1,2]], T = [[1,-1],[3,3]])
+- 2.5: смена базиса (матрица [[5,1],[2,4]], T = [[3,-3],[1,2]])
+- 3.4: собственные векторы (λ=5, A 3×3, ФСР=1 вектор)
+- 4.4: ранг и дефект (4×4 матрица, r=3, d=1)
+- 5.9: знакоопределённость (отрицательно определённая)
+
+**Дифференциальные уравнения (8 задач):**
+- 6.7: Бернулли (y' - 2x²y = y³ sin x)
+- 7.5: понижение порядка ((yy')³ + y⁵y'' ln x = x(y')⁶)
+- 7.6: понижение порядка (y³y' + y²y'y'' ln x = x²y(y')³)
+- 7.7: понижение порядка через полную производную (yy'' + (y')² = 9x² + 6y²y')
+- 8.3: НЛДУ (y'' - 4y' + 13y = 4cos4x + 7x sin4x)
+- 9.7: СОЛДУ через СЗ и СВ (2×2, λ₁=-2, λ₂=-6)
+- 10.4: сведение к одному ДУ (2×2, λ=8 кратности 2)
+- 11.4: СНЛДУ (2×2, λ=-2 кратности 2, f(t)=9e^t)
+
+**Архитектура:**
+- `examTasksDataOV` — отдельный массив задач
+- `examTasksProgressOV` — отдельный прогресс (localStorage: `exam_tasks_progress_ov`)
+- `buildExamGroupsOV()` — группы задач по типам (11 групп)
+- `renderExamTasksOV()`, `renderExamGroupOV()` — рендер с полной поддержкой KaTeX
+- `toggleExamTaskOV()`, `toggleExamSolutionOV()`, `selectExamGroupOV()`, `resetOVProgress()`
+- Функции ввода: `renderOVMatrixInput()`, `renderOVVectorInput()`, `renderOVRankDefectInput()`, `renderOVSignInput()`
+- Прогресс сохраняется бекап/рестор (Firestore + файловый экспорт)
+- Источник в UI: «Основная волна»
+- PDF-баннер: https://drive.google.com/file/d/1iYfp-uj25JXeAld4DUqNrEO4rVlMGdoQ
+
 ## Physics NTK data progress (текущая сессия)
 
 ### Что сделано
@@ -83,3 +126,10 @@
 ### Все разделы NTK заполнены
 
 ## Critical Context
+- `examTasksData` Section 1 (линейная алгебра): 20 задач, IDs 1–20 (последняя 5.8)
+- `examTasksData` Section 2 (ДУ): 24 задачи, IDs 21–44
+- `examTasksDataOV` Section 1 (линейная алгебра, осн. волна): 6 задач, IDs 1–6
+- `examTasksDataOV` Section 2 (ДУ, осн. волна): 8 задач, IDs 7–14
+- Новая вкладка: `📝 Основная волна` (data-tab="ov")
+- Иконка Google Drive в PDF-баннерах — Material Design SVG (не эмодзи)
+- SW стратегия: network-first на всех запросах
