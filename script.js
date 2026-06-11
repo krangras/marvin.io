@@ -3862,7 +3862,7 @@ $$ x = C_1 e^{8t} + C_2 t e^{8t} $$<br>
 $$ y = \\frac{4x - \\dot{x}}{2} = \\frac{4(C_1 e^{8t} + C_2 t e^{8t}) - (8C_1 e^{8t} + C_2 e^{8t} + 8C_2 t e^{8t})}{2} $$
 $$ y = \\left(-2C_1 - \\frac{C_2}{2}\\right)e^{8t} - 2C_2 t e^{8t} $$<br>
 <strong>7. Общее решение в векторной форме:</strong><br>
-$$ \\bar{x}(t) = C_1 \\begin{pmatrix} 1 \\\\ -2 \\end{pmatrix} e^{8t} + C_2 \\begin{pmatrix} t \\\\ \\frac{1}{2} - 2t \\end{pmatrix} e^{8t} $$`
+$$ \\bar{x}(t) = C_1 \\begin{pmatrix} 1 \\\\ -2 \\end{pmatrix} e^{8t} + C_2 \\begin{pmatrix} t \\\\ -\\frac{1}{2} - 2t \\end{pmatrix} e^{8t} $$`
             },
             {
                 label: '11.4', source: 'Основная волна', cond: 'Найти общее решение неоднородной системы: $\\begin{cases} \\dot{x} = 2y - 6x + 9e^t \\\\ \\dot{y} = 2y - 8x \\end{cases}$',
