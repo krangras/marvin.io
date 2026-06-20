@@ -128,13 +128,13 @@
 
     <h4 style="color:#1a3a6e;">Теорема 2 (о связи матриц оператора в разных базисах)</h4>
     <p>\\(\\forall\\) базисов \\(\\text{Б}\\) и \\(\\text{Б}'\\) конечномерного пр-ва \\(V\\) и \\(\\forall\\) ЛО \\(\\hat{A}\\), действующего в \\(V\\):</p>
-    <p>$$[\\hat{A}]_{\\text{Б}'} = T_{\\text{Б} \\to \\text{Б}'} \\cdot [\\hat{A}]_{\\text{Б}} \\cdot T_{\\text{Б}' \\to \\text{Б}}$$</p>
+    <p>$$[\\hat{A}]_{\\text{Б}'} = T_{\\text{Б}' \\to \\text{Б}} \\cdot [\\hat{A}]_{\\text{Б}} \\cdot T_{\\text{Б} \\to \\text{Б}'}$$</p>
 
     <h4 style="color:#1a3a6e;">Доказательство</h4>
-    <p>$$[\\hat{A}(\\bar{x})]_{\\text{Б}} = [\\hat{A}]_{\\text{Б}} \\cdot [\\bar{x}]_{\\text{Б}} = [\\hat{A}]_{\\text{Б}} \\cdot T_{\\text{Б}' \\to \\text{Б}} \\cdot [\\bar{x}]_{\\text{Б}'}$$</p>
-    <p>$$[\\hat{A}(\\bar{x})]_{\\text{Б}} = T_{\\text{Б}' \\to \\text{Б}} \\cdot [\\hat{A}(\\bar{x})]_{\\text{Б}'} = T_{\\text{Б}' \\to \\text{Б}} \\cdot [\\hat{A}]_{\\text{Б}'} \\cdot [\\bar{x}]_{\\text{Б}'}$$</p>
-    <p>$$[\\hat{A}(\\bar{x})]_{\\text{Б}} = T_{\\text{Б}' \\to \\text{Б}} \\cdot [\\hat{A}]_{\\text{Б}'} \\cdot [\\bar{x}]_{\\text{Б}'} = [\\hat{A}]_{\\text{Б}} \\cdot T_{\\text{Б}' \\to \\text{Б}} \\cdot [\\bar{x}]_{\\text{Б}'}$$</p>
-    <p>$$\\underbrace{T_{\\text{Б}' \\to \\text{Б}} \\cdot [\\hat{A}]_{\\text{Б}'}}_{C} \\cdot [\\bar{x}]_{\\text{Б}'} = \\underbrace{[\\hat{A}]_{\\text{Б}} \\cdot T_{\\text{Б}' \\to \\text{Б}}}_{D} \\cdot [\\bar{x}]_{\\text{Б}'} \\quad \\text{и так}$$</p>
+    <p>$$[\\hat{A}(\\bar{x})]_{\\text{Б}} = [\\hat{A}]_{\\text{Б}} \\cdot [\\bar{x}]_{\\text{Б}} = [\\hat{A}]_{\\text{Б}} \\cdot T_{\\text{Б} \\to \\text{Б}'} \\cdot [\\bar{x}]_{\\text{Б}'}$$</p>
+    <p>$$[\\hat{A}(\\bar{x})]_{\\text{Б}} = T_{\\text{Б} \\to \\text{Б}'} \\cdot [\\hat{A}(\\bar{x})]_{\\text{Б}'} = T_{\\text{Б} \\to \\text{Б}'} \\cdot [\\hat{A}]_{\\text{Б}'} \\cdot [\\bar{x}]_{\\text{Б}'}$$</p>
+    <p>$$[\\hat{A}(\\bar{x})]_{\\text{Б}} = T_{\\text{Б} \\to \\text{Б}'} \\cdot [\\hat{A}]_{\\text{Б}'} \\cdot [\\bar{x}]_{\\text{Б}'} = [\\hat{A}]_{\\text{Б}} \\cdot T_{\\text{Б} \\to \\text{Б}'} \\cdot [\\bar{x}]_{\\text{Б}'}$$</p>
+    <p>$$\\underbrace{T_{\\text{Б} \\to \\text{Б}'} \\cdot [\\hat{A}]_{\\text{Б}'}}_{C} \\cdot [\\bar{x}]_{\\text{Б}'} = \\underbrace{[\\hat{A}]_{\\text{Б}} \\cdot T_{\\text{Б} \\to \\text{Б}'}}_{D} \\cdot [\\bar{x}]_{\\text{Б}'} \\quad \\text{и так}$$</p>
     <p>\\(\\forall \\bar{x} \\in V \\iff \\forall\\) матрицы-столбцы, которую мы берём в качестве \\([\\bar{x}]_{\\text{Б}'}\\).</p>
     <p>\\(\\forall \\bar{x}_{n \\times 1} \\quad C_{n \\times n} \\cdot \\bar{x}_{n \\times 1} = D_{n \\times n} \\cdot \\bar{x}_{n \\times 1}\\).</p>
     <p>Возьмём \\(\\bar{x}_{n \\times 1} = \\begin{pmatrix} 1 \\\\ 0 \\\\ \\vdots \\\\ 0 \\end{pmatrix}\\):</p>
@@ -143,9 +143,9 @@
     <p>$$\\begin{pmatrix} C_{12} \\\\ C_{22} \\\\ \\vdots \\\\ C_{n2} \\end{pmatrix} = \\begin{pmatrix} D_{12} \\\\ D_{22} \\\\ \\vdots \\\\ D_{n2} \\end{pmatrix}$$</p>
     <p>Возьмём \\(\\bar{x}_{n \\times 1} = \\begin{pmatrix} 0 \\\\ 0 \\\\ \\vdots \\\\ 1 \\end{pmatrix}\\):</p>
     <p>$$\\begin{pmatrix} C_{1n} \\\\ C_{2n} \\\\ \\vdots \\\\ C_{nn} \\end{pmatrix} = \\begin{pmatrix} D_{1n} \\\\ D_{2n} \\\\ \\vdots \\\\ D_{nn} \\end{pmatrix} \\implies C_{n \\times n} = D_{n \\times n}$$</p>
-    <p>$$T_{\\text{Б}' \\to \\text{Б}} \\cdot [\\hat{A}]_{\\text{Б}'} = [\\hat{A}]_{\\text{Б}} \\cdot T_{\\text{Б}' \\to \\text{Б}}$$</p>
-    <p>$$[\\hat{A}]_{\\text{Б}'} = T_{\\text{Б}' \\to \\text{Б}}^{-1} \\cdot [\\hat{A}]_{\\text{Б}} \\cdot T_{\\text{Б}' \\to \\text{Б}}$$</p>
-    <p>$$[\\hat{A}]_{\\text{Б}'} = T_{\\text{Б} \\to \\text{Б}'} \\cdot [\\hat{A}]_{\\text{Б}} \\cdot T_{\\text{Б}' \\to \\text{Б}} \\quad \\blacksquare$$</p>
+    <p>$$T_{\\text{Б} \\to \\text{Б}'} \\cdot [\\hat{A}]_{\\text{Б}'} = [\\hat{A}]_{\\text{Б}} \\cdot T_{\\text{Б} \\to \\text{Б}'}$$</p>
+    <p>$$[\\hat{A}]_{\\text{Б}'} = T_{\\text{Б} \\to \\text{Б}'}^{-1} \\cdot [\\hat{A}]_{\\text{Б}} \\cdot T_{\\text{Б} \\to \\text{Б}'}$$</p>
+    <p>$$[\\hat{A}]_{\\text{Б}'} = T_{\\text{Б}' \\to \\text{Б}} \\cdot [\\hat{A}]_{\\text{Б}} \\cdot T_{\\text{Б} \\to \\text{Б}'} \\quad \\blacksquare$$</p>
 </div>
 `,
 7: `
