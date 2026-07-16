@@ -1,8 +1,14 @@
 .git/
 .gitignore
-README.md
-temp.js
+.github/
+__pycache__/
+*.pyc
+*.pyo
+*.zip
 node_modules/
+temp.js
+README.md
+docs/
 Dockerfile
 dockerfile
 .dockerignore

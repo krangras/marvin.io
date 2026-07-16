@@ -1,17 +1,18 @@
-const CACHE = 'marvin-v7'
+const CACHE = 'marvin-v8-structure'
 const FILES = [
   '/',
   '/index.html',
-  '/style.css',
-  '/script.js',
-  '/conspects.js',
-  '/integrals_data.js',
-  '/semester1_data.js',
-  '/physics_ntk_data.js',
-  '/firebase-init.js',
-  '/firebase-auth.js',
-  '/firebase-sync.js',
-  '/logo.svg'
+  '/assets/css/style.css',
+  '/assets/img/logo.svg',
+  '/assets/img/agitdu/no_phone2.png',
+  '/src/app/app.js',
+  '/src/data/conspects.js',
+  '/src/data/integrals_data.js',
+  '/src/data/semester1_data.js',
+  '/src/data/physics_ntk_data.js',
+  '/src/auth/firebase-init.js',
+  '/src/auth/firebase-auth.js',
+  '/src/auth/firebase-sync.js'
 ]
 
 self.addEventListener('install', e => {
