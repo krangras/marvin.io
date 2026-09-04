@@ -1,4 +1,4 @@
-const CACHE = 'marvin-v8-structure'
+const CACHE = 'marvin-v10-profile'
 const FILES = [
   '/',
   '/index.html',

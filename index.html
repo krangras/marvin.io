@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Marvin.io — АГиТДУ | Экзамен + Контрольная работа</title>
-    <link rel="stylesheet" href="assets/css/style.css?v=24">
+    <title>урфупобеда.рф — подготовка к экзаменам</title>
+    <link rel="stylesheet" href="assets/css/style.css?v=25">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
@@ -27,7 +27,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-analytics-compat.js"></script>
     <script>try{if('serviceWorker'in navigator&&location.protocol!=='file:'){navigator.serviceWorker.register('/sw.js').catch(()=>{})}}catch(e){}</script>
 </head>
 <body>
@@ -37,21 +36,21 @@
     </div>
     <div class="hero">
         <div class="hero-row">
-            <img src="assets/img/logo.svg" alt="Marvin.io" class="hero-logo" draggable="false">
+            <img src="assets/img/logo.svg" alt="урфупобеда.рф" class="hero-logo" draggable="false">
             <img src="assets/img/agitdu/no_phone2.png" alt="Не на телефоне!" class="hero-warn" draggable="false">
         </div>
-        <div class="hero-subtitle">АГиТДУ — система интервальных повторений для подготовки к экзамену</div>
+        <div class="hero-subtitle">Материалы и тренажёры для подготовки к экзаменам</div>
     </div>
 
 <aside class="sidebar" id="sidebar">
     <div class="sidebar-trigger" id="sidebar-trigger" onclick="toggleSidebar()">
-        <span class="sidebar-trigger-text">syllabus</span>
+        <span class="sidebar-trigger-text">меню</span>
         <span class="sidebar-trigger-arrow">&gt;</span>
     </div>
     <div class="sidebar-content">
         <div class="sidebar-content-inner">
             <div class="sidebar-pin-row">
-                <span class="sidebar-pin-label">Содержание</span>
+                <span class="sidebar-pin-label">Навигация</span>
                 <button class="sidebar-pin-btn" id="sidebar-pin" onclick="toggleSidebarPin()" title="Закрепить">📌</button>
             </div>
             <div class="sidebar-progress" id="sidebar-progress">
@@ -62,22 +61,22 @@
                 <div class="sidebar-progress-text" id="sidebar-progress-text">0%</div>
             </div>
             <div class="sidebar-archive-section" style="margin-top: 12px;">
-                <div class="sidebar-section-title" style="color: var(--ink-blue); font-size: 1rem;">📝 Экзамен</div>
+                <div class="sidebar-section-title" style="color: var(--ink-blue); font-size: 1rem;">Экзамен</div>
             </div>
             <div style="padding-left: 12px;">
-                <div class="sidebar-section-title" style="font-size: 0.85rem;">📐 Теория</div>
+                <div class="sidebar-section-title" style="font-size: 0.85rem;">Теория</div>
             </div>
             <div class="sidebar-ticket-list" id="sidebar-tickets"></div>
             <div style="padding-left: 12px;">
-                <div class="sidebar-section-title" style="font-size: 0.85rem;">📝 Практика</div>
+                <div class="sidebar-section-title" style="font-size: 0.85rem;">Практика</div>
             </div>
             <div class="sidebar-practice-list" id="sidebar-practice"></div>
             <div class="sidebar-archive-section">
-                <div class="sidebar-section-title">🗂 Архив</div>
+                <div class="sidebar-section-title">Архив</div>
                 <div class="sidebar-item" onclick="switchToArchiveSubtab('control')">✍️ Контрольная работа по АГиТДУ за второй семестр</div>
             </div>
             <div class="sidebar-archive-section">
-                <div class="sidebar-section-title">📘 1 семестр</div>
+                <div class="sidebar-section-title">1 семестр</div>
                 <div class="sidebar-item" onclick="switchToSemester1Subtab('agidu')">📐 АГиТДУ — экз 1 сем</div>
                 <div class="sidebar-item" onclick="switchToSemester1Subtab('math')">📐 Математика — Интегралы</div>
                 <div class="sidebar-item" onclick="switchToSemester1Subtab('discrete')">💻 Дискретная математика</div>
@@ -96,9 +95,9 @@
 <div class="main-layout">
     <div class="main-content">
             <div class="tabs">
-                <div class="tab-btn active" data-tab="exam">📚 Экзамен (билеты)</div>
-                <div class="tab-btn" data-tab="exam-tasks">📝 Задачи экзамена</div>
-                <div class="tab-btn" data-tab="physics-ntk">🔬 Физика НТК</div>
+                <div class="tab-btn active" data-tab="exam">Экзамен</div>
+                <div class="tab-btn" data-tab="exam-tasks">Задачи экзамена</div>
+                <div class="tab-btn" data-tab="physics-ntk">Физика НТК</div>
             </div>
 
             <div id="exam-pane" class="tab-pane active-pane">
@@ -121,9 +120,9 @@
                 <div class="glass-panel timer-card" id="timer">Загрузка...</div>
                 <div class="glass-panel pace-card" id="pace-info">Анализируем твою скорость...</div>
                 <div class="glass-panel stats">
-                    <div>📅 <span id="today-date"></span></div>
-                    <div>🔥 Осталось освоить: <span id="count-ready">0</span></div>
-                    <div>📊 Освоено: <span id="mastery-percent">0</span>%</div>
+                    <div><span id="today-date"></span></div>
+                    <div>Осталось освоить: <span id="count-ready">0</span></div>
+                    <div>Освоено: <span id="mastery-percent">0</span>%</div>
                 </div>
 
                 <div class="glass-panel stats-grid" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
@@ -145,13 +144,13 @@
                     </div>
                 </div>
                 <div class="glass-panel" style="margin: 1rem 0; padding: 0.6rem 1rem; text-align: center; font-weight: bold; font-size: 1.1rem; border-left: 4px solid var(--ink-blue);">
-                    📐 АГиТДУ — теория (2 семестр)
+                    АГиТДУ — теория (2 семестр)
                 </div>
                 <div id="list" class="ticket-list"></div>
                 <div class="ornament">◈ ◈ ◈</div>
                 <div class="button-group">
-                    <button class="global-undo-btn" onclick="undoLastAction()">↩️ Отменить последнее</button>
-                    <button class="reset-btn" onclick="resetAll()">🗑️ Сбросить прогресс</button>
+                    <button class="global-undo-btn" onclick="undoLastAction()">Отменить последнее</button>
+                    <button class="reset-btn" onclick="resetAll()">Сбросить прогресс</button>
                 </div>
             </div>
 
